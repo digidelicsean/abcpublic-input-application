@@ -1,0 +1,67 @@
+.layout {
+  margin: 50px;
+  border-radius: 10px;
+  background-color: white;
+  box-shadow: 0px 0px 25px rgb(110, 110, 110)
+}
+
+.menu-header {
+  border-radius: 10px 10px 0px 0px;
+  background-color: rgb(233, 233, 233);
+  padding-left: 25px;
+  padding-top: 10px;
+}
+.header-name {
+  font-weight: bold;
+  font-size: 17px;
+  padding-left: 8px;
+}
+
+.header-logo {
+  padding-bottom: 4px;
+}
+
+.menu-header h3 {
+  margin: 0px;
+}
+
+.content {
+  display: flex;
+  height: 65vh;
+  background-color: rgb(233, 233, 233);
+
+  align-items: center;
+  justify-content: center;
+}
+
+.menu-button-field {
+  display: flex;
+  margin: 0px 100px 0px 100px;
+  /* padding: 10px; */
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+}
+
+.menu-button {
+  /* display: flex; */
+  width: 250px;
+  height: 150px;
+  margin: 10px;
+  flex: 1 0 25%;
+}
+
+.menu-button b {
+  font-size: 25px;
+}
+
+.footer {
+  border-radius: 0px 0px 10px 10px;
+  background-color: rgb(233, 233, 233);
+  padding: 10px;
+}
+
+.divider {
+  margin-top: 0px;
+  margin-bottom: 6px;
+}
