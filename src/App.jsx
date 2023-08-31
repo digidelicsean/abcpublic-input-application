@@ -9,7 +9,9 @@ function App() {
   return (
     <>
       {/* <MainMenu/> */}
-      <PlayerProfile/>
+      <DataStadium/>
+      <br /><br /><br />
+      {/* <PlayerProfile/> */}
     </>
   )
 }

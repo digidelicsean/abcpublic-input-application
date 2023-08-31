@@ -24,22 +24,36 @@
     margin: 20px;
 }
 
-.team-select {
-    width: 45vw;
-    height: 12vh;
 
-    padding: 12px;
-    text-align: start;
-    color: black;
+.btn-player-add {
+    color:white;
+    background-color:#639cad;
+
+    font-size: 15px;
+
+    border-radius: 10px;
+    width: 100px;
+    height: 50px;
 }
 
-
-.player-add {
-    width: 18vw;
-    height: 12vh;
+.tab-panel {
+    width: 97vw;
+    height: 65vh;
 }
 
 .tab-control {
-    width: 100vw;
-    height: 65vh;
+    font-weight: bold;
+    /* font-size: 305px; */
+    margin: 15px
+}
+
+.button {
+    color:white;
+    background-color:#639cad;
+
+    font-size: 25px;
+
+    border-radius: 20px;
+    width: 135px;
+    height: 80px;
 }

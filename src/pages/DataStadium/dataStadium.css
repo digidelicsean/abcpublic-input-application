@@ -1,63 +1,237 @@
-.layout {
-    display:flex;
-    flex-direction: row;
-    align-items: flex-end;
+/* .panel {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-end;
 
-    margin: 50px;
-    border-radius: 10px;
-    background-color: rgba(0,0,0,0);
-    box-shadow: 0px 0px 25px rgb(110, 110, 110);
+  margin: 50px;
+  border-radius: 10px;
+  background-color: rgba(0, 0, 0, 0);
+  box-shadow: 0px 0px 25px rgb(110, 110, 110);
+} */
+
+/* ========================================================================= */
+/* Base Panel CSS Class */
+
+.ds.header {
+  display: flex;
+  align-items: flex-end;
 }
+
+.ds.panel {
+  display: inline-flex;
+  gap: 5px;
+
+
+  width: 38vw;
+  min-width: 500px;
+
+  box-sizing: border-box;
+  margin: 5px 10px;
+
+
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-around;
+  vertical-align: middle;
+
+  color:black;
+}
+
+/*                                    END                                    */
+/* ========================================================================= */
+
+
+/* ========================================================================= */
+/* Team Select CSS Classes */
+
+.ds.lbl-button {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  /* color: black; */
+}
+
+.ds.lbl-button label {
+  margin-top: 10px;
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.ds.lbl-button .ant-btn{
+  width: 15vw;
+  min-width: 150px;
+  max-width: 250px;
+  height: 60px;
+  border-radius: 15px;
+
+  font-size: 20px;
+  font-weight: bold;
+
+  margin: 15px 5px;
+  margin-top: 5px;
+  /* padding: 5px; */
+}
+
+/*                                    END                                    */
+/* ========================================================================= */
+
+
+/* ========================================================================= */
+/* CSS Classes for Round Counter */
+
+.ds.panel.round-counter {
+  display: inline-flex;
+  gap: 0px;
+
+  justify-content: space-around;
+
+  width: 15vw;
+  min-width: 250px;
+  height: 90px;
+  
+  box-sizing: border-box;
+  margin: 5px 10px;
+}
+
+.ds.panel.round-counter .ds.input {
+  margin: 10px;
+  margin-left: 15px;
+
+  width: 7vw;
+  min-width: 100px;
+  height: 50px;
+}
+
+.ds.panel.round-counter .ds.input {
+  font-size: 20px;
+}
+
+.ds.panel.round-counter .ds.btn {
+  margin-right: 5px;
+}
+/*                                    END                                    */
+/* ========================================================================= */
+
+
+/* ========================================================================= */
+/* CSS Classes for Content */
+
+.ds.content {
+  display: flex;
+  align-items: flex-start;
+
+  width: 98vw;
+  height: 80vh;
+  background-color: transparent;
+}
+
+.ds.content .panel {
+  margin: 10px;
+  color: black;
+}
+
+.ds.content .panel.current-data {
+  
+  display: flex;
+  width: 70%;
+  height: 90%;
+}
+
+.ds.content .panel.current-data .current-data.col-1 {
+
+}
+
+.ds.content .panel.current-data .current-data.col-1 label {
+  font-weight: bold;
+  font-size: 20px;
+  text-align: center;
+}
+
+.ds.content .panel.used-data {
+  
+  display: flex;
+  width: 30%;
+  height: 75%;
+}
+
+/*                                    END                                    */
+/* ========================================================================= */
+
+
+
+
+
 
 /* Header CSS */
 .ds-header {
-    display:flex;
-    /* justify-content: center; */
-    align-items: center;
-    flex-direction: row;
+  display: inline-flex;
+  /* justify-content: center; */
+  align-items: center;
+  flex-direction: row;
 
-    background-color: rgb(233, 233, 233);
-    border-radius: 10px;
-    margin: 15px;
+  background-color: rgb(233, 233, 233);
+  border-radius: 10px;
+  margin: 15px;
 }
 
 .team-name {
-    width: 35vw;
-    height: 10vh;    
-    display:inline-block
+  width: 35vw;
+  height: 10vh;
+  display: inline-block;
 }
 
 .team-name p {
-    /* color: black;
+  /* color: black;
     font-weight: bold;
     font-size: 17px;
     margin: 0px; */
 }
 
-.round-counter {
-    width: 15vw;
-    height: 8vh;
-}
+/* .round-counter {
+  width: 16vw;
+  height: 8vh;
+} */
 
 .title-label {
-    color: black;
-    /* font-weight: bold; */
-    font-size: 20px;
-    margin: 0px;
-    padding: 10px 15px 10px 15px;
+  color: black;
+  /* font-weight: bold; */
+  font-size: 20px;
+  margin: 0px;
+  padding: 10px 15px 10px 15px;
 }
 
 .field-label {
-    color: black;
-    font-weight: bold;
-    font-size: 20px;
-    margin: 0px;
-    padding-right: 5px;
-    padding-left: 5px;
+  color: black;
+  font-weight: bold;
+  font-size: 20px;
+  margin: 0px;
+  padding-right: 5px;
+  padding-left: 5px;
 }
 
 .ds-input {
-    display:inline-block;
-    width:fit-content;
-    height: fit-content;
+  display: inline-block;
+  width: fit-content;
+  height: fit-content;
+}
+
+.ds-header.round-counter .ds-input {
+  margin: 0px 12px;
+}
+
+.ds-header.round-counter {
+    display: inline-flex;
+    justify-content: space-around;
+}
+
+.ds-content {
+  display: flex;
+  /* flex: 1 1 0; */
+  width: 95.5vw;
+  height: 50vh;
+  background-color: rgb(233, 233, 233);
+
+  margin-left: 14px;
+  padding: 20px;
+  border-radius: 10px;
 }
