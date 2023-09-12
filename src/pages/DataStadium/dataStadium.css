@@ -119,6 +119,7 @@
 .ds.content {
   display: flex;
   align-items: flex-start;
+  justify-content: flex-start;
 
   width: 98vw;
   height: 80vh;
@@ -137,16 +138,6 @@
   height: 90%;
 }
 
-.ds.content .panel.current-data .current-data.col-1 {
-
-}
-
-.ds.content .panel.current-data .current-data.col-1 label {
-  font-weight: bold;
-  font-size: 20px;
-  text-align: center;
-}
-
 .ds.content .panel.used-data {
   
   display: flex;
@@ -158,7 +149,43 @@
 /* ========================================================================= */
 
 
+/* ========================================================================= */
+/*                             Radio Button Group                            */
 
+.radio-btn-label {
+  padding-top: 8px;
+  text-align: center;
+  white-space: nowrap;
+}
+
+.button-group.ant-radio-group {
+  display:inline-flex;
+  gap: 5px;
+  justify-content: center;
+}
+
+.button-group .ant-radio-button-wrapper {
+  border-radius: 10px;
+  height: 50px;
+  flex: 1 1
+  /* flex-grow:1; */
+}
+.button-group .ant-radio-button-wrapper::before {
+  height: 0px;
+}
+
+.button-group.ant-radio-group label span {
+  font-weight: 400;
+  font-size: 14px;
+  text-align: center;
+  padding: 0px;
+}
+
+
+
+
+/*                                    END                                    */
+/* ========================================================================= */
 
 
 
@@ -179,18 +206,6 @@
   height: 10vh;
   display: inline-block;
 }
-
-.team-name p {
-  /* color: black;
-    font-weight: bold;
-    font-size: 17px;
-    margin: 0px; */
-}
-
-/* .round-counter {
-  width: 16vw;
-  height: 8vh;
-} */
 
 .title-label {
   color: black;

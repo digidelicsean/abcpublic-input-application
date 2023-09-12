@@ -1,0 +1,17 @@
+/* .select-table .ant-spin-container .ant-table .ant-table-thead .ant-table-selection-column{
+    color: black;
+} */
+
+.select-table {
+    height: 500px;
+    /* width: auto;
+    min-width: unset !important */
+}
+
+.ant-table-selection-column {
+    display: none;
+}
+
+.ant-table .ant-table-container .ant-table-tbody .ant-table-row-selected .ant-table-cell {
+    background: #80bbff;
+}

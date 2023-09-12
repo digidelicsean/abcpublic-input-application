@@ -64,6 +64,11 @@
     margin-right: 0px;
 }
 
+.ant-input-number.input.player-number {
+    display:inline-flex;
+    align-items: center;
+}
+
 .player-select-cb {
     width: 10vw;
     /* height: 50px; */
