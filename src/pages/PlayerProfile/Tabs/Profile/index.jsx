@@ -7,8 +7,8 @@ import { Row, Col } from "antd";
 import "./profileTab.css";
 
 const twoTextStyles = [
-  { width: "10%", marginLeft: "64px" },
-  { width: "10%", marginLeft: "10px", marginBottom: "10px" },
+  { width: "14%", marginLeft: "64px" },
+  { width: "14%", marginLeft: "10px", marginBottom: "10px" },
 ];
 
 const longTextStyle = {
@@ -29,60 +29,47 @@ function ProfileTab({
   onPlayerDataUpdate,
   onABCPublicDataUpdate,
 }) {
-  const [teamCD, setTeamCD] = useState("");
-  const [backNum, setBackNum] = useState("");
-  const [name1, setName1] = useState("");
-  const [name2, setName2] = useState("");
-  const [name3, setName3] = useState("");
-  const [name4, setName4] = useState("");
-  const [name5, setName5] = useState("");
-  const [position, setPosition] = useState("");
-  const [batterSide, setBatterSide] = useState("");
-  const [pitcherSide, setPitcherSide] = useState("");
-  const [height, setHeight] = useState("");
-  const [weight, setWeight] = useState("");
-  const [draft, setDraft] = useState("");
-  const [birthday, setBirthday] = useState("");
-  const [isCaptain, setIsCaptain] = useState("");
-  const [career, setCareer] = useState("");
-  const [profile1, setProfile1] = useState("");
-  const [profile2, setProfile2] = useState("");
-  const [profile3, setProfile3] = useState("");
-  const [title, setTitle] = useState("");
-  const [hometown, setHometown] = useState("");
+  const setPositionValue = () => {
+    if (ABCPublicData == null) return "";
 
-  useEffect(() => {
-    if (playerData == null) return;
-
-    setTeamCD(playerData.TeamID);
-    setBackNum(playerData.BackNumber);
-    setName1(playerData.PlayerName);
-    setName2(playerData.PlayerNameK);
-    setPosition(playerData.PositionType);
-    setBatterSide(playerData.BattingType);
-    setPitcherSide(playerData.PitchingArm);
-    setHeight(playerData.Height);
-    setWeight(playerData.Weight);
-    setDraft(`${playerData.DraftYear}年ドラフト${playerData.DraftYear}`);
-    setBirthday(playerData.Birthday);
-    setCareer(playerData.Career);
-    // setProfile1(playerData.DSComment);
-    // console.log("updated player data", playerData);
-  }, [playerData]);
-
-  useEffect(() => {
-    if (ABCPublicData == null) {
-      return;
+    switch (ABCPublicData.Position) {
+      case "1":
+        return "投";
+      case "2":
+        return "捕";
+      case "3":
+        return "内";
+      case "4":
+        return "外";
+      default:
+        return "";
     }
+  };
 
-    setName3(ABCPublicData["PlayerName_3"]);
-    setName4(ABCPublicData["PlayerName_4"]);
-    setName5(ABCPublicData["PlayerName_5"]);
-    setIsCaptain(ABCPublicData.isCaptain);
-    setProfile2(ABCPublicData["Comment_2"]);
-    setProfile3(ABCPublicData["Comment_3"]);
-    setTitle(ABCPublicData.OwnedTitle);
-  }, [ABCPublicData]);
+  const setHittingHandedness = () => {
+    if (ABCPublicData == null) return "";
+
+    switch (ABCPublicData.PitchingArm) {
+      case "L":
+        return "左投";
+      case "R":
+        return "右投";
+      case "S":
+        return "両投";
+    }
+  };
+  const setPitchingHandedness = () => {
+    if (ABCPublicData == null) return "";
+
+    switch (ABCPublicData.BattingType) {
+      case "L":
+        return "左打";
+      case "R":
+        return "右打";
+      case "S":
+        return "両打";
+    }
+  };
 
   const createProfileTab = () => {
     return (
@@ -127,10 +114,10 @@ function ProfileTab({
         <label>PR3項目各(20)</label>
         <Input
           style={{ ...longTextStyle, marginLeft: "48px" }}
-          value={ABCPublicData?.Com3Name}
+          value={ABCPublicData?.PR3Name}
           onChange={(e) => {
             const update = { ...ABCPublicData };
-            update.Com3Name = e.target.value;
+            update.PR3Name = e.target.value;
             onABCPublicDataUpdate(update);
           }}
         />
@@ -177,11 +164,11 @@ function ProfileTab({
             height: "45px",
             width: "17%",
           }}
-          value={playerData?.Hometown}
+          value={ABCPublicData?.HomeTown}
           onChange={(e) => {
-            const update = { ...playerData };
-            update.Hometown = e.target.value;
-            onPlayerDataUpdate(update);
+            const update = { ...ABCPublicData };
+            update.HomeTown = e.target.value;
+            onABCPublicDataUpdate(update);
           }}
         />
         <label style={{ marginLeft: "36px" }}>AUX8(40)</label>
@@ -252,6 +239,12 @@ function ProfileTab({
           <Select
             style={{ width: "30%", marginLeft: "22px" }}
             placeholder="チームタイプを選択"
+            value={ABCPublicData?.TeamCD}
+            onChange={(e) => {
+              const update = { ...ABCPublicData };
+              update.TeamID = e.target.value;
+              onABCPublicDataUpdate(update);
+            }}
           />
 
           <label
@@ -267,38 +260,48 @@ function ProfileTab({
           <Input
             style={{ width: "12%", marginLeft: "14px" }}
             placeholder="コード"
-            value={playerData?.TeamID}
+            value={ABCPublicData?.TeamCD}
             onChange={(e) => {
-              const update = { ...playerData };
+              const update = { ...ABCPublicData };
               update.TeamID = e.target.value;
-              onPlayerDataUpdate(update);
+              onABCPublicDataUpdate(update);
             }}
           />
+          <br />
           <br />
 
           <label>背番号</label>
           <Input
             style={twoTextStyles[0]}
             placeholder="0"
-            value={playerData?.BackNumber}
+            value={ABCPublicData?.BackNumber}
             onChange={(e) => {
-              const update = { ...playerData };
+              const update = { ...ABCPublicData };
               update.BackNumber = e.target.value;
-              onPlayerDataUpdate(update);
+              onABCPublicDataUpdate(update);
             }}
           />
-          <Input style={twoTextStyles[1]} placeholder="0" />
+          <Input
+            style={twoTextStyles[1]}
+            placeholder="0"
+            value={ABCPublicData?.BackNumber}
+            onChange={(e) => {
+              const update = { ...ABCPublicData };
+              update.BackNumber = e.target.value;
+              onABCPublicDataUpdate(update);
+            }}
+          />
           <br />
 
           <label>選手名１(30)</label>
           <Input
             style={longTextStyle}
             placeholder="大山　悠輔"
-            value={playerData?.PlayerName}
+            value={ABCPublicData?.PlayerName_1}
             onChange={(e) => {
-              const update = { ...playerData };
-              update.PlayerName = e.target.value;
-              onPlayerDataUpdate(update);
+              const update = { ...ABCPublicData };
+              update.PlayerName_1 = e.target.value;
+              onABCPublicDataUpdate(update);
             }}
           />
           <br />
@@ -307,11 +310,11 @@ function ProfileTab({
           <Input
             style={longTextStyle}
             placeholder="大山"
-            value={playerData?.PlayerNameK}
+            value={ABCPublicData?.PlayerName_2}
             onChange={(e) => {
-              const update = { ...playerData };
-              update.PlayerNameK = e.target.value;
-              onPlayerDataUpdate(update);
+              const update = { ...ABCPublicData };
+              update.PlayerName_2 = e.target.value;
+              onABCPublicDataUpdate(update);
             }}
           />
           <br />
@@ -364,26 +367,31 @@ function ProfileTab({
             }}
             placeholder="2017016"
             value={ABCPublicData?.DailyCode}
-          onChange={(e) => {
-            const update = { ...ABCPublicData };
-            update.DailyCode = e.target.value;
-            onABCPublicDataUpdate(update);
-          }}
+            onChange={(e) => {
+              const update = { ...ABCPublicData };
+              update.DailyCode = e.target.value;
+              onABCPublicDataUpdate(update);
+            }}
           />
           <br />
 
           <label>ポジション(1)</label>
           <Input
             style={{ ...twoTextStyles[0], marginLeft: "18px" }}
-            placeholder="内"
-            value={playerData?.PositionType}
+            // placeholder="内"
+            value={setPositionValue()}
+            disabled={true}
+          />
+          <Input
+            style={twoTextStyles[1]}
+            placeholder="3"
+            value={ABCPublicData?.Position}
             onChange={(e) => {
-              const update = { ...playerData };
-              update.PositionType = e.target.value;
-              onPlayerDataUpdate(update);
+              const update = { ...ABCPublicData };
+              update.Position = e.target.value;
+              onABCPublicDataUpdate(update);
             }}
           />
-          <Input style={twoTextStyles[1]} placeholder="3" />
           <br />
         </Col>
 
@@ -394,22 +402,18 @@ function ProfileTab({
           <label>投左右(1)</label>
           <Input
             style={{ ...twoTextStyles[0], marginLeft: "46px" }}
-            placeholder="右投"
-            value={playerData?.PitchingArm}
-            onChange={(e) => {
-              const update = { ...playerData };
-              update.BatterType = e.target.value;
-              onPlayerDataUpdate(update);
-            }}
+            // placeholder="右投"
+            value={setHittingHandedness()}
+            disabled={true}
           />
           <Input
             style={twoTextStyles[1]}
             placeholder="R"
-            value={playerData?.PitcherSide}
+            value={ABCPublicData?.PitchingArm}
             onChange={(e) => {
-              const update = { ...playerData };
-              update.BatterType = e.target.value;
-              onPlayerDataUpdate(update);
+              const update = { ...ABCPublicData };
+              update.PitchingArm = e.target.value;
+              onABCPublicDataUpdate(update);
             }}
           />
           <br />
@@ -417,22 +421,18 @@ function ProfileTab({
           <label>打左右(1)</label>
           <Input
             style={{ ...twoTextStyles[0], marginLeft: "46px" }}
-            placeholder="右打"
-            value={playerData?.BattingType}
-            onChange={(e) => {
-              const update = { ...playerData };
-              update.BatterType = e.target.value;
-              onPlayerDataUpdate(update);
-            }}
+            // placeholder="右打"
+            value={setPitchingHandedness()}
+            disabled={true}
           />
           <Input
             style={twoTextStyles[1]}
             placeholder="R"
-            value={playerData?.BatterSide}
+            value={ABCPublicData?.BattingType}
             onChange={(e) => {
-              const update = { ...playerData };
-              update.BatterSide = e.target.value;
-              onPlayerDataUpdate(update);
+              const update = { ...ABCPublicData };
+              update.BattingType = e.target.value;
+              onABCPublicDataUpdate(update);
             }}
           />
           <br />
@@ -441,11 +441,11 @@ function ProfileTab({
           <Input
             style={{ ...shortTextStyle, marginLeft: "60px" }}
             placeholder="181"
-            value={playerData?.Height}
+            value={ABCPublicData?.Height}
             onChange={(e) => {
-              const update = { ...playerData };
+              const update = { ...ABCPublicData };
               update.Height = e.target.value;
-              onPlayerDataUpdate(update);
+              onABCPublicDataUpdate(update);
             }}
           />
           <br />
@@ -454,11 +454,11 @@ function ProfileTab({
           <Input
             style={{ ...shortTextStyle, marginLeft: "60px" }}
             placeholder="92"
-            value={playerData?.Weight}
+            value={ABCPublicData?.Weight}
             onChange={(e) => {
-              const update = { ...playerData };
+              const update = { ...ABCPublicData };
               update.Weight = e.target.value;
-              onPlayerDataUpdate(update);
+              onABCPublicDataUpdate(update);
             }}
           />
           <br />
@@ -467,16 +467,11 @@ function ProfileTab({
           <Input
             style={longTextStyle}
             placeholder="16年ドラフト1位"
-            value={
-              Object.values(playerData).length != 0
-                ? `${playerData.DraftYear}年ドラフト${playerData.DraftNo}`
-                : ""
-            }
+            value={ABCPublicData?.Draft}
             onChange={(e) => {
-              // TODO: Implement update function for this
-              // const update = { ...playerData };
-              // update.TeamID = e.target.value;
-              // onPlayerDataUpdate(update);
+              const update = { ...ABCPublicData };
+              update.Draft = e.target.value;
+              onABCPublicDataUpdate(update);
             }}
           />
           <br />
@@ -485,11 +480,11 @@ function ProfileTab({
           <Input
             style={longTextStyle}
             placeholder="1994.12.19"
-            value={playerData?.Birthday}
+            value={ABCPublicData?.Birthday}
             onChange={(e) => {
-              const update = { ...playerData };
+              const update = { ...ABCPublicData };
               update.Birthday = e.target.value;
-              onPlayerDataUpdate(update);
+              onABCPublicDataUpdate(update);
             }}
           />
           <br />
@@ -515,11 +510,11 @@ function ProfileTab({
           <Input.TextArea
             style={{ ...longTextStyle, marginLeft: "52px", height: "92px" }}
             placeholder="茨城出身　１６年ドラフト１位つくば秀英高-白(ワツト)大"
-            value={playerData?.Career}
+            value={ABCPublicData?.Career}
             onChange={(e) => {
-              const update = { ...playerData };
+              const update = { ...ABCPublicData };
               update.Career = e.target.value;
-              onPlayerDataUpdate(update);
+              onABCPublicDataUpdate(update);
             }}
           />
           <br />

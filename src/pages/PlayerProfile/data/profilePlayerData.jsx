@@ -81,7 +81,7 @@ export function generatePlayerSelectOptions(data, onOptionsGenerate) {
     // console.log(playerName)
     const option = (
       <Option key={i} value={playerCD}>
-        {playerName}
+        {playerInfo[i].UniformNO} {playerName}
       </Option>
     );
     options.push(option);

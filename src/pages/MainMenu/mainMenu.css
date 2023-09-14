@@ -43,6 +43,19 @@
   align-items: center;
 }
 
+.keychainify-checked {
+  display: inline-flex;
+  width: 250px;
+  height: 150px;
+  margin: 10px;
+  flex: 1 0 25%;
+}
+
+.keychainify-checked .menu-button {
+  margin: 0px; 
+  flex: 1 0 25%;
+}
+
 .menu-button {
   /* display: flex; */
   width: 250px;

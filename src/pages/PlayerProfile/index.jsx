@@ -40,12 +40,16 @@ const buttonStyle = {
 };
 
 function PlayerProfile() {
+  const [canDelete, setCanDelete] = useState(false);
+  const [canOverrideDS, setCanOverrideDS] = useState(false);
+
   const [teamInfoMaster, setTeamInfoMaster] = useState([]);
   const [playerInfoMaster, setPlayerInfoMaster] = useState([]);
 
   const [selectedTeam, setSelectedTeam] = useState({});
   const [selectedPlayerCD, setSelectedPlayerCD] = useState("");
   const [selectedPlayerName, setSelectedPlayerName] = useState("");
+  const [selectedPlayerBackNum, setSelectedPlayerBackNum] = useState("");
 
   const [playerData, setPlayerData] = useState({});
   const [playerABCPublicData, setPlayerABCPublicData] = useState({});
@@ -54,6 +58,16 @@ function PlayerProfile() {
   const [cbPlayerOptions, setcbPlayerOptions] = useState([]);
 
   const [backNumText, setBackNumText] = useState("");
+
+  const [prevSelectedPlayerInfoMst, setPrevSelectedPlayerInfoMst] = useState(
+    []
+  );
+  const [prevSelectedPlayerCD, setPrevSelectedPlayerCD] = useState("");
+
+  const [prevSelectedPlayerData, setPrevSelectedPlayerData] = useState({});
+  const [prevSelectedABCPublicData, setPrevSelectedABCPublicData] = useState(
+    {}
+  );
 
   const playerProfileTabs = [
     {
@@ -96,10 +110,8 @@ function PlayerProfile() {
   ];
 
   function updatePlayerData(newData) {
-    setPlayerData(newData)
+    setPlayerData(newData);
   }
-
-
 
   /* ===================================================================================== */
   /*                                  Master Data Retrieval                                */
@@ -118,6 +130,98 @@ function PlayerProfile() {
     });
   }, [teamInfoMaster]);
 
+  const updateData = async (updatedData) => {
+    if (Object.keys(updatedData).length == 0) {
+      console.log("No updated data");
+      return;
+    }
+    if (selectedTeam == null || selectedTeam.length == 0) {
+      console.log("No selected team");
+      return;
+    }
+    if (playerABCPublicData == null || playerABCPublicData.length == 0) {
+      console.log("No existing data selected");
+      return;
+    }
+
+    const responseOptions = {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+        mode: "no-cors",
+      },
+      body: updatedData,
+    };
+
+    const response = await fetch(
+      `https://localhost/api/v1/professional/abc-public/update/PU_${selectedTeam.TeamCD}_PlayerProfile/${playerABCPublicData["_id"]}`,
+      responseOptions
+    );
+    console.log(response);
+
+    refreshData();
+  };
+
+  const deleteData = async () => {
+    if (!canDelete) {
+      return;
+    }
+    if (selectedPlayerCD == "") {
+      console.log("No player selected");
+      return;
+    }
+    if (selectedTeam == null || selectedTeam.length == 0) {
+      console.log("No selected team");
+      return;
+    }
+
+    if (playerABCPublicData == null || playerABCPublicData.length == 0) {
+      console.log("No existing data selected");
+      return;
+    }
+
+    const responseOptions = {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+        mode: "no-cors",
+      },
+    };
+
+    const response = await fetch(
+      `https://localhost/api/v1/professional/abc-public/PU_${selectedTeam.TeamCD}_PlayerProfile/${playerABCPublicData["_id"]}`,
+      responseOptions
+    );
+    console.log(response);
+
+    setSelectedPlayerCD("");
+    setPlayerABCPublicData({});
+    setPrevSelectedABCPublicData({});
+    setPlayerData({});
+    setPrevSelectedPlayerData({});
+
+    updatePlayerInfoMST();
+    refreshData();
+  };
+
+  const refreshData = async () => {
+    if (prevSelectedPlayerCD == "" || prevSelectedPlayerInfoMst == null) {
+      return;
+    }
+
+    const player = prevSelectedPlayerInfoMst.find(
+      (x) => x.PlayerCD == prevSelectedPlayerCD
+    );
+
+    await retrieveOtherData(player, (ABCPublicData) => {
+      setPlayerABCPublicData(ABCPublicData);
+      setPrevSelectedABCPublicData(ABCPublicData);
+    });
+
+    setPlayerData(player);
+    setPrevSelectedPlayerData(player);
+  };
+
   /*                                  Master Data Retrieval                                */
   /* ===================================================================================== */
 
@@ -125,13 +229,14 @@ function PlayerProfile() {
   /*                                       Team Select                                     */
 
   // Retrieves the PlayerInfo-Master whenever the selectedTeam is updated
-  useEffect(() => {
+  const updatePlayerInfoMST = () => {
     if (!selectedTeam) {
       return;
     }
 
     setSelectedPlayerCD("");
     setSelectedPlayerName("");
+    setSelectedPlayerBackNum("");
     setBackNumText("");
 
     const getPlayerInfo = async () => {
@@ -144,6 +249,10 @@ function PlayerProfile() {
     };
 
     getPlayerInfo();
+  };
+
+  useEffect(() => {
+    updatePlayerInfoMST();
   }, [selectedTeam]);
 
   // The OnChange event for the Team Select bar
@@ -186,6 +295,7 @@ function PlayerProfile() {
     console.log(player);
     setSelectedPlayerCD(playerCD);
     setSelectedPlayerName(player.PlayerName);
+    setSelectedPlayerBackNum(player.BackNumber);
 
     if (backNumText != player.BackNumber) {
       setBackNumText(player.BackNumber);
@@ -210,6 +320,7 @@ function PlayerProfile() {
     if (player != null) {
       setSelectedPlayerCD(player.PlayerCD);
       setSelectedPlayerName(player.PlayerName);
+      setSelectedPlayerBackNum(player.BackNumber);
     }
   };
 
@@ -224,10 +335,15 @@ function PlayerProfile() {
         return x;
       }
     });
+
+    setPrevSelectedPlayerCD(selectedPlayerCD);
+    setPrevSelectedPlayerInfoMst(playerInfoMaster);
     await retrieveOtherData(player, (ABCPublicData) => {
       setPlayerABCPublicData(ABCPublicData);
+      setPrevSelectedABCPublicData(ABCPublicData);
     });
     setPlayerData(player);
+    setPrevSelectedPlayerData(player);
   };
 
   /*                                      Player Select                                    */
@@ -267,7 +383,7 @@ function PlayerProfile() {
                 suffixIcon={
                   <CaretDownOutlined style={{ color: "lightblue" }} />
                 }
-                value={selectedPlayerName}
+                value={`${selectedPlayerBackNum} ${selectedPlayerName}`}
                 onChange={onPlayerSelect}
                 placeholder="選手選択"
               >
@@ -294,9 +410,7 @@ function PlayerProfile() {
               suffixIcon={<CaretDownOutlined style={{ color: "lightblue" }} />}
               placeholder="チーム選択"
             >
-              <Option value="T 阪神">T 阪神</Option>
-              <Option value="Team 2">Team 2</Option>
-              <Option value="Team 3">Team 3</Option>
+              {cbTeamOptions}
             </Select>
             <Button className="btn-player-add ">選手追加 </Button>
           </div>
@@ -320,12 +434,26 @@ function PlayerProfile() {
             fontSize: "16px",
             fontWeight: "bold",
           }}
+          onChange={(e) => {
+            console.log(e);
+            setCanDelete(e.target.checked);
+          }}
         >
           削除
         </Checkbox>
       </div>
 
-      <Button style={{ ...buttonStyle, marginLeft: "60px" }}>
+      <Button
+        style={{
+          ...buttonStyle,
+          marginLeft: "60px",
+          backgroundColor: canOverrideDS ? "#d13839" : "",
+          color: canOverrideDS ? "white" : "black",
+        }}
+        onClick={() => {
+          setCanOverrideDS(!canOverrideDS);
+        }}
+      >
         <span>
           データスタジアム
           <br />
@@ -333,11 +461,34 @@ function PlayerProfile() {
         </span>
       </Button>
 
-      <Button style={{ ...buttonStyle, marginLeft: "700px" }}>
+      <Button
+        style={{ ...buttonStyle, marginLeft: "700px" }}
+        onClick={refreshData}
+      >
         <span>リフレッシュ</span>
       </Button>
 
-      <Button style={{ ...buttonStyle, marginLeft: "20px" }}>
+      <Button
+        style={{ ...buttonStyle, marginLeft: "20px" }}
+        onClick={() => {
+          if (prevSelectedABCPublicData == null) return;
+          if (playerABCPublicData == null) return;
+
+          const getChanges = () => {
+            const result = {};
+
+            for (const key in playerABCPublicData) {
+              if (playerABCPublicData[key] !== prevSelectedABCPublicData[key]) {
+                result[key] = playerABCPublicData[key];
+              }
+            }
+            return JSON.stringify(result);
+          };
+
+          updateData(getChanges());
+          // const changes = getChanges()
+        }}
+      >
         <span>変更保存</span>
       </Button>
 
@@ -347,6 +498,14 @@ function PlayerProfile() {
           marginLeft: "20px",
           backgroundColor: "#8e8e8e",
           color: "white",
+        }}
+        onClick={() => {
+          setPlayerData([]);
+          setPlayerABCPublicData([]);
+          setPrevSelectedPlayerInfoMst([]);
+          setPrevSelectedPlayerCD("");
+          setPrevSelectedPlayerData({});
+          setPrevSelectedABCPublicData({});
         }}
       >
         <span>一括クリア</span>
@@ -359,6 +518,8 @@ function PlayerProfile() {
           backgroundColor: "#e4405b",
           color: "white",
         }}
+        disabled={!canDelete}
+        onClick={deleteData}
       >
         <span>選手削除</span>
       </Button>
