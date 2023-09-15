@@ -1,0 +1,14 @@
+.batting-result {
+    display:flex;
+    align-items: center;
+    justify-content: center;
+
+}
+
+.batting-result .panel {
+    display: inline-flex;
+    background-color: #f7f3f7;
+    flex-grow: 0;
+
+    padding: 10px;
+}
