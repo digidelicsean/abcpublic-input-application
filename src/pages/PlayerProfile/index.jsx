@@ -275,7 +275,7 @@ function PlayerProfile() {
 
   // If the selectedTeam is updated, update the players
   useEffect(() => {
-    if (playerInfoMaster.length == 0) {
+    if (playerInfoMaster?.length == 0) {
       return;
     }
     generatePlayerSelectOptions(playerInfoMaster, (options) => {

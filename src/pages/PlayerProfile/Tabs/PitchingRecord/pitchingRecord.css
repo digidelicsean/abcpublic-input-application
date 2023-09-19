@@ -1,14 +1,15 @@
-.batting-record {
+.pitching-record {
     display:flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
 
 }
 
-.batting-record .panel {
+.pitching-record .panel {
     display: inline-flex;
     background-color: #f7f3f7;
-    flex-grow: 0;
+    flex-grow: 1;
 
     padding: 10px;
 }

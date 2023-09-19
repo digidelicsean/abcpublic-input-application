@@ -9,7 +9,8 @@
     border-radius: 10px;
 
     align-items: center;
-    width: 100px;
+    width: 80px;
+    min-width: 45px;;
 }
 
 .labeled-text label {

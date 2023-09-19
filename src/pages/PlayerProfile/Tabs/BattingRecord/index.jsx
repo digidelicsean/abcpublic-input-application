@@ -7,7 +7,7 @@ import "./battingRecord.css";
 function BattingRecordTab() {
   const [test, setTest] = useState("");
   return (
-    <div className="batting-result">
+    <div className="batting-record">
       <div className="panel">
       <LabeledText
           label={"打率"}

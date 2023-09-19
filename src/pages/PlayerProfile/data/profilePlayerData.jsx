@@ -6,8 +6,15 @@ const { Option } = Select;
 const apiURL = "https://localhost/api/v1/professional";
 
 export async function retrievePlayerInfoMaster(teamCD, onDataRetrieve) {
+
+  if(teamCD == undefined) {
+    if(onDataRetrieve)
+      onDataRetrieve(null)
+    return;
+  }
+
   let response = await fetch(
-    `${apiURL}/data-stadium?collection=DS_Directory_${teamCD}`
+    `${apiURL}/data-stadium?collection=DS_Directory_${teamCD}` 
   );
   let directoryData = await response.json();
 
