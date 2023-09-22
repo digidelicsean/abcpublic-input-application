@@ -68,20 +68,20 @@
 }
 
 /* Table Selected Row */
-.ds.content .panel.current-data .current-data.col-3 .ant-table-row.ant-table-row-selected  {
+/* .ds.content .panel.current-data .current-data.col-3 .ant-table-row.ant-table-row-selected  {
   background-color: #5987d5;
-}
+} */
 
 /* Table Selected Row */
-.ds.content .panel.current-data .current-data.col-3 .ant-table-cell-row-hover  {
+/* .ds.content .panel.current-data .current-data.col-3 .ant-table-cell-row-hover  {
   background-color: #b7c9e9;
-}
+} */
 
 /* Table Row */
-.ds.content .panel.current-data .current-data.col-3 .ant-table-row-level-0 {
+/* .ds.content .panel.current-data .current-data.col-3 .ant-table-row-level-0 {d
   background-color: #c0d7ff;
   font-weight:bold; 
-}
+} */
 
 /*                                    END                                    */
 /* ========================================================================= */
@@ -154,9 +154,6 @@
     margin-bottom: 5px;
 
     box-shadow: 0px 0px 8px rgb(156, 156, 156)
-}
-.ds.content .panel.current-data .current-data.col-btn .arrow-button-group button span{  
-  /* padding-bottom: 8px */
 }
 
 /* Radio Button Switch Column 2 */

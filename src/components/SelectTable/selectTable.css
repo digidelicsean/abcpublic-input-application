@@ -8,10 +8,10 @@
     min-width: unset !important */
 }
 
-.ant-table-selection-column {
+/* .ant-table-selection-column {
     display: none;
-}
+} */
 
 .ant-table .ant-table-container .ant-table-tbody .ant-table-row-selected .ant-table-cell {
-    background: #80bbff;
+    /* background: #80bbff; */
 }

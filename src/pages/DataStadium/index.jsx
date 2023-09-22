@@ -11,138 +11,188 @@ import SelectTable from "../../components/SelectTable";
 
 const allPlayersColumn = [
   {
-    key: "1",
-    title: "背番号",
+    key: "0",
+    title: <label style={{ fontSize: "13px" }}>背番号</label>,
     dataIndex: "backNum",
-    // width: "400px"
+    width: "40px",
+    align: "center",
+  },
+  {
+    key: "1",
+    title: "選手名",
+    dataIndex: "name",
+    align: "center",
+    width: "100px"
   },
   {
     key: "2",
-    title: "選手名",
-    dataIndex: "name",
-    // width: "2  00px"
-  },
-  {
-    key: "3",
     title: "分類",
     dataIndex: "classification",
     textWrap: "word-break",
     ellipsis: true,
-    // width: "0px"
+    align: "center",
+    width: "30px"
   },
 ];
 
 const benchPlayerColumn = [
   {
-    key: "1",
-    title: "背番号",
+    key: "0",
+    title: <label style={{ fontSize: "13px" }}>背番号</label>,
     dataIndex: "backNum",
+    align: "center",
     // width: "400px"
   },
   {
-    key: "2",
+    key: "1",
     title: "選手名",
     dataIndex: "name",
+    align: "center",
     // width: "2  00px"
   },
   {
-    key: "3",
+    key: "2",
     title: "分類",
     dataIndex: "classification",
     width: "50px",
+    align: "center",
   },
   {
-    key: "4",
+    key: "3",
     title: <div style={{ whiteSpace: "nowrap" }}>出場</div>,
     dataIndex: "participation",
     textWrap: "word-break",
     ellipsis: true,
     width: "50px",
+    align: "center",
   },
   {
-    key: "5",
+    key: "4",
     title: <div style={{ whiteSpace: "nowrap" }}>投SEQ</div>,
     dataIndex: "throwSequence",
+    align: "center",
     // width: "200px"
   },
 ];
 
 const currentPlayerColumn = [
   {
-    key: "1",
+    key: "0",
     title: "打順",
     dataIndex: "battingOrder",
     width: "60px",
+    align: "center",
+
+    render: (battingOrder, record) => (
+      <span style={{ fontWeight: "bold" }}>{record.battingOrder}</span>
+    ),
+  },
+  {
+    key: "1",
+    title: <label style={{ fontSize: "13px" }}>背番号</label>,
+    dataIndex: "backNum",
+    width: "74px",
+    align: "center",
+    render: (backNum, record) => (
+      <span style={{ fontWeight: "bold" }}>{record.backNum}</span>
+    ),
   },
   {
     key: "2",
-    title: "背番号",
-    dataIndex: "backNum",
-    width: "100px",
-  },
-  {
-    key: "3",
     title: "選手名",
     dataIndex: "name",
+    align: "center",
+
+    render: (battingOrder, record) => (
+      <span style={{ fontWeight: "bold" }}>{record.name}</span>
+    ),
     // width: "500px"
   },
   {
-    key: "4",
+    key: "3",
     title: <div style={{ whiteSpace: "nowrap" }}>守備</div>,
     dataIndex: "defense",
-    width: "60px"
+    width: "60px",
+    align: "center",render: (battingOrder, record) => (
+      <span style={{ fontWeight: "bold" }}>{record.defense}</span>
+    ),
   },
   {
-    key: "5",
+    key: "4",
     title: <div style={{ whiteSpace: "nowrap" }}>現打者</div>,
     dataIndex: "currentHitter",
+    align: "center",
+    render: (currentHitter, record) => {
+      return record.currentHitter ? (
+        <div
+        style={{
+          display: "inline-block",
+          width: "100%",
+          height: "100%",
+          backgroundColor: "#7be2f1",
+          padding: "0px 0px" /*border: "2px solid #539aa4"*/,
+        }}
+      >
+        　
+      </div>
+      ) : (
+        <></>
+      );
+    },
   },
 ];
 
 const playedColumn = [
   {
-    key: "1",
+    key: "0",
     title: <div style={{ whiteSpace: "nowrap" }}>背番</div>,
     dataIndex: "backNum",
+    width: "50px",
+    align: "center",
+  },
+  {
+    key: "1",
+    title: <div style={{ whiteSpace: "nowrap" }}>選手名</div>,
+    dataIndex: "name",
     width: "100px",
+    align: "center",
   },
   {
     key: "2",
-    title: <div style={{ whiteSpace: "nowrap" }}>選手名</div>,
-    dataIndex: "name",
+    title: <div style={{ whiteSpace: "nowrap" }}>背番</div>,
+    dataIndex: "backNum2",
     width: "50px",
+    align: "center",
+    // width: "200px"
   },
   {
     key: "3",
-    title: <div style={{ whiteSpace: "nowrap" }}>背番</div>,
-    dataIndex: "backNum2",
-    width: "100px",
+    title: <div style={{ whiteSpace: "nowrap" }}>交代選手</div>,
+    dataIndex: "substitutePlayer",
+    width: "60px",
+    align: "center",
     // width: "200px"
   },
   {
     key: "4",
-    title: <div style={{ whiteSpace: "nowrap" }}>交代選手</div>,
-    dataIndex: "substitutePlayer",
-    width: "100px",
+    title: <div style={{ whiteSpace: "nowrap" }}>イニング</div>,
+    dataIndex: "inning",
+    width: "65px",
+    align: "center",
     // width: "200px"
   },
   {
     key: "5",
-    title: <div style={{ whiteSpace: "nowrap" }}>イニング</div>,
-    dataIndex: "inning",
-    width: "100px",
-    // width: "200px"
+    title: <div style={{ whiteSpace: "nowrap" }}>起用内容</div>,
+    dataIndex: "appointmentContent",
+    width: "80px",
+    align: "center",
   },
   {
     key: "6",
-    title: <div style={{ whiteSpace: "nowrap" }}>起用内容</div>,
-    dataIndex: "appointmentContent",
-    width: "100px",
-  },
-  {
-    key: "7",
     title: <div style={{ whiteSpace: "nowrap" }}>表示順</div>,
     dataIndex: "displayOrder",
+    align: "center",
     // width: "200px"
   },
 ];
@@ -152,82 +202,260 @@ const sampleData = [
     backNum: "0",
     name: "木浪 聖也",
     classification: "内",
-    currentHitter: <div style={{display:"inline-block", width: "100%", height: "100%", backgroundColor: "#7be2f1", border: "2px solid #539aa4"}}>　</div>
+    battingOrder: "0",
+    defense: "遊撃",
+    currentHitter: (
+      <div
+        style={{
+          display: "inline-block",
+          width: "100%",
+          height: "100%",
+          backgroundColor: "#7be2f1",
+          padding: "0px 0px" /*border: "2px solid #539aa4"*/,
+        }}
+      >
+        　
+      </div>
+    ),
   },
   {
     backNum: "00",
     name: "木浪 聖也",
     classification: "内",
+    battingOrder: "1",
+    defense: "遊撃",
   },
   {
     backNum: "2",
     name: "木浪 聖也",
     classification: "内",
+    battingOrder: "2",
+    defense: "遊撃",
   },
   {
     backNum: "3",
     name: "木浪 聖也",
     classification: "内",
+    battingOrder: "3",
+    defense: "遊撃",
   },
   {
     backNum: "4",
     name: "木浪 聖也",
     classification: "内",
+    battingOrder: "4",
+    defense: "遊撃",
   },
   {
     backNum: "5",
     name: "木浪 聖也",
     classification: "内",
+    battingOrder: "5",
+    defense: "遊撃",
   },
   {
     backNum: "6",
     name: "木浪 聖也",
     classification: "内",
+    battingOrder: "6",
+    defense: "遊撃",
   },
   {
     backNum: "7",
     name: "木浪 聖也",
     classification: "内",
+    battingOrder: "7",
+    defense: "遊撃",
   },
   {
     backNum: "8",
     name: "木浪 聖也",
     classification: "内",
+    battingOrder: "8",
+    defense: "遊撃",
   },
   {
     backNum: "9",
     name: "木浪 聖也",
     classification: "内",
+    battingOrder: "9",
+    defense: "遊撃",
   },
   {
     backNum: "10",
     name: "木浪 聖也",
     classification: "内",
+    battingOrder: "P",
+    defense: "遊撃",
   },
+  
   {
     backNum: "11",
     name: "木浪 聖也",
     classification: "内",
+    battingOrder: "P",
+    defense: "遊撃",
   },
+  
   {
     backNum: "12",
     name: "木浪 聖也",
     classification: "内",
+    battingOrder: "P",
+    defense: "遊撃",
   },
+  
   {
     backNum: "13",
     name: "木浪 聖也",
     classification: "内",
+    battingOrder: "P",
+    defense: "遊撃",
   },
+  
   {
     backNum: "14",
     name: "木浪 聖也",
     classification: "内",
+    battingOrder: "P",
+    defense: "遊撃",
   },
+  
   {
     backNum: "15",
     name: "木浪 聖也",
     classification: "内",
+    battingOrder: "P",
+    defense: "遊撃",
+  },
+  
+  {
+    backNum: "16",
+    name: "木浪 聖也",
+    classification: "内",
+    battingOrder: "P",
+    defense: "遊撃",
+  },
+  {
+    backNum: "17",
+    name: "木浪 聖也",
+    classification: "内",
+    battingOrder: "P",
+    defense: "遊撃",
+  },
+  {
+    backNum: "18",
+    name: "木浪 聖也",
+    classification: "内",
+    battingOrder: "P",
+    defense: "遊撃",
+  },
+  {
+    backNum: "19",
+    name: "木浪 聖也",
+    classification: "内",
+    battingOrder: "P",
+    defense: "遊撃",
+  },
+  {
+    backNum: "20",
+    name: "木浪 聖也",
+    classification: "内",
+    battingOrder: "P",
+    defense: "遊撃",
+  },
+];
+
+const samplePlayedData = [
+  {
+    backNum: "0",
+    name: "木浪 聖也",
+    classification: "内",
+    battingOrder: "0",
+    defense: "遊撃",
+    currentHitter: (
+      <div
+        style={{
+          display: "inline-block",
+          width: "100%",
+          height: "100%",
+          backgroundColor: "#7be2f1",
+          padding: "0px 0px" /*border: "2px solid #539aa4"*/,
+        }}
+      >
+        　
+      </div>
+    ),
+  },
+  {
+    backNum: "00",
+    name: "木浪 聖也",
+    classification: "内",
+    battingOrder: "1",
+    defense: "遊撃",
+  },
+  {
+    backNum: "2",
+    name: "木浪 聖也",
+    classification: "内",
+    battingOrder: "2",
+    defense: "遊撃",
+  },
+  {
+    backNum: "3",
+    name: "木浪 聖也",
+    classification: "内",
+    battingOrder: "3",
+    defense: "遊撃",
+  },
+  {
+    backNum: "4",
+    name: "木浪 聖也",
+    classification: "内",
+    battingOrder: "4",
+    defense: "遊撃",
+  },
+  {
+    backNum: "5",
+    name: "木浪 聖也",
+    classification: "内",
+    battingOrder: "5",
+    defense: "遊撃",
+  },
+  {
+    backNum: "6",
+    name: "木浪 聖也",
+    classification: "内",
+    battingOrder: "6",
+    defense: "遊撃",
+  },
+  {
+    backNum: "7",
+    name: "木浪 聖也",
+    classification: "内",
+    battingOrder: "7",
+    defense: "遊撃",
+  },
+  {
+    backNum: "8",
+    name: "木浪 聖也",
+    classification: "内",
+    battingOrder: "8",
+    defense: "遊撃",
+  },
+  {
+    backNum: "9",
+    name: "木浪 聖也",
+    classification: "内",
+    battingOrder: "9",
+    defense: "遊撃",
+  },
+  {
+    backNum: "10",
+    name: "木浪 聖也",
+    classification: "内",
+    battingOrder: "P",
+    defense: "遊撃",
   },
 ];
 
@@ -427,8 +655,20 @@ function DataStadium() {
             <label>阪　神</label>
             <SelectTable
               columns={currentPlayerColumn}
-              data={sampleData}
+              data={samplePlayedData}
               height={540}
+              theme={{
+                components: {
+                  Table: {
+                    rowSelectedBg: "#5886d3",
+                    colorBgContainer: "#c0d7ff",
+                    colorFillAlter: "#ffffff",
+                    cellFontSize: 15,
+                    fontWeightStrong: 1400,
+                    paddingContentVerticalLG: 12,
+                  },
+                },
+              }}
             />
             <br />
             <br />
