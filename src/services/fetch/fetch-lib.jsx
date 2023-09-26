@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 
-const defaultURI = "https://localhost/api/v1/professional"
+export const defaultURI = "https://localhost/api/v1/professional"
 
 export const get = async (uriLink) => {
     const uri = uriLink ? uriLink : defaultURI;

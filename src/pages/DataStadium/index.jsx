@@ -1,9 +1,14 @@
 /* eslint-disable no-irregular-whitespace */
 /* eslint-disable no-unused-vars */
-import { Input, Button, Table, Radio, Checkbox } from "antd";
-
+import React, { useState, useEffect, useMemo } from "react";
+import { Input, Button, Table, Radio, Checkbox, ConfigProvider } from "antd";
 import { MinusOutlined, PlusOutlined } from "@ant-design/icons";
-import React, { useState } from "react";
+
+import {
+  fetchCurrentGame,
+  getAllPlayers,
+  getDataByType,
+} from "./data/currentGameData";
 import "./dataStadium.css";
 import "./dataStadiumColumn.css";
 
@@ -22,7 +27,7 @@ const allPlayersColumn = [
     title: "選手名",
     dataIndex: "name",
     align: "center",
-    width: "100px"
+    width: "100px",
   },
   {
     key: "2",
@@ -31,7 +36,7 @@ const allPlayersColumn = [
     textWrap: "word-break",
     ellipsis: true,
     align: "center",
-    width: "30px"
+    width: "30px",
   },
 ];
 
@@ -113,7 +118,8 @@ const currentPlayerColumn = [
     title: <div style={{ whiteSpace: "nowrap" }}>守備</div>,
     dataIndex: "defense",
     width: "60px",
-    align: "center",render: (battingOrder, record) => (
+    align: "center",
+    render: (battingOrder, record) => (
       <span style={{ fontWeight: "bold" }}>{record.defense}</span>
     ),
   },
@@ -125,16 +131,16 @@ const currentPlayerColumn = [
     render: (currentHitter, record) => {
       return record.currentHitter ? (
         <div
-        style={{
-          display: "inline-block",
-          width: "100%",
-          height: "100%",
-          backgroundColor: "#7be2f1",
-          padding: "0px 0px" /*border: "2px solid #539aa4"*/,
-        }}
-      >
-        　
-      </div>
+          style={{
+            display: "inline-block",
+            width: "100%",
+            height: "100%",
+            backgroundColor: "#7be2f1",
+            padding: "0px 0px" /*border: "2px solid #539aa4"*/,
+          }}
+        >
+          　
+        </div>
       ) : (
         <></>
       );
@@ -288,7 +294,7 @@ const sampleData = [
     battingOrder: "P",
     defense: "遊撃",
   },
-  
+
   {
     backNum: "11",
     name: "木浪 聖也",
@@ -296,7 +302,7 @@ const sampleData = [
     battingOrder: "P",
     defense: "遊撃",
   },
-  
+
   {
     backNum: "12",
     name: "木浪 聖也",
@@ -304,7 +310,7 @@ const sampleData = [
     battingOrder: "P",
     defense: "遊撃",
   },
-  
+
   {
     backNum: "13",
     name: "木浪 聖也",
@@ -312,7 +318,7 @@ const sampleData = [
     battingOrder: "P",
     defense: "遊撃",
   },
-  
+
   {
     backNum: "14",
     name: "木浪 聖也",
@@ -320,7 +326,7 @@ const sampleData = [
     battingOrder: "P",
     defense: "遊撃",
   },
-  
+
   {
     backNum: "15",
     name: "木浪 聖也",
@@ -328,7 +334,7 @@ const sampleData = [
     battingOrder: "P",
     defense: "遊撃",
   },
-  
+
   {
     backNum: "16",
     name: "木浪 聖也",
@@ -494,38 +500,113 @@ for (let i = 0; i < sampleData.length; i++) {
 }
 
 function DataStadium() {
+  const [selectedBattingTeam, setSelectedBattingTeam] = useState(0);
   const [selectionType, setSelectionType] = useState("radio");
 
-  const rowSelection = {
-    onChange: (selectedRowKeys, selectedRows) => {
-      console.log(
-        `selectedRowKeys: ${selectedRowKeys}`,
-        "selectedRows: ",
-        selectedRows
+  const [firstTeamPlayerList, setFirstTeamPlayerList] = useState([]);
+  const [secondTeamPlayerList, setSecondTeamPlayerList] = useState([]);
+
+  const [lstAllMemberSelected, setLstAllMemberSelected] = useState(null);
+  const [lstSubMemberSelected, setLstSubMemberSelected] = useState(null)
+
+  // First Batting Team Data
+  const [lstFTAllMembers, setLstFTAllMembers] = useState([]);
+  const [lstFTSubMembers, setLstFTSubMembers] = useState([]);
+  const [lstFTNowMembers, setLstFTNowMembers] = useState([]);
+
+  // First Batting Team Data
+  const [lstSTAllMembers, setLstSTAllMembers] = useState([]);
+  const [lstSTSubMembers, setLstSTSubMembers] = useState([]);
+  const [lstSTNowMembers, setLstSTNowMembers] = useState([]);
+
+  // Retrieves the player list based on the HittingStats data
+  useEffect(() => {
+    async function setupCurrentGameData() {
+      await fetchCurrentGame(
+        "2022",
+        "08",
+        "06",
+        "18",
+        "00",
+        "00",
+        "2021006048"
       );
-    },
-    getCheckboxProps: (record) => ({
-      disabled: record.name === "Disabled User",
-      // Column configuration not to be checked
-      name: record.name,
-    }),
+      const nowBatterData = await getDataByType("NowBatter");
+      setFirstTeamPlayerList(getAllPlayers(5));
+      setSecondTeamPlayerList(getAllPlayers(6));
+    }
+    setupCurrentGameData();
+  }, []);
+
+  // Creates the data for the first list view based on first batting team
+  useEffect(() => {
+    if (firstTeamPlayerList.length == 0) {
+      return;
+    }
+    const tempList = [];
+    let i = 0;
+    for (const player of firstTeamPlayerList) {
+      const newPlayerData = {
+        key: i,
+        name: player.Name,
+        backNum: player.Num,
+        classification: "内",
+        playerCD: player.PlayerCD
+      };
+      i++;
+      tempList.push(newPlayerData);
+    }
+    setLstFTAllMembers(tempList);
+  }, [firstTeamPlayerList, lstFTAllMembers]);
+
+  // Creates the data for the first list view based on second batting team
+  useEffect(() => {
+    if (secondTeamPlayerList.length == 0) {
+      return;
+    }
+    const tempList = [];
+    let i = 0;
+    for (const player of secondTeamPlayerList) {
+      const newPlayerData = {
+        key: i,
+        name: player.Name,
+        backNum: player.Num,
+        classification: "内",
+        playerCD: player.PlayerCD
+      };
+      i++;
+      tempList.push(newPlayerData);
+    }
+    setLstSTAllMembers(tempList);
+  }, [secondTeamPlayerList, lstSTAllMembers]);
+
+  // Move from AllMembers list view to BenchMember list view
+  const moveToBenchLst = () => {
+    // console.log(lstAllMemberSelected)
+    if(lstAllMemberSelected == null) return;
+
+    const subMembers = [...(selectedBattingTeam == 0 ? lstFTSubMembers : lstSTSubMembers)];
+
+    if(subMembers.find(x => x.playerCD == lstAllMemberSelected.playerCD)) return;
+    subMembers.push(lstAllMemberSelected);
+
+    if(selectedBattingTeam == 0) {
+      setLstFTSubMembers(subMembers);
+    } else {
+      setLstSTSubMembers(subMembers);
+    }
   };
 
-  const columnTest = [
-    {
-      key: "1",
-      title: "現打者",
-      dataIndex: "currentHitter",
-    },
-  ];
+  const removeFromBenchLst = () => {
 
-  const test = () => {
-    const test = [];
-    for (let i = 0; i < 10; i++) {
-      test.push({ currentHitter: "" });
+  }
+
+  const onBattingTeamSelected = (battingTeam) => {
+    if (battingTeam == 0) {
+      setSelectedBattingTeam(0);
+    } else if (battingTeam == 1) {
+      setSelectedBattingTeam(1);
     }
-    console.log(test);
-    return test;
   };
 
   return (
@@ -542,15 +623,47 @@ function DataStadium() {
             チーム選択
           </label>
 
-          <div className="ds lbl-button">
-            <label>先攻</label>
-            <Button>巨人</Button>
-          </div>
+          <ConfigProvider
+            theme={{
+              components: {
+                Button: {
+                  defaultBg: selectedBattingTeam == 0 ? "#00f100" : "#ffffff",
+                },
+              },
+            }}
+          >
+            <div className="ds lbl-button">
+              <label>先攻</label>
+              <Button
+                onClick={() => {
+                  onBattingTeamSelected(0);
+                }}
+              >
+                巨人
+              </Button>
+            </div>
+          </ConfigProvider>
 
-          <div className="ds lbl-button" style={{ marginRight: "10px" }}>
-            <label>後攻</label>
-            <Button>阪神</Button>
-          </div>
+          <ConfigProvider
+            theme={{
+              components: {
+                Button: {
+                  defaultBg: selectedBattingTeam == 1 ? "#00f200" : "#ffffff",
+                },
+              },
+            }}
+          >
+            <div className="ds lbl-button" style={{ marginRight: "10px" }}>
+              <label>後攻</label>
+              <Button
+                onClick={() => {
+                  onBattingTeamSelected(1);
+                }}
+              >
+                阪神
+              </Button>
+            </div>
+          </ConfigProvider>
         </div>
 
         <div className="ds panel round-counter">
@@ -575,7 +688,16 @@ function DataStadium() {
         <div className="panel current-data">
           <div className="current-data col-1">
             <label>阪　神　全選手</label>
-            <SelectTable columns={allPlayersColumn} data={sampleData} />
+            <SelectTable
+              columns={allPlayersColumn}
+              data={
+                selectedBattingTeam == 0 ? lstFTAllMembers : lstSTAllMembers
+              }
+              onChange={(newRecord, prevRecord) => {
+                setLstAllMemberSelected(newRecord)
+                console.log(newRecord);
+              }}
+            />
             <br />
             <label
               style={{ fontWeight: "400", textAlign: "left", fontSize: "15px" }}
@@ -593,23 +715,21 @@ function DataStadium() {
 
           <div className="current-data col-btn col-btn-1">
             <div className="arrow-button-group">
-              <Button>{"≫"}</Button>
-              <Button>{"≪"}</Button>
+              <Button onClick={moveToBenchLst}>{"≫"}</Button>
+              <Button onClick={removeFromBenchLst}>{"≪"}</Button>
             </div>
           </div>
 
           <div className="current-data col-2">
             <label>ベンチ入り選手</label>
-            {/* <Table
-              pagination={false}
-              // rowSelection={{
-              //   type: selectionType,
-              //   ...rowSelection,
-              // }}
-              columns={allPlayersColumn}
-              dataSource={sampleData}
-            /> */}
-            <SelectTable columns={benchPlayerColumn} data={sampleData} />
+            <SelectTable
+              columns={benchPlayerColumn}
+              data={selectedBattingTeam == 0 ? lstFTSubMembers : lstSTSubMembers}
+              onChange={(newRecord, prevRecord) => {
+                setLstSubMemberSelected(newRecord);
+                console.log(newRecord);
+              }}
+            />
             <br />
             <label
               style={{ fontWeight: "400", textAlign: "left", fontSize: "15px" }}

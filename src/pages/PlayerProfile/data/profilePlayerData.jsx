@@ -1,9 +1,10 @@
 /* eslint-disable no-unused-vars */
 import { Select } from "antd";
+import { defaultURI } from "../../../services/fetch/fetch-lib";
 
 const { Option } = Select;
 
-const apiURL = "https://localhost/api/v1/professional";
+// const apiURL = "https://localhost/api/v1/professional";
 
 export async function retrievePlayerInfoMaster(teamCD, onDataRetrieve) {
 
@@ -14,12 +15,12 @@ export async function retrievePlayerInfoMaster(teamCD, onDataRetrieve) {
   }
 
   let response = await fetch(
-    `${apiURL}/data-stadium?collection=DS_Directory_${teamCD}` 
+    `${defaultURI}/data-stadium?collection=DS_Directory_${teamCD}` 
   );
   let directoryData = await response.json();
 
   response = await fetch(
-    `${apiURL}/data-stadium?collection=DS_PlayerInfoMST_${teamCD}`
+    `${defaultURI}/data-stadium?collection=DS_PlayerInfoMST_${teamCD}`
   );
   let playerData = await response.json();
 
@@ -57,7 +58,7 @@ export async function retrieveOtherData(playerData, onDataRetrieve) {
   console.log(teamCD);
 
   const response = await fetch(
-    `${apiURL}/abc-public?collection=PU_${teamCD}_PlayerProfile`
+    `${defaultURI}/abc-public?collection=PU_${teamCD}_PlayerProfile`
   );
   let data = await response.json();
   data = Object.values(data);
@@ -95,4 +96,15 @@ export function generatePlayerSelectOptions(data, onOptionsGenerate) {
   }
 
   onOptionsGenerate(options);
+}
+
+export async function getPlayerImage(playerBackNum, onImageRetrieve) {
+  
+  const response = await fetch(`${defaultURI}/abc-public/image/${playerBackNum}`)
+  let data = await response.json();
+
+  if(onImageRetrieve) {
+    onImageRetrieve(data.imageData)
+  }
+  return `data:image/png;base64,${data.imageData}`
 }

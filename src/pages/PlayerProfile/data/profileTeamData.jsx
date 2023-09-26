@@ -1,5 +1,5 @@
 import { Select } from "antd";
-
+import { defaultURI } from "../../../services/fetch/fetch-lib";
 const { Option } = Select;
 
 export async function retrieveTeamInfoMaster(onDataRetrieve) {
@@ -11,7 +11,7 @@ export async function retrieveTeamInfoMaster(onDataRetrieve) {
 
   try {
     const response = await fetch(
-      `https://localhost/api/v1/professional/data-stadium?collection=DS_TeamInfoMST`
+      `${defaultURI}/data-stadium?collection=DS_TeamInfoMST`
     );
 
     let data = Object.values(await response.json());

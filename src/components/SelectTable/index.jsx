@@ -20,10 +20,6 @@ function SelectTable({
   const tableTheme = {
     components: {
       Table: {
-        /* here is your component tokens */
-        // headerBg: "#ff0000",
-        // padding: 4,
-        // rowSelectedBg: "#b7c9e9",
         padding: 0,
         paddingContentVerticalLG: 4,
         ...theme?.components.Table,
@@ -47,7 +43,7 @@ function SelectTable({
   const onRowSelect = (record, rowIndex) => {
     return {
       onClick: (event) => {
-        console.log(record);
+        // console.log(record);
         if (!selectedRow) {
           if (onSelect) {
             onSelect(record, null);

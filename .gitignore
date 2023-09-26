@@ -8,6 +8,8 @@ pnpm-debug.log*
 lerna-debug.log*
 
 node_modules
+public/hanshin_players
+public/阪神 選手
 # dist
 dist-ssr
 *.local
@@ -22,3 +24,4 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+public/阪神 選手.zip
