@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 import React, { useState } from "react";
-import LabeledText from "../../../../components/LabeledText";
+import LabeledText from "../../../../components/LabeledText/index-backup";
 
 import "./battingRecord.css";
 
