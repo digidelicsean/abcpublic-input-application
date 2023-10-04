@@ -29,7 +29,7 @@ function MainMenu() {
         <div className="menu-button-field">
           <Link to="/data-stadium">
             <Button className="menu-button">
-              <b>スタメン ● 現打者</b>
+              <b>試合設定</b>
             </Button>
           </Link>
 
