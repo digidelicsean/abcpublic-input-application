@@ -1,12 +1,14 @@
 /* eslint-disable no-unused-vars */
 import { useState } from "react";
-import "./App.css";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+
 import MainMenu from "./pages/MainMenu";
 import DataStadium from "./pages/DataStadium";
 import PlayerProfile from "./pages/PlayerProfile";
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import TeamSelect from "./pages/TeamSelect";
 
 import { Table, ConfigProvider } from "antd";
+import "./App.css";
 
 // import Test from "./Test"
 function App() {
@@ -20,7 +22,8 @@ function App() {
         <Routes>
           <Route exact path="/" element={<MainMenu/>} />
           <Route path="/data-stadium" element={<DataStadium/>} />
-          <Route path="/player-profile" element={<PlayerProfile/>} />
+          {/* <Route path="/player-profile" element={<PlayerProfile/>} /> */}
+          <Route path="/player-profile" element={<TeamSelect/>} />
         </Routes>
       </Router> 
 

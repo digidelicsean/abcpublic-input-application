@@ -1,0 +1,93 @@
+.page-team-select {
+    display:flex;
+    flex-direction: column;
+    padding: 20px 40px;
+
+}
+
+.menu-bar {
+    display: inline-flex;
+    width: 100%;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+.page-header  {
+    display: inline-flex;
+    width: 100%;
+    height: 110px;
+    margin-bottom: 20px;
+
+    justify-content: space-between;
+    align-items: center;
+}
+
+.team-select {
+    display: inline-flex;
+    flex-direction: row;
+    /* margin: 0px 10px; */
+
+    width: 35%;
+    min-width: 600px;
+    height: 100%;
+
+    align-items: center;
+    justify-content: space-evenly;
+    
+}
+
+.team-add {
+    display: inline-flex;
+    flex-direction: row;
+    width: 14%;
+    height: 100%;
+
+    min-width: 200px;
+    
+    margin: 0px 10px;
+
+    justify-content: center;
+    align-items: center;
+}
+
+.btn-open {
+    width: 15%;
+    height: 60px;
+    margin: 0px 10px;
+}
+
+.button-panel-area {
+    display: inline-flex;
+    width: 100%;
+
+    margin-top: 50px;
+
+    align-items: flex-end;
+    justify-content: flex-end;
+}
+
+.team-select-button {
+    width: 8%;
+    min-width: 100px;
+    height: 60px;
+    margin: 10px 10px
+}
+
+.delete-button {
+    display: inline-flex;
+    flex-direction: column;
+    width: 8%;
+    min-width: 100px;
+    height: auto;
+}
+
+.delete-button .team-select-button {
+    width: 100%;
+    height: 60px;
+    margin-top: 0px;
+    /* margin-left: 10px */
+}
+
+.delete-checkbox {
+    margin-left: 10px
+}

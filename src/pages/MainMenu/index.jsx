@@ -47,7 +47,7 @@ function MainMenu() {
 
           <Link to="/player-profile">
             <Button className="menu-button">
-              <b>選手情報</b>
+              <b>チーム/選手情報</b>
             </Button>
           </Link>
 
