@@ -1,0 +1,18 @@
+.player-info-tab {
+    display: flex;
+    flex-direction: row;
+}
+
+.player-info-button {
+    display: inline-flex;
+    width: 120px;
+    height: 50px;
+    z-index: 2;
+
+    border-radius: 0px 40px 40px 0px;
+}
+
+.player-info-arrow {
+    display: inline-block;
+    background-color: black;
+}

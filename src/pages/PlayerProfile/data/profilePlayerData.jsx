@@ -15,12 +15,12 @@ export async function retrievePlayerInfoMaster(teamCD, onDataRetrieve) {
   }
 
   let response = await fetch(
-    `${defaultURI}/data-stadium?collection=DS_Directory_${teamCD}` 
+    `${defaultURI}/data-stadium/DS_Directory_${teamCD}` 
   );
   let directoryData = await response.json();
 
   response = await fetch(
-    `${defaultURI}/data-stadium?collection=DS_PlayerInfoMST_${teamCD}`
+    `${defaultURI}/data-stadium/DS_PlayerInfoMST_${teamCD}`
   );
   let playerData = await response.json();
 

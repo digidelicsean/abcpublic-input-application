@@ -1,23 +1,18 @@
- .labeled-text {
+/* .labeled-text {
     display: inline-flex;
     flex-direction: column;
-    margin-top: 5px;
-    margin-right: 10px;
+    flex: 1 1;
+
+    background-color: #c0c0c0;
+    padding: 10px;
+    margin: 2px;
+    border-radius: 10px;
 
     align-items: center;
-    width: 112.5px;
-    min-width: 70px;;
+    width: 80px;
+    min-width: 45px;;
 }
 
-.text-input {
-    width: 100%;
-    text-align: center;
-}
-
-.text-label {
-    font-size: 1.25em;
-}
-/*
 .labeled-text label {
     color: black;
 }
