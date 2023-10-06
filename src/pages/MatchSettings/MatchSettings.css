@@ -1,0 +1,266 @@
+.match-settings-page {
+    display: flex;
+    width: 100%;
+    /* height: 1000px; */
+}
+
+.match-settings-upper {
+    
+    display: inline-flex;
+
+    justify-content: center;
+
+    width: 100%;
+
+    padding: 5px 2%;
+
+}
+
+.match-settings-panel-card {
+    display: inline-flex;
+    flex-direction: column;
+    width: 80%;
+    min-width: 1440px;
+    padding: 6px;
+
+    background-color: #f4f4f4;
+    border-radius: 15px;
+}
+
+.match-settings-panel {
+    display: inline-flex;
+    flex-direction: column;
+    width: 100%;
+    padding: 6px;
+}
+
+.match-settings-panel-header {
+    display:inline-flex;
+    width: 100%;
+
+    font-size: 1.25em;
+    /* font-weight: bold; */
+
+}
+
+.match-settings-panel-content {
+    display:inline-flex;
+    width: 100%;
+}
+
+.radio-btn-group {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    margin: 100px;
+}
+
+.radio-btn {
+    margin: 10px
+}
+
+.ds-radio-btn-panel {
+
+    box-sizing: border-box;
+    display: inline-flex;
+    flex-direction: column;
+
+    justify-content: center;
+    align-items: center;
+    
+    width: 35%;
+    min-width: 136.5px;
+    height: 320px;
+
+    margin: 20px 20px;
+    padding: 5px;
+
+    border: 4px solid white;
+    border-radius: 10px;
+}
+
+.game-assortment-radio-panel {
+    box-sizing: border-box;
+    display: inline-flex;
+    flex-direction: column;
+    
+    justify-content: center;
+    width: 75%;
+    min-width: 343.5px  ;
+    height: 340px;
+
+    /* margin: 20px 20px; */
+    /* padding: 20px; */
+
+}
+
+.game-assortment-radio-btn-panel {
+    
+    box-sizing: border-box;
+    display: inline-flex;
+    flex-direction: column;
+    
+    justify-content: center;
+    /* align-items: center; */
+    
+    width: 100%;
+    height: 100%;
+
+    /* margin: 20px 20px;
+    padding: 20px; */
+
+    border: 4px solid white;
+    border-radius: 10px;
+}
+
+.game-assortment-radio-btn {
+    display: inline-flex;
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+}
+
+.date-select-panel {
+    display: inline-flex;
+    flex-direction: column;
+    box-sizing: border-box;
+    
+    justify-content: space-evenly;
+    align-items: center;
+
+
+    margin: 20px 20px;
+    /* padding: 5px; */
+    
+    width: 100%;
+    min-width: 470px;
+    height: 320px;
+    
+    border: 4px solid white;
+    border-radius: 10px;
+}
+
+.date-select {
+    display: inline-flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+.date-select-year {
+    display: inline-flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 25%;
+    margin-right: 5px;
+}
+
+
+.date-select-month {
+    display: inline-flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 17%;
+    margin-right: 5px;
+    margin-left: 10px;
+}
+
+
+.date-select-day {
+    display: inline-flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 17%;
+    margin-right: 5px;
+    margin-left: 10px;
+}
+
+.match-data-open-btn {
+    background-color: #647dae;
+    color: white;
+    font-size: 1.25em;
+    font-weight: bold;
+    height: 50px;
+    width: 85%;
+
+    border-radius: 15px;
+}
+
+.match-data-panel {
+    box-sizing: border-box;
+    display: inline-flex;
+    flex-direction: column;
+
+    width: 60%;
+    height: 340px;
+
+    justify-content: flex-start;
+    align-items: center;
+    
+    margin-left: 10px;
+    margin-right: 10px;
+
+    /* margin: 20px 20px;
+    padding: 20px; */
+    
+    /* border: 4px solid white;
+    border-radius: 10px; */
+}
+
+.match-data-info-card {
+    display: inline-flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+    
+    justify-content: space-around;
+    background-color: transparent;
+    /* border-radius: 5px; */
+
+}
+
+.match-data-info {
+    display: inline-flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+    
+    justify-content: space-around;
+    border-radius: 10px;
+    box-shadow: 0px 0px 20px 2px rgb(196, 196, 196)
+
+}
+
+
+
+
+
+.match-settings-btn-panel {
+    display:inline-flex;
+    flex-direction: column;
+
+    justify-content: flex-end;
+
+    margin: 10px;
+    width: 9%;
+}
+
+.match-settings-btn {
+    display: inline-flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    
+    align-items: center;
+    justify-content: center;
+
+    white-space: break-spaces;
+
+    margin: 10px;
+
+    width: 100%;
+    height: 60px;
+}

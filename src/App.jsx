@@ -3,7 +3,7 @@ import { useState } from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 
 import MainMenu from "./pages/MainMenu";
-import DataStadium from "./pages/DataStadium";
+import MatchSettings from "./pages/MatchSettings"
 import PlayerProfile from "./pages/PlayerProfile";
 import TeamSelect from "./pages/TeamSelect";
 
@@ -15,23 +15,14 @@ function App() {
 
   return (
     <>
-    {/* <ConfigProvider componentDisabled={true} theme={theme}>
-      <Table rowSelection={rowSelection} columns={columns} dataSource={data()} onRow={onRowSelected}/>
-    </ConfigProvider> */}
       <Router>
         <Routes>
           <Route exact path="/" element={<MainMenu/>} />
-          <Route path="/data-stadium" element={<DataStadium/>} />
+          <Route path="/data-stadium" element={<MatchSettings/>} />
           {/* <Route path="/player-profile" element={<PlayerProfile/>} /> */}
           <Route path="/player-profile" element={<TeamSelect/>} />
         </Routes>
       </Router> 
-
-      {/* <MainMenu/> */}
-      {/* <DataStadium/> */}
-      {/* <br /><br /><br /> */}
-      {/* <PlayerProfile/> */}
-      {/* <Test/>*/}
     </>
   );
 }
