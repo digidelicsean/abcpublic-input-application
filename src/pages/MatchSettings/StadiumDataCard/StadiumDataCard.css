@@ -1,0 +1,45 @@
+.stadium-data-card {
+    display: inline-flex;
+    flex-direction: column;
+    background-image: url("stadium-card.png");
+    background-repeat: no-repeat;
+    background-size: cover;
+
+    margin: 10px;
+
+    width: 100%;
+    min-width: 230px;
+    height: 340px;
+
+    filter: drop-shadow(0px 0px 3px rgb(204, 204, 204))
+}
+
+.stadium-data-card-header {
+    display: inline-flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+.index-label {
+    margin: 0px 20px;
+    font-size: 2em;
+}
+
+.stadium-data-card-btn-clear {
+    background: linear-gradient(90deg, rgba(150,150,150,1) 35%, rgba(160,160,160,1) 100%);
+    color: white;
+    border-radius: 10px;
+    font-size: 0.8em;
+    width: 40%;
+    height: 28px;
+}
+
+.stadium-data-card-fields {
+    display: inline-flex;
+    flex-direction: column;
+    height: 100%;
+    width: 100%;
+    justify-content: space-evenly;
+    padding: 10px;
+}

@@ -1,0 +1,57 @@
+.match-settings-lower {
+    
+    display: inline-flex;
+
+    justify-content: center;
+    /* align-items: ; */
+
+    width: 100%;
+
+    padding: 5px;
+}
+
+.stadium-data-panel-card {
+    display: inline-flex;
+    flex-direction: column;
+    width: 80%;
+    min-width: 1440px;
+    padding: 6px;
+
+    background-color: #f4f4f4;
+    border-radius: 15px;
+}
+
+.stadium-data-content {
+    display: inline-flex;
+    flex-direction: row;
+
+    width: 100%;
+
+    justify-content: space-evenly;
+}
+
+.stadium-settings-btn-panel {
+    display:inline-flex;
+    flex-direction: column;
+
+    justify-content: flex-end;
+
+    margin: 10px;
+    width: 9%;
+}
+
+.stadium-settings-btn {
+    display: inline-flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    
+    align-items: center;
+    justify-content: center;
+
+    white-space: break-spaces;
+
+    margin: 10px;
+
+    width: 100%;
+    height: 60px;
+}
