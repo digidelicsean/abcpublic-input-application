@@ -31,8 +31,9 @@
     color: white;
     border-radius: 10px;
     font-size: 0.8em;
-    width: 40%;
-    height: 28px;
+    width: 35%;
+    min-width: 100px;
+    height: 32px;
 }
 
 .stadium-data-card-fields {

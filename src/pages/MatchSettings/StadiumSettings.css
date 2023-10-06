@@ -10,6 +10,13 @@
     padding: 5px;
 }
 
+.stadium-data-panel-header {
+    display:inline-flex;
+    width: 100%;
+
+    font-size: 1.25em;
+}
+
 .stadium-data-panel-card {
     display: inline-flex;
     flex-direction: column;

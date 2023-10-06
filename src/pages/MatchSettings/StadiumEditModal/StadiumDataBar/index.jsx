@@ -8,13 +8,13 @@ function StadiumDataBar({ stadiumData }) {
   return (
     <div className="stadium-data-bar">
       <div className="stadium-data-vs-name">
-        <div className="home-team-name">阪神</div>
+        <div className="home-team-name">{stadiumData?.TeamName_H ?? "ホームチーム"}</div>
         <div className="vs-text">
           VS
         </div>
-        <div className="visitor-team-name">ヤクルト</div>
+        <div className="visitor-team-name">{stadiumData?.TeamName_V ?? "ビジターチーム"}</div>
       </div>
-      <div className="stadium-name">阪神甲子園球場</div>
+      <div className="stadium-name">{stadiumData?.Stadium ?? "スタジアム名"}</div>
     </div>
   );
 }

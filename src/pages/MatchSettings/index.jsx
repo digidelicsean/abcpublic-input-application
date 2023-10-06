@@ -285,6 +285,7 @@ function MatchSettings() {
                         label="先攻チーム"
                         size={{ width: "98%" }}
                       />
+                      {/* <span>対</span> */}
                       <LabeledComboBox
                         label="後攻チーム"
                         size={{ width: "98%" }}
