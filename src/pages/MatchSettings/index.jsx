@@ -1,10 +1,20 @@
 /* eslint-disable no-unused-vars */
-import React from "react";
-import { ConfigProvider, Card, Button, Radio, Space, InputNumber } from "antd";
+import React, { useState } from "react";
+import {
+  ConfigProvider,
+  Card,
+  Button,
+  Radio,
+  Space,
+  InputNumber,
+  App,
+  Modal,
+} from "antd";
 import { CaretUpFilled, CaretDownFilled } from "@ant-design/icons";
 
 import LabeledComboBox from "../../components/LabeledComboBox";
 import StadiumDataCard from "./StadiumDataCard";
+import StadiumEditModal from "./StadiumEditModal";
 
 import "./MatchSettings.css";
 import "./StadiumSettings.css";
@@ -23,6 +33,12 @@ const theme = {
 };
 
 function MatchSettings() {
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+
+  const [day, setDay] = useState("1");
+  const [month, setMonth] = useState("10");
+  const [year, setYear] = useState("2023");
+
   const createDummyData = async () => {
     const dummyData = {
       Type: "GameInfo",
@@ -149,6 +165,7 @@ function MatchSettings() {
                         <Button
                           type="text"
                           icon={<CaretUpFilled style={{ color: "#778dbb" }} />}
+                          onClick={() => setYear(year + 1)}
                         />
                         <InputNumber
                           style={{
@@ -158,15 +175,17 @@ function MatchSettings() {
                             textAlign: "center",
                           }}
                           controls={false}
-                          value={2023}
+                          value={year}
                           min={1800}
                           max={9999}
+                          onChange={(e) => setYear(e)}
                         />
                         <Button
                           type="text"
                           icon={
                             <CaretDownFilled style={{ color: "#778dbb" }} />
                           }
+                          onClick={() => setYear(year - 1)}
                         />
                       </div>
                       年
@@ -174,6 +193,10 @@ function MatchSettings() {
                         <Button
                           type="text"
                           icon={<CaretUpFilled style={{ color: "#778dbb" }} />}
+                          onClick={() => {
+                            if (month == 12) return;
+                            setMonth(month + 1);
+                          }}
                         />
                         <InputNumber
                           style={{
@@ -183,15 +206,20 @@ function MatchSettings() {
                             textAlign: "center",
                           }}
                           controls={false}
-                          value={10}
+                          value={month}
                           min={1}
                           max={12}
+                          onChange={(e) => setMonth(e)}
                         />
                         <Button
                           type="text"
                           icon={
                             <CaretDownFilled style={{ color: "#778dbb" }} />
                           }
+                          onClick={() => {
+                            if (month == 1) return;
+                            setMonth(month - 1);
+                          }}
                         />
                       </div>
                       月
@@ -199,6 +227,10 @@ function MatchSettings() {
                         <Button
                           type="text"
                           icon={<CaretUpFilled style={{ color: "#778dbb" }} />}
+                          onClick={() => {
+                            if (day == 31) return;
+                            setDay(day + 1);
+                          }}
                         />
                         <InputNumber
                           style={{
@@ -208,15 +240,20 @@ function MatchSettings() {
                             textAlign: "center",
                           }}
                           controls={false}
-                          value={1}
+                          value={day}
                           min={1}
                           max={31}
+                          onChange={(e) => setDay(e)}
                         />
                         <Button
                           type="text"
                           icon={
                             <CaretDownFilled style={{ color: "#778dbb" }} />
                           }
+                          onClick={() => {
+                            if (day == 1) return;
+                            setDay(day - 1);
+                          }}
                         />
                       </div>
                       日
@@ -317,9 +354,31 @@ function MatchSettings() {
             <Button
               className="stadium-settings-btn"
               style={{ backgroundColor: "#647dae" }}
+              onClick={() => setIsEditModalOpen(true)}
             >
               地球場設定
             </Button>
+            <StadiumEditModal
+              title={
+                <div
+                  style={{
+                    display: "inline-flex",
+                    width: "100%",
+                    justifyContent: "center",
+                    backgroundColor: "#758db9",
+                    borderRadius: "6px 6px 0px 0px",
+                    color: "white",
+                    fontSize: "1.35em",
+                    fontWeight: "bold"
+                  }}
+                >
+                  {year}.{month}.{day}
+                </div>
+              }
+              isModalOpen={isEditModalOpen}
+              onOk={() => setIsEditModalOpen(false)}
+              onCancel={() => setIsEditModalOpen(false)}
+            />
           </div>
         </div>
       </ConfigProvider>

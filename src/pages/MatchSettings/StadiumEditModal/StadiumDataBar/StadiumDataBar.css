@@ -1,0 +1,51 @@
+.stadium-data-bar {
+    display: inline-flex;
+    flex-direction: column;
+    width: 80%;
+    margin: 10px;
+    /* border: 1px solid black; */
+}
+
+.stadium-data-vs-name {
+    display: inline-flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    height: 60px;
+
+    background-color: #fefefe;
+    border-radius: 10px;
+    box-shadow: 0px 0px 8px rgb(206, 206, 206);
+}
+
+.home-team-name {
+    width: 60%;
+    text-align: center;
+    font-size: 1.75em;
+}
+
+.vs-text {
+    width: 40%;
+    height: 100%;
+    padding-top: 0px;
+
+
+    font-size: 1.5em;
+    text-align: center;
+    color: white;
+
+    background-image: url("vs_arrow.png");
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: center;
+}
+
+.visitor-team-name {
+    width: 60%;
+    text-align: center;
+    font-size: 1.75em;
+}
+
+.stadium-name {
+    text-align: center;
+}

@@ -7,7 +7,7 @@ import MatchSettings from "./pages/MatchSettings"
 import PlayerProfile from "./pages/PlayerProfile";
 import TeamSelect from "./pages/TeamSelect";
 
-import { Table, ConfigProvider } from "antd";
+import { Table, ConfigProvider} from "antd";
 import "./App.css";
 
 // import Test from "./Test"
