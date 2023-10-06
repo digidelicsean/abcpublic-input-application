@@ -291,22 +291,35 @@ function MatchSettings() {
         {/*                            Bottom Layout                           */}
 
         <div className="match-settings-lower">
-          <Card className="stadium-data-panel-card" bodyStyle={{padding: "2px 5px", boxSizing: "content-box"}}>
+          <Card
+            className="stadium-data-panel-card"
+            bodyStyle={{ padding: "2px 5px", boxSizing: "content-box" }}
+          >
             <div className="stadium-data-panel">
               <div className="stadium-data-panel-header">地球場設定</div>
               <div className="stadium-data-content">
-                <StadiumDataCard index="➀"/>
-                <StadiumDataCard index="➁"/>
-                <StadiumDataCard index="➂"/>
-                <StadiumDataCard index="➃"/>
-                <StadiumDataCard index="➄"/>
+                <StadiumDataCard index="➀" />
+                <StadiumDataCard index="➁" />
+                <StadiumDataCard index="➂" />
+                <StadiumDataCard index="➃" />
+                <StadiumDataCard index="➄" />
               </div>
             </div>
           </Card>
 
           <div className="stadium-settings-btn-panel">
-            <Button className="stadium-settings-btn">全クリア</Button>
-            <Button className="stadium-settings-btn">地球場設定</Button>
+            <Button
+              className="stadium-settings-btn"
+              style={{ backgroundColor: "#939393" }}
+            >
+              全クリア
+            </Button>
+            <Button
+              className="stadium-settings-btn"
+              style={{ backgroundColor: "#647dae" }}
+            >
+              地球場設定
+            </Button>
           </div>
         </div>
       </ConfigProvider>
