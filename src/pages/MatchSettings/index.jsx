@@ -39,6 +39,8 @@ function MatchSettings() {
   const [month, setMonth] = useState("10");
   const [year, setYear] = useState("2023");
 
+  const [isDSData, setIsDSData] = useState();
+
   const createDummyData = async () => {
     const dummyData = {
       Type: "GameInfo",
@@ -165,7 +167,10 @@ function MatchSettings() {
                         <Button
                           type="text"
                           icon={<CaretUpFilled style={{ color: "#778dbb" }} />}
-                          onClick={() => setYear(year + 1)}
+                          onClick={() => {
+                            if (year == 9999) return;
+                            setYear(Number(year) + 1);
+                          }}
                         />
                         <InputNumber
                           style={{
@@ -185,7 +190,10 @@ function MatchSettings() {
                           icon={
                             <CaretDownFilled style={{ color: "#778dbb" }} />
                           }
-                          onClick={() => setYear(year - 1)}
+                          onClick={() => {
+                            if (year == 1800) return;
+                            setYear(Number(year) - 1);
+                          }}
                         />
                       </div>
                       年
@@ -195,7 +203,7 @@ function MatchSettings() {
                           icon={<CaretUpFilled style={{ color: "#778dbb" }} />}
                           onClick={() => {
                             if (month == 12) return;
-                            setMonth(month + 1);
+                            setMonth(Number(month) + 1);
                           }}
                         />
                         <InputNumber
@@ -218,7 +226,7 @@ function MatchSettings() {
                           }
                           onClick={() => {
                             if (month == 1) return;
-                            setMonth(month - 1);
+                            setMonth(Number(month) - 1);
                           }}
                         />
                       </div>
@@ -229,7 +237,7 @@ function MatchSettings() {
                           icon={<CaretUpFilled style={{ color: "#778dbb" }} />}
                           onClick={() => {
                             if (day == 31) return;
-                            setDay(day + 1);
+                            setDay(Number(day) + 1);
                           }}
                         />
                         <InputNumber
@@ -252,7 +260,7 @@ function MatchSettings() {
                           }
                           onClick={() => {
                             if (day == 1) return;
-                            setDay(day - 1);
+                            setDay(Number(day) - 1);
                           }}
                         />
                       </div>
@@ -370,7 +378,7 @@ function MatchSettings() {
                     borderRadius: "6px 6px 0px 0px",
                     color: "white",
                     fontSize: "1.35em",
-                    fontWeight: "bold"
+                    fontWeight: "bold",
                   }}
                 >
                   {year}.{month}.{day}

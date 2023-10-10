@@ -10,7 +10,9 @@ function LabeledComboBox({
   size,
   padding,
   margin,
+  textAlign,
   options,
+  value,
   placeholder,
   horizontal,
   onChange,
@@ -46,29 +48,54 @@ function LabeledComboBox({
           marginTop: margin?.top ?? "",
           marginBottom: margin?.bottom ?? "",
           flexDirection: horizontal ? "row" : "column",
-          alignItems: horizontal ? "center" : "inherit"
+          alignItems: horizontal
+            ? "center"
+            : textAlign == "left"
+            ? "flex-start"
+            : "inherit",
         }}
       >
         {horizontal ? (
-          <div style={{
-            marginRight: "10px",
-          }}>{label ? label : "Label"}</div>
+          <div
+            style={{
+              marginRight: "10px",
+            }}
+          >
+            {label ? label : "Label"}
+          </div>
         ) : label ? (
           label
         ) : (
           "Label"
         )}
-        {/* {label ? label : "Label"} */}
-        <Select
-          className="combo-box"
-          style={{
-            height: size?.height ? size.height : "",
-            width: size?.width ? size.width : "",
-          }}
-          placeholder={placeholder}
-          options={options ? options : []}
-          onChange={onValueChange}
-        />
+        {value ? (
+          <Select
+            className="combo-box"
+            style={
+              {
+                // height: size?.height ? size.height : "",
+                // width: size?.width ? size.width : "",
+              }
+            }
+            value={value}
+            placeholder={placeholder}
+            options={options ? options : []}
+            onChange={onValueChange}
+          />
+        ) : (
+          <Select
+            className="combo-box"
+            style={
+              {
+                // height: size?.height ? size.height : "",
+                // width: size?.width ? size.width : "",
+              }
+            }
+            placeholder={placeholder}
+            options={options ? options : []}
+            onChange={onValueChange}
+          />
+        )}
       </div>
     </ConfigProvider>
   );

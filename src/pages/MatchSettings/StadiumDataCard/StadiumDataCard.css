@@ -38,6 +38,7 @@
 
 .stadium-data-card-fields {
     display: inline-flex;
+    box-sizing: border-box;
     flex-direction: column;
     height: 100%;
     width: 100%;

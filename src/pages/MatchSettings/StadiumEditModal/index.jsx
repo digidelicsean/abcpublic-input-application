@@ -1,15 +1,18 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable react/prop-types */
 /* eslint-disable no-empty-pattern */
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useMemo } from "react";
 import { Modal, Button } from "antd";
+import { DndContext, closestCenter } from "@dnd-kit/core";
 
 import "./StadiumEditModal.css";
 import StadiumDataBar from "./StadiumDataBar";
+import { SortableContext, arrayMove, arraySwap, rectSortingStrategy, verticalListSortingStrategy } from "@dnd-kit/sortable";
 
 function StadiumEditModal({ title, isModalOpen, onOk, onCancel }) {
   const [stadiumData, setStadiumData] = useState([
     {
+      Order: "1",
       Delivery: "1",
       GameNum: "1",
       GameClassCD: "1",
@@ -24,6 +27,7 @@ function StadiumEditModal({ title, isModalOpen, onOk, onCancel }) {
       TeamName_V: "ヤクルト",
     },
     {
+      Order: "2",
       Delivery: "1",
       GameNum: "2",
       GameClassCD: "1",
@@ -38,6 +42,7 @@ function StadiumEditModal({ title, isModalOpen, onOk, onCancel }) {
       TeamName_V: "広島",
     },
     {
+      Order: "3",
       Delivery: "1",
       GameNum: "3",
       GameClassCD: "1",
@@ -52,6 +57,7 @@ function StadiumEditModal({ title, isModalOpen, onOk, onCancel }) {
       TeamName_V: "中日",
     },
     {
+      Order: "4",
       Delivery: "1",
       GameNum: "4",
       GameClassCD: "1",
@@ -66,6 +72,7 @@ function StadiumEditModal({ title, isModalOpen, onOk, onCancel }) {
       TeamName_V: "オリックス",
     },
     {
+      Order: "5",
       Delivery: "1",
       GameNum: "5",
       GameClassCD: "1",
@@ -80,6 +87,7 @@ function StadiumEditModal({ title, isModalOpen, onOk, onCancel }) {
       TeamName_V: "ソフトバンク",
     },
     {
+      Order: "6",
       Delivery: "1",
       GameNum: "6",
       GameClassCD: "1",
@@ -95,6 +103,24 @@ function StadiumEditModal({ title, isModalOpen, onOk, onCancel }) {
     },
   ]);
 
+  const dataIds = useMemo(() => stadiumData.map((data) => data.Order), [stadiumData]);
+
+  const onDragEnd = (event) => {
+    const {active, over} = event;
+
+    console.log(active, over);
+    if(active.id === over.id) {
+      return;
+    }
+
+    setStadiumData(stadiumData => {
+      const oldIdx = stadiumData.findIndex((data) => data.Order === active.id)
+      const newIdx = stadiumData.findIndex((data) => data.Order === over.id)
+      const newArr = arrayMove(stadiumData, oldIdx, newIdx)
+      return newArr
+    })
+  };
+
   return (
     <Modal
       title={title}
@@ -104,14 +130,13 @@ function StadiumEditModal({ title, isModalOpen, onOk, onCancel }) {
       onCancel={onCancel}
       closeIcon={false}
     >
-      {stadiumData?.map((data) => (
-        <StadiumDataBar key={data.GameNum} stadiumData={data}/>
-      ))}
-      {/* <StadiumDataBar />
-      <StadiumDataBar />
-      <StadiumDataBar />
-      <StadiumDataBar />
-      <StadiumDataBar /> */}
+      <DndContext collisionDetection={closestCenter} onDragEnd={onDragEnd}>
+        <SortableContext items={dataIds} strategy={verticalListSortingStrategy}>
+          {stadiumData?.map((data) => (
+            <StadiumDataBar key={data.Order} stadiumData={data} />
+          ))}
+        </SortableContext>
+      </DndContext>
     </Modal>
   );
 }

@@ -14,13 +14,13 @@ function LabeledSegmented({ value, label, options, size, theme, onChange }) {
   };
 
   return (
-    <div className="labeled-segmented">
+    <div className="labeled-segmented" style={{width: size?.width ?? "100%", height: size?.height ?? ""}}>
       <ConfigProvider theme={theme}>
         {label ? label : <label>Label</label>}
         <Segmented
           style={{display: "inline-flex", width: "80%", marginLeft: "20px", margin: "10px 0px"}}
           block
-          size={size}
+          size="large"
           value={value}
           options={options ? options : undefined}
           onChange={onValueChange}

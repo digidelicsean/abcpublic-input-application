@@ -1,15 +1,79 @@
 .player-info-tab {
     display: flex;
     flex-direction: row;
+    flex-wrap: wrap;
+
+    justify-content: flex-end;
+
+    height: 47.5vh;
+    padding-bottom: 10px;
+}
+
+.player-info-scrollable {
+    display: flex;
+
+    height: 90%;
+    
+    flex-direction: row;
+    flex-wrap: wrap;
+
+    justify-content: flex-start;
+
+    overflow-y: scroll
+}
+
+.player-info-sort-btn-panel {
+    display: inline-flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-end;
+
+    height: 10%;
+    width: 100%;
+
+    margin-bottom: 10px;
+
 }
 
 .player-info-button {
-    display: inline-flex;
-    width: 120px;
-    height: 50px;
-    z-index: 2;
+    display: inline-flex; 
+    /* justify-content: center; */
+    align-items: center;
 
-    border-radius: 0px 40px 40px 0px;
+    height: 66px;
+    width: 266px;
+
+    border-color: transparent;
+
+    background-image: url("./player-card.png");
+    background-repeat: no-repeat;
+    background-size: cover;
+    cursor: pointer;
+
+    margin: 10px;
+
+}
+
+.player-info-button:hover {
+    filter: drop-shadow(0px 0px 4px rgb(179, 179, 179))
+}
+
+.player-info-number {
+    user-select: none;
+    width: 20%;
+    text-align: center;
+    padding-right: 10%;
+    color: white;
+    font-size: 1.75em;
+    font-weight: bold;
+    /* padding-right: 50%; */
+}
+
+.player-info-name {
+    user-select: none;
+    width: 65%;
+    font-size: 1.5em;
+    font-weight: 600;
 }
 
 .player-info-arrow {
