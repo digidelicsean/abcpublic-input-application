@@ -16,6 +16,7 @@ function LabeledComboBox({
   placeholder,
   horizontal,
   onChange,
+  disabled
 }) {
   const onValueChange = (value) => {
     if (!onChange) {
@@ -73,7 +74,7 @@ function LabeledComboBox({
             className="combo-box"
             style={
               {
-                // height: size?.height ? size.height : "",
+                height: size?.height ?? "",
                 // width: size?.width ? size.width : "",
               }
             }
@@ -81,19 +82,21 @@ function LabeledComboBox({
             placeholder={placeholder}
             options={options ? options : []}
             onChange={onValueChange}
+            disabled={disabled}
           />
         ) : (
           <Select
             className="combo-box"
             style={
               {
-                // height: size?.height ? size.height : "",
+                height: size?.height ?? "",
                 // width: size?.width ? size.width : "",
               }
             }
             placeholder={placeholder}
             options={options ? options : []}
             onChange={onValueChange}
+            disabled={disabled}
           />
         )}
       </div>

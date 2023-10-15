@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-import React, { useState } from "react";
+import React, { useState, useMemo, useEffect } from "react";
 import {
   ConfigProvider,
   Card,
@@ -9,17 +9,24 @@ import {
   InputNumber,
   App,
   Modal,
+  Select
 } from "antd";
 import { CaretUpFilled, CaretDownFilled } from "@ant-design/icons";
 
 import LabeledComboBox from "../../components/LabeledComboBox";
 import StadiumDataCard from "./StadiumDataCard";
 import StadiumEditModal from "./StadiumEditModal";
+import OtherStadiumData from "./OtherStadiumData";
 
+import { Link } from "react-router-dom";
 import "./MatchSettings.css";
 import "./StadiumSettings.css";
 
 import { defaultURI } from "../../services/fetch/fetch-lib";
+import { fetchGameClassMasterData, fetchSeasonScheduleData, postGameInfoData } from "./Data/matchSettingsData";
+import LabeledText from "../../components/LabeledText";
+
+const { Option } = Select
 
 const theme = {
   components: {
@@ -35,11 +42,54 @@ const theme = {
 function MatchSettings() {
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
 
+  const [gameClassMST, setGameClassMST] = useState([])
+  const [seasonSchedule, setSeasonSchedule] = useState({})
+
+
   const [day, setDay] = useState("1");
   const [month, setMonth] = useState("10");
   const [year, setYear] = useState("2023");
 
-  const [isDSData, setIsDSData] = useState();
+  const [deliveryType, setDeliveryType] = useState(1);
+  const [gameClassCD, setGameClassCD] = useState(1)
+
+  const [selectedGameID, setSelectedGameID] = useState("");
+
+  const date = useMemo(() => {
+    return year + String(month).padStart(2, "0") + String(day).padStart(2, "0");
+  }, [year, month, day])
+
+  const otherGameInfo = useMemo(() => {
+
+    if (selectedGameID == "") return [];
+
+    return seasonSchedule?.gameInfo?.filter(x => x.ID != selectedGameID);
+  }, [seasonSchedule, selectedGameID])
+
+  const selectedGameInfo = useMemo(() => {
+    if (selectedGameID == "") return [];
+    return seasonSchedule.gameInfo.find(x => x.ID == selectedGameID)
+  }, [selectedGameID, seasonSchedule])
+
+  const gameIdOptions = useMemo(() => {
+    if (Object.values(seasonSchedule).length == 0) return
+    if (seasonSchedule.gameInfo.length == 0) return
+
+    const options = seasonSchedule.gameInfo.map(info => ({ value: info.ID, label: info.ID }))
+    return options;
+  }, [seasonSchedule])
+
+  const gameClass = useMemo(() => {
+    if (gameClassMST.length == 0) return undefined;
+
+    return gameClassMST.find(gameClass => gameClass.GameClassCD == gameClassCD)
+  }, [gameClassMST, gameClassCD])
+
+  useEffect(() => {
+    fetchGameClassMasterData().then((data) => {
+      setGameClassMST(Object.values(data));
+    })
+  }, [])
 
   const createDummyData = async () => {
     const dummyData = {
@@ -79,10 +129,56 @@ function MatchSettings() {
       console.log("Failed to add dummy data");
     }
   };
+  // console.log(gameClass)
+  const createGameInfoData = async () => {
+    if (selectedGameInfo.length == 0) return;
+
+    const dataStructure = {
+      Type: "GameInfo",
+      GameInfo: {
+        Delivery: deliveryType,
+        GameNum: 1,
+        GameClassCD: gameClassCD,
+        GameClass: gameClass.GameClass,
+        Date: date,
+        GameID: selectedGameID,
+        StadiumCD: selectedGameInfo.StadiumID,
+        Stadium: selectedGameInfo.StadiumName,
+        TeamCD_H: selectedGameInfo.HomeTeamID,
+        TeamName_H: selectedGameInfo.HomeTeamName,
+        TeamCD_V: selectedGameInfo.VisitorTeamID,
+        TeamName_V: selectedGameInfo.VisitorTeamName,
+      },
+    };
+
+    postGameInfoData(dataStructure)
+  }
+
+  const onMatchSettingOpen = () => {
+    setSelectedGameID("")
+    fetchSeasonScheduleData(gameClassCD).then((seasonSched) => {
+      const scheduleArray = Object.values(seasonSched).filter((elem) => {
+        if (elem.No != month) return false;
+        if (elem.Year != year) return false;
+        return true;
+      })
+
+      const gameInfoKeys = scheduleArray ? Object.keys(scheduleArray[0]).filter(x => x.includes("GameInfo_")) : []
+
+      let gameInfoArray = gameInfoKeys.map((key) => scheduleArray[0][key]).filter(info => info.GameDate == date);
+
+      setSeasonSchedule({ date, gameInfo: gameInfoArray })
+      console.log({ date, gameInfo: gameInfoArray })
+    })
+  }
 
   return (
     <div className="match-settings-page">
       <ConfigProvider locale={"ja-JP"} theme={theme}>
+        <Link to="/">
+          <Button>← 戻る</Button>
+        </Link>
+
         {/* ================================================================== */}
         {/*                              Upper Layout                          */}
 
@@ -97,7 +193,8 @@ function MatchSettings() {
                 {/* ================================================================== */}
                 {/*                     First Column of Radio Buttons                  */}
                 <div className="ds-radio-btn-panel">
-                  <Radio.Group class="radio-btn-group">
+
+                  <Radio.Group class="radio-btn-group" value={deliveryType} onChange={(e) => { setDeliveryType(e.target.value) }}>
                     <Space direction="vertical">
                       <Radio className="radio-btn" value={1}>
                         DS配信あり
@@ -115,7 +212,7 @@ function MatchSettings() {
                   <span>試合種別</span>
                   <div className="game-assortment-radio-btn-panel">
                     <div className="game-assortment-radio-btn">
-                      <Radio.Group class="radio-btn-group">
+                      <Radio.Group class="radio-btn-group" value={gameClassCD} onChange={(e) => { setGameClassCD(e.target.value) }}>
                         <Space direction="vertical">
                           <Radio className="radio-btn" value={1}>
                             セ・リーグ
@@ -123,21 +220,21 @@ function MatchSettings() {
                           <Radio className="radio-btn" value={2}>
                             パ・リーグ
                           </Radio>
-                          <Radio className="radio-btn" value={3}>
+                          <Radio className="radio-btn" value={26}>
                             交流戦
                           </Radio>
-                          <Radio className="radio-btn" value={4}>
+                          <Radio className="radio-btn" value={5}>
                             オーペン戦
                           </Radio>
                         </Space>
                         <Space direction="vertical">
-                          <Radio className="radio-btn" value={5}>
+                          <Radio className="radio-btn" value={35}>
                             CS 1ST
                           </Radio>
-                          <Radio className="radio-btn" value={6}>
+                          <Radio className="radio-btn" value={36}>
                             CS ファイナル
                           </Radio>
-                          <Radio className="radio-btn" value={7}>
+                          <Radio className="radio-btn" value={3}>
                             日本シリーズ
                           </Radio>
                         </Space>
@@ -266,19 +363,33 @@ function MatchSettings() {
                       </div>
                       日
                     </div>
-                    <Button className="match-data-open-btn"> OPEN </Button>
+                    <Button className="match-data-open-btn" onClick={onMatchSettingOpen}> OPEN </Button>
                   </ConfigProvider>
                 </div>
 
                 {/* ================================================================== */}
                 {/*                           Match Data Column                        */}
                 <div className="match-data-panel">
-                  <LabeledComboBox
-                    label="GameID"
-                    horizontal
-                    margin={{ top: "-5px" }}
-                    size={{ width: "100%", height: "25px" }}
-                  />
+                  {
+                    deliveryType == 1 ?
+                      <LabeledComboBox
+                        label="GameID"
+                        horizontal
+                        margin={{ top: "-5px" }}
+                        size={{ width: "100%", height: "25px" }}
+                        options={gameIdOptions}
+                        value={selectedGameID}
+                        onChange={(value) => setSelectedGameID(value)}
+                      /> :
+                      <LabeledText
+                        label={<span style={{marginRight: "10px"}}>GameID</span>}
+                        horizontal
+                        margin="-5px 8px 8px 8px"
+                        size={{ width: "100%", height: "25px" }}
+                        value={selectedGameID}
+                        onChange={(value) => setSelectedGameID(value)}
+                      />
+                  }
                   <Card
                     className="match-data-info-card"
                     bordered={false}
@@ -289,16 +400,9 @@ function MatchSettings() {
                     }}
                   >
                     <div className="match-data-info">
-                      <LabeledComboBox
-                        label="先攻チーム"
-                        size={{ width: "98%" }}
-                      />
-                      {/* <span>対</span> */}
-                      <LabeledComboBox
-                        label="後攻チーム"
-                        size={{ width: "98%" }}
-                      />
-                      <LabeledComboBox label="地球名" size={{ width: "98%" }} />
+                      <LabeledText label="先攻チーム" value={selectedGameInfo?.VisitorTeamName ?? ""} size={{ width: "90%" }} textAlign="left" disabled={deliveryType == 1} />
+                      <LabeledText label="後攻チーム" value={selectedGameInfo?.HomeTeamName ?? ""} size={{ width: "90%" }} textAlign="left" disabled={deliveryType == 1} />
+                      <LabeledText label="地球名" value={selectedGameInfo?.StadiumName ?? ""} size={{ width: "90%" }} textAlign="left" disabled={deliveryType == 1} />
                     </div>
                   </Card>
                 </div>
@@ -324,6 +428,7 @@ function MatchSettings() {
             <Button
               style={{ backgroundColor: "#647dae", color: "white" }}
               className="match-settings-btn"
+              onClick={createGameInfoData}
             >
               試合設定
             </Button>
@@ -344,11 +449,7 @@ function MatchSettings() {
             <div className="stadium-data-panel">
               <div className="stadium-data-panel-header">地球場設定</div>
               <div className="stadium-data-content">
-                <StadiumDataCard index="➀" />
-                <StadiumDataCard index="➁" />
-                <StadiumDataCard index="➂" />
-                <StadiumDataCard index="➃" />
-                <StadiumDataCard index="➄" />
+                <OtherStadiumData otherData={otherGameInfo} deliveryType={deliveryType} />
               </div>
             </div>
           </Card>

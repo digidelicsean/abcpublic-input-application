@@ -7,12 +7,17 @@ const { Option } = Select;
 
 export const fetchPlayerMasterData = async (teamCD) => {
   try {
+    const uri = await defaultURI()
     const response = await fetch(
-      `${defaultURI}/data-stadium/DS_PlayerInfoMST_${teamCD}`
+      `${uri}/data-stadium/Master`
     );
     let data = await response.json();
+    const playerInfoData = Object.values(data).find((x) => x.Type == "PlayerInfoMST")[`PlayerInfoMST_${teamCD}`][`Player-InfoMST`];
 
-    data = Object.values(data).sort((a, b) => a.UniformNO - b.UniformNO);
+    console.log(playerInfoData)
+    data = Object.values(playerInfoData).sort((a, b) => a.UniformNO - b.UniformNO);
+    data = Object.values(data);
+    console.log(data)
 
     return data;
   } catch (err) {

@@ -10,6 +10,8 @@ lerna-debug.log*
 node_modules
 public/hanshin_players
 public/阪神 選手
+dist/阪神 選手
+dist
 # dist
 dist-ssr
 *.local

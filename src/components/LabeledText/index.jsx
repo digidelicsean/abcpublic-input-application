@@ -12,10 +12,14 @@ function LabeledText({
   value,
   placeholder,
   size,
+  alignItems,
   textAlign,
   horizontal,
   textArea,
   onChange,
+  margin,
+  marginBottom,
+  disabled
 }) {
   const theme = {
     components: {
@@ -37,9 +41,10 @@ function LabeledText({
       style={{
         height: size?.height ?? "",
         width: size?.width ?? "",
-        alignItems: textAlign ?? "center",
+        alignItems: alignItems ?? "center",
         flexDirection: horizontal ? "row" : "column",
-        marginBottom: horizontal ? "20px" : "0px",
+        marginBottom: horizontal ? marginBottom ?? "20px" : marginBottom ?? "0px",
+        margin: margin ?? "",
       }}
     >
       <ConfigProvider theme={theme}>
@@ -48,7 +53,7 @@ function LabeledText({
         ) : (
           <div
             className="text-label"
-            style={{ marginRight: horizontal ? "10px" : "0px", width: "30%" }}
+            style={{ marginRight: horizontal ? "10px" : "0px", width: "100%" }}
           >
             {label ? label : "Label"}
           </div>
@@ -62,14 +67,16 @@ function LabeledText({
             value={value}
             rows={5}
             onChange={onValueChange}
+            disabled={disabled}
           />
         ) : (
           <Input
-            style={{ textAlign: horizontal ? "left" : "center" }}
+            style={{ textAlign: textAlign ?? horizontal ? "left" : "center" }}
             className="text-input"
             placeholder={placeholder}
             value={value}
             onChange={onValueChange}
+            disabled={disabled}
           />
         )}
       </ConfigProvider>

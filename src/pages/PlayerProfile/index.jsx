@@ -13,12 +13,12 @@ import {
 import { Row, Col, Tabs } from "antd";
 import { CaretDownOutlined } from "@ant-design/icons";
 
-import BattingAverageTab from "./Tabs/BattingAverageByCourse";
-import BattingRecordTab from "./Tabs/BattingRecord";
-import PitchingRecordTab from "./Tabs/PitchingRecord";
-import ProfileTab from "./Tabs/Profile";
-import RunnerCatcherRecordTab from "./Tabs/RunnerCatcherRecord";
-import SpareTab from "./Tabs/Spare";
+// import BattingAverageTab from "./Tabs/BattingAverageByCourse";
+// import BattingRecordTab from "./Tabs/BattingRecord";
+// import PitchingRecordTab from "./Tabs/PitchingRecord";
+// import ProfileTab from "./Tabs/Profile";
+// import RunnerCatcherRecordTab from "./Tabs/RunnerCatcherRecord";
+// import SpareTab from "./Tabs/Spare";
 
 import "./playerProfile.css";
 import "./header.css";
@@ -81,45 +81,45 @@ function PlayerProfile() {
     {}
   );
 
-  const playerProfileTabs = [
-    {
-      key: "1",
-      label: "プロフィール",
-      children: (
-        <ProfileTab
-          playerData={playerData}
-          ABCPublicData={playerABCPublicData}
-          onPlayerDataUpdate={(newData) => setPlayerData(newData)}
-          onABCPublicDataUpdate={(newData) => setPlayerABCPublicData(newData)}
-        />
-      ),
-    },
-    {
-      key: "2",
-      label: "打者成績",
-      children: <BattingRecordTab />,
-    },
-    {
-      key: "3",
-      label: "投手成績",
-      children: <PitchingRecordTab />,
-    },
-    {
-      key: "4",
-      label: "走者/捕手成績",
-      children: <RunnerCatcherRecordTab />,
-    },
-    {
-      key: "5",
-      label: "コース別打率",
-      children: <BattingAverageTab />,
-    },
-    {
-      key: "6",
-      label: "予備タブ",
-      children: <SpareTab />,
-    },
-  ];
+  // const playerProfileTabs = [
+  //   {
+  //     key: "1",
+  //     label: "プロフィール",
+  //     children: (
+  //       <ProfileTab
+  //         playerData={playerData}
+  //         ABCPublicData={playerABCPublicData}
+  //         onPlayerDataUpdate={(newData) => setPlayerData(newData)}
+  //         onABCPublicDataUpdate={(newData) => setPlayerABCPublicData(newData)}
+  //       />
+  //     ),
+  //   },
+  //   {
+  //     key: "2",
+  //     label: "打者成績",
+  //     children: <BattingRecordTab />,
+  //   },
+  //   {
+  //     key: "3",
+  //     label: "投手成績",
+  //     children: <PitchingRecordTab />,
+  //   },
+  //   {
+  //     key: "4",
+  //     label: "走者/捕手成績",
+  //     children: <RunnerCatcherRecordTab />,
+  //   },
+  //   {
+  //     key: "5",
+  //     label: "コース別打率",
+  //     children: <BattingAverageTab />,
+  //   },
+  //   {
+  //     key: "6",
+  //     label: "予備タブ",
+  //     children: <SpareTab />,
+  //   },
+  // ];
 
   function updatePlayerData(newData) {
     setPlayerData(newData);
@@ -462,7 +462,7 @@ function PlayerProfile() {
           // centered
           defaultActiveKey="1"
           tabBarGutter={100}
-          items={playerProfileTabs}
+          // items={playerProfileTabs}
         />
       </div>
 

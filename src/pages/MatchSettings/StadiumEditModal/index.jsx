@@ -7,9 +7,9 @@ import { DndContext, closestCenter } from "@dnd-kit/core";
 
 import "./StadiumEditModal.css";
 import StadiumDataBar from "./StadiumDataBar";
-import { SortableContext, arrayMove, arraySwap, rectSortingStrategy, verticalListSortingStrategy } from "@dnd-kit/sortable";
+import { SortableContext, arrayMove, verticalListSortingStrategy } from "@dnd-kit/sortable";
 
-function StadiumEditModal({ title, isModalOpen, onOk, onCancel }) {
+function StadiumEditModal({ title,  mainStadiumInfo, otherStadiumInfo, isModalOpen, onOk, onCancel }) {
   const [stadiumData, setStadiumData] = useState([
     {
       Order: "1",

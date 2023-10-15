@@ -7,19 +7,28 @@ import { Link } from "react-router-dom";
 import LabeledText from "../../components/LabeledText/";
 import LabeledComboBox from "../../components/LabeledComboBox";
 
-import TeamInfo from "./Tabs/TeamInfo";
-import PlayerInfo from "./Tabs/PlayerInfo";
+import TeamInfo from "./TeamInfoTabs/TeamInfo";
+import PlayerInfo from "./TeamInfoTabs/PlayerInfo";
 
 import {
   fetchCoachData,
   fetchTeamMasterData,
   generateTeamOptions,
-} from "./Tabs/TeamInfo/Data/teamInfoData";
+} from "./TeamInfoTabs/TeamInfo/Data/teamInfoData";
 
 import {
   fetchPlayerMasterData,
   generatePlayerOptions,
-} from "./Tabs/PlayerInfo/Data/playerInfoData";
+} from "./TeamInfoTabs/PlayerInfo/Data/playerInfoData";
+
+import BattingAverageTab from "./PlayerStatsInfoTabs/BattingAverageByCourse";
+import BattingRecordTab from "./PlayerStatsInfoTabs/BattingRecord";
+import PitchingRecordTab from "./PlayerStatsInfoTabs/PitchingRecord";
+import ProfileTab from "./PlayerStatsInfoTabs/Profile";
+import PitcherBallTab from "./PlayerStatsInfoTabs/PitcherBall"
+import RunnerCatcherRecordTab from "./PlayerStatsInfoTabs/RunnerCatcherRecord";
+import SpareTab from "./PlayerStatsInfoTabs/Spare";
+
 import { defaultTheme } from "./theme";
 import "./TeamSelect.css";
 
@@ -33,8 +42,11 @@ function TeamSelect() {
   const [selectedPlayer, setSelectedPlayer] = useState([]);
   const [selectedPlayerCD, setSelectedPlayerCD] = useState("");
 
+  const [playerStatsInfo, setPlayerStatsInfo] = useState("")
+
   const [teamOptions, setTeamOptions] = useState([]);
-  // const [playerOptions, setPlayerOptions] = useState([]);
+
+  const [showPlayerStats, setShowPlayerStats] = useState(false);
 
   const playerOptions = useMemo(() => {
     return generatePlayerOptions(playerMasterData);
@@ -52,8 +64,12 @@ function TeamSelect() {
   const onOpenButton = () => {
     // If the selected team in the combo box is not the same as the opened team
     // update the opened team data
-    if (selectedTeamCD != selectedTeam.TeamCD || selectedTeam.length == 0 || selectedPlayerCD.length == 0 ) {
-      setSelectedPlayerCD("")
+    if (
+      selectedTeamCD != selectedTeam.TeamCD ||
+      selectedTeam.length == 0 ||
+      selectedPlayerCD.length == 0
+    ) {
+      setSelectedPlayerCD("");
       const team = teamMasterData.find((x) => x.TeamCD == selectedTeamCD);
       setSelectedTeam(team);
 
@@ -69,27 +85,17 @@ function TeamSelect() {
         });
       };
       getCoachAndPlayerData();
+      setShowPlayerStats(false);
     } else {
-      if(playerMasterData == null || playerMasterData.length == 0) return;
-      const player = playerMasterData.find((x) => x.PlayerCD == selectedPlayerCD)
-      setSelectedPlayer(player)
-      console.log("Should open selected player data with ", player)
+      if (playerMasterData == null || playerMasterData.length == 0) return;
+      const player = playerMasterData.find(
+        (x) => x.PlayerCD == selectedPlayerCD
+      );
+      setSelectedPlayer(player);
+      setShowPlayerStats(true);
+      console.log("Should open selected player data with ", player);
     }
   };
-  // useEffect(() => {
-  //   const getCoachAndPlayerData = async () => {
-  //     if (Object.keys(selectedTeam).length <= 1) return;
-
-  //     await fetchCoachData(selectedTeam.TeamCD).then((value) =>
-  //       setTeamCoach(value)
-  //     );
-  //     await fetchPlayerMasterData(selectedTeam.TeamCD).then((value) => {
-  //     console.log(value)
-  //       setPlayerMasterData(value)
-  //     });
-  //   };
-  //   getCoachAndPlayerData();
-  // }, [selectedTeam]);
 
   const contentTabs = [
     {
@@ -123,9 +129,50 @@ function TeamSelect() {
     },
   ];
 
-  const playerInfoContentTabs = {
-    
-  }
+  const playerInfoContentTabs = [
+    {
+      key: "1",
+      label: "プロフィール",
+      children: (
+        <ProfileTab
+          playerData={selectedPlayer}
+        // ABCPublicData={playerABCPublicData}
+        // onPlayerDataUpdate={(newData) => setPlayerData(newData)}
+        // onABCPublicDataUpdate={(newData) => setPlayerABCPublicData(newData)}
+        />
+      ),
+    },
+    {
+      key: "2",
+      label: "打者成績",
+      children: <BattingRecordTab />,
+    },
+    {
+      key: "3",
+      label: "投手成績",
+      children: <PitchingRecordTab />,
+    },
+    {
+      key: "4",
+      label: "投手持ち球",
+      children: <PitcherBallTab />,
+    },
+    {
+      key: "5",
+      label: "走者/捕手成績",
+      children: <RunnerCatcherRecordTab />,
+    },
+    {
+      key: "6",
+      label: "コース別打率",
+      children: <BattingAverageTab />,
+    },
+    {
+      key: "7",
+      label: "予備タブ",
+      children: <SpareTab />,
+    },
+  ];
 
   return (
     <ConfigProvider theme={defaultTheme}>
@@ -203,14 +250,26 @@ function TeamSelect() {
           </Card>
         </div>
         <div className="content-area">
-          <Card>
-            <Tabs
-              defaultActiveKey="1"
-              type="card"
-              size="large"
-              items={contentTabs}
-            />
-          </Card>
+          {showPlayerStats ? (
+            <Card>
+              <Button onClick={() => setShowPlayerStats(false)}>← 戻る</Button>
+              <Tabs
+                defaultActiveKey="1"
+                type="card"
+                size="large"
+                items={playerInfoContentTabs}
+              />
+            </Card>
+          ) : (
+            <Card>
+              <Tabs
+                defaultActiveKey="1"
+                type="card"
+                size="large"
+                items={contentTabs}
+              />
+            </Card>
+          )}
         </div>
 
         <div className="button-panel-area">
