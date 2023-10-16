@@ -1,15 +1,26 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable no-unused-vars */
-import React, { useState } from "react";
+import React, { useState, useMemo } from "react";
 import { Button, Card } from "antd";
 
 import LabeledComboBox from "../../../components/LabeledComboBox";
 import LabeledText from "../../../components/LabeledText"
 import "./StadiumDataCard.css";
 
+
+
 function StadiumDataCard({ index, gameInfo, onDataClear, disabled }) {
 
-  console.log(disabled) 
+  const indexLabel = useMemo(() => {
+    switch (index) {
+        case 1: return "➀";
+        case 2: return "➁";
+        case 3: return "➂";
+        case 4: return "➃";
+        case 5: return "➄";
+    }
+  }, [index])
+
 
   const onClearButtonClick = () => {
     if (onDataClear)
@@ -29,7 +40,7 @@ function StadiumDataCard({ index, gameInfo, onDataClear, disabled }) {
   return (
     <div className="stadium-data-card">
       <div className="stadium-data-card-header">
-        <div className="index-label">{index ? index : "①"}</div>
+        <div className="index-label">{index ? indexLabel : "①"}</div>
         <Button className="stadium-data-card-btn-clear" onClick={onClearButtonClick}>クリア</Button>
       </div>
 

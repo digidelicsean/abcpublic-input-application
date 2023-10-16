@@ -9,111 +9,53 @@ import "./StadiumEditModal.css";
 import StadiumDataBar from "./StadiumDataBar";
 import { SortableContext, arrayMove, verticalListSortingStrategy } from "@dnd-kit/sortable";
 
-function StadiumEditModal({ title,  mainStadiumInfo, otherStadiumInfo, isModalOpen, onOk, onCancel }) {
-  const [stadiumData, setStadiumData] = useState([
-    {
-      Order: "1",
-      Delivery: "1",
-      GameNum: "1",
-      GameClassCD: "1",
-      GameClass: "セリーグ公式戦",
-      Date: "20230920",
-      GameID: "2021013474",
-      StadiumCD: "8",
-      Stadium: "阪神甲子園球場",
-      TeamCD_H: "5",
-      TeamName_H: "阪神",
-      TeamCD_V: "1",
-      TeamName_V: "ヤクルト",
-    },
-    {
-      Order: "2",
-      Delivery: "1",
-      GameNum: "2",
-      GameClassCD: "1",
-      GameClass: "セリーグ公式戦",
-      Date: "20230920",
-      GameID: "2021013475",
-      StadiumCD: "8",
-      Stadium: "マツダスタジアム",
-      TeamCD_H: "5",
-      TeamName_H: "巨人",
-      TeamCD_V: "1",
-      TeamName_V: "広島",
-    },
-    {
-      Order: "3",
-      Delivery: "1",
-      GameNum: "3",
-      GameClassCD: "1",
-      GameClass: "セリーグ公式戦",
-      Date: "20230920",
-      GameID: "2021013476",
-      StadiumCD: "8",
-      Stadium: "バンテリンドーム",
-      TeamCD_H: "5",
-      TeamName_H: "横浜DeNA",
-      TeamCD_V: "1",
-      TeamName_V: "中日",
-    },
-    {
-      Order: "4",
-      Delivery: "1",
-      GameNum: "4",
-      GameClassCD: "1",
-      GameClass: "セリーグ公式戦",
-      Date: "20230920",
-      GameID: "2021013477",
-      StadiumCD: "8",
-      Stadium: "京セラドーム",
-      TeamCD_H: "5",
-      TeamName_H: "日本ハム",
-      TeamCD_V: "1",
-      TeamName_V: "オリックス",
-    },
-    {
-      Order: "5",
-      Delivery: "1",
-      GameNum: "5",
-      GameClassCD: "1",
-      GameClass: "セリーグ公式戦",
-      Date: "20230920",
-      GameID: "2021013478",
-      StadiumCD: "8",
-      Stadium: "PayPayドーム",
-      TeamCD_H: "5",
-      TeamName_H: "楽天",
-      TeamCD_V: "1",
-      TeamName_V: "ソフトバンク",
-    },
-    {
-      Order: "6",
-      Delivery: "1",
-      GameNum: "6",
-      GameClassCD: "1",
-      GameClass: "セリーグ公式戦",
-      Date: "20230920",
-      GameID: "2021013479",
-      StadiumCD: "8",
-      Stadium: "ベルーナドーム",
-      TeamCD_H: "5",
-      TeamName_H: "ロッテ",
-      TeamCD_V: "1",
-      TeamName_V: "西武",
-    },
-  ]);
+function StadiumEditModal({ title, mainStadiumInfo, otherStadiumInfo, isModalOpen, onOk }) {
 
-  const dataIds = useMemo(() => stadiumData.map((data) => data.Order), [stadiumData]);
+  const [sortedStadiumInfo, setSortedStadiumInfo] = useState([])
+
+  const dataIds = useMemo(() => sortedStadiumInfo.map((data) => data.Order), [sortedStadiumInfo]);
+  // console.log(otherStadiumInfo, sortedStadiumInfo)
+  // console.log(dataIds)
+  const mainDataBar = useMemo(() => {
+    return <StadiumDataBar stadiumData={mainStadiumInfo} />
+  }, [mainStadiumInfo])
+
+  const otherDataBars = useMemo(() => {
+    const stadiumDataBars = sortedStadiumInfo?.map((data, index) =>
+      <StadiumDataBar
+        key={data.Order}
+        stadiumData={data}
+      />
+    )
+    const missingDataBars = 5 - stadiumDataBars.length
+    const idx = stadiumDataBars.length + 1
+    for (let i = 0; i < missingDataBars; i++) {
+      stadiumDataBars.push(
+        <StadiumDataBar
+          key={idx + i}
+        />
+      )
+    }
+    return stadiumDataBars
+  }, [sortedStadiumInfo])
+
+  useEffect(() => {
+    const stadiumInfos = [...otherStadiumInfo]
+    for (let i = 0; i < stadiumInfos.length; i++) {
+      stadiumInfos[i].Order = i + 1;
+    }
+    setSortedStadiumInfo(stadiumInfos)
+  }, [otherStadiumInfo])
 
   const onDragEnd = (event) => {
-    const {active, over} = event;
+    const { active, over } = event;
 
     console.log(active, over);
-    if(active.id === over.id) {
+    if (active.id === over.id) {
       return;
     }
 
-    setStadiumData(stadiumData => {
+    setSortedStadiumInfo(stadiumData => {
       const oldIdx = stadiumData.findIndex((data) => data.Order === active.id)
       const newIdx = stadiumData.findIndex((data) => data.Order === over.id)
       const newArr = arrayMove(stadiumData, oldIdx, newIdx)
@@ -121,20 +63,28 @@ function StadiumEditModal({ title,  mainStadiumInfo, otherStadiumInfo, isModalOp
     })
   };
 
+  const onOkClick = () => {
+    if (!onOk) return;
+    onOk(sortedStadiumInfo);
+  }
+
   return (
     <Modal
       title={title}
       className="stadium-edit-modal"
       open={isModalOpen}
-      onOk={onOk}
-      onCancel={onCancel}
+      onOk={onOkClick}
+      cancelButtonProps={{ style: { display: 'none' } }}
+      okButtonProps={{ style: { width: "100px" } }}
       closeIcon={false}
+      maskClosable={false}
+      keyboard={false}
+      okText="確定"
     >
+      {mainDataBar}
       <DndContext collisionDetection={closestCenter} onDragEnd={onDragEnd}>
         <SortableContext items={dataIds} strategy={verticalListSortingStrategy}>
-          {stadiumData?.map((data) => (
-            <StadiumDataBar key={data.Order} stadiumData={data} />
-          ))}
+          {otherDataBars}
         </SortableContext>
       </DndContext>
     </Modal>

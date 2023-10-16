@@ -91,45 +91,7 @@ function MatchSettings() {
     })
   }, [])
 
-  const createDummyData = async () => {
-    const dummyData = {
-      Type: "GameInfo",
-      GameInfo: {
-        Delivery: "1",
-        GameNum: "1",
-        GameClassCD: "1",
-        GameClass: "セリーグ公式戦",
-        Date: "20230920",
-        GameID: "2021013474",
-        StadiumCD: "8",
-        Stadium: "千葉マリンスタジアム",
-        TeamCD_H: "5",
-        TeamName_H: "阪神",
-        TeamCD_V: "1",
-        TeamName_V: "巨人",
-      },
-    };
-
-    const fetchOptions = {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(dummyData),
-    };
-
-    const response = await fetch(
-      `${defaultURI}/data-stadium/Game_1`,
-      fetchOptions
-    );
-    const data = await response.json();
-    if (data?.acknowledged) {
-      console.log("Successfully added dummy data");
-    } else {
-      console.log("Failed to add dummy data");
-    }
-  };
-  // console.log(gameClass)
+console.log(otherGameInfo)
   const createGameInfoData = async () => {
     if (selectedGameInfo.length == 0) return;
 
@@ -154,6 +116,51 @@ function MatchSettings() {
     postGameInfoData(dataStructure)
   }
 
+  const createOtherStadiumInfoData = async (otherStadiumInfo) => {
+    if(otherStadiumInfo?.length == 0) return;
+
+    const dataStructure = {
+      Type: "OtherGameInfo",
+      OtherGameInfo: {
+        CommentType: "1",
+        Comment_ABC: "コメント文章",
+      }
+    }
+
+    for(let i = 0; i < 5; i++) {
+      const key = `OtherGameInfo_${i+1}`
+
+      if(i >= otherGameInfo.length) {
+        dataStructure["OtherGameInfo"][key] = {
+          No: "",
+          GameID: "",
+          TeamCD_V: "",
+          TeamName_V: "",
+          TeamCD_H: "",
+          TeamName_H: "",
+          StadiumCD: "",
+          Stadium: "",
+        }
+        continue;
+      }
+      const gameInfo = otherGameInfo[i]
+      console.log(gameInfo)
+      dataStructure["OtherGameInfo"][key] = {
+        No: gameInfo.Order,
+        GameID: gameInfo.ID,
+        TeamCD_V: gameInfo.VisitorTeamID,
+        TeamName_V: gameInfo.VisitorTeamName,
+        TeamCD_H: gameInfo.HomeTeamID,
+        TeamName_H: gameInfo.HomeTeamName ,
+        StadiumCD: gameInfo.StadiumName,
+        Stadium: gameInfo.StadiumID,
+      }
+    }
+    console.log(dataStructure)
+    
+    postGameInfoData(dataStructure)
+  }
+
   const onMatchSettingOpen = () => {
     setSelectedGameID("")
     fetchSeasonScheduleData(gameClassCD).then((seasonSched) => {
@@ -170,6 +177,16 @@ function MatchSettings() {
       setSeasonSchedule({ date, gameInfo: gameInfoArray })
       console.log({ date, gameInfo: gameInfoArray })
     })
+  }
+
+  const onOtherStadiumDataConfirmed = (updatedStadiumInfo) => {
+    setIsEditModalOpen(false)
+
+    const mainGameInfo = seasonSchedule.gameInfo.filter(x => x.ID == selectedGameID)
+    const newGameInfo = [...mainGameInfo, ...updatedStadiumInfo]
+
+    setSeasonSchedule({ date, gameInfo: newGameInfo })
+    // createOtherStadiumInfoData(updatedStadiumInfo)
   }
 
   return (
@@ -382,7 +399,7 @@ function MatchSettings() {
                         onChange={(value) => setSelectedGameID(value)}
                       /> :
                       <LabeledText
-                        label={<span style={{marginRight: "10px"}}>GameID</span>}
+                        label={<span style={{ marginRight: "10px" }}>GameID</span>}
                         horizontal
                         margin="-5px 8px 8px 8px"
                         size={{ width: "100%", height: "25px" }}
@@ -413,9 +430,6 @@ function MatchSettings() {
           {/* ================================================================== */}
           {/*                      Match Settings Button Panel                   */}
           <div className="match-settings-btn-panel">
-            <Button className="match-settings-btn" onClick={createDummyData}>
-              ダミーデータを作成
-            </Button>
             <Button className="match-settings-btn">
               バックアップ／リストア
             </Button>
@@ -449,7 +463,15 @@ function MatchSettings() {
             <div className="stadium-data-panel">
               <div className="stadium-data-panel-header">地球場設定</div>
               <div className="stadium-data-content">
-                <OtherStadiumData otherData={otherGameInfo} deliveryType={deliveryType} />
+                <OtherStadiumData
+                  otherData={otherGameInfo}
+                  deliveryType={deliveryType}
+                  onDataUpdate={(updatedData) => {
+                    const mainGameInfo = seasonSchedule.gameInfo.filter(x => x.ID == selectedGameID)
+                    const newGameInfo = [...mainGameInfo, ...updatedData]
+
+                    setSeasonSchedule({ date, gameInfo: newGameInfo })
+                  }} />
               </div>
             </div>
           </Card>
@@ -458,6 +480,12 @@ function MatchSettings() {
             <Button
               className="stadium-settings-btn"
               style={{ backgroundColor: "#939393" }}
+              onClick={() => {
+                const mainGameInfo = seasonSchedule.gameInfo.filter(x => x.ID == selectedGameID)
+                const newGameInfo = [...mainGameInfo]
+
+                setSeasonSchedule({ date, gameInfo: newGameInfo })
+              }}
             >
               全クリア
             </Button>
@@ -467,6 +495,13 @@ function MatchSettings() {
               onClick={() => setIsEditModalOpen(true)}
             >
               地球場設定
+            </Button>
+            <Button
+              className="stadium-settings-btn"
+              style={{ backgroundColor: "#647dae", fontSize: "1.24em" }}
+              onClick={() => createOtherStadiumInfoData(otherGameInfo)}
+            >
+              地球場情報更新
             </Button>
             <StadiumEditModal
               title={
@@ -485,9 +520,10 @@ function MatchSettings() {
                   {year}.{month}.{day}
                 </div>
               }
+              mainStadiumInfo={selectedGameInfo}
+              otherStadiumInfo={otherGameInfo}
               isModalOpen={isEditModalOpen}
-              onOk={() => setIsEditModalOpen(false)}
-              onCancel={() => setIsEditModalOpen(false)}
+              onOk={onOtherStadiumDataConfirmed}
             />
           </div>
         </div>

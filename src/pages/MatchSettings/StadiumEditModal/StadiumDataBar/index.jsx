@@ -17,13 +17,13 @@ function StadiumDataBar({ stadiumData }) {
     transition,
     isDragging,
   } = useSortable({
-    id: stadiumData.Order,
+    id: stadiumData?.Order,
     transition: {
       duration: 150, // milliseconds
       easing: "cubic-bezier(0.25, 1, 0.5, 1)",
     },
   });
-
+  // console.log(stadiumData)
   const dragContent = {};
 
   const style = {
@@ -32,6 +32,7 @@ function StadiumDataBar({ stadiumData }) {
   };
 
   return (
+    
     <div
       ref={setNodeRef}
       style={style}
@@ -41,15 +42,15 @@ function StadiumDataBar({ stadiumData }) {
     >
       <div className="stadium-data-vs-name">
         <div className="home-team-name">
-          {stadiumData?.TeamName_H ?? "ホームチーム"}
+          {stadiumData?.HomeTeamName ?? " - "}
         </div>
         <div className="vs-text">VS</div>
         <div className="visitor-team-name">
-          {stadiumData?.TeamName_V ?? "ビジターチーム"}
+          {stadiumData?.VisitorTeamName ?? " - "}
         </div>
       </div>
       <div className="stadium-name">
-        {stadiumData?.Stadium ?? "スタジアム名"}
+        {stadiumData?.StadiumName ?? "---"}
       </div>
     </div>
   );

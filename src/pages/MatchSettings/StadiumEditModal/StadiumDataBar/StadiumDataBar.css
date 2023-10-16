@@ -3,6 +3,7 @@
     flex-direction: column;
     width: 80%;
     margin: 10px;
+    user-select: none;
     /* border: 1px solid black; */
 }
 
