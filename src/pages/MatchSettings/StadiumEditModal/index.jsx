@@ -3,7 +3,7 @@
 /* eslint-disable no-empty-pattern */
 import React, { useEffect, useState, useMemo } from "react";
 import { Modal, Button } from "antd";
-import { DndContext, closestCenter } from "@dnd-kit/core";
+import { DndContext, closestCenter, useDndContext } from "@dnd-kit/core";
 
 import "./StadiumEditModal.css";
 import StadiumDataBar from "./StadiumDataBar";
@@ -12,46 +12,69 @@ import { SortableContext, arrayMove, verticalListSortingStrategy } from "@dnd-ki
 function StadiumEditModal({ title, mainStadiumInfo, otherStadiumInfo, isModalOpen, onOk }) {
 
   const [sortedStadiumInfo, setSortedStadiumInfo] = useState([])
+  const [dataIds, setDataIds] = useState([])
 
-  const dataIds = useMemo(() => sortedStadiumInfo.map((data) => data.Order), [sortedStadiumInfo]);
-  // console.log(otherStadiumInfo, sortedStadiumInfo)
-  // console.log(dataIds)
+  const [otherDataBars, setOtherDataBars] = useState([])
+  const [dummyDataBars, setDummyDataBars] = useState([])
+
+
   const mainDataBar = useMemo(() => {
     return <StadiumDataBar stadiumData={mainStadiumInfo} />
   }, [mainStadiumInfo])
+  
+  useEffect(() => {
+    const emptyDataBars = []
 
-  const otherDataBars = useMemo(() => {
-    const stadiumDataBars = sortedStadiumInfo?.map((data, index) =>
-      <StadiumDataBar
-        key={data.Order}
-        stadiumData={data}
-      />
-    )
-    const missingDataBars = 5 - stadiumDataBars.length
-    const idx = stadiumDataBars.length + 1
-    for (let i = 0; i < missingDataBars; i++) {
-      stadiumDataBars.push(
-        <StadiumDataBar
-          key={idx + i}
-        />
-      )
+    const missingDataBars = 5 - otherDataBars.length;
+    const idx = otherDataBars.length + 1;
+
+    for(let i = 0; i < missingDataBars; i++) {
+      emptyDataBars.push(<StadiumDataBar key={idx+i}/>)
     }
-    return stadiumDataBars
+
+    setDummyDataBars(emptyDataBars)
+
+  }, [otherDataBars])
+
+  useEffect(() => {
+    if (!sortedStadiumInfo)
+      return;
+
+      const stadiumBars = sortedStadiumInfo.map((data, index) => {
+        return (
+          <StadiumDataBar key={data.Order} stadiumData={data}/>
+        )
+      })
+
+      setOtherDataBars(stadiumBars);
   }, [sortedStadiumInfo])
 
   useEffect(() => {
+    const stadiumDataIDs = sortedStadiumInfo?.map((data) => data?.Order);
+    setDataIds(stadiumDataIDs)
+
+    console.log(stadiumDataIDs)
+  }, [sortedStadiumInfo])
+
+  useEffect(() => {
+    if (!otherStadiumInfo) {
+      setSortedStadiumInfo([])
+      return;
+    }
+
     const stadiumInfos = [...otherStadiumInfo]
     for (let i = 0; i < stadiumInfos.length; i++) {
       stadiumInfos[i].Order = i + 1;
     }
-    setSortedStadiumInfo(stadiumInfos)
+    setSortedStadiumInfo([...stadiumInfos])
   }, [otherStadiumInfo])
 
   const onDragEnd = (event) => {
     const { active, over } = event;
 
     console.log(active, over);
-    if (active.id === over.id) {
+    console.log(typeof over)
+    if (!active?.id || !over?.id || active.id === over.id) {
       return;
     }
 
@@ -87,6 +110,7 @@ function StadiumEditModal({ title, mainStadiumInfo, otherStadiumInfo, isModalOpe
           {otherDataBars}
         </SortableContext>
       </DndContext>
+      {dummyDataBars}
     </Modal>
   );
 }

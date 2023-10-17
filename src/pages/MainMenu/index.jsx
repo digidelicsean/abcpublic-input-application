@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-import React from "react";
+import React, { useMemo } from "react";
 import { Layout, Divider, Image, Button } from "antd";
 import { Col, Row } from "antd";
 import { Link } from "react-router-dom";
@@ -10,6 +10,67 @@ import "./mainMenu.css";
 const { Header, Content, Footer } = Layout;
 
 function MainMenu() {
+
+  const createMenuButton = (link, name, key) => {
+    return (
+      <div className="menu-button-link" key={key}>
+        <Link to={`/${link}`}>
+          <Button className="new-menu-button">
+            <b>{name}</b>
+          </Button>
+        </Link>
+      </div>
+    )
+  }
+
+  const menuButtons = useMemo(() => {
+    const buttonData = [
+      {
+        link: "match-settings",
+        name: "試合設定",
+      },
+      {
+        link: "",
+        name: "OAスコア",
+      },
+      {
+        link: "",
+        name: "Data Stadium",
+      },
+      {
+        link: "player-profile",
+        name: "チーム/選手情報",
+      },
+      {
+        link: "",
+        name: "打撃結果",
+      },
+      {
+        link: "",
+        name: "配球結果",
+      },
+      {
+        link: "",
+        name: "スタッフ",
+      },
+      {
+        link: "",
+        name: "組み合わせ",
+      },
+      {
+        link: "",
+        name: "設定変更",
+      },
+    ]
+
+    const menuButtonArray = [];
+
+    for (let i = 0; i < buttonData?.length; i++) {
+      menuButtonArray.push(createMenuButton(buttonData[i].link, buttonData[i].name, i))
+    }
+    return menuButtonArray
+  }, [])
+
   return (
     <Layout className="layout">
       <Header className="menu-header">
@@ -27,62 +88,9 @@ function MainMenu() {
 
       <Content className="content">
         <div className="menu-button-field">
-          <Link to="/data-stadium">
-            <Button className="menu-button">
-              <b>試合設定</b>
-            </Button>
-          </Link>
-
-          <Link to="/">
-            <Button className="menu-button">
-              <b>OAスコア</b>
-            </Button>
-          </Link>
-
-          <Link to="/">
-            <Button className="menu-button">
-              <b>地球場</b>
-            </Button>
-          </Link>
-
-          <Link to="/player-profile">
-            <Button className="menu-button">
-              <b>チーム/選手情報</b>
-            </Button>
-          </Link>
-
-          <Link to="/">
-          <Button className="menu-button">
-            <b>打撃結果</b>
-          </Button>
-          </Link>
-
-          <Link to="/">
-          <Button className="menu-button">
-            <b>配球結果</b>
-          </Button>
-          </Link>
-
-          <Link to="/">
-          <Button className="menu-button">
-            <b>ランキング</b>
-          </Button>
-          </Link>
-
-          <Link to="/">
-          <Button className="menu-button">
-            <b>Data Stadium</b>
-          </Button>
-          </Link>
-          
-          <Link to="/">
-          <Button className="menu-button">
-            <b>設定変更</b>
-          </Button>
-          </Link>
+          {menuButtons}
         </div>
       </Content>
-
       <Footer className="footer" />
     </Layout>
   );

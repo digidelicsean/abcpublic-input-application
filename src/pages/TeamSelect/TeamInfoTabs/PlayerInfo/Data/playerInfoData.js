@@ -9,7 +9,7 @@ export const fetchPlayerMasterData = async (teamCD) => {
   try {
     const uri = await defaultURI()
     const response = await fetch(
-      `${uri}/data-stadium/Master`
+      `${uri}/data-stadium/master`
     );
     let data = await response.json();
     const playerInfoData = Object.values(data).find((x) => x.Type == "PlayerInfoMST")[`PlayerInfoMST_${teamCD}`][`Player-InfoMST`];

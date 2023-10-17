@@ -44,6 +44,7 @@ function MatchSettings() {
 
   const [gameClassMST, setGameClassMST] = useState([])
   const [seasonSchedule, setSeasonSchedule] = useState({})
+  const [otherGameInfo, setOtherGameInfo] = useState([])
 
 
   const [day, setDay] = useState("1");
@@ -59,12 +60,12 @@ function MatchSettings() {
     return year + String(month).padStart(2, "0") + String(day).padStart(2, "0");
   }, [year, month, day])
 
-  const otherGameInfo = useMemo(() => {
+  // const otherGameInfo = useMemo(() => {
 
-    if (selectedGameID == "") return [];
+  //   if (selectedGameID == "") return [];
 
-    return seasonSchedule?.gameInfo?.filter(x => x.ID != selectedGameID);
-  }, [seasonSchedule, selectedGameID])
+  //   return seasonSchedule?.gameInfo?.filter(x => x.ID != selectedGameID);
+  // }, [otherStadiumInfo, selectedGameID])
 
   const selectedGameInfo = useMemo(() => {
     if (selectedGameID == "") return [];
@@ -91,7 +92,17 @@ function MatchSettings() {
     })
   }, [])
 
-console.log(otherGameInfo)
+  useEffect(() => {
+
+    if(!selectedGameID || selectedGameID == "") {
+      setOtherGameInfo([])
+     return;
+    }  
+
+    const otherStadiumInfo = seasonSchedule?.gameInfo?.filter(x => x.ID != selectedGameID)
+    setOtherGameInfo(otherStadiumInfo)
+  }, [seasonSchedule, selectedGameID])
+
   const createGameInfoData = async () => {
     if (selectedGameInfo.length == 0) return;
 
@@ -182,10 +193,11 @@ console.log(otherGameInfo)
   const onOtherStadiumDataConfirmed = (updatedStadiumInfo) => {
     setIsEditModalOpen(false)
 
-    const mainGameInfo = seasonSchedule.gameInfo.filter(x => x.ID == selectedGameID)
-    const newGameInfo = [...mainGameInfo, ...updatedStadiumInfo]
+    // const mainGameInfo = seasonSchedule.gameInfo.filter(x => x.ID == selectedGameID)
+    // const newGameInfo = [...mainGameInfo, ...updatedStadiumInfo]
 
-    setSeasonSchedule({ date, gameInfo: newGameInfo })
+    setOtherGameInfo([...updatedStadiumInfo])
+    // setSeasonSchedule({ date, gameInfo: newGameInfo })
     // createOtherStadiumInfoData(updatedStadiumInfo)
   }
 
@@ -241,7 +253,7 @@ console.log(otherGameInfo)
                             交流戦
                           </Radio>
                           <Radio className="radio-btn" value={5}>
-                            オーペン戦
+                            オープン戦
                           </Radio>
                         </Space>
                         <Space direction="vertical">
@@ -419,7 +431,7 @@ console.log(otherGameInfo)
                     <div className="match-data-info">
                       <LabeledText label="先攻チーム" value={selectedGameInfo?.VisitorTeamName ?? ""} size={{ width: "90%" }} textAlign="left" disabled={deliveryType == 1} />
                       <LabeledText label="後攻チーム" value={selectedGameInfo?.HomeTeamName ?? ""} size={{ width: "90%" }} textAlign="left" disabled={deliveryType == 1} />
-                      <LabeledText label="地球名" value={selectedGameInfo?.StadiumName ?? ""} size={{ width: "90%" }} textAlign="left" disabled={deliveryType == 1} />
+                      <LabeledText label="他球名" value={selectedGameInfo?.StadiumName ?? ""} size={{ width: "90%" }} textAlign="left" disabled={deliveryType == 1} />
                     </div>
                   </Card>
                 </div>
@@ -436,6 +448,9 @@ console.log(otherGameInfo)
             <Button
               style={{ backgroundColor: "#939393", color: "white" }}
               className="match-settings-btn"
+              onClick={() => {
+                setSelectedGameID("");
+              }}
             >
               クリア
             </Button>
@@ -461,16 +476,18 @@ console.log(otherGameInfo)
             bodyStyle={{ padding: "2px 5px", boxSizing: "content-box" }}
           >
             <div className="stadium-data-panel">
-              <div className="stadium-data-panel-header">地球場設定</div>
+              <div className="stadium-data-panel-header">他球場設定</div>
               <div className="stadium-data-content">
                 <OtherStadiumData
                   otherData={otherGameInfo}
                   deliveryType={deliveryType}
                   onDataUpdate={(updatedData) => {
-                    const mainGameInfo = seasonSchedule.gameInfo.filter(x => x.ID == selectedGameID)
-                    const newGameInfo = [...mainGameInfo, ...updatedData]
+                    console.log(updatedData)
+                    // const mainGameInfo = seasonSchedule.gameInfo.filter(x => x.ID == selectedGameID)
+                    // const newGameInfo = [...mainGameInfo, ...updatedData]
 
-                    setSeasonSchedule({ date, gameInfo: newGameInfo })
+                    setOtherGameInfo([...updatedData])
+                    // setSeasonSchedule({ date, gameInfo: newGameInfo })
                   }} />
               </div>
             </div>
@@ -481,10 +498,7 @@ console.log(otherGameInfo)
               className="stadium-settings-btn"
               style={{ backgroundColor: "#939393" }}
               onClick={() => {
-                const mainGameInfo = seasonSchedule.gameInfo.filter(x => x.ID == selectedGameID)
-                const newGameInfo = [...mainGameInfo]
-
-                setSeasonSchedule({ date, gameInfo: newGameInfo })
+                setOtherGameInfo([])
               }}
             >
               全クリア
@@ -494,14 +508,14 @@ console.log(otherGameInfo)
               style={{ backgroundColor: "#647dae" }}
               onClick={() => setIsEditModalOpen(true)}
             >
-              地球場設定
+              他球場設定
             </Button>
             <Button
               className="stadium-settings-btn"
               style={{ backgroundColor: "#647dae", fontSize: "1.24em" }}
               onClick={() => createOtherStadiumInfoData(otherGameInfo)}
             >
-              地球場情報更新
+              他球場情報更新
             </Button>
             <StadiumEditModal
               title={

@@ -1,4 +1,7 @@
 .layout {
+  min-width: 860px;
+  min-height: 615px;
+
   margin: 50px;
   border-radius: 10px;
   background-color: white;
@@ -37,35 +40,37 @@
 .menu-button-field {
   display: flex;
   margin: 0px 100px 0px 100px;
-  /* padding: 10px; */
+
+  width: 100%;
+  min-width: 1050px;
   flex-wrap: wrap;
   justify-content: center;
   align-items: center;
 }
 
-.keychainify-checked {
-  display: inline-flex;
-  width: 250px;
-  height: 150px;
-  margin: 10px;
-  flex: 1 0 25%;
+.new-menu-button {
+  width: 100%;
+  height: 100%;
 }
 
-.keychainify-checked .menu-button {
-  margin: 0px; 
-  flex: 1 0 25%;
-}
-
-.menu-button {
-  /* display: flex; */
-  width: 250px;
-  height: 150px;
-  margin: 10px;
-  flex: 1 0 25%;
-}
-
-.menu-button b {
+.new-menu-button b {
   font-size: 25px;
+}
+
+
+.menu-button-link {
+  display: inline-flex;
+  
+  width: 25%;
+  min-width: 260px;;
+  height: 150px;
+  margin: 10px;
+}
+
+.menu-button-link a {
+  display: inline-flex;
+  width: 100%;
+  height: 100%
 }
 
 .footer {

@@ -23,7 +23,10 @@ function LabeledText({
 }) {
   const theme = {
     components: {
-      Input: {},
+      Input: {
+        colorBgContainerDisabled: "white",
+        colorTextDisabled: "black",
+      },
     },
   };
 

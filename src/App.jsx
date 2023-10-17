@@ -18,7 +18,7 @@ function App() {
       <Router>
         <Routes>
           <Route exact path="/" element={<MainMenu/>} />
-          <Route path="/data-stadium" element={<MatchSettings/>} />
+          <Route path="/match-settings" element={<MatchSettings/>} />
           {/* <Route path="/player-profile" element={<PlayerProfile/>} /> */}
           <Route path="/player-profile" element={<TeamSelect/>} />
         </Routes>

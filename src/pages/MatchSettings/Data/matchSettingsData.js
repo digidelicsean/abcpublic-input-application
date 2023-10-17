@@ -8,10 +8,12 @@ export const fetchGameClassMasterData = async () => {
   try {
     const uri = await defaultURI();
     const response = await fetch(
-      `${uri}/data-stadium/Master?Type=GameClassMST`
+      `${uri}/data-stadium/master?Type=GameClassMST`
     );
     let data = await response.json();
     const gameClassInfo = data[0][`GameClassMST`];
+
+    
 
     // console.log(gameClassInfo);
 
