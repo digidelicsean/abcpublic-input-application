@@ -67,7 +67,7 @@ function BattingRecordTab() {
             昨シーズン
           </span>
 
-          <Radio.Group onChange={(e) => setNowSeason(e.target.value)} value={nowSeason} >
+          <Radio.Group onChange={(e) => setLastSeason(e.target.value)} value={lastSeason} >
             <Radio value={1}>通算</Radio>
             <Radio value={2}>対球団別</Radio>
             <Radio value={3}>対左別</Radio>

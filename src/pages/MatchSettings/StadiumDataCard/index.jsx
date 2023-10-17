@@ -45,9 +45,9 @@ function StadiumDataCard({ index, gameInfo, onDataClear, disabled }) {
       </div>
 
       <div className="stadium-data-card-fields">
-        <LabeledText label="後攻チーム" value={gameInfo?.HomeTeamName} size={{ width: "100%"}} textAlign="left" disabled={disabled}/>
+        <LabeledText label="先攻チーム" value={gameInfo?.HomeTeamName} size={{ width: "100%"}} textAlign="left" disabled={disabled}/>
         <LabeledText label="後攻チーム" value={gameInfo?.VisitorTeamName} size={{ width: "100%"}} textAlign="left" disabled={disabled}/>
-        <LabeledText label="後攻チーム" value={gameInfo?.StadiumName} size={{ width: "100%"}} textAlign="left" disabled={disabled}/>
+        <LabeledText label="地球名" value={gameInfo?.StadiumName} size={{ width: "100%"}} textAlign="left" disabled={disabled}/>
         {/* <LabeledComboBox label="先攻チーム" value={gameInfo?.HomeTeamName} size={{ width: "94%" }} /> */}
         {/* <LabeledComboBox label="後攻チーム" value={gameInfo?.VisitorTeamName} size={{ width: "94%" }} />
         <LabeledComboBox label="地球名" value={gameInfo?.StadiumName} size={{ width: "94%" }} /> */}

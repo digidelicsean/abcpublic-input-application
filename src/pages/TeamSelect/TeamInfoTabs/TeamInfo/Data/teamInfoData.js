@@ -12,7 +12,7 @@ export const fetchTeamMasterData = async () => {
   };
 
   const uri = await defaultURI();
-  const response = await fetch(`${uri}/data-stadium/master`, fetchOptions);
+  const response = await fetch(`${uri}/data-stadium/Master`, fetchOptions);
   let data = await response.json();
   const teamInfoData = Object.values(data).find((x) => x.Type == "TeamInfoMST").TeamInfoMST;
 
