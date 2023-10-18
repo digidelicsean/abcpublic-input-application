@@ -10,8 +10,9 @@ export async function retrieveTeamInfoMaster(onDataRetrieve) {
   // }
 
   try {
+    const uri = await defaultURI()
     const response = await fetch(
-      `${defaultURI}/data-stadium/DS_TeamInfoMST`
+      `${uri}/abc-public/DS_TeamInfoMST`
     );
 
     let data = Object.values(await response.json());

@@ -3,7 +3,8 @@ import { defaultURI } from "./../../../services/fetch/fetch-lib";
 
 export async function fetchTeamData() {
   try {
-    const apiEndpoint = `${defaultURI}/data-stadium/DS_TeamInfoMST`;
+    const uri = await defaultURI()
+    const apiEndpoint = `${uri}/abc-public/DS_TeamInfoMST`;
     const response = await fetch(apiEndpoint);
 
     let data = await response.json();

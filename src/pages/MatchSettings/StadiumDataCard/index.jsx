@@ -13,11 +13,11 @@ function StadiumDataCard({ index, gameInfo, onDataClear, disabled }) {
 
   const indexLabel = useMemo(() => {
     switch (index) {
-        case 1: return "➀";
-        case 2: return "➁";
-        case 3: return "➂";
-        case 4: return "➃";
-        case 5: return "➄";
+        case 0: return "➀";
+        case 1: return "➁";
+        case 2: return "➂";
+        case 3: return "➃";
+        case 4: return "➄";
     }
   }, [index])
 

@@ -20,7 +20,7 @@
 
 // getBackendServerIP()
 
-let currentURI = `http://localhost:80/api/v1/professional`
+let currentURI = `http://localhost:80/api/v1`
 export let defaultURI = async () => {
     const fetchOptions = {
         method: "GET",
@@ -31,10 +31,10 @@ export let defaultURI = async () => {
     const response = await fetch(`/backend-server-ip.txt`, fetchOptions);
     const ip = await response.text();
 
-    currentURI = `http://${ip}/api/v1/professional`
+    currentURI = `http://${ip}/api/v1`
     // window.console.log(ip)
     // window.console.log(currentURI)
-    return `http://${ip}/api/v1/professional`;
+    return `http://${ip}/api/v1`;
 
 }
 

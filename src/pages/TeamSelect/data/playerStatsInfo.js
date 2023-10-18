@@ -9,7 +9,7 @@ export const fetchPlayerProfileData = async (teamCD) => {
 
     const uri = await defaultURI()
     const response = await fetch(
-        `${uri}/data-stadium/PU_${teamCD}_PlayerProfile`
+        `${uri}/abc-public/PU_${teamCD}_PlayerProfile`
         )
     const data = await response.json();
 
