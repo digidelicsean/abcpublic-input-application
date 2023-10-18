@@ -8,7 +8,7 @@ const { Option } = Select;
 export const fetchTeamMasterData = async () => {
   try {
     const uri = await defaultURI();
-    const response = await fetch(`${uri}/data-stadium/master`);
+    const response = await fetch(`${uri}/abc-public/master`);
     let data = await response.json();
     const teamInfoData = Object.values(data).find(
       (x) => x.Type == "TeamInfoMST"
@@ -36,7 +36,7 @@ export const fetchCoachData = async (teamCD) => {
   if (teamCD == null || teamCD == undefined) return [];
   try {
     const uri = await defaultURI();
-    const response = await fetch(`${uri}/data-stadium/Directory_${teamCD}`);
+    const response = await fetch(`${uri}/abc-public/Directory_${teamCD}`);
     let data = await response.json();
 
     data = data.find((x) => x.StaffKind == 1);

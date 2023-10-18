@@ -8,7 +8,7 @@ export const fetchGameClassMasterData = async () => {
   try {
     const uri = await defaultURI();
     const response = await fetch(
-      `${uri}/data-stadium/master?Type=GameClassMST`
+      `${uri}/abc-public/master?Type=GameClassMST`
     );
     let data = await response.json();
     const gameClassInfo = data[0][`GameClassMST`];
@@ -28,7 +28,7 @@ export const fetchSeasonScheduleData = async (gameClassCD) => {
   try {
     const uri = await defaultURI();
     const response = await fetch(
-      `${uri}/data-stadium/SeasonSchedule_${gameClassCD}`
+      `${uri}/abc-public/SeasonSchedule_${gameClassCD}`
     );
     let data = await response.json();
     const seasonSchedule = data;
@@ -53,7 +53,7 @@ export const postGameInfoData = async (gameInfo) => {
 
   const uri = await defaultURI()
   const response = await fetch(
-    `${uri}/data-stadium/Game_1`,
+    `${uri}/abc-public/Game_1`,
     fetchOptions
   );
   const data = await response.json();

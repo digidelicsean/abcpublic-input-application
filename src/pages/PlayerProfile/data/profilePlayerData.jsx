@@ -13,14 +13,14 @@ export async function retrievePlayerInfoMaster(teamCD, onDataRetrieve) {
       onDataRetrieve(null)
     return;
   }
-
+const uri = await defaultURI()
   let response = await fetch(
-    `${defaultURI}/data-stadium/DS_Directory_${teamCD}` 
+    `${uri}/abc-public/DS_Directory_${teamCD}` 
   );
   let directoryData = await response.json();
 
   response = await fetch(
-    `${defaultURI}/data-stadium/DS_PlayerInfoMST_${teamCD}`
+    `${uri}/abc-public/DS_PlayerInfoMST_${teamCD}`
   );
   let playerData = await response.json();
 
@@ -55,10 +55,10 @@ export async function retrieveOtherData(playerData, onDataRetrieve) {
   const teamCD = playerData.TeamID;
   const playerCD = playerData.PlayerCD;
 
-  console.log(teamCD);
+  const uri = await defaultURI()
 
   const response = await fetch(
-    `${defaultURI}/abc-public?collection=PU_${teamCD}_PlayerProfile`
+    `${uri}/abc-public/PU_${teamCD}_PlayerProfile`
   );
   let data = await response.json();
   data = Object.values(data);
@@ -76,7 +76,6 @@ export async function retrieveOtherData(playerData, onDataRetrieve) {
 export function generatePlayerSelectOptions(data, onOptionsGenerate) {
   if (data == null || data == undefined) {
     onOptionsGenerate([]);
-    //   setcbPlayerOptions([]);
     return;
   }
 
@@ -86,7 +85,6 @@ export function generatePlayerSelectOptions(data, onOptionsGenerate) {
   for (let i = 0; i < playerInfo.length; i++) {
     const playerName = playerInfo[i].PlayerName;
     const playerCD = playerInfo[i].PlayerCD;
-    // console.log(playerName)
     const option = (
       <Option key={i} value={playerCD}>
         {playerInfo[i].UniformNO} {playerName}
@@ -100,7 +98,9 @@ export function generatePlayerSelectOptions(data, onOptionsGenerate) {
 
 export async function getPlayerImage(playerBackNum, onImageRetrieve) {
   
-  const response = await fetch(`${defaultURI}/abc-public/image/${playerBackNum}`)
+  const uri = await defaultURI()
+
+  const response = await fetch(`${uri}/abc-public/image/${playerBackNum}`)
   let data = await response.json();
 
   if(onImageRetrieve) {
