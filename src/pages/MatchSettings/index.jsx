@@ -442,7 +442,7 @@ function MatchSettings() {
           {/* ================================================================== */}
           {/*                      Match Settings Button Panel                   */}
           <div className="match-settings-btn-panel">
-            <Button className="match-settings-btn">
+            <Button className="match-settings-btn" style={{fontSize: "1.1em"}}>
               バックアップ／リストア
             </Button>
             <Button
@@ -461,7 +461,7 @@ function MatchSettings() {
             >
               試合設定
             </Button>
-            <Button className="match-settings-btn">
+            <Button className="match-settings-btn" style={{fontSize: "0.97em"}}>
               データスタジアムデータ一括取込
             </Button>
           </div>
