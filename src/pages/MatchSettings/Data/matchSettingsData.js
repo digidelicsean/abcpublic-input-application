@@ -13,10 +13,6 @@ export const fetchGameClassMasterData = async () => {
     let data = await response.json();
     const gameClassInfo = data[0][`GameClassMST`];
 
-    
-
-    // console.log(gameClassInfo);
-
     return gameClassInfo;
   } catch (err) {
     console.error(err);
@@ -42,18 +38,18 @@ export const fetchSeasonScheduleData = async (gameClassCD) => {
   }
 };
 
-export const postGameInfoData = async (gameInfo) => {
+export const postGameInfoData = async (matchInfo, collection) => {
   const fetchOptions = {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify(gameInfo),
+    body: JSON.stringify(matchInfo),
   };
 
   const uri = await defaultURI()
   const response = await fetch(
-    `${uri}/abc-public/Game_1`,
+    `${uri}/abc-public/${collection}`,
     fetchOptions
   );
   const data = await response.json();
