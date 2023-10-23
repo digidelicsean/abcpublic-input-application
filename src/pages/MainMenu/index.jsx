@@ -34,7 +34,7 @@ function MainMenu() {
         name: "OAスコア",
       },
       {
-        link: "",
+        link: "data-stadium",
         name: "Data Stadium",
       },
       {
