@@ -1,6 +1,7 @@
+/* eslint-disable no-empty */
 /* eslint-disable no-unused-vars */
 import { Card, ConfigProvider, Input, Button, Radio } from 'antd'
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useMemo } from 'react'
 
 import "./DataStadium.css"
 import BatterDataTable from './BatterDataTable'
@@ -29,14 +30,14 @@ const columns = [
         key: "order",
         align: "center",
         width: 30
-    }, 
+    },
     {
         title: "番号",
         dataIndex: "backNumber",
         key: "backNumber",
         align: "center",
         width: 40
-    }, 
+    },
     {
         title: "選手名",
         dataIndex: "playerName",
@@ -53,6 +54,23 @@ const columns = [
     },
 ]
 
+const getDefenceName = (id) => {
+    const map = {
+        1: "投手",
+        2: "捕手",
+        3: "一塁手",
+        4: "二塁手",
+        5: "三塁手",
+        6: "遊撃手",
+        7: "左翼手",
+        8: "中翼手",
+        9: "右翼手",
+        10: "指名打者",
+        11: "代打",
+        12: "代走",
+    }
+    return map[id] ?? map[1]
+}
 
 
 function DataStadium() {
@@ -61,14 +79,62 @@ function DataStadium() {
 
     const [selectedTeam, setSelectedTeam] = useState("home")
     const [matchInfo, setMatchInfo] = useState([])
+    const [gameCollection, setGameCollection] = useState([])
+
+    const batterLineup_H = useMemo(() => {
+        if (gameCollection == null) return [];
+        console.log(gameCollection.find(data => data.Type == "TeamInfo_H")?.TeamInfo_H?.NowMember)
+        const startingMembers = gameCollection?.find(data => data.Type == "TeamInfo_H")?.TeamInfo_H?.NowMember ?? []
+        const lineup = [];
+
+        if (startingMembers.length == 0) return []
+
+        let idx = 0;
+        for (const playerInfo of Object.values(startingMembers)) {
+            lineup.push({
+                key: idx,
+                order: playerInfo.BatNo,
+                backNumber: playerInfo.BackNumber,
+                playerName: playerInfo.PlayerNameL,
+                defence: getDefenceName(playerInfo.Position)
+            })
+            idx++;
+        }
+
+
+        return lineup;
+    }, [gameCollection])
+
+    const batterLineup_V = useMemo(() => {
+        if (gameCollection == null) return [];
+        console.log(gameCollection.find(data => data.Type == "TeamInfo_V")?.TeamInfo_V?.NowMember)
+        const startingMembers = gameCollection?.find(data => data.Type == "TeamInfo_V")?.TeamInfo_V?.NowMember ?? []
+        const lineup = [];
+
+        if (startingMembers.length == 0) return []
+
+        let idx = 0;
+        for (const playerInfo of Object.values(startingMembers)) {
+            lineup.push({
+                key: idx,
+                order: playerInfo.BatNo,
+                backNumber: playerInfo.BackNumber,
+                playerName: playerInfo.PlayerNameL,
+                defence: getDefenceName(playerInfo.Position)
+            })
+            idx++;
+        }
+
+
+        return lineup;
+    }, [gameCollection])
 
     useEffect(() => {
         retrieveGameID("MatchInfo_1").then((data) => {
             setMatchInfo(data.MatchInfo_1)
-            console.log(data.MatchInfo_1);
             // retrieveGameIDCollection(data.GameID).then((data) => {
             retrieveGameIDCollection("2021013466").then((data) => {
-                console.log(data)
+                setGameCollection(data)
             })
         })
     }, [])
@@ -169,59 +235,42 @@ function DataStadium() {
 
                     </div>
                 </Card>
-                <Card className='player-list-content-card data-stadium-card' bodyStyle={{display: "inline-flex", height: "100%"}}>
+                <Card className='player-list-content-card data-stadium-card' bodyStyle={{ display: "inline-flex", height: "100%" }}>
                     <div className='player-list-content'>
                         <div className='player-list-header'>
                             <Button>← 戻る</Button>
                             <Button>CSV取込</Button>
                         </div>
 
-                        <Card className="player-list-card" bodyStyle={{height: "100%"}}>
+                        <Card className="player-list-card" bodyStyle={{ height: "100%" }}>
                             <div className='player-list'>
                                 <div className='player-list-btn-panel'>
-                                    <Button className="player-list-btn">{matchInfo?.TeamName_H ?? "巨人"}</Button>
-                                    <Button className="player-list-btn">{matchInfo?.TeamName_V ?? "阪神"}</Button>
+                                    <Button
+                                        className="player-list-btn"
+                                        style={{ backgroundColor: selectedTeam == "home" ? "#d9d9d9" : "white" }}
+                                        onClick={() => {
+                                            setSelectedTeam("home")
+                                        }}
+                                    >
+                                        {matchInfo?.TeamName_H ?? "巨人"}
+                                    </Button>
+                                    <Button
+                                        className="player-list-btn"
+                                        style={{ backgroundColor: selectedTeam == "visitor" ? "#d9d9d9" : "white" }}
+                                        onClick={() => {
+                                            setSelectedTeam("visitor")
+                                            console.log("Test")
+                                        }}
+                                    >
+                                        {matchInfo?.TeamName_V ?? "阪神"}
+                                    </Button>
                                     <Button className="player-list-btn">投球順</Button>
                                 </div>
 
                                 <Button className="batter-move-btn">現打者移動 ˄</Button>
                                 <SelectTable
                                     columns={columns}
-                                    data={[
-                                        {
-                                            order: 1,
-                                            backNumber: 444,
-                                            playerName: "佐々木修平",
-                                            defence: "游"
-                                        },
-                                        {
-                                            order: 2
-                                        },
-                                        {
-                                            order: 3
-                                        },
-                                        {
-                                            order: 4
-                                        },
-                                        {
-                                            order: 5
-                                        },
-                                        {
-                                            order: 6
-                                        },
-                                        {
-                                            order: 7
-                                        },
-                                        {
-                                            order: 8
-                                        },
-                                        {
-                                            order: 9
-                                        },
-                                        {
-                                            order: 10
-                                        },
-                                    ]}
+                                    data={selectedTeam == "home" ? batterLineup_H : batterLineup_V}
                                     theme={{
                                         components: {
                                             Table: {
@@ -229,7 +278,7 @@ function DataStadium() {
                                             }
                                         }
                                     }}
-                                    // height="48vh"
+                                // height="48vh"
                                 />
                                 <Button className="batter-move-btn">現打者移動 ˅</Button>
                                 <Button style={{ width: "30%", marginTop: "10px" }}>ベンチ</Button>
