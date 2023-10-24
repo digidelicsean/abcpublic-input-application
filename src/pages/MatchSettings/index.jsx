@@ -60,13 +60,6 @@ function MatchSettings() {
     return year + String(month).padStart(2, "0") + String(day).padStart(2, "0");
   }, [year, month, day])
 
-  // const otherGameInfo = useMemo(() => {
-
-  //   if (selectedGameID == "") return [];
-
-  //   return seasonSchedule?.gameInfo?.filter(x => x.ID != selectedGameID);
-  // }, [otherStadiumInfo, selectedGameID])
-
   const selectedMatchInfo = useMemo(() => {
     if (selectedGameID == "") return [];
     return seasonSchedule.gameInfo.find(x => x.ID == selectedGameID)
@@ -121,9 +114,9 @@ function MatchSettings() {
       StadiumCD: selectedMatchInfo.StadiumID,
       Stadium: selectedMatchInfo.StadiumName,
       TeamCD_H: selectedMatchInfo.HomeTeamID,
-      TeamName_H: selectedMatchInfo.HomeTeamName,
+      TeamName_H: selectedMatchInfo.HomeTeamNameS,
       TeamCD_V: selectedMatchInfo.VisitorTeamID,
-      TeamName_V: selectedMatchInfo.VisitorTeamName,
+      TeamName_V: selectedMatchInfo.VisitorTeamNameS,
     }
 
     postMatchInfoData(dataStructure, "MatchSetting")
@@ -132,38 +125,29 @@ function MatchSettings() {
   const createTeamInfoData = async () => {
     if (selectedMatchInfo.length == 0) return;
 
-    const gameIdCollection = await fetchGameIDCollection("2021013466");
-    const startingMemberData = Object.values(gameIdCollection.filter(collection => collection?.Type == "Starting")[0]?.Starting?.TeamInfo ?? []) ?? []
+    // const gameIdCollection = await fetchGameIDCollection(selectedGameID);
+    // const startingMemberData = Object.values(gameIdCollection.filter(collection => collection?.Type == "Starting")[0]?.Starting?.TeamInfo ?? []) ?? []
 
-    const homeTeamInfo = startingMemberData[0] ?? []
-    const visitorTeamInfo = startingMemberData[1] ?? [];
+    // const homeTeamInfo = startingMemberData[0] ?? []
+    // const visitorTeamInfo = startingMemberData[1] ?? [];
 
-    const createPlayerInfoData = (teamInfo) => {
+    const createPlayerInfoData = () => {
       const playerInfoData = {}
-      let playerIndex = 1;
 
-      for (const key in teamInfo) {
-        if(playerIndex > 10)
-          break;
-        if (!key.includes("Player"))
-          continue;
-
-        const playerInfo = teamInfo[key]
-
-        const playerInfoKey = playerIndex == 10 ? "PlayerInfo_Pitcher" : `PlayerInfo_${playerIndex}`
+      for (let i = 1; i <= 10; i++) {
+        const playerInfoKey = i == 10 ? "PlayerInfo_Pitcher" : `PlayerInfo_${i}`
 
         playerInfoData[playerInfoKey] = {
-          BatNo: playerInfo.StartBatNo ?? "",
-          Position: playerInfo.StartPosition ?? "",
-          PlayerID: playerInfo.PlayerID ?? "",
-          BackNumber: playerInfo.BackNumber ?? "",
-          PlayerNameS: playerInfo.PlayerNameS ?? "",
-          PlayerNameL: playerInfo.PlayerNameL ?? "",
-          PitchingArm: playerInfo.PitchingArm ?? "",
-          BattingType: playerInfo.BattingType ?? "",
+          BatNo: i == 10 ? "9" : i.toString(),
+          Position: "0",
+          PlayerID: "",
+          BackNumber: "",
+          PlayerNameS: "",
+          PlayerNameL: "",
+          PitchingArm: "1",
+          BattingType: "1",
           PitchingNum: "0"
         }
-        playerIndex++;
       }
       return playerInfoData;
     }
@@ -172,12 +156,20 @@ function MatchSettings() {
       Type: "TeamInfo_H",
       TeamInfo_H: {
         TeamCD: selectedMatchInfo.HomeTeamID,
-        TeamName: selectedMatchInfo.HomeTeamName,
+        TeamName: selectedMatchInfo.HomeTeamNameS,
         NowBatterNo: "1",
-        NowMember: createPlayerInfoData(homeTeamInfo),
+        NowMember: createPlayerInfoData(),
         SwitchedMember: {
-          SwitchInfo_1: {
-            NotYetImplemented: "作成中"
+          PlayerInfo_1: {
+            BatNo: "11",
+            Position: "0",
+            PlayerID: "",
+            BackNumber: "",
+            PlayerNameS: "",
+            PlayerNameL: "",
+            PitchingArm: "1",
+            BattingType: "1",
+            PitchingNum: "0"
           }
         }
       }
@@ -187,12 +179,20 @@ function MatchSettings() {
       Type: "TeamInfo_V",
       TeamInfo_V: {
         TeamCD: selectedMatchInfo.VisitorTeamID,
-        TeamName: selectedMatchInfo.VisitorTeamName,
+        TeamName: selectedMatchInfo.VisitorTeamNameS,
         NowBatterNo: "1",
-        NowMember: createPlayerInfoData(visitorTeamInfo),
+        NowMember: createPlayerInfoData(),
         SwitchedMember: {
-          SwitchInfo_1: {
-            NotYetImplemented: "作成中"
+          PlayerInfo_1: {
+            BatNo: "11",
+            Position: "0",
+            PlayerID: "",
+            BackNumber: "",
+            PlayerNameS: "",
+            PlayerNameL: "",
+            PitchingArm: "1",
+            BattingType: "1",
+            PitchingNum: "0"
           }
         }
       }
