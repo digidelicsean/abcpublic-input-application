@@ -9,7 +9,7 @@ export const retrieveGameID = async (matchInfo) => {
   );
   const data = await response.json();
 
-  console.log(data);
+//   console.log(data);
   return data;
 };
 
@@ -21,6 +21,5 @@ export const retrieveGameIDCollection = async (gameID) => {
 
   const data = await response.json();
 
-  console.log(data);
   return data;
 };

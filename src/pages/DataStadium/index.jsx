@@ -64,7 +64,9 @@ function DataStadium() {
 
     useEffect(() => {
         retrieveGameID("MatchInfo_1").then((data) => {
-            setMatchInfo(data)
+            setMatchInfo(data.MatchInfo_1)
+            console.log(data.MatchInfo_1);
+            // retrieveGameIDCollection(data.GameID).then((data) => {
             retrieveGameIDCollection("2021013466").then((data) => {
                 console.log(data)
             })
@@ -177,8 +179,8 @@ function DataStadium() {
                         <Card className="player-list-card" bodyStyle={{height: "100%"}}>
                             <div className='player-list'>
                                 <div className='player-list-btn-panel'>
-                                    <Button className="player-list-btn">巨人</Button>
-                                    <Button className="player-list-btn">阪神</Button>
+                                    <Button className="player-list-btn">{matchInfo?.TeamName_H ?? "巨人"}</Button>
+                                    <Button className="player-list-btn">{matchInfo?.TeamName_V ?? "阪神"}</Button>
                                     <Button className="player-list-btn">投球順</Button>
                                 </div>
 
