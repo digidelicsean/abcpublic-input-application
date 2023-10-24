@@ -23,7 +23,7 @@ import "./MatchSettings.css";
 import "./StadiumSettings.css";
 
 import { defaultURI } from "../../services/fetch/fetch-lib";
-import { fetchGameClassMasterData, fetchSeasonScheduleData, postGameInfoData as postMatchInfoData } from "./Data/matchSettingsData";
+import { fetchGameClassMasterData, fetchGameIDCollection, fetchSeasonScheduleData, postMatchInfoData } from "./Data/matchSettingsData";
 import LabeledText from "../../components/LabeledText";
 
 const { Option } = Select
@@ -129,6 +129,81 @@ function MatchSettings() {
     postMatchInfoData(dataStructure, "MatchSetting")
   }
 
+  const createTeamInfoData = async () => {
+    if (selectedMatchInfo.length == 0) return;
+
+    const gameIdCollection = await fetchGameIDCollection("2021013466");
+    const startingMemberData = Object.values(gameIdCollection.filter(collection => collection?.Type == "Starting")[0]?.Starting?.TeamInfo ?? []) ?? []
+
+    const homeTeamInfo = startingMemberData[0] ?? []
+    const visitorTeamInfo = startingMemberData[1] ?? [];
+
+    const createPlayerInfoData = (teamInfo) => {
+      const playerInfoData = {}
+      let playerIndex = 1;
+
+      for (const key in teamInfo) {
+        if(playerIndex > 10)
+          break;
+        if (!key.includes("Player"))
+          continue;
+
+        const playerInfo = teamInfo[key]
+
+        const playerInfoKey = playerIndex == 10 ? "PlayerInfo_Pitcher" : `PlayerInfo_${playerIndex}`
+
+        playerInfoData[playerInfoKey] = {
+          BatNo: playerInfo.StartBatNo ?? "",
+          Position: playerInfo.StartPosition ?? "",
+          PlayerID: playerInfo.PlayerID ?? "",
+          BackNumber: playerInfo.BackNumber ?? "",
+          PlayerNameS: playerInfo.PlayerNameS ?? "",
+          PlayerNameL: playerInfo.PlayerNameL ?? "",
+          PitchingArm: playerInfo.PitchingArm ?? "",
+          BattingType: playerInfo.BattingType ?? "",
+          PitchingNum: "0"
+        }
+        playerIndex++;
+      }
+      return playerInfoData;
+    }
+
+    const homeTeamInfoData = {
+      Type: "TeamInfo_H",
+      TeamInfo_H: {
+        TeamCD: selectedMatchInfo.HomeTeamID,
+        TeamName: selectedMatchInfo.HomeTeamName,
+        NowBatterNo: "1",
+        NowMember: createPlayerInfoData(homeTeamInfo),
+        SwitchedMember: {
+          SwitchInfo_1: {
+            NotYetImplemented: "作成中"
+          }
+        }
+      }
+    }
+
+    const visitorTeamInfoData = {
+      Type: "TeamInfo_V",
+      TeamInfo_V: {
+        TeamCD: selectedMatchInfo.VisitorTeamID,
+        TeamName: selectedMatchInfo.VisitorTeamName,
+        NowBatterNo: "1",
+        NowMember: createPlayerInfoData(visitorTeamInfo),
+        SwitchedMember: {
+          SwitchInfo_1: {
+            NotYetImplemented: "作成中"
+          }
+        }
+      }
+    }
+
+
+    postMatchInfoData(homeTeamInfoData, selectedGameID)
+    postMatchInfoData(visitorTeamInfoData, selectedGameID)
+
+  }
+
   const createOtherStadiumInfoData = async (otherStadiumInfo) => {
     if (otherStadiumInfo?.length == 0) return;
 
@@ -137,6 +212,10 @@ function MatchSettings() {
       OtherGameInfo: {
         CommentType: "1",
         Comment_ABC: "コメント文章",
+      },
+      Comment: {
+        SelectComment: "0",
+        ABC_Comment: ""
       }
     }
 
@@ -168,7 +247,7 @@ function MatchSettings() {
         Stadium: gameInfo.StadiumID,
       }
     }
-
+    console.log(dataStructure);
     postMatchInfoData(dataStructure, selectedGameID)
   }
 
@@ -457,7 +536,10 @@ function MatchSettings() {
             <Button
               style={{ backgroundColor: "#647dae", color: "white" }}
               className="match-settings-btn"
-              onClick={createMatchInfoData}
+              onClick={() => {
+                createMatchInfoData();
+                createTeamInfoData();
+              }}
             >
               試合設定
             </Button>

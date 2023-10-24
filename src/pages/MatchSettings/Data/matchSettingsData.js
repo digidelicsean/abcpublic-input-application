@@ -4,9 +4,10 @@ import { Select } from "antd";
 
 const { Option } = Select;
 
+const uri = await defaultURI()
+
 export const fetchGameClassMasterData = async () => {
   try {
-    const uri = await defaultURI();
     const response = await fetch(
       `${uri}/abc-public/master?Type=GameClassMST`
     );
@@ -22,7 +23,6 @@ export const fetchGameClassMasterData = async () => {
 
 export const fetchSeasonScheduleData = async (gameClassCD) => {
   try {
-    const uri = await defaultURI();
     const response = await fetch(
       `${uri}/abc-public/SeasonSchedule_${gameClassCD}`
     );
@@ -38,7 +38,7 @@ export const fetchSeasonScheduleData = async (gameClassCD) => {
   }
 };
 
-export const postGameInfoData = async (matchInfo, collection) => {
+export const postMatchInfoData = async (matchInfo, collection) => {
   const fetchOptions = {
     method: "POST",
     headers: {
@@ -47,7 +47,6 @@ export const postGameInfoData = async (matchInfo, collection) => {
     body: JSON.stringify(matchInfo),
   };
 
-  const uri = await defaultURI()
   const response = await fetch(
     `${uri}/abc-public/${collection}`,
     fetchOptions
@@ -59,3 +58,15 @@ export const postGameInfoData = async (matchInfo, collection) => {
     console.log("Failed to add new game info");
   }
 };
+
+
+export const fetchGameIDCollection = async (gameID) => {
+
+  const response = await fetch(
+    `${uri}/abc-public/${gameID}`,
+  );
+
+  const data = await response.json();
+
+  return data;
+}
