@@ -73,44 +73,44 @@ function BatterDataTable({ data }) {
             <ConfigProvider theme={theme}>
                 <SelectTable
                     columns={columns}
-                    data={[
-                        {
-                            ballCount: 12,
-                        },
-                        {
-                            ballCount: 12,
-                        },
-                        {
-                            ballCount: 12,
-                        },
-                        {
-                            ballCount: 12,
-                        },
-                        {
-                            ballCount: 12,
-                        },
-                        {
-                            ballCount: 12,
-                        },
-                        {
-                            ballCount: 12,
-                        },
-                        {
-                            ballCount: 12,
-                        },
-                        {
-                            ballCount: 12,
-                        },
-                        {
-                            ballCount: 12,
-                        },
-                        {
-                            ballCount: 12,
-                        },
-                        {
-                            ballCount: 12,
-                        },
-                    ]}
+                    // data={[
+                    //     {
+                    //         ballCount: 12,
+                    //     },
+                    //     {
+                    //         ballCount: 12,
+                    //     },
+                    //     {
+                    //         ballCount: 12,
+                    //     },
+                    //     {
+                    //         ballCount: 12,
+                    //     },
+                    //     {
+                    //         ballCount: 12,
+                    //     },
+                    //     {
+                    //         ballCount: 12,
+                    //     },
+                    //     {
+                    //         ballCount: 12,
+                    //     },
+                    //     {
+                    //         ballCount: 12,
+                    //     },
+                    //     {
+                    //         ballCount: 12,
+                    //     },
+                    //     {
+                    //         ballCount: 12,
+                    //     },
+                    //     {
+                    //         ballCount: 12,
+                    //     },
+                    //     {
+                    //         ballCount: 12,
+                    //     },
+                    // ]}
                 />
                 {/* <Table
                     columns={columns}
