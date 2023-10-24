@@ -132,8 +132,8 @@ function DataStadium() {
     useEffect(() => {
         retrieveGameID("MatchInfo_1").then((data) => {
             setMatchInfo(data.MatchInfo_1)
-            // retrieveGameIDCollection(data.GameID).then((data) => {
-            retrieveGameIDCollection("2021013466").then((data) => {
+            retrieveGameIDCollection(data.GameID).then((data) => {
+            // retrieveGameIDCollection("2021013466").then((data) => {
                 setGameCollection(data)
             })
         })
