@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable no-unused-vars */
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef, useLayoutEffect } from "react";
 import { Table, ConfigProvider } from "antd";
 
 import "./selectTable.css";
@@ -13,9 +13,21 @@ function SelectTable({
   onSelectInvert,
   height,
 
+  style,
   theme,
 }) {
   const [selectedRow, setSelectedRow] = useState();
+  const [tableHeight, setTableHeight] = useState(200);
+  // ref is the Table ref.
+  const myRef = useRef(null);
+
+  useLayoutEffect(() => {
+    const node = myRef.current;
+    const { top } = node.getBoundingClientRect();
+
+    // normally TABLE_HEADER_HEIGHT would be 55.
+    setTableHeight(window.innerHeight - top - 150);
+  }, [myRef]);
 
   const tableTheme = {
     components: {
@@ -27,9 +39,12 @@ function SelectTable({
     },
   };
 
-  const style = {
-    height: height ? height : "500px",
+  const tableStyle = {
+    height: tableHeight ?? "",
+    ...style
   };
+
+  // console.log(tableStyle)
 
   const rowSelectionParam = {
     selectedRowKeys: [selectedRow ? selectedRow : null],
@@ -74,12 +89,15 @@ function SelectTable({
     <>
       <ConfigProvider theme={tableTheme}>
         <Table
+          ref={myRef}
+          className="select-table"
           rowSelection={rowSelectionParam}
           columns={columns}
           dataSource={data}
           onRow={onRowSelect}
-          scroll={{ y: height ? height : "500px" }}
+          scroll={{ y: tableHeight }}
           pagination={false}
+          style={tableStyle}
         />
       </ConfigProvider>
     </>

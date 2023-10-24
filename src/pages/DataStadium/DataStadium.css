@@ -16,6 +16,17 @@
   margin: 15px;
 }
 
+.multi-line-button {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.no-padding {
+    padding: 0px;
+}
+
 /* ===================== Pitch Content =====================*/
 
 .pitch-content-card {
@@ -32,6 +43,9 @@
   flex-direction: column;
   width: 20%;
   height: 100%;
+
+  min-width: 350px;
+  min-height: 720px;
 }
 
 .data-content {
@@ -49,11 +63,23 @@
     width: 100%;
     height: 100%;
 
+    margin-bottom: 16px;
+
     justify-content: space-between;
 }
 
 .data-content-team-name {
+    display: inline-flex;
+    flex-direction: row;
+
     width: 40%;
+    height: 50px;
+
+    align-items: center;
+    justify-content: center;
+
+    font-size: 1.35em;
+
     text-align: center;
     pointer-events: none;
 }
@@ -68,14 +94,82 @@
 }
 
 .data-content-round {
-    width: 20%;
+    width: 25%;
+    height: 100%;
     text-align: center;
+
+    border: 10px solid #d8d8d8
 }
 
 .data-content-person-counter {
     display: inline-flex;
     width: 50%;
+
+    align-items: center;
 }
+
+.data-content-current-pitcher {
+    display: inline-flex;
+    flex-direction: column;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.data-content-row {
+    display: inline-flex;
+    flex-direction: row;
+
+    width: 100%;
+
+    justify-content: space-between;
+}
+
+.player-team {
+    width: 35%;
+}
+
+.player-name {
+    width: 50%;
+}
+
+.player-side {
+    width: 12%;
+    text-align: center;
+    padding: 0px;
+}
+
+.pitch-speed {
+    width: 30%;
+}
+
+.pitch-number {
+    width: 30%;
+}
+
+.data-content-batter-change {
+    display: inline-flex;
+    flex-direction: row;
+
+    width: 100%;
+
+    margin-top: 30px;
+    margin-bottom: 15px;
+
+    justify-content: space-between;
+}
+
+.batter-change-btn-column {
+    display: inline-flex;
+    flex-direction: column;
+
+    height: 100%;
+    justify-content: space-between;
+}
+
+.data-content-current-batter {
+
+}
+
 
 
 /* =================== Player List Content ==================*/
@@ -83,6 +177,71 @@
 .player-list-content-card {
   display: inline-flex;
   flex-direction: column;
-  width: 20%;
+  width: 25%;
   height: 100%;
+
+  
+  min-width: 350px;
+  min-height: 720px;
+}
+
+.player-list-content {
+    display: inline-flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.player-list-header {
+    display: inline-flex;
+    width: 100%;
+
+    justify-content: space-between;
+}
+
+.player-list-card {
+    display: inline-flex;
+    flex-direction: column;
+    margin-top: 20px;
+    width: 100%;
+    height: 78vh;
+
+    box-shadow: 0px 0px 0px 2px #d8d8d8;
+}
+.player-list {
+    display: inline-flex;
+    flex-direction: column;
+    
+    width: 100%;
+    height: 100%;
+    
+}
+
+.player-list-btn-panel {
+    box-sizing: content-box;
+    display: inline-flex;
+    flex-direction: row;
+    width: 100%;
+
+    margin-top: 10px;
+
+    justify-content: space-evenly;
+}
+
+.player-list-btn {
+    box-sizing: border-box;
+    display: inline-flex;
+    flex: 1 0 33%;
+    justify-content: center;
+    max-width: 100px;
+
+    margin-left: 3px;
+    margin-right: 3px;
+}
+
+.batter-move-btn {
+    background-color: #fef129;
+    font-size: 1.125em;
+
+    margin-top: 10px;
+    margin-bottom: 10px;
 }
