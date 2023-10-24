@@ -93,7 +93,7 @@ function DataStadium() {
         for (const playerInfo of Object.values(startingMembers)) {
             lineup.push({
                 key: idx,
-                order: playerInfo.BatNo,
+                order:  idx == 9 ? "投" : playerInfo.BatNo,
                 backNumber: playerInfo.BackNumber,
                 playerName: playerInfo.PlayerNameL,
                 defence: getDefenceName(playerInfo.Position)
@@ -117,10 +117,10 @@ function DataStadium() {
         for (const playerInfo of Object.values(startingMembers)) {
             lineup.push({
                 key: idx,
-                order: playerInfo.BatNo,
+                order:  idx == 9 ? "投" : playerInfo.BatNo,
                 backNumber: playerInfo.BackNumber,
                 playerName: playerInfo.PlayerNameL,
-                defence: getDefenceName(playerInfo.Position)
+                defence:getDefenceName(playerInfo.Position)
             })
             idx++;
         }
@@ -132,8 +132,8 @@ function DataStadium() {
     useEffect(() => {
         retrieveGameID("MatchInfo_1").then((data) => {
             setMatchInfo(data.MatchInfo_1)
-            retrieveGameIDCollection(data.GameID).then((data) => {
-            // retrieveGameIDCollection("2021013466").then((data) => {
+            console.log(data.MatchInfo_1)
+            retrieveGameIDCollection(data.MatchInfo_1.GameID).then((data) => {
                 setGameCollection(data)
             })
         })
