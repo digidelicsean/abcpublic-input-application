@@ -2,10 +2,21 @@
     color: black;
 } */
 
+:root {
+    /* --select-table-height: 200px; */
+}
+
 .select-table {
-    height: 500px;
+    /* height: 100%; */
+    /* height: 500px; */
     /* width: auto;
     min-width: unset !important */
+    /* margin-bottom: 30px; */
+}
+
+.select-table .ant-table-tbody {
+    /* height: var(--select-table-height); */
+
 }
 
 /* .ant-table-selection-column {
