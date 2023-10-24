@@ -52,8 +52,6 @@ function StadiumEditModal({ title, mainStadiumInfo, otherStadiumInfo, isModalOpe
   useEffect(() => {
     const stadiumDataIDs = sortedStadiumInfo?.map((data) => data?.Order);
     setDataIds(stadiumDataIDs)
-
-    console.log(stadiumDataIDs)
   }, [sortedStadiumInfo])
 
   useEffect(() => {

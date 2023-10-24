@@ -23,7 +23,7 @@ import "./MatchSettings.css";
 import "./StadiumSettings.css";
 
 import { defaultURI } from "../../services/fetch/fetch-lib";
-import { fetchGameClassMasterData, fetchSeasonScheduleData, postGameInfoData } from "./Data/matchSettingsData";
+import { fetchGameClassMasterData, fetchGameIDCollection, fetchSeasonScheduleData, postMatchInfoData } from "./Data/matchSettingsData";
 import LabeledText from "../../components/LabeledText";
 
 const { Option } = Select
@@ -67,7 +67,7 @@ function MatchSettings() {
   //   return seasonSchedule?.gameInfo?.filter(x => x.ID != selectedGameID);
   // }, [otherStadiumInfo, selectedGameID])
 
-  const selectedGameInfo = useMemo(() => {
+  const selectedMatchInfo = useMemo(() => {
     if (selectedGameID == "") return [];
     return seasonSchedule.gameInfo.find(x => x.ID == selectedGameID)
   }, [selectedGameID, seasonSchedule])
@@ -94,54 +94,135 @@ function MatchSettings() {
 
   useEffect(() => {
 
-    if(!selectedGameID || selectedGameID == "") {
+    if (!selectedGameID || selectedGameID == "") {
       setOtherGameInfo([])
-     return;
-    }  
+      return;
+    }
 
     const otherStadiumInfo = seasonSchedule?.gameInfo?.filter(x => x.ID != selectedGameID)
     setOtherGameInfo(otherStadiumInfo)
   }, [seasonSchedule, selectedGameID])
 
-  const createGameInfoData = async () => {
-    if (selectedGameInfo.length == 0) return;
+  const createMatchInfoData = async () => {
+    if (selectedMatchInfo.length == 0) return;
 
     const dataStructure = {
-      Type: "GameInfo",
-      GameInfo: {
-        Delivery: deliveryType,
-        GameNum: 1,
-        GameClassCD: gameClassCD,
-        GameClass: gameClass.GameClass,
-        Date: date,
-        GameID: selectedGameID,
-        StadiumCD: selectedGameInfo.StadiumID,
-        Stadium: selectedGameInfo.StadiumName,
-        TeamCD_H: selectedGameInfo.HomeTeamID,
-        TeamName_H: selectedGameInfo.HomeTeamName,
-        TeamCD_V: selectedGameInfo.VisitorTeamID,
-        TeamName_V: selectedGameInfo.VisitorTeamName,
-      },
+      Type: "MatchInfo"
     };
 
-    postGameInfoData(dataStructure)
+    dataStructure[`MatchInfo_1`] =
+    {
+      Delivery: deliveryType,
+      GameNum: 1,
+      GameClassCD: gameClassCD,
+      GameClass: gameClass.GameClass,
+      Date: date,
+      GameID: selectedGameID,
+      StadiumCD: selectedMatchInfo.StadiumID,
+      Stadium: selectedMatchInfo.StadiumName,
+      TeamCD_H: selectedMatchInfo.HomeTeamID,
+      TeamName_H: selectedMatchInfo.HomeTeamName,
+      TeamCD_V: selectedMatchInfo.VisitorTeamID,
+      TeamName_V: selectedMatchInfo.VisitorTeamName,
+    }
+
+    postMatchInfoData(dataStructure, "MatchSetting")
+  }
+
+  const createTeamInfoData = async () => {
+    if (selectedMatchInfo.length == 0) return;
+
+    const gameIdCollection = await fetchGameIDCollection("2021013466");
+    const startingMemberData = Object.values(gameIdCollection.filter(collection => collection?.Type == "Starting")[0]?.Starting?.TeamInfo ?? []) ?? []
+
+    const homeTeamInfo = startingMemberData[0] ?? []
+    const visitorTeamInfo = startingMemberData[1] ?? [];
+
+    const createPlayerInfoData = (teamInfo) => {
+      const playerInfoData = {}
+      let playerIndex = 1;
+
+      for (const key in teamInfo) {
+        if(playerIndex > 10)
+          break;
+        if (!key.includes("Player"))
+          continue;
+
+        const playerInfo = teamInfo[key]
+
+        const playerInfoKey = playerIndex == 10 ? "PlayerInfo_Pitcher" : `PlayerInfo_${playerIndex}`
+
+        playerInfoData[playerInfoKey] = {
+          BatNo: playerInfo.StartBatNo ?? "",
+          Position: playerInfo.StartPosition ?? "",
+          PlayerID: playerInfo.PlayerID ?? "",
+          BackNumber: playerInfo.BackNumber ?? "",
+          PlayerNameS: playerInfo.PlayerNameS ?? "",
+          PlayerNameL: playerInfo.PlayerNameL ?? "",
+          PitchingArm: playerInfo.PitchingArm ?? "",
+          BattingType: playerInfo.BattingType ?? "",
+          PitchingNum: "0"
+        }
+        playerIndex++;
+      }
+      return playerInfoData;
+    }
+
+    const homeTeamInfoData = {
+      Type: "TeamInfo_H",
+      TeamInfo_H: {
+        TeamCD: selectedMatchInfo.HomeTeamID,
+        TeamName: selectedMatchInfo.HomeTeamName,
+        NowBatterNo: "1",
+        NowMember: createPlayerInfoData(homeTeamInfo),
+        SwitchedMember: {
+          SwitchInfo_1: {
+            NotYetImplemented: "作成中"
+          }
+        }
+      }
+    }
+
+    const visitorTeamInfoData = {
+      Type: "TeamInfo_V",
+      TeamInfo_V: {
+        TeamCD: selectedMatchInfo.VisitorTeamID,
+        TeamName: selectedMatchInfo.VisitorTeamName,
+        NowBatterNo: "1",
+        NowMember: createPlayerInfoData(visitorTeamInfo),
+        SwitchedMember: {
+          SwitchInfo_1: {
+            NotYetImplemented: "作成中"
+          }
+        }
+      }
+    }
+
+
+    postMatchInfoData(homeTeamInfoData, selectedGameID)
+    postMatchInfoData(visitorTeamInfoData, selectedGameID)
+
   }
 
   const createOtherStadiumInfoData = async (otherStadiumInfo) => {
-    if(otherStadiumInfo?.length == 0) return;
+    if (otherStadiumInfo?.length == 0) return;
 
     const dataStructure = {
       Type: "OtherGameInfo",
       OtherGameInfo: {
         CommentType: "1",
         Comment_ABC: "コメント文章",
+      },
+      Comment: {
+        SelectComment: "0",
+        ABC_Comment: ""
       }
     }
 
-    for(let i = 0; i < 5; i++) {
-      const key = `OtherGameInfo_${i+1}`
+    for (let i = 0; i < 5; i++) {
+      const key = `OtherGameInfo_${i + 1}`
 
-      if(i >= otherGameInfo.length) {
+      if (i >= otherGameInfo.length) {
         dataStructure["OtherGameInfo"][key] = {
           No: "",
           GameID: "",
@@ -155,21 +236,19 @@ function MatchSettings() {
         continue;
       }
       const gameInfo = otherGameInfo[i]
-      console.log(gameInfo)
       dataStructure["OtherGameInfo"][key] = {
         No: gameInfo.Order,
         GameID: gameInfo.ID,
         TeamCD_V: gameInfo.VisitorTeamID,
         TeamName_V: gameInfo.VisitorTeamName,
         TeamCD_H: gameInfo.HomeTeamID,
-        TeamName_H: gameInfo.HomeTeamName ,
+        TeamName_H: gameInfo.HomeTeamName,
         StadiumCD: gameInfo.StadiumName,
         Stadium: gameInfo.StadiumID,
       }
     }
-    console.log(dataStructure)
-    
-    postGameInfoData(dataStructure)
+    console.log(dataStructure);
+    postMatchInfoData(dataStructure, selectedGameID)
   }
 
   const onMatchSettingOpen = () => {
@@ -429,9 +508,9 @@ function MatchSettings() {
                     }}
                   >
                     <div className="match-data-info">
-                      <LabeledText label="先攻チーム" value={selectedGameInfo?.VisitorTeamName ?? ""} size={{ width: "90%" }} textAlign="left" disabled={deliveryType == 1} />
-                      <LabeledText label="後攻チーム" value={selectedGameInfo?.HomeTeamName ?? ""} size={{ width: "90%" }} textAlign="left" disabled={deliveryType == 1} />
-                      <LabeledText label="他球名" value={selectedGameInfo?.StadiumName ?? ""} size={{ width: "90%" }} textAlign="left" disabled={deliveryType == 1} />
+                      <LabeledText label="先攻チーム" value={selectedMatchInfo?.VisitorTeamName ?? ""} size={{ width: "90%" }} textAlign="left" disabled={deliveryType == 1} />
+                      <LabeledText label="後攻チーム" value={selectedMatchInfo?.HomeTeamName ?? ""} size={{ width: "90%" }} textAlign="left" disabled={deliveryType == 1} />
+                      <LabeledText label="他球名" value={selectedMatchInfo?.StadiumName ?? ""} size={{ width: "90%" }} textAlign="left" disabled={deliveryType == 1} />
                     </div>
                   </Card>
                 </div>
@@ -442,7 +521,7 @@ function MatchSettings() {
           {/* ================================================================== */}
           {/*                      Match Settings Button Panel                   */}
           <div className="match-settings-btn-panel">
-            <Button className="match-settings-btn" style={{fontSize: "1.1em"}}>
+            <Button className="match-settings-btn" style={{ fontSize: "1.1em" }}>
               バックアップ／リストア
             </Button>
             <Button
@@ -457,11 +536,14 @@ function MatchSettings() {
             <Button
               style={{ backgroundColor: "#647dae", color: "white" }}
               className="match-settings-btn"
-              onClick={createGameInfoData}
+              onClick={() => {
+                createMatchInfoData();
+                createTeamInfoData();
+              }}
             >
               試合設定
             </Button>
-            <Button className="match-settings-btn" style={{fontSize: "0.97em"}}>
+            <Button className="match-settings-btn" style={{ fontSize: "0.97em" }}>
               データスタジアムデータ一括取込
             </Button>
           </div>
@@ -534,7 +616,7 @@ function MatchSettings() {
                   {year}.{month}.{day}
                 </div>
               }
-              mainStadiumInfo={selectedGameInfo}
+              mainStadiumInfo={selectedMatchInfo}
               otherStadiumInfo={otherGameInfo}
               isModalOpen={isEditModalOpen}
               onOk={onOtherStadiumDataConfirmed}
