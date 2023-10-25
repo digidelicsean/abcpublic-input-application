@@ -29,7 +29,7 @@ const theme = {
     }
 }
 
-const getDefenceName = (id) => {
+const getPositionCharacter = (id) => {
     const map = {
         1: "投",
         2: "捕",
@@ -43,6 +43,24 @@ const getDefenceName = (id) => {
         10: "指",
         11: "DH",
         12: "DR",
+    }
+    return map[id] ?? map[1]
+}
+
+const getPositionIndex = (id) => {
+    const map = {
+        "投": 1,
+        "捕": 2,
+        "一": 3,
+        "二": 4,
+        "三": 5,
+        "遊": 6,
+        "左": 7,
+        "中": 8,
+        "右": 9,
+        "指": 10,
+        "DH": 11,
+        "DR": 12,
     }
     return map[id] ?? map[1]
 }
@@ -105,7 +123,7 @@ function DataStadium() {
                     playerNameL: playerInfo.PlayerNameL,
                     playerNameS: playerInfo.PlayerNameS,
                     playerID: playerInfo.PlayerID,
-                    position: getDefenceName(playerInfo.Position)
+                    position: playerInfo.Position
                 })
                 idx++;
             }
@@ -157,11 +175,11 @@ function DataStadium() {
 
                 if (idx > 9) continue;
 
-                teamInfoCopy[idx].batNo = playerInfo.StartBatNo > 9 ? "投" : playerInfo.StartBatNo;
+                teamInfoCopy[idx].batNo = playerInfo.StartBatNo;
                 teamInfoCopy[idx].backNumber = playerInfo.BackNumber
                 teamInfoCopy[idx].playerNameL = playerInfo.PlayerNameL
                 teamInfoCopy[idx].playerNameS = playerInfo.PlayerNameS
-                teamInfoCopy[idx].position = getDefenceName(playerInfo.StartPosition)
+                teamInfoCopy[idx].position = playerInfo.StartPosition
                 teamInfoCopy[idx].playerId = playerInfo.PlayerID;
                 // teamInfoCopy[idx].teamId = playerInfo.TeamID;
                 idx++;
