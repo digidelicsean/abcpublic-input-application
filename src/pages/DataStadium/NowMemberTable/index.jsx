@@ -8,6 +8,7 @@ import { fetchPlayerInfoMST } from './Data/retrieveTeamInfo'
 import { ConfigProvider, Table } from 'antd'
 
 import "./NowMemberTable.css"
+import PositionChangeModal from '../PositionChangeModal'
 
 
 const getPositionCharacter = (id) => {
@@ -50,11 +51,13 @@ const getPositionIndex = (id) => {
 }
 
 function NowMemberTable({ teamInfo, teamCD, onTeamInfoUpdate, selectedBatter }) {
-    const [isModalOpen, setIsModalOpen] = useState(false)
+    const [isSubModalOpen, setIsSubModalOpen] = useState(false)
+    const [isPosChangeModalOpen, setIsPosChangeModalOpen] = useState(false)
     const [teamInfoMst, setTeamInfoMst] = useState([])
 
     const [indexToSub, setIndexToSub] = useState("")
     const [playerToSub, setPlayerToSub] = useState([])
+    const [posToSub, setPosToSub] = useState([]);
 
     const playerListItems = useMemo(() => {
         if (!teamInfoMst) return []
@@ -137,9 +140,14 @@ function NowMemberTable({ teamInfo, teamCD, onTeamInfoUpdate, selectedBatter }) 
     ]
 
     const onSubMember = (record, index) => {
-        setIsModalOpen(true);
+        setIsSubModalOpen(true);
         setIndexToSub(index)
         setPlayerToSub(record)
+    }
+
+    const onPositionChange = (record, index) => {
+        setIsPosChangeModalOpen(true);
+        setIndexToSub(index)
     }
 
     useEffect(() => {
@@ -176,11 +184,11 @@ function NowMemberTable({ teamInfo, teamCD, onTeamInfoUpdate, selectedBatter }) 
             </ConfigProvider>
 
             <PlayerSubModal
-                isOpen={isModalOpen}
+                isOpen={isSubModalOpen}
                 onCancel={() => {
                     setIndexToSub("")
                     setPlayerToSub("")
-                    setIsModalOpen(false)
+                    setIsSubModalOpen(false)
                 }}
                 onSubmit={(selectedPlayerData) => {
 
@@ -192,10 +200,14 @@ function NowMemberTable({ teamInfo, teamCD, onTeamInfoUpdate, selectedBatter }) 
                         onTeamInfoUpdate(newTeamInfo)
                     setIndexToSub("")
                     setPlayerToSub("")
-                    setIsModalOpen(false);
+                    setIsSubModalOpen(false);
                 }}
                 playerList={playerListItems}
                 playerToSub={playerToSub}
+            />
+
+            <PositionChangeModal
+                isOpen={isPosChangeModalOpen}
             />
         </>
     )
