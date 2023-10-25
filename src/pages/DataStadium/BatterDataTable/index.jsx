@@ -34,7 +34,7 @@ const columns = [
         title: "コース",
         dataIndex: "course",
         key: "course",
-        width: "45px",
+        width: "48px",
         align: "center"
     },
     {

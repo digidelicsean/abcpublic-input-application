@@ -1,9 +1,9 @@
 /* eslint-disable no-unused-vars */
 import { defaultURI } from "../../../services/fetch/fetch-lib";
 
-const uri = await defaultURI();
 
 export const retrieveGameID = async (matchInfo) => {
+  const uri = await defaultURI()
   const response = await fetch(
     `${uri}/abc-public/MatchSetting/MatchInfo/${matchInfo}`
   );
@@ -14,6 +14,7 @@ export const retrieveGameID = async (matchInfo) => {
 };
 
 export const retrieveGameIDCollection = async (gameID) => {
+  const uri = await defaultURI()
   const response = await fetch(`${uri}/abc-public/${gameID}`);
 
   const data = await response.json();
@@ -54,6 +55,7 @@ export const postUpdateTeamInfo = async (gameID, teamInfo, teamInfoSide) => {
 
 console.log(gameID)
 
+const uri = await defaultURI()
   const response = await fetch(
     `${uri}/abc-public/${gameID}/NowMember/${teamInfoSide}`,
     fetchOptions

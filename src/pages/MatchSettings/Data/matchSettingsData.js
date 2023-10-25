@@ -4,10 +4,10 @@ import { Select } from "antd";
 
 const { Option } = Select;
 
-const uri = await defaultURI()
 
 export const fetchGameClassMasterData = async () => {
   try {
+    const uri = await defaultURI()
     const response = await fetch(
       `${uri}/abc-public/master?Type=GameClassMST`
     );
@@ -23,6 +23,7 @@ export const fetchGameClassMasterData = async () => {
 
 export const fetchSeasonScheduleData = async (gameClassCD) => {
   try {
+    const uri = await defaultURI()
     const response = await fetch(
       `${uri}/abc-public/SeasonSchedule_${gameClassCD}`
     );
@@ -47,6 +48,7 @@ export const postMatchInfoData = async (matchInfo, collection) => {
     body: JSON.stringify(matchInfo),
   };
 
+  const uri = await defaultURI()
   const response = await fetch(
     `${uri}/abc-public/${collection}`,
     fetchOptions
@@ -62,6 +64,7 @@ export const postMatchInfoData = async (matchInfo, collection) => {
 
 export const fetchGameIDCollection = async (gameID) => {
 
+  const uri = await defaultURI()
   const response = await fetch(
     `${uri}/abc-public/${gameID}`,
   );

@@ -9,7 +9,7 @@ import { ConfigProvider, Table } from 'antd'
 
 import "./NowMemberTable.css"
 
-function NowMemberTable({ teamInfo, teamCD, onTeamInfoUpdate }) {
+function NowMemberTable({ teamInfo, teamCD, onTeamInfoUpdate, selectedBatter }) {
     const [isModalOpen, setIsModalOpen] = useState(false)
     const [teamInfoMst, setTeamInfoMst] = useState([])
 
@@ -17,7 +17,7 @@ function NowMemberTable({ teamInfo, teamCD, onTeamInfoUpdate }) {
     const [playerToSub, setPlayerToSub] = useState([])
 
     const playerListItems = useMemo(() => {
-        if(!teamInfoMst) return []
+        if (!teamInfoMst) return []
         if (Object.values(teamInfoMst).length == 0) return [];
 
         const players = []
@@ -87,12 +87,22 @@ function NowMemberTable({ teamInfo, teamCD, onTeamInfoUpdate }) {
         fetchPlayerInfoMST(teamCD).then((data) => setTeamInfoMst(data))
     }, [teamCD])
 
+
+    const rowSelectionParam = {
+        selectedRowKeys: [selectedBatter ? selectedBatter : null],
+        columnWidth: "0px",
+        renderCell: () => {
+            return <></>;
+        },
+        type: "radio",
+    };
+
     return (
         <>
             <ConfigProvider theme={{
                 components: {
                     Table: {
-                        cellPaddingBlock: 10                        
+                        cellPaddingBlock: 10
                     }
                 }
             }}>
@@ -102,6 +112,7 @@ function NowMemberTable({ teamInfo, teamCD, onTeamInfoUpdate }) {
                     scroll={{ y: 450 }}
                     size="small"
                     pagination={false}
+                    rowSelection={rowSelectionParam}
                 />
             </ConfigProvider>
 

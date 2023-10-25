@@ -100,8 +100,8 @@ function PlayerSubModal({ isOpen, onSubmit, onCancel, playerList, playerToSub })
                             <div className="player-sub-current-member">
                                 <span style={{ backgroundColor: "#d8d8d8", width: "28px", padding: "0px 10px" }}>現在</span>
                                 <div className='current-member'>
-                                    <span className='current-member-data'>{playerToSub.playerName != "" ? playerToSub.playerName : "-"}</span>
-                                    <span className='current-member-data'>{playerToSub.defence != "" ? playerToSub.defence : "-"}</span>
+                                    <span className='current-member-data'>{playerToSub.playerNameL != "" ? playerToSub.playerNameL : "-"}</span>
+                                    <span className='current-member-data'>{playerToSub.position != "" ? playerToSub.position : "-"}</span>
                                 </div>
                             </div>
 

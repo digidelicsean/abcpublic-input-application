@@ -20,6 +20,9 @@ const theme = {
         Radio: {
             buttonCheckedBg: "#cdcdcd",
             controlOutline: "white",
+        },
+        Table: {
+            rowSelectedBg: "#d8d8d8"
         }
     }
 }
@@ -54,21 +57,23 @@ function DataStadium() {
     const [teamInfoH, setTeamInfoH] = useState([])
     const [teamInfoV, setTeamInfoV] = useState([])
 
+    const [selectedBatter, setSelectedBatter] = useState(10);
+
     const onNowMemberUpdate = (newUpdatedInfo, selectedTeam) => {
         const key = selectedTeam == "home" ? "TeamInfo_H" : "TeamInfo_V"
         const nowMembers = gameCollection?.find(data => data.Type == key)[key]?.NowMember ?? []
 
-        
-        const updatedNowMembers = {...nowMembers}
-        console.log(nowMembers,newUpdatedInfo)
 
-        for(let i = 0; i < newUpdatedInfo.length; i++) {
+        const updatedNowMembers = { ...nowMembers }
+        console.log(nowMembers, newUpdatedInfo)
+
+        for (let i = 0; i < newUpdatedInfo.length; i++) {
             const idx = i < 9 ? i + 1 : "Pitcher"
 
             updatedNowMembers[`PlayerInfo_${idx}`].BatNo = newUpdatedInfo[i].batNo;
             updatedNowMembers[`PlayerInfo_${idx}`].BackNumber = newUpdatedInfo[i].backNumber;
             updatedNowMembers[`PlayerInfo_${idx}`].PlayerNameL = newUpdatedInfo[i].playerNameL;
-            updatedNowMembers[`PlayerInfo_${idx}`].PlayerNameS= newUpdatedInfo[i].playerNameS;
+            updatedNowMembers[`PlayerInfo_${idx}`].PlayerNameS = newUpdatedInfo[i].playerNameS;
             updatedNowMembers[`PlayerInfo_${idx}`].Position = newUpdatedInfo[i].position;
             updatedNowMembers[`PlayerInfo_${idx}`].PlayerID = newUpdatedInfo[i].playerID;
         }
@@ -87,7 +92,7 @@ function DataStadium() {
             let idx = 0;
             for (const playerInfo of Object.values(startingMembers)) {
                 lineup.push({
-                    key: idx,
+                    key: idx + 1,
                     batNo: idx == 9 ? "投" : playerInfo.BatNo,
                     backNumber: playerInfo.BackNumber,
                     playerNameL: playerInfo.PlayerNameL,
@@ -292,13 +297,34 @@ function DataStadium() {
                                     <Button className="player-list-btn">投球順</Button>
                                 </div>
 
-                                <Button className="batter-move-btn">現打者移動 ˄</Button>
+                                <Button
+                                    className="batter-move-btn"
+                                    onClick={() => {
+                                        if (selectedBatter == 1)
+                                            setSelectedBatter(10)
+                                        else
+                                            setSelectedBatter(selectedBatter - 1);
+                                    }}
+                                >
+                                    現打者移動 ˄
+                                </Button>
                                 <NowMemberTable
                                     teamInfo={selectedTeam == "home" ? teamInfoH : teamInfoV}
                                     teamCD={selectedTeam == "home" ? matchInfo?.TeamCD_H ?? -1 : matchInfo?.TeamCD_V ?? -1}
-                                    onTeamInfoUpdate={(newUpdatedInfo) => {onNowMemberUpdate(newUpdatedInfo, selectedTeam)}}
+                                    onTeamInfoUpdate={(newUpdatedInfo) => { onNowMemberUpdate(newUpdatedInfo, selectedTeam) }}
+                                    selectedBatter={selectedBatter}
                                 />
-                                <Button className="batter-move-btn">現打者移動 ˅</Button>
+                                <Button
+                                    className="batter-move-btn"
+                                    onClick={() => {
+                                        if (selectedBatter == 10)
+                                            setSelectedBatter(1)
+                                        else
+                                            setSelectedBatter(selectedBatter + 1);
+                                    }}
+                                >
+                                    現打者移動 ˅
+                                </Button>
                                 <Button style={{ width: "30%", marginTop: "10px" }}>ベンチ</Button>
 
                             </div>
