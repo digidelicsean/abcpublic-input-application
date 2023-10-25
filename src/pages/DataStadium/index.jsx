@@ -7,7 +7,9 @@ import "./DataStadium.css"
 import BatterDataTable from './BatterDataTable'
 import SelectTable from "../../components/SelectTable"
 import NowMemberTable from './NowMemberTable'
-import { postUpdateTeamInfo, retrieveGameID, retrieveGameIDCollection } from './Data/fetchMatchInfo'
+import { postUpdateNowBatterNo, postUpdateTeamInfo, retrieveGameID, retrieveGameIDCollection } from './Data/fetchMatchInfo'
+import { Link } from "react-router-dom"
+
 const theme = {
     components: {
         Card: {
@@ -57,7 +59,7 @@ function DataStadium() {
     const [teamInfoH, setTeamInfoH] = useState([])
     const [teamInfoV, setTeamInfoV] = useState([])
 
-    const [selectedBatter, setSelectedBatter] = useState(10);
+    const [selectedBatter, setSelectedBatter] = useState(1);
 
     const onNowMemberUpdate = (newUpdatedInfo, selectedTeam) => {
         const key = selectedTeam == "home" ? "TeamInfo_H" : "TeamInfo_V"
@@ -81,8 +83,13 @@ function DataStadium() {
     }
 
     useEffect(() => {
-        const startingMembersH = gameCollection?.find(data => data.Type == "TeamInfo_H")?.TeamInfo_H?.NowMember ?? []
-        const startingMembersV = gameCollection?.find(data => data.Type == "TeamInfo_V")?.TeamInfo_V?.NowMember ?? []
+        const teamInfoHData = gameCollection?.find(data => data.Type == "TeamInfo_H")?.TeamInfo_H;
+        const teamInfoVData = gameCollection?.find(data => data.Type == "TeamInfo_V")?.TeamInfo_V;
+
+        setSelectedBatter(selectedTeam == "home" ? Number(teamInfoHData?.NowBatterNo) ?? 1 : Number(teamInfoVData?.NowBatterNo) ?? 1)
+
+        const startingMembersH = teamInfoHData?.NowMember ?? []
+        const startingMembersV = teamInfoVData?.NowMember ?? []
 
         const createTeamInfo = (startingMembers) => {
             const lineup = [];
@@ -93,7 +100,7 @@ function DataStadium() {
             for (const playerInfo of Object.values(startingMembers)) {
                 lineup.push({
                     key: idx + 1,
-                    batNo: idx == 9 ? "投" : playerInfo.BatNo,
+                    batNo: idx >= 9 ? "投" : playerInfo.BatNo,
                     backNumber: playerInfo.BackNumber,
                     playerNameL: playerInfo.PlayerNameL,
                     playerNameS: playerInfo.PlayerNameS,
@@ -150,7 +157,7 @@ function DataStadium() {
 
                 if (idx > 9) continue;
 
-                teamInfoCopy[idx].batNo = playerInfo.StartBatNo;
+                teamInfoCopy[idx].batNo = playerInfo.StartBatNo > 9 ? "投" : playerInfo.StartBatNo;
                 teamInfoCopy[idx].backNumber = playerInfo.BackNumber
                 teamInfoCopy[idx].playerNameL = playerInfo.PlayerNameL
                 teamInfoCopy[idx].playerNameS = playerInfo.PlayerNameS
@@ -268,7 +275,9 @@ function DataStadium() {
                 <Card className='player-list-content-card data-stadium-card' bodyStyle={{ display: "inline-flex", height: "100%" }}>
                     <div className='player-list-content'>
                         <div className='player-list-header'>
-                            <Button>← 戻る</Button>
+                            <Link to="/">
+                                <Button>← 戻る</Button>
+                            </Link>
                             <Button onClick={retrieveStartingPlayerData}>スタメンを取得</Button>
                             <Button>CSV取込</Button>
                         </div>
@@ -281,6 +290,15 @@ function DataStadium() {
                                         style={{ backgroundColor: selectedTeam == "home" ? "#d9d9d9" : "white" }}
                                         onClick={() => {
                                             setSelectedTeam("home")
+
+                                            retrieveGameID("MatchInfo_1").then((data) => {
+                                                setMatchInfo(data.MatchInfo_1)
+                                                retrieveGameIDCollection(data.MatchInfo_1.GameID).then((data) => {
+                                                    setGameCollection(data)
+                                                    const teamInfoHData = data?.find(data => data.Type == "TeamInfo_H")?.TeamInfo_H;
+                                                    setSelectedBatter(teamInfoHData?.NowBatterNo ?? 1)
+                                                })
+                                            })
                                         }}
                                     >
                                         {matchInfo?.TeamName_H ?? "巨人"}
@@ -290,6 +308,16 @@ function DataStadium() {
                                         style={{ backgroundColor: selectedTeam == "visitor" ? "#d9d9d9" : "white" }}
                                         onClick={() => {
                                             setSelectedTeam("visitor")
+
+                                            retrieveGameID("MatchInfo_1").then((data) => {
+                                                setMatchInfo(data.MatchInfo_1)
+                                                retrieveGameIDCollection(data.MatchInfo_1.GameID).then((data) => {
+                                                    setGameCollection(data)
+                                                    const teamInfoVData = data?.find(data => data.Type == "TeamInfo_V")?.TeamInfo_V;
+                                                    setSelectedBatter(teamInfoVData?.NowBatterNo ?? 1)
+                                                })
+                                            })
+
                                         }}
                                     >
                                         {matchInfo?.TeamName_V ?? "阪神"}
@@ -300,10 +328,16 @@ function DataStadium() {
                                 <Button
                                     className="batter-move-btn"
                                     onClick={() => {
-                                        if (selectedBatter == 1)
-                                            setSelectedBatter(10)
+                                        const teamInfoSide = selectedTeam == "home" ? "TeamInfo_H" : "TeamInfo_V"
+                                        let newBatterNo = selectedBatter;
+
+                                        if (newBatterNo <= 1)
+                                            newBatterNo = 10;
                                         else
-                                            setSelectedBatter(selectedBatter - 1);
+                                            newBatterNo--;
+
+                                        setSelectedBatter(newBatterNo);
+                                        postUpdateNowBatterNo(matchInfo.GameID, teamInfoSide, newBatterNo)
                                     }}
                                 >
                                     現打者移動 ˄
@@ -317,10 +351,16 @@ function DataStadium() {
                                 <Button
                                     className="batter-move-btn"
                                     onClick={() => {
-                                        if (selectedBatter == 10)
-                                            setSelectedBatter(1)
+                                        const teamInfoSide = selectedTeam == "home" ? "TeamInfo_H" : "TeamInfo_V"
+                                        let newBatterNo = selectedBatter;
+
+                                        if (newBatterNo >= 10)
+                                            newBatterNo = 1;
                                         else
-                                            setSelectedBatter(selectedBatter + 1);
+                                            newBatterNo++;
+
+                                        setSelectedBatter(newBatterNo);
+                                        postUpdateNowBatterNo(matchInfo.GameID, teamInfoSide, newBatterNo)
                                     }}
                                 >
                                     現打者移動 ˅
