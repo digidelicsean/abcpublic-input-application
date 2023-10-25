@@ -30,8 +30,6 @@ export const postUpdateTeamInfo = async (gameID, teamInfo, teamInfoSide) => {
     body: JSON.stringify(teamInfo),
   };
 
-  console.log(gameID);
-
   const uri = await defaultURI();
   const response = await fetch(
     `${uri}/abc-public/${gameID}/NowMember/${teamInfoSide}`,
