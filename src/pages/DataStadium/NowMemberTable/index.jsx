@@ -9,6 +9,46 @@ import { ConfigProvider, Table } from 'antd'
 
 import "./NowMemberTable.css"
 
+
+const getPositionCharacter = (id) => {
+
+
+    const map = {
+        1: "投",
+        2: "捕",
+        3: "一",
+        4: "二",
+        5: "三",
+        6: "遊",
+        7: "左",
+        8: "中",
+        9: "右",
+        10: "指",
+        11: "DH",
+        12: "DR",
+    }
+    return map[id] ?? map[1]
+}
+
+const getPositionIndex = (id) => {
+    console.log(id)
+    const map = {
+        "投": 1,
+        "捕": 2,
+        "一": 3,
+        "二": 4,
+        "三": 5,
+        "遊": 6,
+        "左": 7,
+        "中": 8,
+        "右": 9,
+        "指": 10,
+        "DH": 11,
+        "DR": 12,
+    }
+    return map[id] ?? map[1]
+}
+
 function NowMemberTable({ teamInfo, teamCD, onTeamInfoUpdate, selectedBatter }) {
     const [isModalOpen, setIsModalOpen] = useState(false)
     const [teamInfoMst, setTeamInfoMst] = useState([])
@@ -41,7 +81,14 @@ function NowMemberTable({ teamInfo, teamCD, onTeamInfoUpdate, selectedBatter }) 
             dataIndex: "batNo",
             key: "batNo",
             align: "center",
-            width: 30
+            width: 30,
+            render: (text, record, index) => {
+                return (
+                    <>
+                        {Number(text) >= 10 ? "投" : text}
+                    </>
+                )
+            }
         },
         {
             title: "番号",
@@ -73,7 +120,19 @@ function NowMemberTable({ teamInfo, teamCD, onTeamInfoUpdate, selectedBatter }) 
             dataIndex: "position",
             key: "position",
             align: "center",
-            width: 40
+            width: 40,
+            render: (text, record, index) => {
+                return (
+                    <div
+                        style={{ minWidth: "30px", cursor: "pointer" }}
+                        className='player-list-name-btn'
+                        onClick={() => console.log(teamInfo)}
+                    >
+                        {isNaN(Number(text)) ? text : getPositionCharacter(text)}
+                        {/* {text == "" ? "-" : getPositionIndex(text)} */}
+                    </div>
+                )
+            }
         },
     ]
 
