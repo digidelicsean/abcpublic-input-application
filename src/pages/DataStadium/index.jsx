@@ -6,7 +6,8 @@ import React, { useState, useEffect, useMemo } from 'react'
 import "./DataStadium.css"
 import BatterDataTable from './BatterDataTable'
 import SelectTable from "../../components/SelectTable"
-import { retrieveGameID, retrieveGameIDCollection } from './Data/fetchMatchInfo'
+import NowMemberTable from './NowMemberTable'
+import { postUpdateTeamInfo, retrieveGameID, retrieveGameIDCollection } from './Data/fetchMatchInfo'
 const theme = {
     components: {
         Card: {
@@ -19,55 +20,27 @@ const theme = {
         Radio: {
             buttonCheckedBg: "#cdcdcd",
             controlOutline: "white",
+        },
+        Table: {
+            rowSelectedBg: "#d8d8d8"
         }
     }
 }
 
-const columns = [
-    {
-        title: "順",
-        dataIndex: "order",
-        key: "order",
-        align: "center",
-        width: 30
-    },
-    {
-        title: "番号",
-        dataIndex: "backNumber",
-        key: "backNumber",
-        align: "center",
-        width: 40
-    },
-    {
-        title: "選手名",
-        dataIndex: "playerName",
-        key: "playerName",
-        align: "center",
-        width: 150
-    },
-    {
-        title: "守",
-        dataIndex: "defence",
-        key: "defence",
-        align: "center",
-        width: 40
-    },
-]
-
 const getDefenceName = (id) => {
     const map = {
-        1: "投手",
-        2: "捕手",
-        3: "一塁手",
-        4: "二塁手",
-        5: "三塁手",
-        6: "遊撃手",
-        7: "左翼手",
-        8: "中翼手",
-        9: "右翼手",
-        10: "指名打者",
-        11: "代打",
-        12: "代走",
+        1: "投",
+        2: "捕",
+        3: "一",
+        4: "二",
+        5: "三",
+        6: "遊",
+        7: "左",
+        8: "中",
+        9: "右",
+        10: "指",
+        11: "DH",
+        12: "DR",
     }
     return map[id] ?? map[1]
 }
@@ -81,63 +54,120 @@ function DataStadium() {
     const [matchInfo, setMatchInfo] = useState([])
     const [gameCollection, setGameCollection] = useState([])
 
-    const batterLineup_H = useMemo(() => {
-        if (gameCollection == null) return [];
-        console.log(gameCollection.find(data => data.Type == "TeamInfo_H")?.TeamInfo_H?.NowMember)
-        const startingMembers = gameCollection?.find(data => data.Type == "TeamInfo_H")?.TeamInfo_H?.NowMember ?? []
-        const lineup = [];
+    const [teamInfoH, setTeamInfoH] = useState([])
+    const [teamInfoV, setTeamInfoV] = useState([])
 
-        if (startingMembers.length == 0) return []
+    const [selectedBatter, setSelectedBatter] = useState(10);
 
-        let idx = 0;
-        for (const playerInfo of Object.values(startingMembers)) {
-            lineup.push({
-                key: idx,
-                order: playerInfo.BatNo,
-                backNumber: playerInfo.BackNumber,
-                playerName: playerInfo.PlayerNameL,
-                defence: getDefenceName(playerInfo.Position)
-            })
-            idx++;
+    const onNowMemberUpdate = (newUpdatedInfo, selectedTeam) => {
+        const key = selectedTeam == "home" ? "TeamInfo_H" : "TeamInfo_V"
+        const nowMembers = gameCollection?.find(data => data.Type == key)[key]?.NowMember ?? []
+
+
+        const updatedNowMembers = { ...nowMembers }
+        console.log(nowMembers, newUpdatedInfo)
+
+        for (let i = 0; i < newUpdatedInfo.length; i++) {
+            const idx = i < 9 ? i + 1 : "Pitcher"
+
+            updatedNowMembers[`PlayerInfo_${idx}`].BatNo = newUpdatedInfo[i].batNo;
+            updatedNowMembers[`PlayerInfo_${idx}`].BackNumber = newUpdatedInfo[i].backNumber;
+            updatedNowMembers[`PlayerInfo_${idx}`].PlayerNameL = newUpdatedInfo[i].playerNameL;
+            updatedNowMembers[`PlayerInfo_${idx}`].PlayerNameS = newUpdatedInfo[i].playerNameS;
+            updatedNowMembers[`PlayerInfo_${idx}`].Position = newUpdatedInfo[i].position;
+            updatedNowMembers[`PlayerInfo_${idx}`].PlayerID = newUpdatedInfo[i].playerID;
+        }
+        postUpdateTeamInfo(matchInfo.GameID, updatedNowMembers, key);
+    }
+
+    useEffect(() => {
+        const startingMembersH = gameCollection?.find(data => data.Type == "TeamInfo_H")?.TeamInfo_H?.NowMember ?? []
+        const startingMembersV = gameCollection?.find(data => data.Type == "TeamInfo_V")?.TeamInfo_V?.NowMember ?? []
+
+        const createTeamInfo = (startingMembers) => {
+            const lineup = [];
+
+            if (startingMembers.length == 0) return []
+
+            let idx = 0;
+            for (const playerInfo of Object.values(startingMembers)) {
+                lineup.push({
+                    key: idx + 1,
+                    batNo: idx == 9 ? "投" : playerInfo.BatNo,
+                    backNumber: playerInfo.BackNumber,
+                    playerNameL: playerInfo.PlayerNameL,
+                    playerNameS: playerInfo.PlayerNameS,
+                    playerID: playerInfo.PlayerID,
+                    position: getDefenceName(playerInfo.Position)
+                })
+                idx++;
+            }
+            return lineup;
         }
 
-
-        return lineup;
-    }, [gameCollection])
-
-    const batterLineup_V = useMemo(() => {
-        if (gameCollection == null) return [];
-        console.log(gameCollection.find(data => data.Type == "TeamInfo_V")?.TeamInfo_V?.NowMember)
-        const startingMembers = gameCollection?.find(data => data.Type == "TeamInfo_V")?.TeamInfo_V?.NowMember ?? []
-        const lineup = [];
-
-        if (startingMembers.length == 0) return []
-
-        let idx = 0;
-        for (const playerInfo of Object.values(startingMembers)) {
-            lineup.push({
-                key: idx,
-                order: playerInfo.BatNo,
-                backNumber: playerInfo.BackNumber,
-                playerName: playerInfo.PlayerNameL,
-                defence: getDefenceName(playerInfo.Position)
-            })
-            idx++;
+        if (startingMembersH.length == 0) {
+            setTeamInfoH([])
+        } else {
+            setTeamInfoH(createTeamInfo(startingMembersH))
         }
 
-
-        return lineup;
+        if (startingMembersV.length == 0) {
+            setTeamInfoV([])
+        } else {
+            setTeamInfoV(createTeamInfo(startingMembersV))
+        }
     }, [gameCollection])
 
     useEffect(() => {
         retrieveGameID("MatchInfo_1").then((data) => {
             setMatchInfo(data.MatchInfo_1)
-            retrieveGameIDCollection(data.GameID).then((data) => {
-            // retrieveGameIDCollection("2021013466").then((data) => {
+            retrieveGameIDCollection(data.MatchInfo_1.GameID).then((data) => {
                 setGameCollection(data)
             })
         })
     }, [])
+
+    const retrieveStartingPlayerData = async () => {
+        if (!gameCollection)
+            return;
+
+        const startingMemberData = Object.values(gameCollection.filter(collection => collection?.Type == "Starting")[0]?.Starting?.TeamInfo ?? []) ?? []
+        console.log(startingMemberData)
+        if (startingMemberData.length == 0)
+            return;
+
+        const homeTeamInfo = startingMemberData[0] ?? []
+        const visitorTeamInfo = startingMemberData[1] ?? [];
+
+        const updateData = (teamInfo, newTeamInfo, setTeamInfo, team) => {
+            let idx = 0
+            const teamInfoCopy = [...teamInfo];
+            for (const key in newTeamInfo) {
+                if (!key.includes("Player"))
+                    continue;
+
+                const playerInfo = newTeamInfo[key]
+
+                if (idx > 9) continue;
+
+                teamInfoCopy[idx].batNo = playerInfo.StartBatNo;
+                teamInfoCopy[idx].backNumber = playerInfo.BackNumber
+                teamInfoCopy[idx].playerNameL = playerInfo.PlayerNameL
+                teamInfoCopy[idx].playerNameS = playerInfo.PlayerNameS
+                teamInfoCopy[idx].position = getDefenceName(playerInfo.StartPosition)
+                teamInfoCopy[idx].playerId = playerInfo.PlayerID;
+                // teamInfoCopy[idx].teamId = playerInfo.TeamID;
+                idx++;
+            }
+
+            console.log(teamInfoCopy)
+            setTeamInfo(teamInfoCopy);
+            onNowMemberUpdate(teamInfoCopy, team)
+        }
+
+        updateData(teamInfoH, homeTeamInfo, setTeamInfoH, "home");
+        updateData(teamInfoV, visitorTeamInfo, setTeamInfoV, "visitor");
+    }
 
     return (
         <ConfigProvider theme={theme}>
@@ -239,6 +269,7 @@ function DataStadium() {
                     <div className='player-list-content'>
                         <div className='player-list-header'>
                             <Button>← 戻る</Button>
+                            <Button onClick={retrieveStartingPlayerData}>スタメンを取得</Button>
                             <Button>CSV取込</Button>
                         </div>
 
@@ -259,7 +290,6 @@ function DataStadium() {
                                         style={{ backgroundColor: selectedTeam == "visitor" ? "#d9d9d9" : "white" }}
                                         onClick={() => {
                                             setSelectedTeam("visitor")
-                                            console.log("Test")
                                         }}
                                     >
                                         {matchInfo?.TeamName_V ?? "阪神"}
@@ -267,20 +297,34 @@ function DataStadium() {
                                     <Button className="player-list-btn">投球順</Button>
                                 </div>
 
-                                <Button className="batter-move-btn">現打者移動 ˄</Button>
-                                <SelectTable
-                                    columns={columns}
-                                    data={selectedTeam == "home" ? batterLineup_H : batterLineup_V}
-                                    theme={{
-                                        components: {
-                                            Table: {
-                                                cellPaddingBlock: 10
-                                            }
-                                        }
+                                <Button
+                                    className="batter-move-btn"
+                                    onClick={() => {
+                                        if (selectedBatter == 1)
+                                            setSelectedBatter(10)
+                                        else
+                                            setSelectedBatter(selectedBatter - 1);
                                     }}
-                                // height="48vh"
+                                >
+                                    現打者移動 ˄
+                                </Button>
+                                <NowMemberTable
+                                    teamInfo={selectedTeam == "home" ? teamInfoH : teamInfoV}
+                                    teamCD={selectedTeam == "home" ? matchInfo?.TeamCD_H ?? -1 : matchInfo?.TeamCD_V ?? -1}
+                                    onTeamInfoUpdate={(newUpdatedInfo) => { onNowMemberUpdate(newUpdatedInfo, selectedTeam) }}
+                                    selectedBatter={selectedBatter}
                                 />
-                                <Button className="batter-move-btn">現打者移動 ˅</Button>
+                                <Button
+                                    className="batter-move-btn"
+                                    onClick={() => {
+                                        if (selectedBatter == 10)
+                                            setSelectedBatter(1)
+                                        else
+                                            setSelectedBatter(selectedBatter + 1);
+                                    }}
+                                >
+                                    現打者移動 ˅
+                                </Button>
                                 <Button style={{ width: "30%", marginTop: "10px" }}>ベンチ</Button>
 
                             </div>
