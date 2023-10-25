@@ -4,11 +4,11 @@
 import React, { useEffect, useMemo, useState } from 'react'
 import SelectTable from '../../../components/SelectTable'
 import PlayerSubModal from '../PlayerSubModal'
+import PositionChangeModal from '../PositionChangeModal'
 import { fetchPlayerInfoMST } from './Data/retrieveTeamInfo'
 import { ConfigProvider, Table } from 'antd'
 
 import "./NowMemberTable.css"
-import PositionChangeModal from '../PositionChangeModal'
 
 
 const getPositionCharacter = (id) => {
@@ -31,24 +31,6 @@ const getPositionCharacter = (id) => {
     return map[id] ?? map[1]
 }
 
-const getPositionIndex = (id) => {
-    console.log(id)
-    const map = {
-        "投": 1,
-        "捕": 2,
-        "一": 3,
-        "二": 4,
-        "三": 5,
-        "遊": 6,
-        "左": 7,
-        "中": 8,
-        "右": 9,
-        "指": 10,
-        "DH": 11,
-        "DR": 12,
-    }
-    return map[id] ?? map[1]
-}
 
 function NowMemberTable({ teamInfo, teamCD, onTeamInfoUpdate, selectedBatter }) {
     const [isSubModalOpen, setIsSubModalOpen] = useState(false)
@@ -109,7 +91,7 @@ function NowMemberTable({ teamInfo, teamCD, onTeamInfoUpdate, selectedBatter }) 
             render: (text, record, index) => {
                 return (
                     <div
-                        style={{ minWidth: "50px", cursor: "pointer" }}
+                        style={{ minWidth: "50px", cursor: "pointer", userSelect: "none" }}
                         className='player-list-name-btn'
                         onClick={() => onSubMember(record, index)}
                     >
@@ -127,12 +109,11 @@ function NowMemberTable({ teamInfo, teamCD, onTeamInfoUpdate, selectedBatter }) 
             render: (text, record, index) => {
                 return (
                     <div
-                        style={{ minWidth: "30px", cursor: "pointer" }}
+                        style={{ minWidth: "30px", cursor: "pointer", userSelect: "none" }}
                         className='player-list-name-btn'
-                        onClick={() => console.log(teamInfo)}
+                        onClick={() => onPositionChange(record, index)}
                     >
                         {isNaN(Number(text)) ? text : getPositionCharacter(text)}
-                        {/* {text == "" ? "-" : getPositionIndex(text)} */}
                     </div>
                 )
             }
@@ -148,6 +129,7 @@ function NowMemberTable({ teamInfo, teamCD, onTeamInfoUpdate, selectedBatter }) 
     const onPositionChange = (record, index) => {
         setIsPosChangeModalOpen(true);
         setIndexToSub(index)
+        setPosToSub(record)
     }
 
     useEffect(() => {
@@ -208,6 +190,24 @@ function NowMemberTable({ teamInfo, teamCD, onTeamInfoUpdate, selectedBatter }) 
 
             <PositionChangeModal
                 isOpen={isPosChangeModalOpen}
+                currentPosition={posToSub}
+                onCancel={() => {
+                    setIsPosChangeModalOpen(false)
+                }}
+                onSubmit={(newPosition) => {
+                    console.log(newPosition)
+                    if (newPosition != "") {
+                        const newTeamInfo = [...teamInfo]
+
+                        newTeamInfo[indexToSub]["position"] = newPosition;
+
+                        if (onTeamInfoUpdate)
+                            onTeamInfoUpdate(newTeamInfo)
+                    }
+                    setIndexToSub("")
+                    setPosToSub("")
+                    setIsPosChangeModalOpen(false)
+                }}
             />
         </>
     )
