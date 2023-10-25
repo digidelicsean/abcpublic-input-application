@@ -96,6 +96,32 @@ function MatchSettings() {
     setOtherGameInfo(otherStadiumInfo)
   }, [seasonSchedule, selectedGameID])
 
+  const createGameInfoData = async () => {
+    if(selectedMatchInfo.length == 0) return;
+
+    const dataStructure = {
+      Type: "GameInfo",
+      GameInfo: {
+        Delivery: deliveryType,
+        GameNum: 1,
+        GameClassCD: gameClassCD,
+        GameClass: gameClass.GameClass,
+        Date: date,
+        GameID: selectedGameID,
+        StadiumCD: selectedMatchInfo.StadiumID,
+        Stadium: selectedMatchInfo.StadiumName,
+        TeamCD_H: selectedMatchInfo.HomeTeamID,
+        TeamName_H: selectedMatchInfo.HomeTeamNameS,
+        TeamCD_V: selectedMatchInfo.VisitorTeamID,
+        TeamName_V: selectedMatchInfo.VisitorTeamNameS,
+      }
+    }
+
+    console.log(dataStructure)
+    
+    postMatchInfoData(dataStructure, selectedGameID)
+  }
+
   const createMatchInfoData = async () => {
     if (selectedMatchInfo.length == 0) return;
 
@@ -205,7 +231,7 @@ function MatchSettings() {
   }
 
   const createOtherStadiumInfoData = async (otherStadiumInfo) => {
-    if (otherStadiumInfo?.length == 0) return;
+    // if (otherStadiumInfo?.length == 0) return;
 
     const dataStructure = {
       Type: "OtherGameInfo",
@@ -537,6 +563,7 @@ function MatchSettings() {
               style={{ backgroundColor: "#647dae", color: "white" }}
               className="match-settings-btn"
               onClick={() => {
+                createGameInfoData();
                 createMatchInfoData();
                 createTeamInfoData();
               }}
