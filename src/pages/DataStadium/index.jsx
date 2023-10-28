@@ -32,6 +32,9 @@ const theme = {
         Table: {
             rowSelectedBg: "#d8d8d8",
         },
+        Button: {
+            colorTextDisabled: "black"
+        },
     },
 };
 
@@ -299,7 +302,7 @@ function DataStadium() {
 
         const runtimeScore = gameCollection.find(x => x.Type == "RuntimeScore")?.RuntimeScore
         if(runtimeScore != null || runtimeScore != undefined) {
-            const selectedTeam = runtimeScore?.TB == 1 ? "home" : "visitor"
+            const selectedTeam = runtimeScore?.TB == 2 ? "home" : "visitor"
             setSelectedTeam(selectedTeam)
         }
         setRuntimeScore(runtimeScore)
@@ -620,6 +623,7 @@ function DataStadium() {
                                             backgroundColor:
                                                 selectedTeam == "home" ? "#d9d9d9" : "white",
                                         }}
+                                        disabled
                                         onClick={() => {
                                             setSelectedTeam("home");
 
@@ -645,6 +649,7 @@ function DataStadium() {
                                             backgroundColor:
                                                 selectedTeam == "visitor" ? "#d9d9d9" : "white",
                                         }}
+                                        disabled
                                         onClick={() => {
                                             setSelectedTeam("visitor");
 
