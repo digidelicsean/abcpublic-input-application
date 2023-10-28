@@ -162,12 +162,15 @@ function DataStadium() {
     }, [runtimeScore, gameCollection, teamInfoH, teamInfoV]);
 
     const totalStats = useMemo(() => {
-        if (!gameCollection) return;
-        if (!currentBatterData?.CurrentBatter) return;
+        if (!gameCollection) return [];
+        if (!currentBatterData?.CurrentBatter) return [];
 
         const batterId = currentBatterData?.CurrentBatter?.PlayerID
         const team = runtimeScore?.TB == "1" ? "Team_V" : "Team_H";
-        const totalStats = gameCollection?.find(x => x.Type == "TotalStats")[team]
+        const totalStats = gameCollection?.find(x => x.Type == "TotalStats") ? gameCollection?.find(x => x.Type == "TotalStats")[team] : [];
+
+        if (totalStats.length == 0)
+            return []
 
         const batterHittingStats = totalStats ? totalStats[`Player_${batterId}`]?.HittingStats : [];
 
@@ -175,18 +178,16 @@ function DataStadium() {
     }, [gameCollection, currentBatterData, runtimeScore])
 
     const lastUpdatedTime = useMemo(() => {
-        if(!gameCollection) return "";
+        if (!gameCollection) return "";
 
         const gameTable = gameCollection?.find(x => x.Type == "GameTable")?.GameTable
-        if(!gameTable) return "";
+        if (!gameTable) return "";
 
         return gameTable?.LastUpdateTime
     }, [gameCollection])
 
     const refreshData = async () => {
         const gameCollection = await retrieveGameCollectionData()
-        // retrieveTeamInfoData(gameCollection)
-        // retrieveRuntimeScore(gameCollection)
         console.log("refresh")
     }
 
@@ -297,6 +298,10 @@ function DataStadium() {
         }
 
         const runtimeScore = gameCollection.find(x => x.Type == "RuntimeScore")?.RuntimeScore
+        if(runtimeScore != null || runtimeScore != undefined) {
+            const selectedTeam = runtimeScore?.TB == 1 ? "home" : "visitor"
+            setSelectedTeam(selectedTeam)
+        }
         setRuntimeScore(runtimeScore)
 
     }
@@ -669,7 +674,7 @@ function DataStadium() {
                                             selectedTeam == "home" ? "TeamInfo_H" : "TeamInfo_V";
                                         let newBatterNo = selectedBatter;
 
-                                        if (newBatterNo <= 1) newBatterNo = 10;
+                                        if (newBatterNo <= 1) newBatterNo = 9;
                                         else newBatterNo--;
 
                                         setSelectedBatter(newBatterNo);
@@ -702,7 +707,7 @@ function DataStadium() {
                                             selectedTeam == "home" ? "TeamInfo_H" : "TeamInfo_V";
                                         let newBatterNo = selectedBatter;
 
-                                        if (newBatterNo >= 10) newBatterNo = 1;
+                                        if (newBatterNo >= 9) newBatterNo = 1;
                                         else newBatterNo++;
 
                                         setSelectedBatter(newBatterNo);
