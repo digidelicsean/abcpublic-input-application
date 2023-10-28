@@ -49,11 +49,10 @@ function NowMemberTable({ teamInfo, teamCD, onTeamInfoUpdate, selectedBatter }) 
 
         for (let i = 0; i < teamInfoMst.length; i++) {
             const playerInfo = teamInfoMst[i];
-
             players.push({
                 backNumber: playerInfo.UniformNO,
                 playerName: playerInfo.Player,
-                playerCD: playerInfo.PlayerCD
+                playerID: playerInfo.PlayerCD
             })
         }
 
@@ -177,6 +176,24 @@ function NowMemberTable({ teamInfo, teamCD, onTeamInfoUpdate, selectedBatter }) 
                     const newTeamInfo = [...teamInfo]
                     newTeamInfo[indexToSub].backNumber = selectedPlayerData.backNumber;
                     newTeamInfo[indexToSub].playerNameL = selectedPlayerData.playerName;
+                    newTeamInfo[indexToSub].playerID = selectedPlayerData.playerID
+                    console.log(newTeamInfo[indexToSub])
+
+                    console.log(newTeamInfo)
+
+                    const pitcherData = newTeamInfo.find(x => x.position == 1)
+                    const idx = newTeamInfo.length - 1
+                    if (pitcherData) {
+
+                        newTeamInfo[idx] = pitcherData;
+                    } else {
+                        newTeamInfo[idx].backNumber = "";
+                        newTeamInfo[idx].batNo = "";
+                        newTeamInfo[idx].playerID = "";
+                        newTeamInfo[idx].playerNameL = "";
+                        newTeamInfo[idx].playerNameS = "";
+                        newTeamInfo[idx].position = "0";
+                    }
 
                     if (onTeamInfoUpdate)
                         onTeamInfoUpdate(newTeamInfo)
@@ -200,6 +217,22 @@ function NowMemberTable({ teamInfo, teamCD, onTeamInfoUpdate, selectedBatter }) 
                         const newTeamInfo = [...teamInfo]
 
                         newTeamInfo[indexToSub]["position"] = newPosition;
+
+                        const pitcherData = newTeamInfo.find(x => x.position == 1)
+                        const idx = newTeamInfo.length - 1
+                        if (pitcherData) {
+
+                            newTeamInfo[idx] = pitcherData;
+                        } else {
+                            newTeamInfo[idx].backNumber = "";
+                            newTeamInfo[idx].batNo = "";
+                            newTeamInfo[idx].playerID = "";
+                            newTeamInfo[idx].playerNameL = "";
+                            newTeamInfo[idx].playerNameS = "";
+                            newTeamInfo[idx].position = "0";
+                        }
+
+                        console.log(newTeamInfo)
 
                         if (onTeamInfoUpdate)
                             onTeamInfoUpdate(newTeamInfo)

@@ -67,7 +67,7 @@ function PlayerSubModal({ isOpen, onSubmit, onCancel, playerList, playerToSub })
     const onNumPadClick = (value) => {
         if (value == "Enter") {
             const selectedPlayer = playerList.find(x => x.backNumber == selectedBackNum);
-            setSelectedPlayer(selectedPlayer.playerName ?? "");
+            setSelectedPlayer(selectedPlayer?.playerName ?? "");
 
         } else if (value == "Del") {
             if (selectedBackNum.length == 0) {

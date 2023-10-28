@@ -151,11 +151,6 @@ function MatchSettings() {
   const createTeamInfoData = async () => {
     if (selectedMatchInfo.length == 0) return;
 
-    // const gameIdCollection = await fetchGameIDCollection(selectedGameID);
-    // const startingMemberData = Object.values(gameIdCollection.filter(collection => collection?.Type == "Starting")[0]?.Starting?.TeamInfo ?? []) ?? []
-
-    // const homeTeamInfo = startingMemberData[0] ?? []
-    // const visitorTeamInfo = startingMemberData[1] ?? [];
 
     const createPlayerInfoData = () => {
       const playerInfoData = {}
@@ -228,6 +223,18 @@ function MatchSettings() {
     postMatchInfoData(homeTeamInfoData, selectedGameID)
     postMatchInfoData(visitorTeamInfoData, selectedGameID)
 
+  }
+
+  const createEmptyRuntimeScore = async () => {
+    const dataStructure = {
+      Type: "RuntimeScore",
+      RuntimeScore: {
+        Inning: 1,
+        TB: 1
+      }
+    }
+
+    postMatchInfoData(dataStructure, selectedGameID)
   }
 
   const createOtherStadiumInfoData = async (otherStadiumInfo) => {
@@ -536,7 +543,7 @@ function MatchSettings() {
                     <div className="match-data-info">
                       <LabeledText label="先攻チーム" value={selectedMatchInfo?.VisitorTeamName ?? ""} size={{ width: "90%" }} textAlign="left" disabled={deliveryType == 1} />
                       <LabeledText label="後攻チーム" value={selectedMatchInfo?.HomeTeamName ?? ""} size={{ width: "90%" }} textAlign="left" disabled={deliveryType == 1} />
-                      <LabeledText label="他球名" value={selectedMatchInfo?.StadiumName ?? ""} size={{ width: "90%" }} textAlign="left" disabled={deliveryType == 1} />
+                      <LabeledText label="他球場名" value={selectedMatchInfo?.StadiumName ?? ""} size={{ width: "90%" }} textAlign="left" disabled={deliveryType == 1} />
                     </div>
                   </Card>
                 </div>
@@ -566,6 +573,7 @@ function MatchSettings() {
                 createGameInfoData();
                 createMatchInfoData();
                 createTeamInfoData();
+                createEmptyRuntimeScore();
               }}
             >
               試合設定
@@ -615,16 +623,16 @@ function MatchSettings() {
             <Button
               className="stadium-settings-btn"
               style={{ backgroundColor: "#647dae" }}
-              onClick={() => setIsEditModalOpen(true)}
+              onClick={() => createOtherStadiumInfoData(otherGameInfo)}
             >
               他球場設定
             </Button>
             <Button
               className="stadium-settings-btn"
-              style={{ backgroundColor: "#647dae", fontSize: "1.24em" }}
-              onClick={() => createOtherStadiumInfoData(otherGameInfo)}
+              style={{ backgroundColor: "white", color: "black", fontSize: "1.24em" }}
+              onClick={() => setIsEditModalOpen(true)}
             >
-              他球場情報更新
+              他球場情報
             </Button>
             <StadiumEditModal
               title={

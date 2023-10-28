@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
 import { defaultURI } from "../../../services/fetch/fetch-lib";
 
-export const retrieveGameID = async (matchInfo) => {
+export const retrieveMatchInfo = async (matchInfo) => {
   const uri = await defaultURI();
   const response = await fetch(
     `${uri}/abc-public/MatchSetting/MatchInfo/${matchInfo}`

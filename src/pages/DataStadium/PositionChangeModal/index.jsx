@@ -4,6 +4,22 @@ import React, { useState, useEffect } from 'react'
 import { ConfigProvider, Modal, Input, Button } from 'antd'
 import "./PositionChangeModal.css"
 
+const getPositionCharacter = (id) => {
+
+
+    const map = {
+        2: "キャッチャー",
+        3: "ファスト",
+        4: "セカンド",
+        5: "サード",
+        6: "ショート",
+        7: "レフト",
+        8: "センター",
+        9: "ライト",
+        11: "DH",
+    }
+    return map[id] ?? map[1]
+}
 
 const theme = {
     components: {
@@ -60,7 +76,7 @@ function PositionChangeModal({ isOpen, onSubmit, onCancel, currentPosition }) {
 
                         <div style={{ marginTop: "10px" }} className='current-player-data'>
                             <Input style={{ width: "25%", textAlign: "center" }} disabled value="現在" />
-                            <Input style={{ width: "70%", textAlign: "center" }} disabled value="ショート" />
+                            <Input style={{ width: "70%", textAlign: "center" }} disabled value={getPositionCharacter(currentPosition.position)} />
                         </div>
 
                         <div className='position-button-panel'>
