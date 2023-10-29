@@ -79,7 +79,7 @@ function MainMenu() {
           preview={false}
           width={100}
           height={34}
-          src="./logo_ABCAsahi.png"
+          src="./assets/logo_ABCAsahi.png"
         />
         <b className="header-name">SVCアプリ「仮」</b>
       </Header>
@@ -87,6 +87,9 @@ function MainMenu() {
       <Divider className="divider" />
 
       <Content className="content">
+        <Link to="/info-screen" style={{ alignSelf: "start", width: "9%", height: "60px", margin: "10px" }}>
+          <Button style={{ alignSelf: "start", width: "100%", height: "60px", margin: "10px" }}>情報表示ページ</Button>
+        </Link>
         <div className="menu-button-field">
           {menuButtons}
         </div>

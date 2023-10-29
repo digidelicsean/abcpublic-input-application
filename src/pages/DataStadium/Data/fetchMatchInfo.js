@@ -8,7 +8,6 @@ export const retrieveMatchInfo = async (matchInfo) => {
   );
   const data = await response.json();
 
-  //   console.log(data);
   return data;
 };
 
