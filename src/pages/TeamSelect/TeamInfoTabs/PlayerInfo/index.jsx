@@ -7,7 +7,7 @@ import React, { useMemo } from "react";
 import { Card, Button, Image } from "antd";
 
 import "./PlayerInfo.css";
-import arrow from "/arrow.png";
+import arrow from "/assets/arrow.png";
 
 import LabeledSegmented from "../../../../components/LabeledSegmented";
 

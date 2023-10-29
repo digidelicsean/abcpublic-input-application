@@ -79,7 +79,7 @@ function MainMenu() {
           preview={false}
           width={100}
           height={34}
-          src="./logo_ABCAsahi.png"
+          src="./assets/logo_ABCAsahi.png"
         />
         <b className="header-name">SVCアプリ「仮」</b>
       </Header>

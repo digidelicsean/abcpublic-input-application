@@ -36,6 +36,52 @@ function InfoScreenPage() {
 
     }, [gameCollection])
 
+    const TeamInfo1 = useMemo(() => {
+        const createBlankList = () => {
+            const blankList = []
+
+            for(let i = 0; i < 9; i++) {
+                const blankPlayerData = {
+                    key: i,
+                    startBatNo: i + 1,
+                    startPosition: "-",
+                    playerNameL: "-",
+                    battingType: "-",
+                    avg: "-"
+                }
+                blankList.push(blankPlayerData)
+            }
+            return blankList;
+        }
+        const blankPlayerList = createBlankList()
+        
+        if(!gameCollection || gameCollection?.length == 0) return [blankPlayerList];
+        
+        const startingData = gameCollection?.find(x => x.Type == "Starting")?.Starting ?? null
+        if(startingData == null) return [blankPlayerList];
+
+        const teamInfo = startingData?.TeamInfo["TeamInfo-1"]
+        const playerList = []
+
+        for(let i = 0; i < 9; i++) {
+            const playerData = teamInfo[`Player_${i+1}`] ?? null
+            if(playerData == null) continue;
+
+            const player = {
+                key: i,
+                startBatNo: playerData?.StartBatNo,
+                startPosition: playerData?.StartPosition,
+                playerNameL: playerData?.PlayerNameL,
+                battingType: playerData?.BattingType,
+                avg: playerData?.Avg
+            };
+            playerList.push(player)
+        }
+
+
+        return playerList;
+    }, [gameCollection])
+
     const TeamInfo2 = useMemo(() => {
         const createBlankList = () => {
             const blankList = []
@@ -121,7 +167,7 @@ function InfoScreenPage() {
         <div className='info-screen-page'>
             <ConfigProvider theme={theme}>
                 <div className='upper-layout'>
-                    <div className='home-list-view'>
+                    <div className='visitor-list-view'>
                         <Card className='info-screen-card' bodyStyle={cardBodyStyle}>
                             <PlayerListView teamInfo={TeamInfo2} color="red" />
                         </Card>
@@ -157,9 +203,9 @@ function InfoScreenPage() {
 
                     </div>
 
-                    <div className='visitor-list-view'>
+                    <div className='home-list-view'>
                         <Card className='info-screen-card' bodyStyle={cardBodyStyle}>
-                            <PlayerListView teamInfo={TeamInfo2} color="yellow" />
+                            <PlayerListView teamInfo={TeamInfo1} color="yellow" />
                         </Card>
                     </div>
                 </div>

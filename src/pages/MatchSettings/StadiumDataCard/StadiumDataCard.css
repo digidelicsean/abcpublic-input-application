@@ -1,7 +1,7 @@
 .stadium-data-card {
     display: inline-flex;
     flex-direction: column;
-    background-image: url("stadium-card.png");
+    background-image: url("/assets/stadium-card.png");
     background-repeat: no-repeat;
     background-size: cover;
 

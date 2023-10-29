@@ -53,27 +53,27 @@ function BallCountPanel({ bso }) {
         <Image
           height={(380 / 2) - 50}
           width={(600 / 2) - 50}
-          src={`./runner-${runner[0]}-${runner[1]}-${runner[2]}.png`}
+          src={`./info-screen-assets/runner-${runner[0]}-${runner[1]}-${runner[2]}.png`}
           preview={false}
         />
         <Image
           height={50}
           width={215}
-          src={`./ball-${ball}.png`}
+          src={`./info-screen-assets/ball-${ball}.png`}
           preview={false}
         />
         
         <Image
             height={50}
             width={215}
-            src={`./strike-${strike}.png`}
+            src={`./info-screen-assets/strike-${strike}.png`}
             preview={false}
           />
           
         <Image
             height={50}
             width={215}
-            src={`./out-${out}.png`}
+            src={`./info-screen-assets/out-${out}.png`}
             preview={false}
           />
 

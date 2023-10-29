@@ -45,7 +45,7 @@
 
     border-color: transparent;
 
-    background-image: url("./player-card.png");
+    background-image: url("/assets/player-card.png");
     background-repeat: no-repeat;
     background-size: cover;
     cursor: pointer;
