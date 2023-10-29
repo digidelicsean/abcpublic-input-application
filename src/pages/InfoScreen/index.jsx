@@ -26,7 +26,7 @@ function InfoScreenPage() {
 
                     <div className='game-data-view'>
                         <div className='game-data-inning'>
-                        <Card className='info-screen-card'>
+                            <Card className='info-screen-card'>
                                 Test2
                             </Card>
                         </div>
@@ -34,19 +34,19 @@ function InfoScreenPage() {
                         <div className='game-data-panel'>
 
                             <div className='game-data-pitch-info'>
-                        <Card className='info-screen-card'>
+                                <Card className='info-screen-card'>
                                     Test3
                                 </Card>
                             </div>
 
                             <div className='game-data-bso'>
-                        <Card className='info-screen-card'>
+                                <Card className='info-screen-card'>
                                     Test4
                                 </Card>
                             </div>
 
                             <div className='game-data-scoreboard'>
-                        <Card className='info-screen-card'>
+                                <Card className='info-screen-card'>
                                     Test5
                                 </Card>
                             </div>

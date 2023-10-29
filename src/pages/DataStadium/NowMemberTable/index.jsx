@@ -145,6 +145,67 @@ function NowMemberTable({ teamInfo, teamCD, onTeamInfoUpdate, selectedBatter }) 
         type: "radio",
     };
 
+    const onPlayerSubbed = (selectedPlayerData) => {
+
+        const newTeamInfo = [...teamInfo]
+        newTeamInfo[indexToSub].backNumber = selectedPlayerData.backNumber;
+        newTeamInfo[indexToSub].playerNameL = selectedPlayerData.playerName;
+        newTeamInfo[indexToSub].playerID = selectedPlayerData.playerID
+        console.log(newTeamInfo[indexToSub])
+
+        console.log(newTeamInfo)
+
+        const pitcherData = newTeamInfo.find(x => x.position == 1)
+        const idx = newTeamInfo.length - 1
+        if (pitcherData) {
+            newTeamInfo[idx] = pitcherData;
+        } else {
+            newTeamInfo[idx].backNumber = "";
+            newTeamInfo[idx].batNo = "";
+            newTeamInfo[idx].playerID = "";
+            newTeamInfo[idx].playerNameL = "";
+            newTeamInfo[idx].playerNameS = "";
+            newTeamInfo[idx].position = "0";
+        }
+
+        if (onTeamInfoUpdate)
+            onTeamInfoUpdate(newTeamInfo)
+        setIndexToSub("")
+        setPlayerToSub("")
+        setIsSubModalOpen(false);
+    }
+
+    const onPlayerPositionChanged = (newPosition) => {
+        console.log(newPosition)
+        if (newPosition != "") {
+            const newTeamInfo = [...teamInfo]
+
+            newTeamInfo[indexToSub]["position"] = newPosition;
+
+            const pitcherData = newTeamInfo.find(x => x.position == 1)
+            const idx = newTeamInfo.length - 1
+            if (pitcherData) {
+
+                newTeamInfo[idx] = pitcherData;
+            } else {
+                newTeamInfo[idx].backNumber = "";
+                newTeamInfo[idx].batNo = "";
+                newTeamInfo[idx].playerID = "";
+                newTeamInfo[idx].playerNameL = "";
+                newTeamInfo[idx].playerNameS = "";
+                newTeamInfo[idx].position = "0";
+            }
+
+            console.log(newTeamInfo)
+
+            if (onTeamInfoUpdate)
+                onTeamInfoUpdate(newTeamInfo)
+        }
+        setIndexToSub("")
+        setPosToSub("")
+        setIsPosChangeModalOpen(false)
+    }
+
     return (
         <>
             <ConfigProvider theme={{
@@ -171,36 +232,7 @@ function NowMemberTable({ teamInfo, teamCD, onTeamInfoUpdate, selectedBatter }) 
                     setPlayerToSub("")
                     setIsSubModalOpen(false)
                 }}
-                onSubmit={(selectedPlayerData) => {
-
-                    const newTeamInfo = [...teamInfo]
-                    newTeamInfo[indexToSub].backNumber = selectedPlayerData.backNumber;
-                    newTeamInfo[indexToSub].playerNameL = selectedPlayerData.playerName;
-                    newTeamInfo[indexToSub].playerID = selectedPlayerData.playerID
-                    console.log(newTeamInfo[indexToSub])
-
-                    console.log(newTeamInfo)
-
-                    const pitcherData = newTeamInfo.find(x => x.position == 1)
-                    const idx = newTeamInfo.length - 1
-                    if (pitcherData) {
-
-                        newTeamInfo[idx] = pitcherData;
-                    } else {
-                        newTeamInfo[idx].backNumber = "";
-                        newTeamInfo[idx].batNo = "";
-                        newTeamInfo[idx].playerID = "";
-                        newTeamInfo[idx].playerNameL = "";
-                        newTeamInfo[idx].playerNameS = "";
-                        newTeamInfo[idx].position = "0";
-                    }
-
-                    if (onTeamInfoUpdate)
-                        onTeamInfoUpdate(newTeamInfo)
-                    setIndexToSub("")
-                    setPlayerToSub("")
-                    setIsSubModalOpen(false);
-                }}
+                onSubmit={onPlayerSubbed}
                 playerList={playerListItems}
                 playerToSub={playerToSub}
             />
@@ -211,36 +243,7 @@ function NowMemberTable({ teamInfo, teamCD, onTeamInfoUpdate, selectedBatter }) 
                 onCancel={() => {
                     setIsPosChangeModalOpen(false)
                 }}
-                onSubmit={(newPosition) => {
-                    console.log(newPosition)
-                    if (newPosition != "") {
-                        const newTeamInfo = [...teamInfo]
-
-                        newTeamInfo[indexToSub]["position"] = newPosition;
-
-                        const pitcherData = newTeamInfo.find(x => x.position == 1)
-                        const idx = newTeamInfo.length - 1
-                        if (pitcherData) {
-
-                            newTeamInfo[idx] = pitcherData;
-                        } else {
-                            newTeamInfo[idx].backNumber = "";
-                            newTeamInfo[idx].batNo = "";
-                            newTeamInfo[idx].playerID = "";
-                            newTeamInfo[idx].playerNameL = "";
-                            newTeamInfo[idx].playerNameS = "";
-                            newTeamInfo[idx].position = "0";
-                        }
-
-                        console.log(newTeamInfo)
-
-                        if (onTeamInfoUpdate)
-                            onTeamInfoUpdate(newTeamInfo)
-                    }
-                    setIndexToSub("")
-                    setPosToSub("")
-                    setIsPosChangeModalOpen(false)
-                }}
+                onSubmit={onPlayerPositionChanged}
             />
         </>
     )
