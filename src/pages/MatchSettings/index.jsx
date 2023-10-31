@@ -646,9 +646,11 @@ function MatchSettings() {
                     color: "white",
                     fontSize: "1.35em",
                     fontWeight: "bold",
+                    userSelect: "none"
                   }}
                 >
-                  {year}.{month}.{day}
+                  他球場情報 設定中
+                  {/* {year}.{month}.{day} */}
                 </div>
               }
               mainStadiumInfo={selectedMatchInfo}
