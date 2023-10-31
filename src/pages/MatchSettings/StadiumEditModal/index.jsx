@@ -100,9 +100,9 @@ function StadiumEditModal({ title, mainStadiumInfo, otherStadiumInfo, isModalOpe
       closeIcon={false}
       maskClosable={false}
       keyboard={false}
-      okText="確定"
+      okText="OK"
     >
-      {mainDataBar}
+      {/* {mainDataBar} */}
       <DndContext collisionDetection={closestCenter} onDragEnd={onDragEnd}>
         <SortableContext items={dataIds} strategy={verticalListSortingStrategy}>
           {otherDataBars}
