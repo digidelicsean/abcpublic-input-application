@@ -24,6 +24,23 @@ const theme = {
     }
 }
 
+const getPositionCharacter = (positionType) => {
+    const map = {
+        1: "投",
+        2: "捕",
+        3: "一",
+        4: "二",
+        5: "三",
+        6: "游",
+        7: "左",
+        8: "中",
+        9: "右",
+        10: "指",
+        11: "DH",
+        12: "DR",
+    }
+}
+
 function InfoScreenPage() {
 
     const [matchInfo, setMatchInfo] = useState([])
@@ -40,7 +57,7 @@ function InfoScreenPage() {
         const createBlankList = () => {
             const blankList = []
 
-            for(let i = 0; i < 9; i++) {
+            for (let i = 0; i < 9; i++) {
                 const blankPlayerData = {
                     key: i,
                     startBatNo: i + 1,
@@ -54,18 +71,18 @@ function InfoScreenPage() {
             return blankList;
         }
         const blankPlayerList = createBlankList()
-        
-        if(!gameCollection || gameCollection?.length == 0) return [blankPlayerList];
-        
+
+        if (!gameCollection || gameCollection?.length == 0) return [blankPlayerList];
+
         const startingData = gameCollection?.find(x => x.Type == "Starting")?.Starting ?? null
-        if(startingData == null) return [blankPlayerList];
+        if (startingData == null) return [blankPlayerList];
 
         const teamInfo = startingData?.TeamInfo["TeamInfo-1"]
         const playerList = []
 
-        for(let i = 0; i < 9; i++) {
-            const playerData = teamInfo[`Player_${i+1}`] ?? null
-            if(playerData == null) continue;
+        for (let i = 0; i < 9; i++) {
+            const playerData = teamInfo[`Player_${i + 1}`] ?? null
+            if (playerData == null) continue;
 
             const player = {
                 key: i,
@@ -86,7 +103,7 @@ function InfoScreenPage() {
         const createBlankList = () => {
             const blankList = []
 
-            for(let i = 0; i < 9; i++) {
+            for (let i = 0; i < 9; i++) {
                 const blankPlayerData = {
                     key: i,
                     startBatNo: i + 1,
@@ -100,25 +117,25 @@ function InfoScreenPage() {
             return blankList;
         }
         const blankPlayerList = createBlankList()
-        
-        if(!gameCollection || gameCollection?.length == 0) return [blankPlayerList];
-        
+
+        if (!gameCollection || gameCollection?.length == 0) return [blankPlayerList];
+
         const startingData = gameCollection?.find(x => x.Type == "Starting")?.Starting ?? null
-        if(startingData == null) return [blankPlayerList];
+        if (startingData == null) return [blankPlayerList];
 
         const teamInfo = startingData?.TeamInfo["TeamInfo-2"]
         const playerList = []
 
-        for(let i = 0; i < 9; i++) {
-            const playerData = teamInfo[`Player_${i+1}`] ?? null
-            if(playerData == null) continue;
+        for (let i = 0; i < 9; i++) {
+            const playerData = teamInfo[`Player_${i + 1}`] ?? null
+            if (playerData == null) continue;
 
             const player = {
                 key: i,
                 startBatNo: playerData?.StartBatNo,
                 startPosition: playerData?.StartPosition,
                 playerNameL: playerData?.PlayerNameL,
-                battingType: playerData?.BattingType,
+                battingType: playerData?.BattingType == 1 ? "左" : "右",
                 avg: playerData?.Avg
             };
             playerList.push(player)
@@ -128,6 +145,25 @@ function InfoScreenPage() {
         return playerList;
     }, [gameCollection])
 
+    const TeamInfo1_CurrentBatter = useMemo(() => {
+        if (gameCollection == null || gameCollection == undefined) return "-1"
+
+        const teamInfo = gameCollection?.find(x => x.Type == "TeamInfo_H")?.TeamInfo_H ?? null
+        if (teamInfo == null) return -1;
+
+        console.log(teamInfo)
+
+        return teamInfo?.NowBatterNo
+    }, [gameCollection])
+
+    const TeamInfo2_CurrentBatter = useMemo(() => {
+        if (gameCollection == null || gameCollection == undefined) return "-1"
+
+        const teamInfo = gameCollection?.find(x => x.Type == "TeamInfo_V")?.TeamInfo_V ?? null
+        if (teamInfo == null) return -1;
+
+        return teamInfo?.NowBatterNo
+    }, [gameCollection])
 
 
     useEffect(() => {
@@ -140,7 +176,7 @@ function InfoScreenPage() {
             const data = await retrieveMatchInfo("MatchInfo_1")
             return data;
         }
-    
+
         const getGameIDCollection = async (gameId) => {
             const data = await retrieveGameIDCollection(gameId)
             return data;
@@ -148,7 +184,7 @@ function InfoScreenPage() {
 
         const retrievedMatchInfo = (await getMatchInfo())?.MatchInfo_1 ?? null;
         const gameId = retrievedMatchInfo?.GameID ?? ""
-        console.log('refresh')
+
         if (gameId == "") {
             setMatchInfo([])
             setGameCollection([])
@@ -161,7 +197,7 @@ function InfoScreenPage() {
         setGameCollection(retrievedGameCollection ?? [])
     }
 
-
+    console.log(TeamInfo2_CurrentBatter)
 
     return (
         <div className='info-screen-page'>
@@ -169,7 +205,7 @@ function InfoScreenPage() {
                 <div className='upper-layout'>
                     <div className='visitor-list-view'>
                         <Card className='info-screen-card' bodyStyle={cardBodyStyle}>
-                            <PlayerListView teamInfo={TeamInfo2} color="red" />
+                            <PlayerListView teamInfo={TeamInfo2} currentBatter={TeamInfo2_CurrentBatter} color="red" />
                         </Card>
                     </div>
 
@@ -205,7 +241,7 @@ function InfoScreenPage() {
 
                     <div className='home-list-view'>
                         <Card className='info-screen-card' bodyStyle={cardBodyStyle}>
-                            <PlayerListView teamInfo={TeamInfo1} color="yellow" />
+                            <PlayerListView teamInfo={TeamInfo1} currentBatter={TeamInfo1_CurrentBatter} color="yellow" />
                         </Card>
                     </div>
                 </div>

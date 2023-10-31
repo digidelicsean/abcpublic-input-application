@@ -80,13 +80,7 @@ const testData = [
     },
 ]
 
-const theme = {
-    components: {
-        Table: {
-            cellPaddingBlockSM: "12.5"
-        }
-    }
-}
+
 
 function PlayerListView({ teamInfo, currentBatter, size, color }) {
 
@@ -96,42 +90,120 @@ function PlayerListView({ teamInfo, currentBatter, size, color }) {
             dataIndex: "startBatNo",
             key: "startBatNo",
             align: "center",
-            width: 30
+            width: 30,
+            render: (text, record, index) => {
+                return (
+                    <span
+                        style={{
+                            fontWeight: index == currentBatter ? "bold" : "",
+                            color: index == currentBatter && color == "red" ? "white" : "black"
+                        }}
+                    >
+                        {text}
+                    </span>
+                )
+            }
         },
         {
             title: "",
             dataIndex: "startPosition",
             key: "startPosition",
             align: "center",
-            width: 30
+            width: 30,
+            render: (text, record, index) => {
+                return (
+                    <span
+                        style={{
+                            fontWeight: index == currentBatter ? "bold" : "",
+                            color: index == currentBatter && color == "red" ? "white" : "black"
+                        }}
+                    >
+                        {text}
+                    </span>
+                )
+            }
         },
         {
             title: "選手名",
             dataIndex: "playerNameL",
             key: "playerNameL",
-            align: "center"
+            align: "center",
+            render: (text, record, index) => {
+                return (
+                    <span
+                        style={{
+                            fontWeight: index == currentBatter ? "bold" : "",
+                            color: index == currentBatter && color == "red" ? "white" : "black"
+                        }}
+                    >
+                        {text}
+                    </span>
+                )
+            }
         },
         {
             title: "",
             dataIndex: "battingType",
             key: "battingType",
             align: "center",
-            width: 50
+            width: 50,
+            render: (text, record, index) => {
+                return (
+                    <span
+                        style={{
+                            fontWeight: index == currentBatter ? "bold" : "",
+                            color: index == currentBatter && color == "red" ? "white" : "black"
+                        }}
+                    >
+                        {text}
+                    </span>
+                )
+            }
         },
         {
             title: "打率",
             dataIndex: "avg",
             key: "avg",
             align: "center",
-            width: 80
+            width: 80,
+            render: (text, record, index) => {
+                return (
+                    <span
+                        style={{
+                            fontWeight: index == currentBatter ? "bold" : "",
+                            color: index == currentBatter && color == "red" ? "white" : "black"
+                        }}
+                    >
+                        {text}
+                    </span>
+                )
+            }
         },
     ]
 
     const colorStyle = (color) => {
         if (!color) return "background-red"
 
-        if(color == "red") return 'background-red'
-        else if(color == "yellow") return "background-yellow"
+        if (color == "red") return 'background-red'
+        else if (color == "yellow") return "background-yellow"
+    }
+
+    const rowSelectionParams = {
+        selectedRowKeys: [currentBatter ? currentBatter : null],
+        columnWidth: "0px",
+        renderCell: () => {
+            return <></>;
+        },
+        type: "radio",
+    }
+
+    const theme = {
+        components: {
+            Table: {
+                cellPaddingBlockSM: "12.5",
+                rowSelectedBg: color == "red" ? "rgb(208, 20, 20)" : "rgb(217, 230, 41)"
+            }
+        }
     }
 
     return (
@@ -147,6 +219,7 @@ function PlayerListView({ teamInfo, currentBatter, size, color }) {
                         filter: "drop-shadow(0px 0px 2.5px black)",
                         zIndex: 1
                     }}
+                    rowSelection={rowSelectionParams}
                 />
             </ConfigProvider>
         </div>
