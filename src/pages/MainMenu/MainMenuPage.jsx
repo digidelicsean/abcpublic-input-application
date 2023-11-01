@@ -9,7 +9,7 @@ import "./mainMenu.css";
 
 const { Header, Content, Footer } = Layout;
 
-function MainMenu() {
+function MainMenuPage() {
 
   const createMenuButton = (link, name, key) => {
     return (
@@ -99,4 +99,4 @@ function MainMenu() {
   );
 }
 
-export default MainMenu;
+export default MainMenuPage;

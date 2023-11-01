@@ -78,7 +78,7 @@ const createPrefix = (text) => {
     return <div style={{ width: "25px" }}>{text}:</div>
 }
 
-function DataStadium() {
+function DataStadiumPage() {
     const [isTwoHanded, setIsTwoHanded] = useState(false);
     const [handedness, setHandedness] = useState("left");
 
@@ -737,4 +737,4 @@ function DataStadium() {
     );
 }
 
-export default DataStadium;
+export default DataStadiumPage;

@@ -4,7 +4,7 @@
 import React, { useState, useEffect, useMemo } from "react";
 import { Button, Card, Tabs, Checkbox, ConfigProvider } from "antd";
 import { Link } from "react-router-dom";
-import LabeledText from "../../components/LabeledText/";
+import LabeledText from "../../components/LabeledText";
 import LabeledComboBox from "../../components/LabeledComboBox";
 
 import TeamInfo from "./TeamInfoTabs/TeamInfo";
@@ -32,7 +32,7 @@ import SpareTab from "./PlayerStatsInfoTabs/Spare";
 import { defaultTheme } from "./theme";
 import "./TeamSelect.css";
 
-function TeamSelect() {
+function TeamSelectPage() {
   const [teamMasterData, setTeamMasterData] = useState(null);
   const [playerMasterData, setPlayerMasterData] = useState([]);
 
@@ -298,4 +298,4 @@ function TeamSelect() {
   );
 }
 
-export default TeamSelect;
+export default TeamSelectPage;

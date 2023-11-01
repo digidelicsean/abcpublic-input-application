@@ -111,7 +111,7 @@ createColumnData();
 //   },
 // ]
 
-function PlayerProfile() {
+function PlayerProfilePage() {
   const [selectedBattingResult, setSelectedBattingResult] = useState("打者成績");
   const [selectedResultSelection, setSelectedResultSelection] = useState("大会通算");
 

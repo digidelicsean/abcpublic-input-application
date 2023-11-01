@@ -39,7 +39,7 @@ const theme = {
   },
 };
 
-function MatchSettings() {
+function MatchSettingsPage() {
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
 
   const [gameClassMST, setGameClassMST] = useState([])
@@ -665,4 +665,4 @@ function MatchSettings() {
   );
 }
 
-export default MatchSettings;
+export default MatchSettingsPage;

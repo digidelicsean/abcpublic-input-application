@@ -50,7 +50,7 @@ const buttonStyle = {
   boxShadow: "1px 1px 5px #6e6e6e",
 };
 
-function PlayerProfile() {
+function PlayerProfilePage() {
   const [canDelete, setCanDelete] = useState(false);
   const [canOverrideDS, setCanOverrideDS] = useState(false);
 
