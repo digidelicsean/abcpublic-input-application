@@ -5,9 +5,8 @@ import { Card, ConfigProvider, Input, Button, Radio } from "antd";
 import React, { useState, useEffect, useMemo } from "react";
 
 import "./DataStadium.css";
-import BatterDataTable from "./BatterDataTable";
-import SelectTable from "../../components/SelectTable";
-import NowMemberTable from "./NowMemberTable";
+import {DataStadiumComponents} from "../../components";
+
 import {
     postUpdateNowBatterNo,
     postUpdateTeamInfo,
@@ -15,6 +14,8 @@ import {
     retrieveGameIDCollection,
 } from "./Data/fetchMatchInfo";
 import { Link } from "react-router-dom";
+
+const {BatterDataTable, NowMemberTable} = DataStadiumComponents
 
 const theme = {
     components: {

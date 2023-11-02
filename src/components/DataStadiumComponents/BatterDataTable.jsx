@@ -4,7 +4,7 @@ import React from 'react'
 import { ConfigProvider, Table } from "antd"
 
 import "./BatterDataTable.css"
-import SelectTable from '../../../components/SelectTable'
+import {SelectTable} from "../../components"
 
 const theme = {
     components: {

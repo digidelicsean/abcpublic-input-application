@@ -1,4 +1,4 @@
-import { defaultURI } from "../../../../services/fetch/fetch-lib";
+import { defaultURI } from "../../../services/fetch/fetch-lib";
 
 export const fetchPlayerInfoMST = async (teamCD) => {
 

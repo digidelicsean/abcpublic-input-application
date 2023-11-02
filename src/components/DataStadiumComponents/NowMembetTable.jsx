@@ -2,7 +2,7 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable no-unused-vars */
 import React, { useEffect, useMemo, useState } from 'react'
-import SelectTable from '../../../components/SelectTable'
+import SelectTable from '../SelectTable'
 import PlayerSubModal from '../PlayerSubModal'
 import PositionChangeModal from '../PositionChangeModal'
 import { fetchPlayerInfoMST } from './Data/retrieveTeamInfo'

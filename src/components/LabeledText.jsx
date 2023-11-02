@@ -5,7 +5,7 @@ import { Input, ConfigProvider } from "antd";
 
 const { TextArea } = Input;
 
-import "./labeledText.css";
+import "./LabeledText.css";
 
 function LabeledText({
   label,
