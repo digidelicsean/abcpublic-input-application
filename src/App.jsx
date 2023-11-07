@@ -2,28 +2,28 @@
 import { useState } from "react";
 import { HashRouter as Router, Route, Routes } from "react-router-dom";
 
-import MainMenu from "./pages/MainMenu";
-import MatchSettings from "./pages/MatchSettings"
-import PlayerProfile from "./pages/PlayerProfile";
-import TeamSelect from "./pages/TeamSelect";
-import DataStadium from "./pages/DataStadium";
-import InfoScreenPage from "./pages/InfoScreen";
+// import MainMenuPage from "./pages/MainMenu/MainMenuPage";
+// import MatchSettingsPage from "./pages/MatchSettings/MatchSettingsPage"
+// import TeamSelectPage from "./pages/TeamSelect/TeamSelectPage";
+// import DataStadium from "./pages/DataStadium/DataStadium";
+// import InfoScreenPage from "./pages/InfoScreen";
+import { MainMenuPage, MatchSettingsPage, TeamSelectPage, InfoScreenPage, DataStadiumPage } from "./pages";
 
 import { Table, ConfigProvider} from "antd";
 import "./App.css";
 
-// import Test from "./Test"
+// import Test from "./Test"  
 function App() {
 
   return (
     <>
       <Router>
         <Routes>
-          <Route exact path="/" element={<MainMenu/>} />
-          <Route path="/match-settings" element={<MatchSettings/>} />
+          <Route exact path="/" element={<MainMenuPage/>} />
+          <Route path="/match-settings" element={<MatchSettingsPage/>} />
           {/* <Route path="/player-profile" element={<PlayerProfile/>} /> */}
-          <Route path="/player-profile" element={<TeamSelect/>} />
-          <Route path="/data-stadium" element ={<DataStadium/>}/>
+          <Route path="/player-profile" element={<TeamSelectPage/>} />
+          <Route path="/data-stadium" element ={<DataStadiumPage/>}/>
           <Route path="/info-screen" element={<InfoScreenPage/>}/>
         </Routes>
       </Router> 

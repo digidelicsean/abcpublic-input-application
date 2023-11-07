@@ -2,7 +2,7 @@
 import React, { useMemo, useState } from "react";
 import { Radio, Descriptions, Button } from "antd"
 
-import LabeledText from "../../../../components/LabeledText/index-backup";
+import { LabeledText } from "../../../../components";
 
 import "./battingRecord.css";
 
