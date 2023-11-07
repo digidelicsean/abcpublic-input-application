@@ -95,8 +95,8 @@ function PlayerListView({ teamInfo, currentBatter, size, color }) {
                 return (
                     <span
                         style={{
-                            fontWeight: index == currentBatter ? "bold" : "",
-                            color: index == currentBatter && color == "red" ? "white" : "black"
+                            fontWeight: index + 1 == currentBatter ? "bold" : "",
+                            color: index + 1 == currentBatter && color == "red" ? "white" : "black"
                         }}
                     >
                         {text}
@@ -114,8 +114,8 @@ function PlayerListView({ teamInfo, currentBatter, size, color }) {
                 return (
                     <span
                         style={{
-                            fontWeight: index == currentBatter ? "bold" : "",
-                            color: index == currentBatter && color == "red" ? "white" : "black"
+                            fontWeight: index + 1== currentBatter ? "bold" : "",
+                            color: index + 1 == currentBatter && color == "red" ? "white" : "black"
                         }}
                     >
                         {text}
@@ -132,8 +132,8 @@ function PlayerListView({ teamInfo, currentBatter, size, color }) {
                 return (
                     <span
                         style={{
-                            fontWeight: index == currentBatter ? "bold" : "",
-                            color: index == currentBatter && color == "red" ? "white" : "black"
+                            fontWeight: index + 1 == currentBatter ? "bold" : "",
+                            color: index + 1 == currentBatter && color == "red" ? "white" : "black"
                         }}
                     >
                         {text}
@@ -151,8 +151,8 @@ function PlayerListView({ teamInfo, currentBatter, size, color }) {
                 return (
                     <span
                         style={{
-                            fontWeight: index == currentBatter ? "bold" : "",
-                            color: index == currentBatter && color == "red" ? "white" : "black"
+                            fontWeight: index + 1 == currentBatter ? "bold" : "",
+                            color: index + 1 == currentBatter && color == "red" ? "white" : "black"
                         }}
                     >
                         {text}
@@ -170,8 +170,8 @@ function PlayerListView({ teamInfo, currentBatter, size, color }) {
                 return (
                     <span
                         style={{
-                            fontWeight: index == currentBatter ? "bold" : "",
-                            color: index == currentBatter && color == "red" ? "white" : "black"
+                            fontWeight: index + 1 == currentBatter ? "bold" : "",
+                            color: index + 1 == currentBatter && color == "red" ? "white" : "black"
                         }}
                     >
                         {text}
@@ -189,7 +189,7 @@ function PlayerListView({ teamInfo, currentBatter, size, color }) {
     }
 
     const rowSelectionParams = {
-        selectedRowKeys: [currentBatter ? currentBatter : null],
+        selectedRowKeys: [currentBatter ? currentBatter-1 : null],
         columnWidth: "0px",
         renderCell: () => {
             return <></>;
