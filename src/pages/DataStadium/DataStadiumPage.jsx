@@ -15,6 +15,8 @@ import {
 } from "./Data/fetchMatchInfo";
 import { Link } from "react-router-dom";
 
+import { useGameCollection, useMatchInfo, useGameCollection as useGameCollectionTest} from "../../hooks/useGameCollectionData";
+
 const {BatterDataTable, NowMemberTable} = DataStadiumComponents
 
 const theme = {
@@ -93,6 +95,11 @@ function DataStadiumPage() {
     const [selectedBatter, setSelectedBatter] = useState(1);
 
     const [runtimeScore, setRuntimeScore] = useState([]);
+
+    const testMatchInfo = useMatchInfo("MatchInfo_1")
+    const {lastUpdatedTimeTest, teamInfoHTest, teamInfoVTest} = useGameCollectionTest(testMatchInfo?.GameID)
+
+    console.log(testMatchInfo, lastUpdatedTimeTest, teamInfoHTest, teamInfoVTest)
 
     const inningData = useMemo(() => {
         return {
@@ -308,15 +315,16 @@ function DataStadiumPage() {
         setRuntimeScore(runtimeScore)
 
     }
+    
+    useEffect(() => {
+        retrieveGameCollectionData();
+    }, []);
 
     useEffect(() => {
         retrieveTeamInfoData(gameCollection)
         retrieveRuntimeScore(gameCollection);
     }, [gameCollection]);
 
-    useEffect(() => {
-        retrieveGameCollectionData();
-    }, []);
 
     useEffect(() => {
         const intervalId = setInterval(refreshData, 1000);

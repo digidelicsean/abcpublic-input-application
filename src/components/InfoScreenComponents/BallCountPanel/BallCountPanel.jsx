@@ -4,48 +4,50 @@ import React, { useState, useEffect, useMemo } from 'react'
 import { ConfigProvider, Image } from "antd"
 
 import "./BallCountPanel.css"
+import { useInfoScreenContext } from '../../../pages/InfoScreen/Hooks/useContext/context'
 
 const theme = {
 
 }
 
-function BallCountPanel({ bso }) {
+function BallCountPanel({}) {
+  const {BSO} = useInfoScreenContext()
 
   const runner = useMemo(() => {
-    if (bso == null || bso == undefined) {
+    if (BSO == null || BSO == undefined) {
       return [0, 0, 0]
     }
 
-    const runnerPlates = [bso?.Runner_1 ?? 0, bso?.Runner_2 ?? 0, bso?.Runner_3 ?? 0]
+    const runnerPlates = [BSO?.Runner_1 ?? 0, BSO?.Runner_2 ?? 0, BSO?.Runner_3 ?? 0]
     return runnerPlates;
-  }, [bso])
+  }, [BSO])
 
   const ball = useMemo(() => {
-    if (bso == null || bso == undefined) {
+    if (BSO == null || BSO == undefined) {
       return 0
     }
 
-    const ballCount = bso?.B ?? 0
+    const ballCount = BSO?.B ?? 0
     return ballCount;
-  }, [bso])
+  }, [BSO])
 
   const strike = useMemo(() => {
-    if (bso == null || bso == undefined) {
+    if (BSO == null || BSO == undefined) {
       return 0
     }
 
-    const strikeCount = bso?.S ?? 0
+    const strikeCount = BSO?.S ?? 0
     return strikeCount;
-  }, [bso])
+  }, [BSO])
 
   const out = useMemo(() => {
-    if (bso == null || bso == undefined) {
+    if (BSO == null || BSO == undefined) {
       return 0
     }
 
-    const outCount = bso?.O ?? 0
+    const outCount = BSO?.O ?? 0
     return outCount;
-  }, [bso])
+  }, [BSO])
 
   return (
     <div className='ball-count-panel'>

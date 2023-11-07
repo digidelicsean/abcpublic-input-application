@@ -1,4 +1,5 @@
 import DataStadiumComponents from "./DataStadiumComponents"
+import InfoScreenComponents from "./InfoScreenComponents"
 
 
 
@@ -7,4 +8,4 @@ export {default as LabeledSegmented} from "./LabeledSegmented"
 export {default as LabeledText} from "./LabeledText"
 export {default as SelectTable} from "./SelectTable"
 
-export {DataStadiumComponents}
+export {DataStadiumComponents, InfoScreenComponents}
