@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable no-unused-vars */
 import React, { useState } from 'react'
-import StadiumDataCard from '../StadiumDataCard'
+import StadiumDataCard from './StadiumDataCard'
 
 function OtherStadiumData({ otherData, deliveryType, onDataUpdate }) {
 
