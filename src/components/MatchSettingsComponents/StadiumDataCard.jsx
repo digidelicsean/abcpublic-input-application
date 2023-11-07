@@ -3,8 +3,8 @@
 import React, { useState, useMemo } from "react";
 import { Button, Card } from "antd";
 
-import LabeledComboBox from "../../../components/LabeledComboBox";
-import LabeledText from "../../../components/LabeledText"
+import LabeledComboBox from "../LabeledComboBox";
+import LabeledText from "../LabeledText"
 import "./StadiumDataCard.css";
 
 

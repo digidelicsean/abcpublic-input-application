@@ -6,10 +6,10 @@
 import React, { useMemo } from "react";
 import { Card, Button, Image } from "antd";
 
-import "./PlayerInfo.css";
+import "./PlayerInfoTab.css";
 import arrow from "/assets/arrow.png";
 
-import LabeledSegmented from "../../../../components/LabeledSegmented";
+import LabeledSegmented from "../LabeledSegmented";
 
 function PlayerInfoButton({ playerInfo, onPlayerSelect }) {
   return (

@@ -7,27 +7,30 @@ import { Link } from "react-router-dom";
 import LabeledText from "../../components/LabeledText";
 import LabeledComboBox from "../../components/LabeledComboBox";
 
-import TeamInfo from "./TeamInfoTabs/TeamInfo";
-import PlayerInfo from "./TeamInfoTabs/PlayerInfo";
+// import TeamInfo from "./TeamInfoTabs/TeamInfo";
+// import PlayerInfo from "./TeamInfoTabs/PlayerInfo";
 
 import {
   fetchCoachData,
   fetchTeamMasterData,
   generateTeamOptions,
-} from "./TeamInfoTabs/TeamInfo/Data/teamInfoData";
+} from "../../components/TeamSelectComponents/TeamInfoTabs/TeamInfo/Data/teamInfoData"
 
 import {
   fetchPlayerMasterData,
   generatePlayerOptions,
-} from "./TeamInfoTabs/PlayerInfo/Data/playerInfoData";
+} from "../../components/TeamSelectComponents/TeamInfoTabs/PlayerInfo/Data/playerInfoData";
 
-import BattingAverageTab from "./PlayerStatsInfoTabs/BattingAverageByCourse";
-import BattingRecordTab from "./PlayerStatsInfoTabs/BattingRecord";
-import PitchingRecordTab from "./PlayerStatsInfoTabs/PitchingRecord";
-import ProfileTab from "./PlayerStatsInfoTabs/Profile";
-import PitcherBallTab from "./PlayerStatsInfoTabs/PitcherBall"
-import RunnerCatcherRecordTab from "./PlayerStatsInfoTabs/RunnerCatcherRecord";
-import SpareTab from "./PlayerStatsInfoTabs/Spare";
+import { TeamSelectComponents } from "../../components"
+const { BattingAverageTab, BattingRecordTab, PitchingRecordTab, ProfileTab, PlayerInfoTab, TeamInfoTab, PitcherBallTab, RunnerCatcherRecordTab, SpareTab } = TeamSelectComponents
+
+// import BattingAverageTab from "./PlayerStatsInfoTabs/BattingAverageByCourse";
+// import BattingRecordTab from "./PlayerStatsInfoTabs/BattingRecord";
+// import PitchingRecordTab from "./PlayerStatsInfoTabs/PitchingRecord";
+// import ProfileTab from "./PlayerStatsInfoTabs/Profile";
+// import PitcherBallTab from "./PlayerStatsInfoTabs/PitcherBall"
+// import RunnerCatcherRecordTab from "./PlayerStatsInfoTabs/RunnerCatcherRecord";
+// import SpareTab from "./PlayerStatsInfoTabs/Spare";
 
 import { defaultTheme } from "./theme";
 import "./TeamSelect.css";
@@ -102,7 +105,7 @@ function TeamSelectPage() {
       label: "チーム情報",
       key: 1,
       children: (
-        <TeamInfo
+        <TeamInfoTab
           teamInfo={selectedTeam}
           coachInfo={teamCoach}
           onUpdateInfo={(updatedTeam, updatedCoach) => {
@@ -116,7 +119,7 @@ function TeamSelectPage() {
       label: "選手情報",
       key: 2,
       children: (
-        <PlayerInfo
+        <PlayerInfoTab
           playerMasterData={playerMasterData}
           onPlayerSelect={(playerInfo) => {
             if (!playerInfo) return;

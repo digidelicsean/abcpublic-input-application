@@ -2,9 +2,9 @@
 /* eslint-disable no-unused-vars */
 import React from "react";
 import { ConfigProvider } from "antd";
-import LabeledText from "../../../../components/LabeledText";
+import LabeledText from "../LabeledText";
 
-import "./TeamInfo.css";
+import "./TeamInfoTab.css";
 
 function TeamInfo({ teamInfo, coachInfo, onUpdateInfo }) {
   const labelStyle = {
