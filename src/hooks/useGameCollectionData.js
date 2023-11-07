@@ -41,7 +41,8 @@ function getTeamInfo(gameCollection, team) {
 	const createTeamInfo = (startingMembers) => {
 		const lineup = [];
 
-		if (startingMembers.length == 0) return [];
+		if(!startingMembers) return []
+		if (startingMembers?.length == 0) return [];
 
 		let idx = 0;
 		for (const playerInfo of Object.values(startingMembers)) {
