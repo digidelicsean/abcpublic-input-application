@@ -14,8 +14,8 @@ import {
 import { CaretUpFilled, CaretDownFilled } from "@ant-design/icons";
 
 import LabeledComboBox from "../../components/LabeledComboBox";
-import { MatchSettingsComponent } from "../../components";
-const {OtherStadiumData, StadiumEditModal} = MatchSettingsComponent
+import { MatchSettingsComponents } from "../../components";
+const {OtherStadiumData, StadiumEditModal} = MatchSettingsComponents
 
 import { Link } from "react-router-dom";
 import "./MatchSettings.css";

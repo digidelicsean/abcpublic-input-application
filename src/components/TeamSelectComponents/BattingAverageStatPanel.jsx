@@ -1,9 +1,9 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable no-unused-vars */
 import React from "react";
-import LabeledText from "../../../../components/LabeledText";
+import LabeledText from "../LabeledText";
 
-import "./battingAverage.css";
+import "./BattingAverageTab.css";
 
 function StatText({ label, style }) {
   return (

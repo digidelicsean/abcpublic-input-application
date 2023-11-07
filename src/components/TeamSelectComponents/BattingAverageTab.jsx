@@ -4,7 +4,7 @@ import { Table } from "antd"
 
 import BattingAverageStatPanel from "./BattingAverageStatPanel";
 
-import "./battingAverage.css";
+import "./BattingAverageTab.css";
 
 const label = {
   topData: {

@@ -3,9 +3,9 @@
 import React, { useState, useEffect } from "react";
 import { Image } from "antd";
 
-import LabeledText from "../../../../components/LabeledText";
+import LabeledText from "../LabeledText";
 
-import "./profileTab.css";
+import "./ProfileTab.css";
 
 function ProfileTab({ playerData, ABCPublicData, onABCPublicDataUpdate }) {
 

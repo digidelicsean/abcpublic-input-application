@@ -1,9 +1,9 @@
 /* eslint-disable no-unused-vars */
 import React from "react";
 // import LabeledText from "../../../../components/LabeledText/index-backup";
-import { LabeledText } from "../../../../components";
+import { LabeledText } from "..";
 
-import "./runnerCatcherRecord.css";
+import "./RunnerCatcherRecordTab.css";
 
 function RunnerCatcherRecordTab() {
   return (
