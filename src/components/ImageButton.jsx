@@ -3,11 +3,11 @@ import { Image } from "antd"
 
 import buttonStyle from "./ImageButton.module.css"
 
-function ImageButton({preview, src, width, height, onClick, style}) {
+function ImageButton({src, width, height, onClick, style}) {
     
     return (
         <Image
-            preview={preview ?? false}
+            preview={false}
             width={width}
             height={height}
             src={src ?? ""}
