@@ -1,0 +1,15 @@
+.image {
+  border-radius: 15px;
+  filter: drop-shadow(0 0 0.15rem rgb(154, 154, 154));
+  user-select: none;
+  -webkit-user-drag: none;
+  cursor: pointer;
+}
+
+.image:hover {
+  filter: drop-shadow(0 0 0.15rem black);
+}
+
+.image:active {
+  filter: drop-shadow(0 0 0.75rem black);
+}
