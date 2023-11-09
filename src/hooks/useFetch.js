@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import { defaultURI } from "../services/fetch/fetch-lib";
 
 const useFetch = (url) => {
@@ -6,11 +6,17 @@ const useFetch = (url) => {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
 
+  const abortControllerRef = useRef(null);
+
   const fetchData = useCallback(async () => {
+
+    abortControllerRef.current?.abort();
+    abortControllerRef.current = new AbortController();
+
     try {
       const uri = await defaultURI();
 
-      const response = await fetch(`${uri}/${url}`);
+      const response = await fetch(`${uri}/${url}`, {signal: abortControllerRef.current?.signal});
       if (!response.ok) {
         throw new Error("Network response is not ok");
       }
@@ -19,8 +25,9 @@ const useFetch = (url) => {
       setData(result);
     } catch (err) {
       setError(err);
+    } finally {
+      setIsLoading(false);
     }
-    setIsLoading(false);
   }, [url]);
 
   useEffect(() => {
@@ -28,8 +35,8 @@ const useFetch = (url) => {
   }, [fetchData]);
 
   const reload = useCallback(() => {
-    fetchData
-  }, [fetchData])
+    fetchData;
+  }, [fetchData]);
 
   return { data, isLoading, error, reload };
 };

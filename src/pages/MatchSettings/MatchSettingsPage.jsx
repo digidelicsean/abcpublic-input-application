@@ -7,8 +7,6 @@ import {
   Radio,
   Space,
   InputNumber,
-  App,
-  Modal,
   Select
 } from "antd";
 import { CaretUpFilled, CaretDownFilled } from "@ant-design/icons";
@@ -21,11 +19,8 @@ import { Link } from "react-router-dom";
 import "./MatchSettings.css";
 import "./StadiumSettings.css";
 
-import { defaultURI } from "../../services/fetch/fetch-lib";
 import { fetchGameClassMasterData, fetchGameIDCollection, fetchSeasonScheduleData, postMatchInfoData } from "./Data/matchSettingsData";
 import LabeledText from "../../components/LabeledText";
-
-const { Option } = Select
 
 const theme = {
   components: {
@@ -236,8 +231,7 @@ function MatchSettingsPage() {
     postMatchInfoData(dataStructure, selectedGameID)
   }
 
-  const createOtherStadiumInfoData = async (otherStadiumInfo) => {
-    // if (otherStadiumInfo?.length == 0) return;
+  const createOtherStadiumInfoData = async () => {
 
     const dataStructure = {
       Type: "OtherGameInfo",
@@ -303,13 +297,7 @@ function MatchSettingsPage() {
 
   const onOtherStadiumDataConfirmed = (updatedStadiumInfo) => {
     setIsEditModalOpen(false)
-
-    // const mainGameInfo = seasonSchedule.gameInfo.filter(x => x.ID == selectedGameID)
-    // const newGameInfo = [...mainGameInfo, ...updatedStadiumInfo]
-
     setOtherGameInfo([...updatedStadiumInfo])
-    // setSeasonSchedule({ date, gameInfo: newGameInfo })
-    // createOtherStadiumInfoData(updatedStadiumInfo)
   }
 
   return (
