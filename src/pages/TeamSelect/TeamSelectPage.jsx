@@ -4,11 +4,7 @@
 import React, { useState, useEffect, useMemo } from "react";
 import { Button, Card, Tabs, Checkbox, ConfigProvider } from "antd";
 import { Link } from "react-router-dom";
-import LabeledText from "../../components/LabeledText";
-import LabeledComboBox from "../../components/LabeledComboBox";
-
-// import TeamInfo from "./TeamInfoTabs/TeamInfo";
-// import PlayerInfo from "./TeamInfoTabs/PlayerInfo";
+import {LabeledText, LabeledComboBox} from "../../components/"
 
 import {
   fetchCoachData,
@@ -24,13 +20,6 @@ import {
 import { TeamSelectComponents } from "../../components"
 const { BattingAverageTab, BattingRecordTab, PitchingRecordTab, ProfileTab, PlayerInfoTab, TeamInfoTab, PitcherBallTab, RunnerCatcherRecordTab, SpareTab } = TeamSelectComponents
 
-// import BattingAverageTab from "./PlayerStatsInfoTabs/BattingAverageByCourse";
-// import BattingRecordTab from "./PlayerStatsInfoTabs/BattingRecord";
-// import PitchingRecordTab from "./PlayerStatsInfoTabs/PitchingRecord";
-// import ProfileTab from "./PlayerStatsInfoTabs/Profile";
-// import PitcherBallTab from "./PlayerStatsInfoTabs/PitcherBall"
-// import RunnerCatcherRecordTab from "./PlayerStatsInfoTabs/RunnerCatcherRecord";
-// import SpareTab from "./PlayerStatsInfoTabs/Spare";
 
 import { defaultTheme } from "./theme";
 import "./TeamSelect.css";

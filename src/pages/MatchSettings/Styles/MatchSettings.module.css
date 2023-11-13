@@ -1,0 +1,9 @@
+.container {
+    display: inline-flex;
+    flex-direction: column;
+
+
+    height: 98vh;
+    /* width: 100%;
+    height: 100%; */
+}

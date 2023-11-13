@@ -2,7 +2,7 @@
 /* eslint-disable no-unused-vars */
 import React from "react";
 import { ConfigProvider } from "antd";
-import LabeledText from "../LabeledText";
+import LabeledText from "../ui/LabeledText";
 
 import "./TeamInfoTab.css";
 

@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable no-unused-vars */
 import React from "react";
-import LabeledText from "../LabeledText";
+import LabeledText from "../ui/LabeledText";
 
 import "./BattingAverageTab.css";
 

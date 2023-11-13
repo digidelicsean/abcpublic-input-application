@@ -1,5 +1,5 @@
 
-import LinkImageButton from "../../../components/LinkImageButton"
+import { LinkImageButton } from "../../../components"
 
 import style from "./ProMenuPageSelection.module.css"
 

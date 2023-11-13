@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from "react";
 import { Image } from "antd";
 
-import LabeledText from "../LabeledText";
+import LabeledText from "../ui/LabeledText";
 
 import "./ProfileTab.css";
 

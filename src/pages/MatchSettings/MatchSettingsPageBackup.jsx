@@ -4,7 +4,6 @@ import {
   ConfigProvider,
   Card,
   Button,
-  Image,
   Radio,
   Space,
   InputNumber,
@@ -12,19 +11,16 @@ import {
 } from "antd";
 import { CaretUpFilled, CaretDownFilled } from "@ant-design/icons";
 
-import LabeledComboBox from "../../components/ui/LabeledComboBox";
-import { MatchSettingsComponents, Spacer } from "../../components";
-const { OtherStadiumData, StadiumEditModal } = MatchSettingsComponents
+import LabeledComboBox from "../../components/LabeledComboBox";
+import { MatchSettingsComponents } from "../../components";
+const {OtherStadiumData, StadiumEditModal} = MatchSettingsComponents
 
 import { Link } from "react-router-dom";
 import "./MatchSettings.css";
 import "./StadiumSettings.css";
 
 import { fetchGameClassMasterData, fetchGameIDCollection, fetchSeasonScheduleData, postMatchInfoData } from "./Data/matchSettingsData";
-// import LabeledText from "../../components/LabeledText";
-import DSSelection from "./OAMatchSection/DSSelection";
-import GameAssortmentSelection from "./OAMatchSection/GameAssortmentSelection";
-import { LabeledText, ImageButton } from "../../components"
+import LabeledText from "../../components/LabeledText";
 
 const theme = {
   components: {
@@ -95,7 +91,7 @@ function MatchSettingsPage() {
   }, [seasonSchedule, selectedGameID])
 
   const createGameInfoData = async () => {
-    if (selectedMatchInfo.length == 0) return;
+    if(selectedMatchInfo.length == 0) return;
 
     const dataStructure = {
       Type: "GameInfo",
@@ -116,7 +112,7 @@ function MatchSettingsPage() {
     }
 
     console.log(dataStructure)
-
+    
     postMatchInfoData(dataStructure, selectedGameID)
   }
 
@@ -324,19 +320,55 @@ function MatchSettingsPage() {
               <div className="match-settings-panel-content">
                 {/* ================================================================== */}
                 {/*                     First Column of Radio Buttons                  */}
-                <DSSelection
-                  className="ds-radio-btn-panel"
-                  onDeliveryTypeChange={setDeliveryType}
-                />
+                <div className="ds-radio-btn-panel">
+
+                  <Radio.Group class="radio-btn-group" value={deliveryType} onChange={(e) => { setDeliveryType(e.target.value) }}>
+                    <Space direction="vertical">
+                      <Radio className="radio-btn" value={1}>
+                        DS配信あり
+                      </Radio>
+                      <Radio className="radio-btn" value={2}>
+                        DS配信なし
+                      </Radio>
+                    </Space>
+                  </Radio.Group>
+                </div>
 
                 {/* ================================================================== */}
                 {/*                      Game Assortment Radio Buttons                 */}
                 <div className="game-assortment-radio-panel">
                   <span>試合種別</span>
-                  <GameAssortmentSelection
-                    className="game-assortment-radio-btn-panel"
-                    onGameClassCDChange={setGameClassCD}
-                  />
+                  <div className="game-assortment-radio-btn-panel">
+                    <div className="game-assortment-radio-btn">
+                      <Radio.Group class="radio-btn-group" value={gameClassCD} onChange={(e) => { setGameClassCD(e.target.value) }}>
+                        <Space direction="vertical">
+                          <Radio className="radio-btn" value={1}>
+                            セ・リーグ
+                          </Radio>
+                          <Radio className="radio-btn" value={2}>
+                            パ・リーグ
+                          </Radio>
+                          <Radio className="radio-btn" value={26}>
+                            交流戦
+                          </Radio>
+                          <Radio className="radio-btn" value={5}>
+                            オープン戦
+                          </Radio>
+                        </Space>
+                        <Space direction="vertical">
+                          <Radio className="radio-btn" value={35}>
+                            CS 1ST
+                          </Radio>
+                          <Radio className="radio-btn" value={36}>
+                            CS ファイナル
+                          </Radio>
+                          <Radio className="radio-btn" value={3}>
+                            日本シリーズ
+                          </Radio>
+                        </Space>
+                      </Radio.Group>
+                    </div>
+                  </div>
                 </div>
 
                 {/* ================================================================== */}
@@ -486,20 +518,21 @@ function MatchSettingsPage() {
                         onChange={(value) => setSelectedGameID(value)}
                       />
                   }
-
-                  <Image
-                    className="match-data-info"
-                    preview={false}
-                    src=".\assets\02-pro\ui-stadium-card.png"
-                    width="315px"
-                  // height="329px"
-                  />
-                  <Spacer width="5px" />
-                  <LabeledText style={{}} label="" value={selectedMatchInfo?.HomeTeamName ?? ""} size={{ width: "80%" }} textAlign="left" disabled={deliveryType == 1} />
-                  <Spacer width="25px" />
-                  <LabeledText style={{}} label="" value={selectedMatchInfo?.VisitorTeamName ?? ""} size={{ width: "80%" }} textAlign="left" disabled={deliveryType == 1} />
-                  <Spacer width="25px" />
-                  <LabeledText style={{}} label="" value={selectedMatchInfo?.StadiumName ?? ""} size={{ width: "80%" }} textAlign="left" disabled={deliveryType == 1} />
+                  <Card
+                    className="match-data-info-card"
+                    bordered={false}
+                    bodyStyle={{
+                      padding: "0px",
+                      width: "100%",
+                      height: "100%",
+                    }}
+                  >
+                    <div className="match-data-info">
+                      <LabeledText label="先攻チーム" value={selectedMatchInfo?.VisitorTeamName ?? ""} size={{ width: "90%" }} textAlign="left" disabled={deliveryType == 1} />
+                      <LabeledText label="後攻チーム" value={selectedMatchInfo?.HomeTeamName ?? ""} size={{ width: "90%" }} textAlign="left" disabled={deliveryType == 1} />
+                      <LabeledText label="他球場名" value={selectedMatchInfo?.StadiumName ?? ""} size={{ width: "90%" }} textAlign="left" disabled={deliveryType == 1} />
+                    </div>
+                  </Card>
                 </div>
               </div>
             </div>
@@ -508,37 +541,33 @@ function MatchSettingsPage() {
           {/* ================================================================== */}
           {/*                      Match Settings Button Panel                   */}
           <div className="match-settings-btn-panel">
-            {/* <Button className="match-settings-btn" style={{ fontSize: "1.1em" }}>
+            <Button className="match-settings-btn" style={{ fontSize: "1.1em" }}>
               バックアップ／リストア
-            </Button> */}
-            <ImageButton
-              src=".\assets\02-pro\button-backup.png"
-            />
-            <Spacer width="5px" />
-            <ImageButton
-              src=".\assets\02-pro\button-restore.png"
-            />
-            <Spacer width="36.5px" />
-            <ImageButton
-              src=".\assets\02-pro\button-clear.png"
+            </Button>
+            <Button
+              style={{ backgroundColor: "#939393", color: "white" }}
+              className="match-settings-btn"
               onClick={() => {
-                setSelectedGameID("")
+                setSelectedGameID("");
               }}
-            />
-            <Spacer width="5px" />
-            <ImageButton
-              src=".\assets\02-pro\button-match-setting.png"
+            >
+              クリア
+            </Button>
+            <Button
+              style={{ backgroundColor: "#647dae", color: "white" }}
+              className="match-settings-btn"
               onClick={() => {
                 createGameInfoData();
                 createMatchInfoData();
                 createTeamInfoData();
                 createEmptyRuntimeScore();
               }}
-            />
-            <Spacer width="5px" />
-            <ImageButton
-              src=".\assets\02-pro\button-retrieve-datastadium.png"
-            />
+            >
+              試合設定
+            </Button>
+            <Button className="match-settings-btn" style={{ fontSize: "0.97em" }}>
+              データスタジアムデータ一括取込
+            </Button>
           </div>
         </div>
 
@@ -558,34 +587,40 @@ function MatchSettingsPage() {
                   deliveryType={deliveryType}
                   onDataUpdate={(updatedData) => {
                     console.log(updatedData)
+                    // const mainGameInfo = seasonSchedule.gameInfo.filter(x => x.ID == selectedGameID)
+                    // const newGameInfo = [...mainGameInfo, ...updatedData]
 
                     setOtherGameInfo([...updatedData])
+                    // setSeasonSchedule({ date, gameInfo: newGameInfo })
                   }} />
               </div>
             </div>
           </Card>
 
           <div className="stadium-settings-btn-panel">
-            <ImageButton
-              src=".\assets\02-pro\button-clear-all.png"
+            <Button
+              className="stadium-settings-btn"
+              style={{ backgroundColor: "#939393" }}
               onClick={() => {
                 setOtherGameInfo([])
               }}
-            />
-            <Spacer />
-            <ImageButton
-              src=".\assets\02-pro\button-other-stadium-setting.png"
-              onClick={() => {
-                createOtherStadiumInfoData(otherGameInfo)
-              }}
-            />
-            <Spacer />
-            <ImageButton
-              src=".\assets\02-pro\button-other-stadium-info.png"
-              onClick={() => {
-                setIsEditModalOpen(true)
-              }}
-            />
+            >
+              全クリア
+            </Button>
+            <Button
+              className="stadium-settings-btn"
+              style={{ backgroundColor: "#647dae" }}
+              onClick={() => createOtherStadiumInfoData(otherGameInfo)}
+            >
+              他球場設定
+            </Button>
+            <Button
+              className="stadium-settings-btn"
+              style={{ backgroundColor: "white", color: "black", fontSize: "1.24em" }}
+              onClick={() => setIsEditModalOpen(true)}
+            >
+              他球場情報
+            </Button>
             <StadiumEditModal
               title={
                 <div
@@ -602,6 +637,7 @@ function MatchSettingsPage() {
                   }}
                 >
                   他球場情報 設定中
+                  {/* {year}.{month}.{day} */}
                 </div>
               }
               mainStadiumInfo={selectedMatchInfo}

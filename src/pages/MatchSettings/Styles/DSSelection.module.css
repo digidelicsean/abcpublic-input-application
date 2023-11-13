@@ -1,0 +1,11 @@
+.container {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  margin: 100px;
+}
+
+.radio-button {
+  margin: 10px;
+}

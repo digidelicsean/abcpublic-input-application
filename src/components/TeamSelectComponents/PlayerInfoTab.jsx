@@ -9,7 +9,7 @@ import { Card, Button, Image } from "antd";
 import "./PlayerInfoTab.css";
 import arrow from "/assets/arrow.png";
 
-import LabeledSegmented from "../LabeledSegmented";
+import LabeledSegmented from "../ui/LabeledSegmented";
 
 function PlayerInfoButton({ playerInfo, onPlayerSelect }) {
   return (
