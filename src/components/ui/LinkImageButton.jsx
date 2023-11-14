@@ -5,7 +5,7 @@ function LinkImageButton({ to, preview, src, width, height, onClick, style, chil
 
 
     return (
-        <Link to={to} className={className} style={{width: width ?? "", height: height ?? ""}}>
+        <Link to={to} className={className} style={{width: width ?? "", height: height ?? ""}} draggable={false}>
             <ImageButton preview={preview} src={src} width={width} height={height} onClick={onClick} style={style} />
             {children}
         </Link>

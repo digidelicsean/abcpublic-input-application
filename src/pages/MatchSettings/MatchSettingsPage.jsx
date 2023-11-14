@@ -25,6 +25,8 @@ import { fetchGameClassMasterData, fetchGameIDCollection, fetchSeasonScheduleDat
 import DSSelection from "./OAMatchSection/DSSelection";
 import GameAssortmentSelection from "./OAMatchSection/GameAssortmentSelection";
 import { LabeledText, ImageButton } from "../../components"
+import MatchInfoModal from "../../components/MatchInfoModal";
+import DateSelection from "./OAMatchSection/DateSelection";
 
 const theme = {
   components: {
@@ -44,19 +46,13 @@ function MatchSettingsPage() {
   const [seasonSchedule, setSeasonSchedule] = useState({})
   const [otherGameInfo, setOtherGameInfo] = useState([])
 
-
-  const [day, setDay] = useState("1");
-  const [month, setMonth] = useState("10");
-  const [year, setYear] = useState("2023");
+  const [date, setDate] = useState(undefined)
 
   const [deliveryType, setDeliveryType] = useState(1);
   const [gameClassCD, setGameClassCD] = useState(1)
 
   const [selectedGameID, setSelectedGameID] = useState("");
 
-  const date = useMemo(() => {
-    return year + String(month).padStart(2, "0") + String(day).padStart(2, "0");
-  }, [year, month, day])
 
   const selectedMatchInfo = useMemo(() => {
     if (selectedGameID == "") return [];
@@ -104,7 +100,7 @@ function MatchSettingsPage() {
         GameNum: 1,
         GameClassCD: gameClassCD,
         GameClass: gameClass.GameClass,
-        Date: date,
+        Date: date.date,
         GameID: selectedGameID,
         StadiumCD: selectedMatchInfo.StadiumID,
         Stadium: selectedMatchInfo.StadiumName,
@@ -133,7 +129,7 @@ function MatchSettingsPage() {
       GameNum: 1,
       GameClassCD: gameClassCD,
       GameClass: gameClass.GameClass,
-      Date: date,
+      Date: date.date,
       GameID: selectedGameID,
       StadiumCD: selectedMatchInfo.StadiumID,
       Stadium: selectedMatchInfo.StadiumName,
@@ -281,21 +277,21 @@ function MatchSettingsPage() {
     postMatchInfoData(dataStructure, selectedGameID)
   }
 
-  const onMatchSettingOpen = () => {
+  const onMatchSettingOpen = (dateObj) => {
     setSelectedGameID("")
     fetchSeasonScheduleData(gameClassCD).then((seasonSched) => {
       const scheduleArray = Object.values(seasonSched).filter((elem) => {
-        if (elem.No != month) return false;
-        if (elem.Year != year) return false;
+        if (elem.No != dateObj?.month) return false;
+        if (elem.Year != dateObj?.year) return false;
         return true;
       })
 
       const gameInfoKeys = scheduleArray ? Object.keys(scheduleArray[0]).filter(x => x.includes("GameInfo_")) : []
 
-      let gameInfoArray = gameInfoKeys.map((key) => scheduleArray[0][key]).filter(info => info.GameDate == date);
+      let gameInfoArray = gameInfoKeys.map((key) => scheduleArray[0][key]).filter(info => info.GameDate == dateObj.date);
 
-      setSeasonSchedule({ date, gameInfo: gameInfoArray })
-      console.log({ date, gameInfo: gameInfoArray })
+      setSeasonSchedule({ date: dateObj.date, gameInfo: gameInfoArray })
+      console.log({ date: dateObj.date, gameInfo: gameInfoArray })
     })
   }
 
@@ -342,126 +338,14 @@ function MatchSettingsPage() {
                 {/* ================================================================== */}
                 {/*                         Date Selection Column                      */}
 
-                <div className="date-select-panel">
-                  <ConfigProvider
-                    theme={{
-                      components: {
-                        Button: {
-                          defaultBorderColor: "#f4f4f4",
-                        },
-                        InputNumber: {
-                          // bordered: false
-                        },
-                      },
-                    }}
-                  >
-                    <div className="date-select">
-                      <div className="date-select-year">
-                        <Button
-                          type="text"
-                          icon={<CaretUpFilled style={{ color: "#778dbb" }} />}
-                          onClick={() => {
-                            if (year == 9999) return;
-                            setYear(Number(year) + 1);
-                          }}
-                        />
-                        <InputNumber
-                          style={{
-                            width: "100%",
-                            height: "70px",
-                            fontSize: "3em",
-                            textAlign: "center",
-                          }}
-                          controls={false}
-                          value={year}
-                          min={1800}
-                          max={9999}
-                          onChange={(e) => setYear(e)}
-                        />
-                        <Button
-                          type="text"
-                          icon={
-                            <CaretDownFilled style={{ color: "#778dbb" }} />
-                          }
-                          onClick={() => {
-                            if (year == 1800) return;
-                            setYear(Number(year) - 1);
-                          }}
-                        />
-                      </div>
-                      年
-                      <div className="date-select-month">
-                        <Button
-                          type="text"
-                          icon={<CaretUpFilled style={{ color: "#778dbb" }} />}
-                          onClick={() => {
-                            if (month == 12) return;
-                            setMonth(Number(month) + 1);
-                          }}
-                        />
-                        <InputNumber
-                          style={{
-                            width: "100%",
-                            height: "70px",
-                            fontSize: "3em",
-                            textAlign: "center",
-                          }}
-                          controls={false}
-                          value={month}
-                          min={1}
-                          max={12}
-                          onChange={(e) => setMonth(e)}
-                        />
-                        <Button
-                          type="text"
-                          icon={
-                            <CaretDownFilled style={{ color: "#778dbb" }} />
-                          }
-                          onClick={() => {
-                            if (month == 1) return;
-                            setMonth(Number(month) - 1);
-                          }}
-                        />
-                      </div>
-                      月
-                      <div className="date-select-day">
-                        <Button
-                          type="text"
-                          icon={<CaretUpFilled style={{ color: "#778dbb" }} />}
-                          onClick={() => {
-                            if (day == 31) return;
-                            setDay(Number(day) + 1);
-                          }}
-                        />
-                        <InputNumber
-                          style={{
-                            width: "100%",
-                            height: "70px",
-                            fontSize: "3em",
-                            textAlign: "center",
-                          }}
-                          controls={false}
-                          value={day}
-                          min={1}
-                          max={31}
-                          onChange={(e) => setDay(e)}
-                        />
-                        <Button
-                          type="text"
-                          icon={
-                            <CaretDownFilled style={{ color: "#778dbb" }} />
-                          }
-                          onClick={() => {
-                            if (day == 1) return;
-                            setDay(Number(day) - 1);
-                          }}
-                        />
-                      </div>
-                      日
-                    </div>
-                    <Button className="match-data-open-btn" onClick={onMatchSettingOpen}> OPEN </Button>
-                  </ConfigProvider>
-                </div>
+                <DateSelection className="date-select-panel" onDateSelected={(date) => {
+                  setDate(date)
+                  console.log(date)
+                  onMatchSettingOpen(date)
+                }} />
+
+
+
 
                 {/* ================================================================== */}
                 {/*                           Match Data Column                        */}
