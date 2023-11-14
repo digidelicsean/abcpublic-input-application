@@ -5,6 +5,8 @@ import { useModal } from '../hooks/useModal'
 
 import style from "./MatchInfoModal.module.css"
 
+import MatchInfoBar from "./MatchInfoBar"
+
 function MatchInfoModal({ title, isOpen, onConfirm, onCancel }) {
 
     // const { isOpen, onModalConfirm, onModalCancel } = useModal({ onConfirm, onCancel });
@@ -63,6 +65,9 @@ function MatchInfoModal({ title, isOpen, onConfirm, onCancel }) {
                         height: "50vh",
 
                         padding: "0px"
+                    },
+                    footer: {
+                        padding: "20px"
                     }
                 }}
 
