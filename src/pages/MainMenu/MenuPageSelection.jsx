@@ -20,7 +20,6 @@ function MenuPageSelection() {
             <div className={style.settings}>
                 <ImageButton width="280px" height="70px" src="./assets/00-mainmenu/button-settings.png" />
             </div>
-
         </div>
     )
 }

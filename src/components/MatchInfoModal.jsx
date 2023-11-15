@@ -6,9 +6,13 @@ import style from "./MatchInfoModal.module.css";
 
 import { Spacer } from "../components";
 import MatchInfoBar from "./MatchInfoBar";
+import { useMatchInfoContext } from "../pages/MainMenu/useContext/MatchSettingsContext";
+
+const MAX_MATCHINFOBAR_COUNT = 6;
 
 function MatchInfoModal({ title, isOpen, onConfirm, onCancel }) {
 	// const { isOpen, onModalConfirm, onModalCancel } = useModal({ onConfirm, onCancel });
+	const { seasonSchedule, setSelectedMatchByID } = useMatchInfoContext();
 
 	const styles = {
 		header: {
@@ -23,7 +27,7 @@ function MatchInfoModal({ title, isOpen, onConfirm, onCancel }) {
 
 			width: "100%",
 			// // height: "80vh",
-			minWidth: "600px",
+			minWidth: "660px",
 			minHeight: "500px",
 
 			padding: "0px",
@@ -34,7 +38,7 @@ function MatchInfoModal({ title, isOpen, onConfirm, onCancel }) {
 			backgroundSize: "100% 30%",
 		},
 		footer: {
-			padding: "20px",
+			// padding: "20px",
 		},
 	};
 
@@ -51,6 +55,52 @@ function MatchInfoModal({ title, isOpen, onConfirm, onCancel }) {
 		});
 	};
 
+	const matchInfoBars = () => {
+		if (seasonSchedule == undefined || seasonSchedule == null) {
+			return <></>;
+		}
+
+		let gameInfos = [];
+
+		if (seasonSchedule?.gameInfo?.length == 0) {
+			for (let i = 0; i < (MAX_MATCHINFOBAR_COUNT); i++) {
+				gameInfos.push(
+					<>
+						<MatchInfoBar />
+						<Spacer width="7px" />
+					</>
+				)
+			}
+		}
+
+		let gameInfoCount = seasonSchedule?.gameInfo?.length
+
+		gameInfos = seasonSchedule?.gameInfo?.map((value) => {
+			return (
+				<>
+					<MatchInfoBar matchInfo={value} onClick={(matchInfoID) => {
+						setSelectedMatchByID(matchInfoID)
+
+						if (!onConfirm) return;
+						onConfirm();
+					}} />
+					<Spacer width="7px" />
+				</>
+			)
+		})
+
+		for (let i = 0; i < (MAX_MATCHINFOBAR_COUNT - gameInfoCount); i++) {
+			gameInfos.push(
+				<>
+					<MatchInfoBar />
+					<Spacer width="7px" />
+				</>
+			)
+		}
+
+		return gameInfos;
+	}
+
 	return (
 		<ConfigProvider
 			theme={{
@@ -63,35 +113,43 @@ function MatchInfoModal({ title, isOpen, onConfirm, onCancel }) {
 			}}
 		>
 			<Modal
-				centered    
+				centered
 				className={style.modal}
 				title={<div className={style.title}>{title ?? "2023.10.13"}</div>}
 				open={isOpen}
-				onOk={onConfirm ?? (() => {})}
-				cancelButtonProps={{ style: { display: "none" } }}
-				okButtonProps={{ style: { width: "100px" } }}
-				closeIcon={false}
-				maskClosable={false}
-				keyboard={false}
-				okText="OK"
-				width="1000px"
-				modalRender={onModalRender}
-				styles={styles}
+				onOk={onConfirm ?? (() => { })}
+				onCancel={() => {
+					setSelectedMatchByID("")
+					if (!onCancel)
+						return;
+					onCancel();
+				}}
+			cancelButtonProps={{ style: { display: "none" } }}
+			okButtonProps={{ style: { display: "none" } }}
+				// okButtonProps={{ style: { width: "100px" } }}
+			closeIcon={false}
+			maskClosable={true}
+			keyboard={true}
+			okText="OK"
+			width="1000px"
+			modalRender={onModalRender}
+			styles={styles}
 			>
-				<Spacer width="50px" />
+			<Spacer width="50px" />
+			{matchInfoBars()}
+			{/* <MatchInfoBar />
+				<Spacer width="7px" />
 				<MatchInfoBar />
-				<Spacer />
+				<Spacer width="7px" />
 				<MatchInfoBar />
-				<Spacer />
+				<Spacer width="7px" />
 				<MatchInfoBar />
-				<Spacer />
+				<Spacer width="7px" />
 				<MatchInfoBar />
-				<Spacer />
-				<MatchInfoBar />
-				<Spacer />
-				<MatchInfoBar />
-			</Modal>
-		</ConfigProvider>
+				<Spacer width="7px" />
+				<MatchInfoBar /> */}
+		</Modal>
+		</ConfigProvider >
 	);
 }
 

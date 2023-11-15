@@ -17,7 +17,6 @@ function DateSelection({ onDateSelected, className }) {
     const onOpenClicked = () => {
         const date = year + String(month).padStart(2, "0") + String(day).padStart(2, "0");
         Open();
-        console.log(date)
         if (!onDateSelected) return;
         onDateSelected({day, month, year, date})
     }
