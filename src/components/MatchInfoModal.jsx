@@ -37,9 +37,6 @@ function MatchInfoModal({ title, isOpen, onConfirm, onCancel }) {
 			backgroundRepeat: "no-repeat",
 			backgroundSize: "100% 30%",
 		},
-		footer: {
-			// padding: "20px",
-		},
 	};
 
 	const onModalRender = (modalNode) => {
@@ -114,7 +111,6 @@ function MatchInfoModal({ title, isOpen, onConfirm, onCancel }) {
 		>
 			<Modal
 				centered
-				className={style.modal}
 				title={<div className={style.title}>{title ?? "2023.10.13"}</div>}
 				open={isOpen}
 				onOk={onConfirm ?? (() => { })}
@@ -124,20 +120,20 @@ function MatchInfoModal({ title, isOpen, onConfirm, onCancel }) {
 						return;
 					onCancel();
 				}}
-			cancelButtonProps={{ style: { display: "none" } }}
-			okButtonProps={{ style: { display: "none" } }}
+				cancelButtonProps={{ style: { display: "none" } }}
+				okButtonProps={{ style: { display: "none" } }}
 				// okButtonProps={{ style: { width: "100px" } }}
-			closeIcon={false}
-			maskClosable={true}
-			keyboard={true}
-			okText="OK"
-			width="1000px"
-			modalRender={onModalRender}
-			styles={styles}
+				closeIcon={false}
+				maskClosable={true}
+				keyboard={true}
+				okText="OK"
+				width="1000px"
+				modalRender={onModalRender}
+				styles={styles}
 			>
-			<Spacer width="50px" />
-			{matchInfoBars()}
-			{/* <MatchInfoBar />
+				<Spacer width="50px" />
+				{matchInfoBars()}
+				{/* <MatchInfoBar />
 				<Spacer width="7px" />
 				<MatchInfoBar />
 				<Spacer width="7px" />
@@ -148,7 +144,7 @@ function MatchInfoModal({ title, isOpen, onConfirm, onCancel }) {
 				<MatchInfoBar />
 				<Spacer width="7px" />
 				<MatchInfoBar /> */}
-		</Modal>
+			</Modal>
 		</ConfigProvider >
 	);
 }

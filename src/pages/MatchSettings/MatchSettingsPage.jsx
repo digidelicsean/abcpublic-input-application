@@ -496,24 +496,7 @@ function MatchSettingsPage() {
                 }}
               />
               <StadiumEditModal
-                title={
-                  <div
-                    style={{
-                      display: "inline-flex",
-                      width: "100%",
-                      justifyContent: "center",
-                      backgroundColor: "#758db9",
-                      borderRadius: "6px 6px 0px 0px",
-                      color: "white",
-                      fontSize: "1.35em",
-                      fontWeight: "bold",
-                      userSelect: "none"
-                    }}
-                  >
-                    他球場情報 設定中
-                  </div>
-                }
-                mainStadiumInfo={selectedMatchInfo}
+                title="他球場情報 設定中"
                 otherStadiumInfo={otherGameInfo}
                 isModalOpen={isEditModalOpen}
                 onOk={onOtherStadiumDataConfirmed}
