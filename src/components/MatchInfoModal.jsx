@@ -122,7 +122,6 @@ function MatchInfoModal({ title, isOpen, onConfirm, onCancel }) {
 				}}
 				cancelButtonProps={{ style: { display: "none" } }}
 				okButtonProps={{ style: { display: "none" } }}
-				// okButtonProps={{ style: { width: "100px" } }}
 				closeIcon={false}
 				maskClosable={true}
 				keyboard={true}
@@ -133,17 +132,6 @@ function MatchInfoModal({ title, isOpen, onConfirm, onCancel }) {
 			>
 				<Spacer width="50px" />
 				{matchInfoBars()}
-				{/* <MatchInfoBar />
-				<Spacer width="7px" />
-				<MatchInfoBar />
-				<Spacer width="7px" />
-				<MatchInfoBar />
-				<Spacer width="7px" />
-				<MatchInfoBar />
-				<Spacer width="7px" />
-				<MatchInfoBar />
-				<Spacer width="7px" />
-				<MatchInfoBar /> */}
 			</Modal>
 		</ConfigProvider >
 	);

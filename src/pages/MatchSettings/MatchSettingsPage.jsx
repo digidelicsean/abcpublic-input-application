@@ -356,7 +356,7 @@ function MatchSettingsPage() {
 
                   <DateSelection className="date-select-panel" onDateSelected={(date) => {
                     setDate(date)
-                    // console.log(date)
+                    console.log(date)
                     onMatchSettingOpen(date)
                   }} />
 
@@ -496,7 +496,7 @@ function MatchSettingsPage() {
                 }}
               />
               <StadiumEditModal
-                title="他球場情報 設定中"
+                title={date ? `${date.year}.${date.month}.${date.day}` : ""}
                 otherStadiumInfo={otherGameInfo}
                 isModalOpen={isEditModalOpen}
                 onOk={onOtherStadiumDataConfirmed}

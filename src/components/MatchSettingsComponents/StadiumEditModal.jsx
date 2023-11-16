@@ -8,6 +8,7 @@ import { DndContext, closestCenter, useDndContext } from "@dnd-kit/core";
 import style from "./StadiumEditModal.module.css";
 import StadiumDataBar from "./StadiumDataBar";
 import { SortableContext, arrayMove, verticalListSortingStrategy } from "@dnd-kit/sortable";
+import { Spacer } from "../../components"
 
 function StadiumEditModal({ title, otherStadiumInfo, isModalOpen, onOk }) {
 
@@ -28,7 +29,12 @@ function StadiumEditModal({ title, otherStadiumInfo, isModalOpen, onOk }) {
       height: "85%",
 
       justifyContent: "center",
-      alignItems: "center"
+      alignItems: "center",
+
+
+      background: `url(./assets/02-pro/ui-popup-title-otherstadiuminfo.png)`,
+      backgroundRepeat: "no-repeat",
+      backgroundSize: "100% 30%",
     },
     footer: {
       display: 'inline-flex',
@@ -39,7 +45,7 @@ function StadiumEditModal({ title, otherStadiumInfo, isModalOpen, onOk }) {
       // height: "100%",
 
       marginTop: "0px",
-      paddingBottom: "5px",
+      paddingBottom: "15px",
       paddingRight: "30px"
     }
   }
@@ -49,8 +55,8 @@ function StadiumEditModal({ title, otherStadiumInfo, isModalOpen, onOk }) {
       display: "flex",
       flexDirection: "column",
 
-      width: "800px",
-      height: "600px",
+      width: "1000px",
+      // height: "600px",
       transform: "translate(-200px, 0px)",
 
       padding: "0px",
@@ -134,10 +140,11 @@ function StadiumEditModal({ title, otherStadiumInfo, isModalOpen, onOk }) {
 
   return (
     <Modal
+      centered
       title={
-      <div className={style.title}>
-        {title}
-      </div>
+        <div className={style.title}>
+          {title}
+        </div>
       }
       open={isModalOpen}
       onOk={onOkClick}
@@ -151,6 +158,7 @@ function StadiumEditModal({ title, otherStadiumInfo, isModalOpen, onOk }) {
 
       styles={styles}
     >
+      <Spacer width="40px" />
       <DndContext collisionDetection={closestCenter} onDragEnd={onDragEnd}>
         <SortableContext items={dataIds} strategy={verticalListSortingStrategy}>
           {otherDataBars}

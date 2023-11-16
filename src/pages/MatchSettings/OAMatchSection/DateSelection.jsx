@@ -1,4 +1,5 @@
-import React, { useState } from 'react'
+/* eslint-disable react-hooks/exhaustive-deps */
+import React, { useEffect, useState } from 'react'
 import { Button, InputNumber, ConfigProvider } from 'antd'
 import { CaretUpFilled, CaretDownFilled } from "@ant-design/icons";
 
@@ -8,18 +9,26 @@ import MatchInfoModal from '../../../components/MatchInfoModal';
 
 function DateSelection({ onDateSelected, className }) {
 
-    const {isOpen, Open, onModalConfirm, onModalCancel} = useModal(onDateSelected, (() => {}))
+    const { isOpen, Open, onModalConfirm, onModalCancel } = useModal(dateSelectCallback, (() => { }))
 
     const [day, setDay] = useState("1");
     const [month, setMonth] = useState("10");
     const [year, setYear] = useState("2023");
 
-    const onOpenClicked = () => {
+    function dateSelectCallback() {
         const date = year + String(month).padStart(2, "0") + String(day).padStart(2, "0");
-        Open();
         if (!onDateSelected) return;
-        onDateSelected({day, month, year, date})
+        onDateSelected({ day, month, year, date })
     }
+
+    const onOpenClicked = () => {
+        Open();
+        dateSelectCallback();
+    }
+
+    useEffect(() => {
+        dateSelectCallback
+    }, [day, month, year])
 
     return (
         <div className={className}>
@@ -141,7 +150,7 @@ function DateSelection({ onDateSelected, className }) {
                 </div>
                 <Button className="match-data-open-btn" onClick={onOpenClicked}> OPEN </Button>
 
-                <MatchInfoModal isOpen={isOpen} onConfirm={onModalConfirm} onCancel={onModalCancel}/>
+                <MatchInfoModal title={`${year}.${month}.${day}`} isOpen={isOpen} onConfirm={onModalConfirm} onCancel={onModalCancel} />
             </ConfigProvider>
         </div>
     )
