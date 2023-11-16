@@ -1,20 +1,34 @@
-import React, { useState } from 'react'
+/* eslint-disable react-hooks/exhaustive-deps */
+import React, { useEffect, useState } from 'react'
 import { Button, InputNumber, ConfigProvider } from 'antd'
 import { CaretUpFilled, CaretDownFilled } from "@ant-design/icons";
 
 import style from "../Styles/DateSelection.module.css"
+import { useModal } from '../../../hooks/useModal';
+import MatchInfoModal from '../../../components/MatchInfoModal';
 
 function DateSelection({ onDateSelected, className }) {
+
+    const { isOpen, Open, onModalConfirm, onModalCancel } = useModal(dateSelectCallback, (() => { }))
+
     const [day, setDay] = useState("1");
     const [month, setMonth] = useState("10");
     const [year, setYear] = useState("2023");
 
-    const onOpenClicked = () => {
+    function dateSelectCallback() {
         const date = year + String(month).padStart(2, "0") + String(day).padStart(2, "0");
-        console.log(date)
         if (!onDateSelected) return;
-        onDateSelected(date)
+        onDateSelected({ day, month, year, date })
     }
+
+    const onOpenClicked = () => {
+        Open();
+        dateSelectCallback();
+    }
+
+    useEffect(() => {
+        dateSelectCallback
+    }, [day, month, year])
 
     return (
         <div className={className}>
@@ -24,11 +38,14 @@ function DateSelection({ onDateSelected, className }) {
                         Button: {
                             defaultBorderColor: "#f4f4f4",
                         },
+                        InputNumber: {
+                            // bordered: false
+                        },
                     },
                 }}
             >
-                <div className={style.container}>
-                    <div className={style.selector}>
+                <div className="date-select">
+                    <div className="date-select-year">
                         <Button
                             type="text"
                             icon={<CaretUpFilled style={{ color: "#778dbb" }} />}
@@ -61,8 +78,8 @@ function DateSelection({ onDateSelected, className }) {
                             }}
                         />
                     </div>
-                    <span>年</span>
-                    <div className={style.selector}>
+                    年
+                    <div className="date-select-month">
                         <Button
                             type="text"
                             icon={<CaretUpFilled style={{ color: "#778dbb" }} />}
@@ -95,8 +112,8 @@ function DateSelection({ onDateSelected, className }) {
                             }}
                         />
                     </div>
-                    <span>月</span>
-                    <div className={style.selector}>
+                    月
+                    <div className="date-select-day">
                         <Button
                             type="text"
                             icon={<CaretUpFilled style={{ color: "#778dbb" }} />}
@@ -129,9 +146,11 @@ function DateSelection({ onDateSelected, className }) {
                             }}
                         />
                     </div>
-                    <span>日</span>
+                    日
                 </div>
-                <Button className={style['button-open']} onClick={onOpenClicked}> OPEN </Button>
+                <Button className="match-data-open-btn" onClick={onOpenClicked}> OPEN </Button>
+
+                <MatchInfoModal title={`${year}.${month}.${day}`} isOpen={isOpen} onConfirm={onModalConfirm} onCancel={onModalCancel} />
             </ConfigProvider>
         </div>
     )

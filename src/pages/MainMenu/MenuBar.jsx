@@ -5,7 +5,7 @@ import MenuBarPageButton from './MenuBarPageButton'
 import {  usePageState } from "./useContext/MainMenuContext"
 
 import style from "./Styles/MenuBar.module.css"
-import ImageButton from '../../components/ImageButton'
+import {ImageButton} from "../../components"
 
 function MenuBar() {
   const { selectedPage, setSelectedPage } = usePageState()

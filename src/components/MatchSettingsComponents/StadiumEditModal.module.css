@@ -1,0 +1,13 @@
+.title {
+  display: inline-flex;
+  width: 100%;
+  justify-content: center;
+  background-color: white;
+  color: #98aed3;
+  border-radius: 6px 6px 0px 0px;
+  font-size: 1.35em;
+  font-weight: bold;
+  user-select: none;
+
+  padding: 0px;
+}

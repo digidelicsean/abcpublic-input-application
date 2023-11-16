@@ -32,7 +32,7 @@ function StadiumDataBar({ stadiumData }) {
   };
 
   return (
-    
+
     <div
       ref={setNodeRef}
       style={style}
@@ -44,7 +44,9 @@ function StadiumDataBar({ stadiumData }) {
         <div className="home-team-name">
           {stadiumData?.HomeTeamName ?? " - "}
         </div>
-        <div className="vs-text">VS</div>
+        <div className="vs">
+          <span className="vs-text">VS</span>
+        </div>
         <div className="visitor-team-name">
           {stadiumData?.VisitorTeamName ?? " - "}
         </div>

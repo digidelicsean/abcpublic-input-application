@@ -9,7 +9,6 @@ export const usePageState = () => {
     }
 
     const {selectedPage, setSelectedPage} = context;
-    console.log("TEST", context)
     return {selectedPage, setSelectedPage}
 }
 
