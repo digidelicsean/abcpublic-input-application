@@ -1,13 +1,13 @@
 import { Button } from "antd"
 
 import style from "./Styles/MenuBarPageButton.module.css"
-import { useButtonState } from "../../hooks/useButtonState"
+import { useSelectState } from "../../hooks/useSelectState"
 import { usePageState } from "./useContext/MainMenuContext"
 import { useEffect } from "react"
 
 function MenuBarPageButton({ children, pageIndex }) {
   const { selectedPage } = usePageState()
-  const { isSelected, Toggle, Select, Unselect } = useButtonState()
+  const { isSelected, Toggle, Select, Unselect } = useSelectState()
 
   useEffect(() => {
     if(selectedPage == pageIndex) {

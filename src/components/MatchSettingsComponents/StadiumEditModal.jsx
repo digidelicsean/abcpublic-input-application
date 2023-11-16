@@ -5,11 +5,12 @@ import React, { useEffect, useState, useMemo } from "react";
 import { Modal, Button } from "antd";
 import { DndContext, closestCenter, useDndContext } from "@dnd-kit/core";
 
-import "./StadiumEditModal.css";
+import style from "./StadiumEditModal.module.css";
 import StadiumDataBar from "./StadiumDataBar";
 import { SortableContext, arrayMove, verticalListSortingStrategy } from "@dnd-kit/sortable";
+import { Spacer } from "../../components"
 
-function StadiumEditModal({ title, mainStadiumInfo, otherStadiumInfo, isModalOpen, onOk }) {
+function StadiumEditModal({ title, otherStadiumInfo, isModalOpen, onOk }) {
 
   const [sortedStadiumInfo, setSortedStadiumInfo] = useState([])
   const [dataIds, setDataIds] = useState([])
@@ -17,19 +18,67 @@ function StadiumEditModal({ title, mainStadiumInfo, otherStadiumInfo, isModalOpe
   const [otherDataBars, setOtherDataBars] = useState([])
   const [dummyDataBars, setDummyDataBars] = useState([])
 
+  const styles = {
+    body: {
+      display: "inline-flex",
+      flexDirection: "column",
 
-  const mainDataBar = useMemo(() => {
-    return <StadiumDataBar stadiumData={mainStadiumInfo} />
-  }, [mainStadiumInfo])
-  
+      backgroundColor: "#f4f4f4",
+
+      padding: "10px",
+      height: "85%",
+
+      justifyContent: "center",
+      alignItems: "center",
+
+
+      background: `url(./assets/02-pro/ui-popup-title-otherstadiuminfo.png)`,
+      backgroundRepeat: "no-repeat",
+      backgroundSize: "100% 30%",
+    },
+    footer: {
+      display: 'inline-flex',
+      flexDirection: "row",
+      justifyContent: "flex-end",
+      alignItems: "center",
+
+      // height: "100%",
+
+      marginTop: "0px",
+      paddingBottom: "15px",
+      paddingRight: "30px"
+    }
+  }
+
+  const onModalRender = (modalNode) => {
+    const style = {
+      display: "flex",
+      flexDirection: "column",
+
+      width: "1000px",
+      // height: "600px",
+      transform: "translate(-200px, 0px)",
+
+      padding: "0px",
+      borderRadius: "10px"
+    };
+
+    if (!React.isValidElement(modalNode)) {
+      return <div style={style}>{modalNode}</div>;
+    }
+    return React.cloneElement(modalNode, {
+      style: { ...modalNode.props.style, ...style },
+    });
+  };
+
   useEffect(() => {
     const emptyDataBars = []
 
     const missingDataBars = 5 - otherDataBars.length;
     const idx = otherDataBars.length + 1;
 
-    for(let i = 0; i < missingDataBars; i++) {
-      emptyDataBars.push(<StadiumDataBar key={idx+i}/>)
+    for (let i = 0; i < missingDataBars; i++) {
+      emptyDataBars.push(<StadiumDataBar key={idx + i} />)
     }
 
     setDummyDataBars(emptyDataBars)
@@ -40,13 +89,13 @@ function StadiumEditModal({ title, mainStadiumInfo, otherStadiumInfo, isModalOpe
     if (!sortedStadiumInfo)
       return;
 
-      const stadiumBars = sortedStadiumInfo.map((data, index) => {
-        return (
-          <StadiumDataBar key={data.Order} stadiumData={data}/>
-        )
-      })
+    const stadiumBars = sortedStadiumInfo.map((data, index) => {
+      return (
+        <StadiumDataBar key={data.Order} stadiumData={data} />
+      )
+    })
 
-      setOtherDataBars(stadiumBars);
+    setOtherDataBars(stadiumBars);
   }, [sortedStadiumInfo])
 
   useEffect(() => {
@@ -91,8 +140,12 @@ function StadiumEditModal({ title, mainStadiumInfo, otherStadiumInfo, isModalOpe
 
   return (
     <Modal
-      title={title}
-      className="stadium-edit-modal"
+      centered
+      title={
+        <div className={style.title}>
+          {title}
+        </div>
+      }
       open={isModalOpen}
       onOk={onOkClick}
       cancelButtonProps={{ style: { display: 'none' } }}
@@ -101,8 +154,11 @@ function StadiumEditModal({ title, mainStadiumInfo, otherStadiumInfo, isModalOpe
       maskClosable={false}
       keyboard={false}
       okText="OK"
+      modalRender={onModalRender}
+
+      styles={styles}
     >
-      {/* {mainDataBar} */}
+      <Spacer width="40px" />
       <DndContext collisionDetection={closestCenter} onDragEnd={onDragEnd}>
         <SortableContext items={dataIds} strategy={verticalListSortingStrategy}>
           {otherDataBars}

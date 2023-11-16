@@ -1,8 +1,7 @@
 
-import ImageButton from "../../components/ImageButton"
+import {ImageButton} from "../../components"
 import style from "./Styles/MenuPageSelection.module.css"
 import { Spacer } from "../../components"
-import Link from "antd/es/typography/Link"
 import { usePageState } from "./useContext/MainMenuContext"
 
 
@@ -21,7 +20,6 @@ function MenuPageSelection() {
             <div className={style.settings}>
                 <ImageButton width="280px" height="70px" src="./assets/00-mainmenu/button-settings.png" />
             </div>
-
         </div>
     )
 }

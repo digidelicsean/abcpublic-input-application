@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-export const useButtonState = () => {
+export const useSelectState = () => {
   const [isSelected, setIsSelected] = useState(false);
 
   const Select = () => {
