@@ -1,4 +1,4 @@
-# Input Applicatio
+# Input Application
   
 ### Description
 ---
