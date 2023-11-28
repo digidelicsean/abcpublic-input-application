@@ -1,4 +1,4 @@
-import { HashRouter as Router, Route, Routes } from "react-router-dom";
+    import { HashRouter as Router, Route, Routes } from "react-router-dom";
 
 import { MainMenuPage, MatchSettingsPage, TeamSelectPage, InfoScreenPage, DataStadiumPage } from "../pages";
 
