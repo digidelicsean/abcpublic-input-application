@@ -1,4 +1,4 @@
-import style from "TeamPlayerSelectionPage.module.css"
+import style from "./TeamPlayerSelectionPage.module.css"
 import TeamInfoTabPanel from "../../components/TeamPlayerSelect/TeamInfoTabPanel"
 
 const TeamPlayerSelectionPage = () => {
