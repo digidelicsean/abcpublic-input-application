@@ -1,4 +1,4 @@
-# What is Fetch
+# Fetch and Promises
 The ***fetch*** library is a built-in JavaScript library that is used to make API requests (GET, POST, and PUT).
 The main usage of this in the **input application** project is to interact with our backend *Express.js* server and retrieve data from the local MongoDB server.
 
@@ -39,13 +39,14 @@ async function sampleApiRequest (apiURL) {
 }
 ```
 
-
+---
+### Custom Hook (*UseFetch*)
 In the input application, there is a custom hook specifically for making API requests located in the hooks folder called ***useFetch***.  
 This custom hook has also already been implemented with other functionalities such as preventing race conditions wherein multiple API requests are made and the value might change depending on which API request finishes first.  
 
 By default, the *useFetch* custom hook already adds the base URL of the backend server to make it easier to use and easier to read.  
 
-The return values of the *useFetch* hook are the <u>retrieved data</u>, <u>a boolean if the data is still loading</u>, the <u>error if there's an issue</u>, and a <u>reload function that would allow us to redo the API request</u>.
+The return values of the *useFetch* hook are the <u>retrieved data</u>, <ins>a boolean if the data is still loading</u>, the <u>error if there's an issue</u>, and a <u>reload function that would allow us to redo the API request</u>.
 This is typically used as shown below:
 ```jsx
 import useFetch from "./hooks/useFetch"
@@ -85,11 +86,17 @@ const SampleComponent = ({children}) => {
 }
 ```
 
+---
+### Creating a new API script
+
 In the context of the input application, the *useFetch* hook will mostly be used in a script created in the ***api*** folder located in the *services* folder.
-Due to some difficulties of maintaining the code while keeping up with revisions, that folder is currently empty, however, the guidelines for creating API request will be discussed below.
+> [!NOTE]
+> Due to some difficulties of maintaining the code while keeping up with revisions, that folder is currently empty, however, the guidelines for creating API request will be discussed below.
 
 For reference, here is what the GameID collection looks like in MongoDB
 ![image](https://github.com/seeeany/abcpublic-input-application/assets/32953723/d2440151-f019-4900-a85a-8bdd846ef219)
+
+
 
 As an example of creating a new script for retrieving data, I will use an existing code for retrieving a GameID collection in the MongoDB server.
 ```javascript
