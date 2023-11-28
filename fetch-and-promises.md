@@ -1,3 +1,15 @@
+#### Basic Syntax of the Backend Server API
+This will use the custom hook ***useFetch*** hook that is located in the *hooks* folder
+> [!NOTE]
+> When creating a string using tilde ( \` ), it will allow you to add variables in the middle of the string using this syntax **${VARIABLE_NAME}**
+> e.g. ```const name = `My name is ${firstName} ${lastName}\`;```
+
+For retrieving data by the collection name
+```javascript
+const {data, isLoading, error, reload} = useFetch(`abc-public/[COLLECTION_NAME]`)
+```
+---
+
 # Fetch and Promises
 The ***fetch*** library is a built-in JavaScript library that is used to make API requests (GET, POST, and PUT).
 The main usage of this in the **input application** project is to interact with our backend *Express.js* server and retrieve data from the local MongoDB server.
