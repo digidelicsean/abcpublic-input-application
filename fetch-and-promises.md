@@ -88,12 +88,10 @@ const SampleComponent = ({children}) => {
 In the context of the input application, the *useFetch* hook will mostly be used in a script created in the ***api*** folder located in the *services* folder.
 Due to some difficulties of maintaining the code while keeping up with revisions, that folder is currently empty, however, the guidelines for creating API request will be discussed below.
 
-As an example of creating a new script for retrieving data, I will use an existing code for retrieving a GameID collection in the MongoDB server.
-
-Here is what the GameID collection looks like in MongoDB
+For reference, here is what the GameID collection looks like in MongoDB
 ![image](https://github.com/seeeany/abcpublic-input-application/assets/32953723/d2440151-f019-4900-a85a-8bdd846ef219)
 
-
+As an example of creating a new script for retrieving data, I will use an existing code for retrieving a GameID collection in the MongoDB server.
 ```javascript
 /// fetchGameCollection.js
 import useFetch from "./hooks/useFetch"
