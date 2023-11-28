@@ -4,6 +4,10 @@
 ---
 A GitHub repository of the Input Application. 
 
+### Other Reference
+---
+- Link to explanation of [fetch and promises](fetch-and-promises.md)
+
   
 ### How to setup the project with VisualStudio Code 
 ---
