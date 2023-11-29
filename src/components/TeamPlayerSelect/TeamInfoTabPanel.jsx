@@ -28,7 +28,6 @@ const TeamInfoTabPanel = () => {
         <ConfigProvider theme={{
             components: {
                 Tabs: {
-                    // cardGutter: 0 
                     cardBg: "#d5d5d5",
                     colorBgContainer: "#f4f4f4"
                 }
