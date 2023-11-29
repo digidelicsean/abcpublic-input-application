@@ -1,5 +1,5 @@
 import React from 'react'
-import "./InfoTab.css"
+import "../InfoTab.css"
 function DraftInfoTab() {
     return (
         <div className='tab'>
