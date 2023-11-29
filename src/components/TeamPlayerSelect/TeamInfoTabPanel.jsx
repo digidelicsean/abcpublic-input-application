@@ -2,7 +2,6 @@ import style from "./InfoTabPanel.module.css"
 
 import { ConfigProvider, Tabs } from 'antd'
 import { createTab } from "../../utils/tabUtils"
-import { toEntries } from "../../utils/jsonUtils"
 
 import TeamInfoTab from "./(tabs)/(team-info-tabs)/TeamInfoTab"
 import PlayerInfoTab from "./(tabs)/(team-info-tabs)/PlayerInfoTab"
@@ -17,10 +16,9 @@ const tabProperties = {
 const TeamInfoTabPanel = () => {
 
     // Generate tabs dynamically based on tabProperties object
-    const tabs = toEntries(tabProperties).map(([label, children], index) => {
+    const tabs = Object.entries(tabProperties).map(([label, children], index) => {
         return createTab(label, index, children)
     })
-
     // Event handler for tab change
     const onTabChange = (key) => {
         // Add logic for handling tab change event here
