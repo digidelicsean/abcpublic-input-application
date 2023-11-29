@@ -8,9 +8,9 @@ import PlayerInfoTab from "./(tabs)/(team-info-tabs)/PlayerInfoTab"
 import DraftInfoTab from "./(tabs)/(team-info-tabs)/DraftInfoTab"
 
 const tabProperties = {
-    TeamInfoTab: <TeamInfoTab />,
-    PlayerInfoTab: <PlayerInfoTab />,
-    DraftInfoTab: <DraftInfoTab />
+    /*TeamInfoTab*/ ["チーム情報"]: <TeamInfoTab />,
+    /*PlayerInfoTab*/ ["選手情報"]: <PlayerInfoTab />,
+    /*DraftInfoTab*/ ["ドラフト情報"]: <DraftInfoTab />
 }
 
 const TeamInfoTabPanel = () => {

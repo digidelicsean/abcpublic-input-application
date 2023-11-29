@@ -31,40 +31,47 @@ function LabeledText({
   };
 
   const onValueChange = (e) => {
-    value = e.target.value;
+    const newValue = e.target.value;
 
-    if (!onChange) return;
+    if (onChange) {
+      onChange(newValue);
+    }
+  };
 
-    onChange(e.target.value);
+  const containerStyle = {
+    height: size?.height ?? "",
+    width: size?.width ?? "",
+    alignItems: alignItems ?? "center",
+    flexDirection: horizontal ? "row" : "column",
+    marginBottom: horizontal ? marginBottom ?? "20px" : marginBottom ?? "0px",
+    margin: margin ?? "",
+  };
+
+  const labelStyle = {
+    marginRight: horizontal ? "10px" : "0px",
+    width: "100%",
+  };
+
+  const labelText = label ? label : "Label";
+
+  const inputStyle = {
+    textAlign: textAlign ?? horizontal ? "left" : "center",
   };
 
   return (
-    <div
-      className="labeled-text"
-      style={{
-        height: size?.height ?? "",
-        width: size?.width ?? "",
-        alignItems: alignItems ?? "center",
-        flexDirection: horizontal ? "row" : "column",
-        marginBottom: horizontal ? marginBottom ?? "20px" : marginBottom ?? "0px",
-        margin: margin ?? "",
-      }}
-    >
+    <div className="labeled-text" style={containerStyle}>
       <ConfigProvider theme={theme}>
         {label && horizontal ? (
           label
         ) : (
-          <div
-            className="text-label"
-            style={{ marginRight: horizontal ? "10px" : "0px", width: "100%" }}
-          >
-            {label ? label : "Label"}
+          <div className="text-label" style={labelStyle}>
+            {labelText}
           </div>
         )}
 
         {textArea ? (
           <TextArea
-            style={{ textAlign: textAlign ?? horizontal ? "left" : "center" }}
+            style={inputStyle}
             className="text-input"
             placeholder={placeholder}
             value={value}
@@ -74,7 +81,7 @@ function LabeledText({
           />
         ) : (
           <Input
-            style={{ textAlign: textAlign ?? horizontal ? "left" : "center" }}
+            style={inputStyle}
             className="text-input"
             placeholder={placeholder}
             value={value}
