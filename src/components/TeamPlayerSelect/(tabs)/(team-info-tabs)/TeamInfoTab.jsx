@@ -1,5 +1,5 @@
 import React from 'react'
-import "./InfoTab.css"
+import "../InfoTab.css"
 function TeamInfoTab() {
   return (
     <div className='tab'>
