@@ -1,0 +1,29 @@
+.tab {
+  --border-color: #f4f4f4;
+
+  position: relative;
+  background-color: var(--border-color);
+  /* border: 1px solid var(--border-color); */
+
+  width: 80vw;
+  height: 60vh;
+  
+  border-radius: 0px 0px 16px 16px;
+  padding: 1.25em;
+}
+
+.tab::before {
+  content: "";
+  position: absolute;
+
+  border-radius: 16px;
+
+  top: 0px;
+  left: 50%;
+  transform: translate(-50%, 0%);
+
+  width: 84vw;
+  height: 60vh;
+  background-color: #f0f232; /* Set your desired background color */
+  z-index: -10; /* Place it behind the Tabs component */
+}
