@@ -1,0 +1,43 @@
+.all-matches-top-card {
+    width: calc((100vw * (1400 / 6)) / 1440);
+    background-color: #f4f4f4;
+    max-width: 228px;
+}
+
+.all-matches-top-body {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.all-matches-top-body > div {
+    display: flex;
+    gap: 5px;
+}
+
+.row4,
+.row6 {
+    justify-content: flex-end;
+}
+
+.row4 > Input,
+.row6 > Input {
+    width: 50px;
+}
+
+.sub-btn,
+.add-btn {
+    background: linear-gradient(
+    90deg,
+    rgba(150, 150, 150, 1) 35%,
+    rgba(160, 160, 160, 1) 100%
+  );
+  color: white;
+  border-radius: 50px;
+  font-size: 0.9em;
+  width: 32px;
+}
+
+.match-card-save-btn {
+    width: 100%;
+}

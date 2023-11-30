@@ -1,0 +1,42 @@
+.all-matches-bottom-body {
+    display: flex;
+    justify-content: space-between;
+}
+
+
+.all-matches-bottom-left {
+    width: 75%;
+}
+
+.all-matches-bottom-right {
+    width: 20%;
+}
+
+.checkbox-container {
+    border-radius: 5px;
+    padding: 20px 15px;
+    outline-style: double;
+    outline-color: white;
+}
+
+.checkbox-body {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 8px;
+}
+
+.input-btn {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    height: 40px;
+}
+
+.bot-left-input1 {
+    margin-bottom: 10px;
+}
+
+.checkbox-container, .input-btn {
+    margin-top: 5px;
+}
