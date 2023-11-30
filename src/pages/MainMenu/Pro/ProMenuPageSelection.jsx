@@ -10,7 +10,7 @@ const buttonData = [
     src: "./assets/01-mainmenu/button-pro-matchsetting.png",
   },
   {
-    link: "",
+    link: "oa-score",
     name: "OAスコア",
     src: "./assets/01-mainmenu/button-pro-oascore.png",
   },
