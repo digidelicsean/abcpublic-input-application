@@ -4,3 +4,4 @@ import PositionChangeModal from "./PositionChangeModal";
 import PlayerSubModal from "./PlayerSubModal";
 
 export default {BatterDataTable, NowMemberTable, PositionChangeModal, PlayerSubModal}
+ 
