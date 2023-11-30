@@ -6,6 +6,6 @@ function BattingResultTab() {
             BattingResultTab
         </div>
     )
-}
-
+} 
+ 
 export default BattingResultTab
