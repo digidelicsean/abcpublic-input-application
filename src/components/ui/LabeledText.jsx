@@ -71,7 +71,7 @@ function LabeledText({
 
         {textArea ? (
           <TextArea
-            style={inputStyle}
+            style={{...inputStyle, height: size?.height ?? ""}}
             className="text-input"
             placeholder={placeholder}
             value={value}

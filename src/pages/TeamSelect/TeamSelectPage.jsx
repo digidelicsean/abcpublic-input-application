@@ -4,7 +4,7 @@
 import React, { useState, useEffect, useMemo } from "react";
 import { Button, Card, Tabs, Checkbox, ConfigProvider } from "antd";
 import { Link } from "react-router-dom";
-import {LabeledText, LabeledComboBox} from "../../components/"
+import { LabeledText, LabeledComboBox } from "../../components/"
 
 import {
   fetchCoachData,
@@ -19,10 +19,12 @@ import {
 
 import { TeamSelectComponents } from "../../components"
 const { BattingAverageTab, BattingRecordTab, PitchingRecordTab, ProfileTab, PlayerInfoTab, TeamInfoTab, PitcherBallTab, RunnerCatcherRecordTab, SpareTab } = TeamSelectComponents
-
+import TeamInfoTabPanel from "../../components/TeamPlayerSelect/TeamInfoTabPanel";
+import {Spacer} from "../../components"
 
 import { defaultTheme } from "./theme";
 import "./TeamSelect.css";
+import PlayerInfoTabPanel from "../../components/TeamPlayerSelect/PlayerInfoTabPanel";
 
 function TeamSelectPage() {
   const [teamMasterData, setTeamMasterData] = useState(null);
@@ -169,11 +171,11 @@ function TeamSelectPage() {
   return (
     <ConfigProvider theme={defaultTheme}>
       <div className="page-team-select">
-        <div className="menu-bar">
+        {/* <div className="menu-bar">
           <Link to="/" style={{ height: "inherit", margin: "0px" }}>
             <Button style={{ width: "100px", fontSize: "1em" }}>← 戻る</Button>
           </Link>
-        </div>
+        </div> */}
         <div className="page-header">
           <Card
             className="team-select-card"
@@ -213,7 +215,7 @@ function TeamSelectPage() {
               </Button>
             </div>
           </Card>
-          <Card
+          {/* <Card
             className="team-add-card"
             bodyStyle={{
               padding: "4px",
@@ -239,10 +241,13 @@ function TeamSelectPage() {
                 選手追加
               </Button>
             </div>
-          </Card>
+          </Card> */}
         </div>
+
         <div className="content-area">
-          {showPlayerStats ? (
+          <TeamInfoTabPanel />
+          {/* <PlayerInfoTabPanel/> */}
+          {/* {showPlayerStats ? (
             <Card>
               <Button onClick={() => setShowPlayerStats(false)}>← 戻る</Button>
               <Tabs
@@ -261,9 +266,8 @@ function TeamSelectPage() {
                 items={contentTabs}
               />
             </Card>
-          )}
+          )} */}
         </div>
-
         <div className="button-panel-area">
           <ConfigProvider theme={{}}>
             <Button className="team-select-button">リフレッシュ</Button>
@@ -274,7 +278,7 @@ function TeamSelectPage() {
             >
               一括クリア
             </Button>
-            <div className="delete-button">
+            {/* <div className="delete-button">
               <Checkbox className="delete-checkbox">許可</Checkbox>
               <Button
                 style={{ backgroundColor: "#d8344f", color: "white" }}
@@ -282,7 +286,7 @@ function TeamSelectPage() {
               >
                 選手削除
               </Button>
-            </div>
+            </div> */}
           </ConfigProvider>
         </div>
       </div>
@@ -291,3 +295,5 @@ function TeamSelectPage() {
 }
 
 export default TeamSelectPage;
+
+

@@ -1,4 +1,5 @@
 import React from 'react'
+import { Input } from "antd"
 
 const Table = ({ children }) => {
     const headerCellMap = {}
@@ -22,7 +23,9 @@ const Table = ({ children }) => {
     console.log(headerCellMap)
 
     return (
-        <table>
+        <table style={{
+            borderCollapse: "separate"
+        }}>
             <thead>
                 <tr>
                     <th></th>
@@ -48,18 +51,32 @@ Table.Header = function Header({ headerProps }) {
     if (headerProps == null || headerProps == undefined) return <></>
 
     Object.values(headerProps).forEach((value, index) => {
-        const { type, label, colSpan, color, textColor, textAlign, style, fontSize } = value;
+        const { type, label, colSpan, color, textColor, textAlign, style, fontSize, gapSize } = value;
+
+        const headerStyle = {
+            paddingRight: `${gapSize}px`,
+            textAlign: textAlign ?? "left",
+            ...style,
+        };
+        const textContainerStyle = {
+            // padding: "3px",
+            color: textColor ?? "black",
+            fontSize,
+            textAlign: textAlign ?? "left",
+            backgroundColor: color,
+        };
 
         if (type != Table.Header.Type.Label) {
             headers.push(
-                <th key={index} type={type} colSpan={colSpan} style={{ fontSize, color: textColor ?? "black", textAlign: textAlign ?? "left", backgroundColor: color ?? "gray", ...style }}>
-                    {label}
+                <th key={index} type={type} colSpan={colSpan} style={headerStyle}>
+                    <div style={textContainerStyle}>{label}</div>
                 </th>
             );
         } else {
             headers.push(
-                <th key={index} type={type} colSpan={colSpan} style={{ fontSize, color: textColor ?? "black", textAlign: textAlign ?? "center", backgroundColor: color, ...style }}>
+                <th key={index} type={type} colSpan={colSpan} style={{...headerStyle, ...textContainerStyle}}>
                     {label}
+                    {/* <div style={textContainerStyle}>{label}</div> */}
                 </th>
             )
         }
@@ -72,15 +89,18 @@ Table.Header = function Header({ headerProps }) {
 
 Table.Header.Type = { Default: 'default', Label: 'label' };
 
-Table.Row = function Row({ rowName, numColumns, width, labelStyle, inputStyle }) {
+Table.Row = function Row({ rowName, numColumns, width, labelStyle, inputStyle, gapIndices, gapSize }) {
     return (
         <tr>
             <td style={labelStyle}>{rowName}</td>
-            {Array(numColumns).fill().map((_, index) => (
-                <td key={index}>
-                    <input type="text" style={{ width: width, ...inputStyle}} />
-                </td>
-            ))}
+            {Array(numColumns).fill().map((_, index) => {
+                const gapStyle = gapIndices?.includes(index) ? { paddingRight: `${gapSize}px` } : {};
+                return (
+                    <td key={index} style={{...gapStyle, alignSelf: "center"}}>
+                        <Input type="text" style={{ width: width, ...inputStyle }} />
+                    </td>
+                );
+            })}
         </tr>
     );
 }
