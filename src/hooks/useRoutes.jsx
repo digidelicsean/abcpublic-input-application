@@ -9,7 +9,7 @@ export const useRouter = () => {
                 <Routes>
                     <Route exact path="/" element={<MainMenuPage />} />
                     <Route path="/match-settings" element={<MatchSettingsPage />} />
-                    <Route path="/player-profile" element={<TeamPlayerSelectionPage />} />
+                    <Route path="/player-profile" element={<TeamSelectPage />} />
                     <Route path="/data-stadium" element={<DataStadiumPage />} />
                     <Route path="/info-screen" element={<InfoScreenPage />} />
                     <Route path="/all-matches" element={<AllMatchesPage />} />

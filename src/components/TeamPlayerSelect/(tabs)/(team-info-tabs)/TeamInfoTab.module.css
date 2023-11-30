@@ -1,0 +1,11 @@
+.container {
+    display: inline-flex;
+    flex-direction: row;
+    justify-content: space-around;
+}
+
+.column {
+    display: inline-flex;
+    flex-direction: column;
+    height: 100%;
+}

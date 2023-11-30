@@ -5,8 +5,8 @@ import PlayerInfoTabPanel from "../../components/TeamPlayerSelect/PlayerInfoTabP
 const TeamPlayerSelectionPage = () => {
   return (
     <div className={style.container}>
-      <PlayerInfoTabPanel />
-      {/* <TeamInfoTabPanel/> */}
+      {/* <PlayerInfoTabPanel /> */}
+      <TeamInfoTabPanel/>
     </div>
   )
 }
