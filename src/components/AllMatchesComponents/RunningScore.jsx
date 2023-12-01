@@ -1,6 +1,7 @@
 import React from 'react'
 import { Button, Input } from "antd";
 import "./RunningScore.css";
+import RunningScoreTable from "./RunningScoreTable";
 
 const RunningScore = () => {
     return (
@@ -9,10 +10,10 @@ const RunningScore = () => {
             {/* ------------ COl 1 ------------ */}
             <div className="col1">
                 <div className="col1-top">
-                    <span>ランスコ</span>
+                    <span className="header-label">試合情報</span>
                 </div>
                 <div className="col1-bot">
-                    <span>投手情報</span>
+                    {/* <span>投手情報</span> */}
                 </div>
             </div>
 
@@ -20,14 +21,12 @@ const RunningScore = () => {
 
             <div className="col2">
                 <div className="col2-top">
-                    <span>Label 1</span><br />
-                    <span>Label 1</span><br />
-                    <span>Label 1</span><br />
+                    <RunningScoreTable />
                 </div>
                 <div className="col2-bot">
                     <div className="col2-bot1">
                         <div className="col2-bot1-upper">
-                            <span>Label 1</span><br />
+                            <span>後攻投手</span><br />
                             <div className="col2-input-btn">
                                 <Input className="col2-bot-input1" />
                                 <Input className="col2-bot-input2" />
@@ -37,7 +36,7 @@ const RunningScore = () => {
                         </div>
 
                         <div className="col2-bot1-lower">
-                            <span>Label 2</span><br />
+                            <span>先攻投手</span><br />
                             <div className="col2-input-btn">
                                 <Input className="col2-bot-input1" />
                                 <Input className="col2-bot-input2" />
@@ -50,7 +49,7 @@ const RunningScore = () => {
                     </div>
                     <div className="col2-bot3">
                         <div className="col2-bot3-upper">
-                            <span>Label 3</span><br />
+                            <span>後攻投手</span><br />
                             <div className="col2-input-btn">
                                 <Input className="col2-bot-input1" />
                                 <Input className="col2-bot-input2" />
@@ -59,7 +58,7 @@ const RunningScore = () => {
                         </div>
 
                         <div className="col3-bot3-lower">
-                            <span>Label 4</span><br />
+                            <span>先攻投手</span><br />
                             <div className="col2-input-btn">
                                 <Input className="col2-bot-input1" />
                                 <Input className="col2-bot-input2" />
@@ -75,11 +74,11 @@ const RunningScore = () => {
 
             <div className="col3">
                 <div className="col3-top">
-                    <span>text1</span>
+                    <span>球場情報</span>
                     <Input />
                 </div>
                 <div className="col3-mid">
-                    <span>text2</span>
+                    <span>開始時刻</span>
                     <Input />
                 </div>
                 <div className="col3-bot">

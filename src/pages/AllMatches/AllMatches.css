@@ -16,6 +16,13 @@
     max-width: 1400px;
 }
 
+.header-label {
+    border-radius: 15px;
+    background-color: rgba(157, 127, 181);
+    padding: 3px 6px;
+    color: white;
+}
+
 .abc-comment-card-btn, 
 .dst-comment-card-btn,
 .col2-bot-btn,

@@ -1,6 +1,6 @@
     import { HashRouter as Router, Route, Routes } from "react-router-dom";
 
-import { MainMenuPage, MatchSettingsPage, TeamPlayerSelectionPage, InfoScreenPage, DataStadiumPage, AllMatchesPage } from "../pages";
+import { MainMenuPage, MatchSettingsPage, TeamPlayerSelectionPage, TeamSelectPage, InfoScreenPage, DataStadiumPage, AllMatchesPage } from "../pages";
 
 export const useRouter = () => {
     const RoutesComponent = () => {

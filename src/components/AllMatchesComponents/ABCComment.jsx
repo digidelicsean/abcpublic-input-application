@@ -9,7 +9,7 @@ const ABCComment = () => {
         <div className="all-matches-bottom-body">
             <div className="all-matches-bottom-left">
                 <div className="bot-left-input1">
-                    <span className="label">ABCコメント</span>
+                    <span className="header-label">ABCコメント</span>
                     <div className="input-btn">
                         <Input className="abc-comment" />
                         <Button className="abc-comment-card-btn">保存</Button>
@@ -17,7 +17,7 @@ const ABCComment = () => {
 
                 </div>
                 <div className="bot-left-input2">
-                    <span className="label">データスタジアム コメント</span>
+                    <span className="header-label">データスタジアム コメント</span>
                     <div className="input-btn">
                         <Input className="dst-comment" />
                         <Button className="dst-comment-card-btn">保存</Button>
