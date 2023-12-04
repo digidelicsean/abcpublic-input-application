@@ -27,11 +27,11 @@
     padding: 0 10px;
 }
 
-.col2-bot {
+/* .col2-bot {
     display: grid;
     grid-template-columns: 1fr 5% 1fr 1fr;
     gap: 20px;
-}
+} */
 
 .col2-input-btn {
     display: flex;

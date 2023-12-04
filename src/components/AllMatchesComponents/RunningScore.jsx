@@ -24,7 +24,7 @@ const RunningScore = () => {
                     <RunningScoreTable />
                 </div>
                 <div className="col2-bot">
-                    <div className="col2-bot1">
+                    {/* <div className="col2-bot1">
                         <div className="col2-bot1-upper">
                             <span>後攻投手</span><br />
                             <div className="col2-input-btn">
@@ -43,15 +43,16 @@ const RunningScore = () => {
                                 <Button className="col2-bot-btn">保存</Button>
                             </div>
                         </div>
-                    </div>
-                    <div className="col2-bot2">
+                    </div> */}
+                    {/* <div className="col2-bot2">
                         <span>予告先発</span>
-                    </div>
+                    </div> */}
+                    
                     <div className="col2-bot3">
                         <div className="col2-bot3-upper">
                             <span>後攻投手</span><br />
                             <div className="col2-input-btn">
-                                <Input className="col2-bot-input1" />
+                                {/* <Input className="col2-bot-input1" /> */}
                                 <Input className="col2-bot-input2" />
                                 <Button className="col2-bot-btn">保存</Button>
                             </div>
@@ -60,7 +61,7 @@ const RunningScore = () => {
                         <div className="col3-bot3-lower">
                             <span>先攻投手</span><br />
                             <div className="col2-input-btn">
-                                <Input className="col2-bot-input1" />
+                                {/* <Input className="col2-bot-input1" /> */}
                                 <Input className="col2-bot-input2" />
                                 <Button className="col2-bot-btn">保存</Button>
                             </div>

@@ -21,7 +21,7 @@ const collapsedNames = [
   { label: "9", gapSize: 0 },
   { label: "10", gapSize: 0 },
   { label: "11", gapSize: 0 },
-  { label: "12", gapSize: 0 },
+  { label: "12", gapSize: 0 }
 
 ]
 
@@ -31,14 +31,11 @@ const expandedLableNames = [
   { label: "15", gapSize: 0 },
   { label: "16", gapSize: 0 },
   { label: "17", gapSize: 0 },
-  { label: "18", gapSize: 0 },
+  { label: "18", gapSize: 0 }
 ]
 
 const collapsedNames2 = [
-  { label: "合計", gapSize: 0 },
-  { label: "H", gapSize: 0 },
-  { label: "E", gapSize: 0 },
-
+  { label: "合計", gapSize: 0 }
 ]
 
 // Create label headers
@@ -77,14 +74,14 @@ const headers2 = collapsedNames2.map(({ label, gapSize }) => ({
 
 
 const defaultRowWidth = Array(21).fill(30);
-const rowWidth = [80, ...defaultRowWidth];
+const rowWidth = [60, ...defaultRowWidth];
 const rowGaps = [0, 3, 6, 9];
 const rowGaps2 = [2];
 
 
 
 const RunningScoreTable = () => {
-  const [isExpandClicked, setExpandButtonClicked] = useState(false)
+  const [isExpandClicked, setExpandButtonClicked] = useState(false);
 
   const toggleClass = () => {
     setExpandButtonClicked(!isExpandClicked);
@@ -94,8 +91,8 @@ const RunningScoreTable = () => {
     <>
       <Table>
         <Table.Header headerProps={headers} />
-        {/* <Table.Row numColumns={22} width={rowWidth} gapIndices={rowGaps} gapSize={5}  />
-        <Table.Row numColumns={22} width={rowWidth} gapIndices={rowGaps} gapSize={5}  /> */}
+        {/* <Table.Row numColumns={13} width={rowWidth} gapIndices={rowGaps} gapSize={5}  />
+        <Table.Row numColumns={13} width={rowWidth} gapIndices={rowGaps} gapSize={5}  /> */}
 
         <Table.Row numColumns={13} width={40} gapIndices={rowGaps} gapSize={5} />
         <Table.Row numColumns={13} width={40} gapIndices={rowGaps} gapSize={5} />
@@ -115,8 +112,8 @@ const RunningScoreTable = () => {
 
       <Table>
         <Table.Header headerProps={headers2} />
-        <Table.Row numColumns={3} width={40} />
-        <Table.Row numColumns={3} width={40} />
+        <Table.Row numColumns={1} width={40} />
+        <Table.Row numColumns={1} width={40} />
       </Table>
     </>
 

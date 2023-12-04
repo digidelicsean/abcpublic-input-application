@@ -1,11 +1,39 @@
 .all-matches-top-card {
-    width: calc((100vw * (1400 / 6)) / 1440);
+    width: calc((100vw * 265) / 1440);
     background-color: #f4f4f4;
-    max-width: 228px;
+    max-width: 265px;
 }
 
-.active {
-    outline: 1px solid red;
+.selected {
+    border-style: solid;
+    border-width: thin;
+    border-radius: 4px;
+    background-color: #fff;
+    position: relative;
+    border: 1px solid red;
+}
+
+.selected:before,
+.selected:after {
+    content: "";
+    border-style: solid;
+    border-width: 10px;
+    position: absolute;
+    top: 100%;
+    left: 45%;
+    border-top: 15px solid white;
+    border-right: 15px solid transparent;
+    border-left: 15px solid transparent;
+    border-bottom: none;
+}
+
+.selected:before {
+    border-color: red transparent transparent;
+}
+
+.selected:after {
+    margin-top: -2px;
+    border-color: #fff transparent transparent;
 }
 
 .all-matches-top-body {
@@ -14,31 +42,32 @@
     gap: 10px;
 }
 
-.all-matches-top-body > div {
+.all-matches-top-body>div {
     display: flex;
     gap: 5px;
 }
-.row1 > Button {
+
+.row1>Button {
     min-width: 65px;
     padding: 2px;
 }
 
-.btn-1 {
-    background-color:lightgrey;
+.btn-0 {
+    background-color: lightgrey;
     outline: 1px solid white;
 }
 
-.btn-0, .btn-4 {
+.btn-3 {
     background-color: rgba(255, 130, 128, 1);
     color: white;
 }
 
-.btn-5 {
+.btn-4 {
     background-color: lightgreen;
-    /* color: white; */
 }
 
-.btn-2, .btn-3 {
+.btn-1,
+.btn-2 {
     background-color: darkgrey;
 }
 
@@ -47,23 +76,21 @@
     justify-content: flex-end;
 }
 
-.row4 > Input,
-.row6 > Input {
+.row4>Input,
+.row6>Input {
     width: 50px;
 }
 
 .sub-btn,
 .add-btn {
-    background: linear-gradient(
-    90deg,
-    rgb(157, 127, 181) 35%,
-    rgba(146, 118, 168, 1) 100%
-  );
-  color: white;
-  border-radius: 50px;
-  font-size: 0.9em;
-  min-width: 32px;
-  padding: 0;
+    background: linear-gradient(90deg,
+            rgb(157, 127, 181) 35%,
+            rgba(146, 118, 168, 1) 100%);
+    color: white;
+    border-radius: 50px;
+    font-size: 0.9em;
+    min-width: 32px;
+    padding: 0;
 }
 
 .match-card-save-btn {
