@@ -1,25 +1,16 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { Button, Input, Card } from "antd";
 import "./MatchCard.css";
 
-const MatchCard = ({ index, label, key, clicked, isSelected }) => {
-
-    const [isMatchActive, setMatchActive] = useState(false)
-
-    const activeMatch = () => {
-        setMatchActive(true)
-    }
+const MatchCard = ({ index, label, key, clicked, selected }) => {
 
     return (
         <>
-            {/* <div className={`all-matches-top-card match-card-${index}`}
-                onClick={activeMatch}> */}
+            <div className={`all-matches-top-card match-card-${index} ${selected ? "selected" : ""}`}
+                index={index}
+                onClick={() => clicked(index)}>
 
-            <div className={`all-matches-top-card match-card-${index}`}
-                onClick={clicked}>
-                <Card key={key} className={`${isSelected}`}>
-                {/* <Card key={key}> */}
-
+                <Card key={key}>
                     <div className="all-matches-top-body">
                         <div className="row1">
                             <Input />

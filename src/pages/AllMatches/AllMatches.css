@@ -17,10 +17,12 @@
 }
 
 .header-label {
+    display: block;
     border-radius: 15px;
     background-color: rgba(157, 127, 181);
     padding: 3px 6px;
     color: white;
+    width: max-content;
 }
 
 .abc-comment-card-btn, 

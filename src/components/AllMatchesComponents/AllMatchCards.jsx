@@ -12,11 +12,11 @@ const AllMatchCards = () => {
         { index: "4", btnLabel: "開始前", selected: false }
     ]);
 
-    //needs work
-    const matchClicked = (e) => {
-        if (!e.target.classList.contains("selected")) {
+    const handleClicked = (i) => {
+        const selectedIndex = matches.filter((match) => match.index === i);
+
+        if (!selectedIndex[0].selected) {
             const selectedCount = matches.filter((match) => match.selected).length;
-            console.log(selectedCount);
             if (selectedCount === 1) {
                 return;
             }
@@ -24,8 +24,8 @@ const AllMatchCards = () => {
 
         setMatch(
             matches.map((match) =>
-                match.index === e.target.getAttribute("index")
-                    ? { match, selected: !match.selected }
+                match.index === i
+                    ? { ...match, selected: !match.selected }
                     : match
             )
         );
@@ -38,8 +38,8 @@ const AllMatchCards = () => {
                     index={match.index}
                     key={match.index}
                     label={match.btnLabel}
-                    clicked={matchClicked}
-                    isSelected={`${match.selected ? "selected" : ""}`}
+                    clicked={handleClicked}
+                    selected={match.selected}
                 />
             ))}
         </>
