@@ -73,29 +73,20 @@ const headers2 = collapsedNames2.map(({ label, gapSize }) => ({
 }));
 
 
-const defaultRowWidth = Array(21).fill(30);
-const rowWidth = [60, ...defaultRowWidth];
+const defaultRowWidth = Array(12).fill(40);
+const rowWidth = [90, ...defaultRowWidth];
 const rowGaps = [0, 3, 6, 9];
 const rowGaps2 = [2];
 
-
-
 const RunningScoreTable = () => {
   const [isExpandClicked, setExpandButtonClicked] = useState(false);
-
-  const toggleClass = () => {
-    setExpandButtonClicked(!isExpandClicked);
-  };
 
   return (
     <>
       <Table>
         <Table.Header headerProps={headers} />
-        {/* <Table.Row numColumns={13} width={rowWidth} gapIndices={rowGaps} gapSize={5}  />
-        <Table.Row numColumns={13} width={rowWidth} gapIndices={rowGaps} gapSize={5}  /> */}
-
-        <Table.Row numColumns={13} width={40} gapIndices={rowGaps} gapSize={5} />
-        <Table.Row numColumns={13} width={40} gapIndices={rowGaps} gapSize={5} />
+        <Table.Row numColumns={13} width={rowWidth} gapIndices={rowGaps} gapSize={5} />
+        <Table.Row numColumns={13} width={rowWidth} gapIndices={rowGaps} gapSize={5} />
       </Table>
 
       <Button className="arrow-btn"
@@ -105,8 +96,8 @@ const RunningScoreTable = () => {
       {isExpandClicked === true &&
         <Table>
           <Table.Header headerProps={expandedHeaders} />
-          <Table.Row numColumns={6} width={40} gapIndices={rowGaps2} gapSize={5}/>
-          <Table.Row numColumns={6} width={40} gapIndices={rowGaps2} gapSize={5}/>
+          <Table.Row numColumns={6} width={40} gapIndices={rowGaps2} gapSize={5} />
+          <Table.Row numColumns={6} width={40} gapIndices={rowGaps2} gapSize={5} />
         </Table>
       }
 
