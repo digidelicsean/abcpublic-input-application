@@ -1,5 +1,5 @@
 import BatterDataTable from "./BatterDataTable";
-import NowMemberTable from "./BatterDataTable";
+import NowMemberTable from "./NowMemberTable";
 import PositionChangeModal from "./PositionChangeModal";
 import PlayerSubModal from "./PlayerSubModal";
 

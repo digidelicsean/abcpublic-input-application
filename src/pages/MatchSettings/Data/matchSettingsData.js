@@ -47,13 +47,14 @@ export const postMatchInfoData = async (matchInfo, collection) => {
     },
     body: JSON.stringify(matchInfo),
   };
-
+  
   const uri = await defaultURI()
   const response = await fetch(
     `${uri}/abc-public/${collection}`,
     fetchOptions
   );
   const data = await response.json();
+
   if (data?.acknowledged) {
     console.log("Successfully added new game info");
   } else {
