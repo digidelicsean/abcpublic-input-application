@@ -1,7 +1,7 @@
 import React from 'react'
 import { Input } from "antd"
 
-const Table = ({ children }) => {
+const Table = ({ children, headerStyle, bodyStyle}) => {
     const headerCellMap = {}
     const rows = []
 
@@ -20,13 +20,11 @@ const Table = ({ children }) => {
         }
     });
 
-    console.log(headerCellMap)
-
     return (
         <table style={{
             borderCollapse: "separate"
         }}>
-            <thead>
+            <thead style={{...headerStyle}}>
                 <tr>
                     <th></th>
                     {headerCellMap[Table.Header.Type.Default]}
@@ -36,7 +34,7 @@ const Table = ({ children }) => {
                     {headerCellMap[Table.Header.Type.Label]}
                 </tr>
             </thead>
-            <tbody>
+            <tbody style={{...bodyStyle}}>
                 {rows}
             </tbody>
         </table>
@@ -51,7 +49,7 @@ Table.Header = function Header({ headerProps }) {
     if (headerProps == null || headerProps == undefined) return <></>
 
     Object.values(headerProps).forEach((value, index) => {
-        const { type, label, colSpan, color, textColor, textAlign, style, fontSize, gapSize } = value;
+        const { type, label, colSpan, color, textColor, textAlign, style, labelStyle, fontSize, gapSize } = value;
 
         const headerStyle = {
             paddingRight: `${gapSize}px`,
@@ -64,6 +62,7 @@ Table.Header = function Header({ headerProps }) {
             fontSize,
             textAlign: textAlign ?? "left",
             backgroundColor: color,
+            ...labelStyle
         };
 
         if (type != Table.Header.Type.Label) {
@@ -89,15 +88,20 @@ Table.Header = function Header({ headerProps }) {
 
 Table.Header.Type = { Default: 'default', Label: 'label' };
 
-Table.Row = function Row({ rowName, numColumns, width, labelStyle, inputStyle, gapIndices, gapSize }) {
+Table.Row = function Row({ rowName, numColumns, width, rowStyle, labelStyle, inputStyle, gapIndices, gapSize, useText, cellValues, textAlign }) {
     return (
-        <tr>
+        <tr style={{...rowStyle}}>
             <td style={labelStyle}>{rowName}</td>
             {Array(numColumns).fill().map((_, index) => {
                 const gapStyle = gapIndices?.includes(index) ? { paddingRight: `${gapSize}px` } : {};
+                const columnWidth = Array.isArray(width) ? width[index] : width;
                 return (
-                    <td key={index} style={{...gapStyle, alignSelf: "center"}}>
-                        <Input type="text" style={{ width: width, ...inputStyle }} />
+                    <td key={index} style={{...gapStyle, alignSelf: "center", height: "30px"}}>
+                        {useText ? (
+                            <span style={{ textAlign, display: "inline-block", width: columnWidth, ...inputStyle }}>{cellValues[index] ?? ""}</span>
+                        ) : (
+                            <Input type="text" style={{ textAlign, width: columnWidth, ...inputStyle }} value={cellValues ? cellValues[index] : ""} />
+                        )}
                     </td>
                 );
             })}

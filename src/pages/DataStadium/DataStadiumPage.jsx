@@ -99,7 +99,7 @@ function DataStadiumPage() {
     const testMatchInfo = useMatchInfo("MatchInfo_1")
     const {lastUpdatedTimeTest, teamInfoHTest, teamInfoVTest} = useGameCollectionTest(testMatchInfo?.GameID)
 
-    console.log(testMatchInfo, lastUpdatedTimeTest, teamInfoHTest, teamInfoVTest)
+    // console.log(testMatchInfo, lastUpdatedTimeTest, teamInfoHTest, teamInfoVTest)
 
     const inningData = useMemo(() => {
         return {

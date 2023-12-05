@@ -23,6 +23,7 @@ import GameAssortmentSelection from "./OAMatchSection/GameAssortmentSelection";
 import { LabeledText, ImageButton } from "../../components"
 import DateSelection from "./OAMatchSection/DateSelection";
 import useFetch from "../../hooks/useFetch";
+import { useGameClassMST } from "../../services/api/useGameClassMST";
 
 const theme = {
   components: {
@@ -39,9 +40,9 @@ function MatchSettingsPage() {
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
 
   // const [gameClassMST, setGameClassMST] = useState([])
-  const { data: gameClassMST, reload: reloadGameClassMst } = useFetch("abc-public/master?Type=GameClassMST")
+  const { data: gameClassMST, reload: reloadGameClassMst } = useGameClassMST()//useFetch("abc-public/master?Type=GameClassMST")
   const [gameClassCD, setGameClassCD] = useState(1)
-  const gameClass = useRef(null)
+  const [gameClass, setGameClass] = useState([])
 
   const [seasonSchedule, setSeasonSchedule] = useState({})
   const [otherGameInfo, setOtherGameInfo] = useState([])
@@ -80,11 +81,13 @@ function MatchSettingsPage() {
     setGameClassCD(gameClassCD)
 
     if (gameClassMST?.length == 0) {
-      gameClass.current = null;
+      // gameClass.current = null;
+      setGameClass(null)
       return
     }
 
-    gameClass.current = gameClassMST?.find(gameClassData => gameClassData.GameClassCD == gameClassCD)
+    // gameClass.current = gameClassMST?.find(gameClassData => gameClassData.GameClassCD == gameClassCD)
+    setGameClass(gameClassMST?.find(gameClassData => gameClassData.GameClassCD == gameClassCD))
   }
 
   useEffect(() => {
@@ -101,13 +104,15 @@ function MatchSettingsPage() {
   const createGameInfoData = async () => {
     if (selectedMatchInfo.length == 0) return;
 
+    console.log(gameClass)
+
     const dataStructure = {
       Type: "GameInfo",
       GameInfo: {
         Delivery: deliveryType,
         GameNum: 1,
         GameClassCD: gameClassCD,
-        GameClass: gameClass.current.GameClass,
+        GameClass: gameClass?.GameClass,
         Date: date.date,
         GameID: selectedGameID,
         StadiumCD: selectedMatchInfo.StadiumID,
@@ -136,7 +141,7 @@ function MatchSettingsPage() {
       Delivery: deliveryType,
       GameNum: 1,
       GameClassCD: gameClassCD,
-      GameClass: gameClass.current.GameClass,
+      GameClass: gameClass?.GameClass,
       Date: date.date,
       GameID: selectedGameID,
       StadiumCD: selectedMatchInfo.StadiumID,
