@@ -36,16 +36,16 @@ const buttonData = [
   },
   {
     link: "",
-    name: "スタッフ",
-    src: "./assets/01-mainmenu/button-pro-staff.png",
+    name: "ランキング",
+    src: "./assets/01-mainmenu/button-pro-ranking.png",
   },
   {
     link: "",
-    name: "組み合わせ",
-    src: "./assets/01-mainmenu/button-pro-combinations.png",
+    name: "全試合情報",
+    src: "./assets/01-mainmenu/button-pro-allmatches.png",
   },
   {
-    link: "",
+    link: "all-matches",
     name: "設定変更",
     src: "./assets/01-mainmenu/button-pro-changesettings.png",
   },

@@ -3,8 +3,8 @@
 /* eslint-disable no-unused-vars */
 import React, { useEffect, useMemo, useState } from 'react'
 import SelectTable from '../SelectTable'
-import PlayerSubModal from '../PlayerSubModal'
-import PositionChangeModal from '../PositionChangeModal'
+import PlayerSubModal from './PlayerSubModal'
+import PositionChangeModal from './PositionChangeModal'
 import { fetchPlayerInfoMST } from './Data/retrieveTeamInfo'
 import { ConfigProvider, Table } from 'antd'
 

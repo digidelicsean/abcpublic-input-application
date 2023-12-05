@@ -45,7 +45,7 @@ function MatchInfoModal({ title, isOpen, onConfirm, onCancel }) {
 		};
 
 		if (!React.isValidElement(modalNode)) {
-			return <div style={style}>{modalNode}</div>;
+			return <div style={style} key={modalNode.key}>{modalNode}</div>;
 		}
 		return React.cloneElement(modalNode, {
 			style: { ...modalNode.props.style, ...style },
@@ -72,15 +72,18 @@ function MatchInfoModal({ title, isOpen, onConfirm, onCancel }) {
 
 		let gameInfoCount = seasonSchedule?.gameInfo?.length
 
-		gameInfos = seasonSchedule?.gameInfo?.map((value) => {
+		gameInfos = seasonSchedule?.gameInfo?.map((value, index) => {
 			return (
 				<>
-					<MatchInfoBar matchInfo={value} onClick={(matchInfoID) => {
-						setSelectedMatchByID(matchInfoID)
+					<MatchInfoBar key={index}
+						matchInfo={value}
+						onClick={(matchInfoID) => {
+							setSelectedMatchByID(matchInfoID)
 
-						if (!onConfirm) return;
-						onConfirm();
-					}} />
+							if (!onConfirm) return;
+							onConfirm();
+						}}
+					/>
 					<Spacer width="7px" />
 				</>
 			)
@@ -110,6 +113,7 @@ function MatchInfoModal({ title, isOpen, onConfirm, onCancel }) {
 			}}
 		>
 			<Modal
+				key="match-info-modal"
 				centered
 				title={<div className={style.title}>{title ?? "2023.10.13"}</div>}
 				open={isOpen}

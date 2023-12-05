@@ -6,6 +6,7 @@ import { createTab } from "../../utils/tabUtils"
 import TeamInfoTab from "./(tabs)/(team-info-tabs)/TeamInfoTab"
 import PlayerInfoTab from "./(tabs)/(team-info-tabs)/PlayerInfoTab"
 import DraftInfoTab from "./(tabs)/(team-info-tabs)/DraftInfoTab"
+// import DraftTab from "./(tabs)/(team-info-tabs)/DraftTab"
 
 const tabProperties = {
     /*TeamInfoTab*/ ["チーム情報"]: <TeamInfoTab />,

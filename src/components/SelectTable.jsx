@@ -21,13 +21,13 @@ function SelectTable({
   // ref is the Table ref.
   const myRef = useRef(null);
 
-  useLayoutEffect(() => {
-    const node = myRef.current;
-    const { top } = node.getBoundingClientRect();
+  // useLayoutEffect(() => {
+  //   const node = myRef.current;
+  //   const { top } = node.getBoundingClientRect();
 
-    // normally TABLE_HEADER_HEIGHT would be 55.
-    setTableHeight(window.innerHeight - top - 150);
-  }, [myRef]);
+  //   // normally TABLE_HEADER_HEIGHT would be 55.
+  //   setTableHeight(window.innerHeight - top - 150);
+  // }, [myRef]);
 
   const tableTheme = {
     components: {
