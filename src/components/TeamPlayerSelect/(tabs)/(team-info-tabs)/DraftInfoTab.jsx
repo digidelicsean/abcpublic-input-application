@@ -18,11 +18,13 @@ export default DraftInfoTab
 
 
 
+const rowSpacing = [60, 180, 100, 180, 60, 60, 60]
+const colNum = 7;
 
 
 function BookNominationTable() {
 
-    const padding = "20px"
+    const padding = "0px"
 
     const headers = [
         {
@@ -115,42 +117,36 @@ function BookNominationTable() {
         },
     ]
 
-    const rowSpacing = [40, 200, 40,]
 
     return (
-        <Table
-            headerStyle={{
-                // display: "block",
-            }}
-            bodyStyle={{
-                // display: "block",
-                // backgroundColor: "black",
-                borderRadius: "0 0 10px 10px",
-            }}
-        >
+        <Table>
             <Table.Header headerProps={headers} />
             <Table.Row
                 useText
-                numColumns={3}
+                numColumns={colNum}
                 width={rowSpacing}
+                textAlign="center"
                 cellValues={["1位", "青山学院大学", "下村 海翔"]}
             />
             <Table.Row
                 useText
-                numColumns={3}
+                numColumns={colNum}
                 width={rowSpacing}
+                textAlign="center"
                 cellValues={["2位", "青山学院大学", "下村 海翔"]}
             />
             <Table.Row
                 useText
-                numColumns={3}
+                numColumns={colNum}
                 width={rowSpacing}
+                textAlign="center"
                 cellValues={["3位", "青山学院大学", "下村 海翔"]}
             />
             <Table.Row
                 useText
-                numColumns={3}
+                numColumns={colNum}
                 width={rowSpacing}
+                textAlign="center"
                 cellValues={["4位", "青山学院大学", "下村 海翔"]}
             />
         </Table>
@@ -159,7 +155,7 @@ function BookNominationTable() {
 
 function TrainingNominationTable() {
 
-    const padding = "20px"
+    const padding = "0px"
 
     const headers = [
         {
@@ -252,7 +248,6 @@ function TrainingNominationTable() {
         },
     ]
 
-    const rowSpacing = [40, 200, 40,]
 
     return (
         <Table
@@ -268,26 +263,30 @@ function TrainingNominationTable() {
             <Table.Header headerProps={headers} />
             <Table.Row
                 useText
-                numColumns={3}
+                numColumns={colNum}
                 width={rowSpacing}
+                textAlign="center"
                 cellValues={["1位", "青山学院大学", "下村 海翔"]}
             />
             <Table.Row
                 useText
-                numColumns={3}
+                numColumns={colNum}
                 width={rowSpacing}
+                textAlign="center"
                 cellValues={["2位", "青山学院大学", "下村 海翔"]}
             />
             <Table.Row
                 useText
-                numColumns={3}
+                numColumns={colNum}
                 width={rowSpacing}
+                textAlign="center"
                 cellValues={["3位", "青山学院大学", "下村 海翔"]}
             />
             <Table.Row
                 useText
-                numColumns={3}
+                numColumns={colNum}
                 width={rowSpacing}
+                textAlign="center"
                 cellValues={["4位", "青山学院大学", "下村 海翔"]}
             />
         </Table>

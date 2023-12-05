@@ -88,7 +88,7 @@ Table.Header = function Header({ headerProps }) {
 
 Table.Header.Type = { Default: 'default', Label: 'label' };
 
-Table.Row = function Row({ rowName, numColumns, width, rowStyle, labelStyle, inputStyle, gapIndices, gapSize, useText, cellValues }) {
+Table.Row = function Row({ rowName, numColumns, width, rowStyle, labelStyle, inputStyle, gapIndices, gapSize, useText, cellValues, textAlign }) {
     return (
         <tr style={{...rowStyle}}>
             <td style={labelStyle}>{rowName}</td>
@@ -98,9 +98,9 @@ Table.Row = function Row({ rowName, numColumns, width, rowStyle, labelStyle, inp
                 return (
                     <td key={index} style={{...gapStyle, alignSelf: "center", height: "30px"}}>
                         {useText ? (
-                            <span style={{ padding: `0px ${columnWidth/2}px 0px ${columnWidth/2}px`, width: columnWidth, ...inputStyle }}>{cellValues[index] ?? ""}</span>
+                            <span style={{ textAlign, display: "inline-block", width: columnWidth, ...inputStyle }}>{cellValues[index] ?? ""}</span>
                         ) : (
-                            <Input type="text" style={{ width: columnWidth, ...inputStyle }} value={cellValues ? cellValues[index] : ""} />
+                            <Input type="text" style={{ textAlign, width: columnWidth, ...inputStyle }} value={cellValues ? cellValues[index] : ""} />
                         )}
                     </td>
                 );
