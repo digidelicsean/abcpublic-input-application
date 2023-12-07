@@ -6,8 +6,8 @@ import "./ABCComment.css";
 
 const ABCComment = () => {
     return (
-        <div className="all-matches-bottom-body">
-            <div className="all-matches-bottom-left">
+        <div className="other-game-bottom-body">
+            <div className="other-game-bottom-left">
                 <div className="bot-left-input1">
                     <span className="header-label">ABCコメント</span>
                     <div className="input-btn">
@@ -26,7 +26,7 @@ const ABCComment = () => {
 
             </div>
 
-            <div className="all-matches-bottom-right">
+            <div className="other-game-bottom-right">
                 <span className="label">使用コメント</span>
                 <div className="checkbox-container">
                     <div className="checkbox-body">

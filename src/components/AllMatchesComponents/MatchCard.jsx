@@ -6,12 +6,12 @@ const MatchCard = ({ index, label, key, clicked, selected }) => {
 
     return (
         <>
-            <div className={`all-matches-top-card match-card-${index} ${selected ? "selected" : ""}`}
+            <div className={`other-game-top-card match-card-${index} ${selected ? "selected" : ""}`}
                 index={index}
                 onClick={() => clicked(index)}>
 
                 <Card key={key}>
-                    <div className="all-matches-top-body">
+                    <div className="other-game-top-body">
                         <div className="row1">
                             <Input />
                             <Button className={`btn-${index}`}>{label}</Button>

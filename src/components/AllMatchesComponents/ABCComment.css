@@ -1,14 +1,14 @@
-.all-matches-bottom-body {
+.other-game-bottom-body {
     display: flex;
     justify-content: space-between;
 }
 
 
-.all-matches-bottom-left {
+.other-game-bottom-left {
     width: 75%;
 }
 
-.all-matches-bottom-right {
+.other-game-bottom-right {
     width: 20%;
 }
 

@@ -1,10 +1,9 @@
-.all-matches-middle-body {
+.other-game-middle-body {
     display: grid;
     grid-template-columns: 6% auto 10%;
     gap: 5px;
 }
 
-.col1,
 .col2 {
     display: grid;
     gap: 10px;

@@ -1,37 +1,32 @@
 import React from 'react'
-import { Button, Card, Checkbox, Input, Radio } from "antd";
-import "./AllMatches.css";
+import {Card} from "antd";
+import "./OtherGameInfo.css";
 import ABCComment from "../../components/AllMatchesComponents/ABCComment"
 import RunningScore from "../../components/AllMatchesComponents/RunningScore"
 import AllMatchCards from "../../components/AllMatchesComponents/AllMatchCards"
 
-
-
-
-const AllMatchesPage = () => {
+const OtherGameInfoPage = () => {
     return (
-        <div className="all-matches-page">
-            <div className="all-matches-top">
+        <div className="other-game-info-page">
+            <div className="other-game-top">
                 <AllMatchCards />
             </div>
 
-            <div className="all-matches-middle">
-                <Card className="all-matches-middle-card">
+            <div className="other-game-middle">
+                <Card className="other-game-middle-card">
                     <RunningScore />
                 </Card>
             </div >
 
-            <div className="all-matches-bottom">
-                <Card className="all-matches-bottom-card">
+            <div className="other-game-bottom">
+                <Card className="other-game-bottom-card">
                     <ABCComment />
                 </Card>
             </div>
-
-
         </div >
 
 
     )
 }
 
-export default AllMatchesPage
+export default OtherGameInfoPage

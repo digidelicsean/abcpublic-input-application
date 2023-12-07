@@ -5,16 +5,11 @@ import RunningScoreTable from "./RunningScoreTable";
 
 const RunningScore = () => {
     return (
-        <div className="all-matches-middle-body">
+        <div className="other-game-middle-body">
 
             {/* ------------ COl 1 ------------ */}
             <div className="col1">
-                <div className="col1-top">
-                    <span className="header-label">試合情報</span>
-                </div>
-                <div className="col1-bot">
-                    {/* <span>投手情報</span> */}
-                </div>
+                <span className="header-label">試合情報</span>
             </div>
 
             {/* ------------ COl 2 ------------ */}
@@ -57,7 +52,6 @@ const RunningScore = () => {
                     <Button className="col3-bot-btn">保存</Button>
                 </div>
             </div>
-
 
         </div>
     )

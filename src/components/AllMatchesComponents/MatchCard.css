@@ -1,4 +1,4 @@
-.all-matches-top-card {
+.other-game-top-card {
     width: calc((100vw * 265) / 1440);
     background-color: #f4f4f4;
     max-width: 265px;
@@ -37,13 +37,13 @@
     border-color: #fff transparent transparent;
 }
 
-.all-matches-top-body {
+.other-game-top-body {
     display: flex;
     flex-direction: column;
     gap: 10px;
 }
 
-.all-matches-top-body>div {
+.other-game-top-body>div {
     display: flex;
     gap: 5px;
 }

@@ -1,16 +1,16 @@
-.all-matches-page {
+.other-game-info-page {
     display: flex;
     flex-direction: column;
     gap: 20px;
     padding: 50px 0;
 }
 
-.all-matches-top {
+.other-game-top {
     display: flex;
     justify-content: space-between;
 }
 
-.all-matches-middle-card, .all-matches-bottom-card {
+.other-game-middle-card, .other-game-bottom-card {
     width: calc((100vw * 1400) / 1440);
     background-color: #f4f4f4;
     max-width: 1400px;

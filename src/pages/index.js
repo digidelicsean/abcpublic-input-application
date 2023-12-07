@@ -4,4 +4,4 @@ export { default as MainMenuPage } from "./MainMenu/MainMenuPage.jsx";
 export { default as MatchSettingsPage } from "./MatchSettings/MatchSettingsPage.jsx";
 export { default as TeamSelectPage } from "./TeamSelect/TeamSelectPage.jsx";
 export { default as TeamPlayerSelectionPage} from "./TeamPlayerSelect/TeamPlayerSelectionPage"
-export { default as AllMatchesPage} from "./AllMatches/AllMatchesPage"
+export { default as OtherGameInfoPage} from "./OtherGameInfo/OtherGameInfoPage.jsx"
