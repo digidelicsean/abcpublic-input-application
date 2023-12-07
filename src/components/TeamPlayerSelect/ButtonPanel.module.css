@@ -1,0 +1,19 @@
+.container {
+  display: inline-flex;
+  flex-direction: row;
+  box-sizing: border-box;
+
+  width: 103%;
+
+  margin-top: 10px;
+  justify-content: flex-end;
+}
+
+.button {
+  margin-top: 14%;
+}
+
+.delete-button {
+    display: inline-flex;
+    flex-direction: column;
+}

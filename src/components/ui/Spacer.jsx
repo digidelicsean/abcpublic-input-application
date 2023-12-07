@@ -1,9 +1,12 @@
 import React from 'react'
 
-function Spacer({ width }) {
+function Spacer({ width, height }) {
     const style = {
         spacer: {
-            margin: width ?? "10px"
+            marginLeft: width ?? "10px",
+            marginRight: width ?? "10px",
+            marginTop: height ?? width ?? "10px",
+            marginBottom: height ?? width ?? "10px"
         }
     }
 

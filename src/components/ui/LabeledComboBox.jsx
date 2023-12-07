@@ -7,6 +7,7 @@ import "./LabeledComboBox.css";
 
 function LabeledComboBox({
   label,
+  style,
   size,
   padding,
   margin,
@@ -86,7 +87,7 @@ function LabeledComboBox({
           />
         ) : (
           <Select
-            className="combo-box"
+            className={`combo-box ${style}`}
             style={
               {
                 height: size?.height ?? "",
