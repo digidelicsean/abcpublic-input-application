@@ -20,7 +20,11 @@ function TeamInfoTab() {
       <div className={style.column}>
         <LabeledText label="チームID" textAlign="left" size={textFieldSize} />
         <div>
-          <LabeledText label="チーム名" textAlign="left" size={textFieldSize} />
+          <LabeledText
+            label="チーム名"
+            textAlign="left"
+            size={textFieldSize}
+          />
           <LabeledText
             label="チーム名 (略)"
             textAlign="left"
@@ -103,7 +107,7 @@ function TeamInfoTab() {
               size={textFieldSize}
             />
           </div>
-          <Spacer width="15px"/>
+          <Spacer width="15px" />
           <div>
             <LabeledText
               label="通算本塁打"
@@ -116,7 +120,7 @@ function TeamInfoTab() {
               size={textFieldSize}
             />
           </div>
-          <Spacer width="15px"/>
+          <Spacer width="15px" />
           <div>
             <LabeledText
               label="通算得点"
@@ -176,8 +180,5 @@ function TeamInfoTab() {
   );
 }
 
-const VerticalTextComponent = ({ fontSize, children }) => {
-  return <div style={{ writingMode: "vertical-lr", fontSize }}>{children}</div>;
-};
 
 export default TeamInfoTab;
