@@ -22,12 +22,12 @@ function PlayerInfoTab() {
           <Image preview={false} src='./assets/03-player-info-tab/legend-record.png' />
         </div>
 
-        <Button type="primary" onClick={displayModal?.Open}>
+        {/* <Button type="primary" onClick={displayModal?.Open}>
           Open Modal One
         </Button>
         <Button type="primary" onClick={tradeModal?.Open}>
           Open Modal Two
-        </Button>
+        </Button> */}
 
         <div className={style['sort-buttons']}>
           <ImageButton src={"./assets/03-player-info-tab/button-sort-pitcher-fielder.png"} />

@@ -1,0 +1,62 @@
+.container {
+    display: inline-flex;
+    /* background-color: #f4f4f4; */
+    box-sizing: border-box;
+
+    /* margin: -0.75%; */
+
+    width: 102.5%;
+    /* width: 50%; */
+    height: 12vh;
+
+    margin: 1%;
+
+    flex-wrap: wrap;
+    align-content: center;
+}
+
+.menu-bar {
+    display: inline-flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+
+    border-radius: 20px;
+    background-color: #f4f4f4;
+    box-shadow: 0px 0px 10px rgb(167, 167, 167);
+
+    width: 30%;
+    height: 100%;
+    min-height: 120.75px;
+
+    padding: 5px 20px;
+    
+    align-content: center;
+    justify-content: space-between;
+}
+
+.title {
+    color: black
+}
+
+.title > .input {
+    border: 0px 0px transparent
+}
+
+.player-add {
+    display: inline-flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+
+    border-radius: 20px;
+    background-color: #f4f4f4;
+    box-shadow: 0px 0px 10px rgb(167, 167, 167);
+
+    width: 20%;
+    height: 100%;
+
+    padding: 5px 20px;
+    
+    align-content: center;
+    justify-content: space-between;
+
+}
