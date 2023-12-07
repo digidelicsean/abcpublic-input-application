@@ -6,7 +6,9 @@
   /* border: 1px solid var(--border-color); */
 
   width: 80vw;
+  min-width: 1475px;
   height: 60vh;
+  min-height: 539px;
   
   border-radius: 0px 0px 16px 16px;
   padding: 1.25em;
@@ -23,7 +25,11 @@
   transform: translate(-50%, 0%);
 
   width: 84vw;
+  min-width: 1550px;
+  max-width: 1612px;
   height: 60vh;
+  min-height: 550px;
+  max-height: 554px;
   background-color: #f0f232; /* Set your desired background color */
   z-index: -10; /* Place it behind the Tabs component */
 }
