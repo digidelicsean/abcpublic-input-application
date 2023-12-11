@@ -1,8 +1,26 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { Button, Input, Card } from "antd";
 import "./MatchCard.css";
+import { fetchOtherGameInfoCollection } from './Data/otherGameInfoData';
 
 const MatchCard = ({ index, label, key, clicked, selected }) => {
+    const [stadiumName, setStadiumName] = useState();
+    const [teamNameV, setTeamNameV] = useState();
+    const [teamNameH, setTeamNameH] = useState();
+    var otherGameInfoNum = parseInt(index) + 1;
+
+    useEffect(() => {
+        fetchOtherGameInfoCollection().then(data => {
+            const otherGameInfo = data[0].OtherGameInfo[`OtherGameInfo_${otherGameInfoNum}`];
+            const stadium = otherGameInfo.Stadium;
+            const teamV = otherGameInfo.TeamName_V;
+            const teamH = otherGameInfo.TeamName_H;
+
+            setStadiumName(stadium);
+            setTeamNameV(teamV);
+            setTeamNameH(teamH);
+        })
+    }, [])
 
     return (
         <>
@@ -13,7 +31,7 @@ const MatchCard = ({ index, label, key, clicked, selected }) => {
                 <Card key={key}>
                     <div className="other-game-top-body">
                         <div className="row1">
-                            <Input />
+                            <Input value={stadiumName} />
                             <Button className={`btn-${index}`}>{label}</Button>
                         </div>
                         <div className="row2">
@@ -22,7 +40,7 @@ const MatchCard = ({ index, label, key, clicked, selected }) => {
                             <Button className="add-btn">+</Button>
                         </div>
                         <div className="row3">
-                            <Input />
+                            <Input value={teamNameV} />
 
                         </div>
                         <div className="row4">
@@ -31,7 +49,8 @@ const MatchCard = ({ index, label, key, clicked, selected }) => {
                             <Button className="add-btn">+</Button>
                         </div>
                         <div className="row5">
-                            <Input />
+                            <Input value={teamNameH} />
+
                         </div>
                         <div className="row6">
                             <Input />
