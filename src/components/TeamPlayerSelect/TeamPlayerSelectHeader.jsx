@@ -5,25 +5,14 @@ import { LabeledComboBox, ImageButton, Spacer } from '../'
 const TeamPlayerSelectHeader = ({ isPlayerTab = true }) => {
     return (
         <div className={`${style.container}`}>
-            <div className={`${style['menu-bar']}`} style={{ width: isPlayerTab ? "50%" : "" }}>
+            <div className={`${style['menu-bar']}`} >
                 <LabeledComboBox
                     className={`${style.input}`}
                     label={
                         <span className={`${style.title}`}>チーム選択</span>
                     }
-                    size={{ width: "250px" }}
+                    size={{ width: "200px" }}
                 />
-                {
-                    isPlayerTab &&
-                    <LabeledComboBox
-                        className={`${style.input}`}
-                        label={
-                            <span className={`${style.title}`}>選手</span>
-                        }
-                        size={{ width: "300px" }}
-                    />
-                }
-
                 <ImageButton
                     src={"./assets/04-team-player-selection-page/button-open.png"}
                 />
@@ -32,6 +21,27 @@ const TeamPlayerSelectHeader = ({ isPlayerTab = true }) => {
             {
                 isPlayerTab &&
                 <>
+                    <Spacer />
+                    <div className={`${style['menu-bar']}`} style={{ width: isPlayerTab ? "32%" : "" }}>
+                        <LabeledComboBox
+                            className={`${style.input}`}
+                            label={
+                                <span className={`${style.title}`}>選手</span>
+                            }
+                            size={{ width: "300px" }}
+                        />
+                        <ImageButton
+                            src={"./assets/04-team-player-selection-page/button-open.png"}
+                        />
+                    </div>
+                </>
+            }
+
+
+            {
+                isPlayerTab &&
+                <>
+
                     <Spacer />
                     <div style={{
                         display: "inline-flex",

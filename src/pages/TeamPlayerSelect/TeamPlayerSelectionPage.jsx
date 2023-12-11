@@ -17,8 +17,8 @@ const TeamPlayerSelectionPage = () => {
   return (
     <div className={style.container}>
       <TeamPlayerSelectHeader isPlayerTab={currentTeamInfoTab == PLAYER_TAB_NAME}/>
-      <PlayerInfoTabPanel />
-      {/* <TeamInfoTabPanel onTabChange={handleOnTeamInfoTabChange}/> */}
+      {/* <PlayerInfoTabPanel /> */}
+      <TeamInfoTabPanel onTabChange={handleOnTeamInfoTabChange}/>
       
     </div>
   )
