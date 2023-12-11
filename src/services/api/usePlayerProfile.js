@@ -11,7 +11,7 @@ export const usePlayerProfile = () => {
     };
   }
 
-  const parsedData = parseDirectoryInfo(playerProfile.data);
+  const parsedData = parsePlayerProfile(playerProfile.data);
 
   return {
     data: parsedData,
@@ -22,7 +22,7 @@ export const usePlayerProfile = () => {
   };
 };
 
-const parseDirectoryInfo = (data) => {
+const parsePlayerProfile = (data) => {
   if (data.length == 0) return [];
 
   return Object.values(data)
