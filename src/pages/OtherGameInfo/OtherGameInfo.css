@@ -1,0 +1,40 @@
+.other-game-info-page {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding: 50px 0;
+}
+
+.other-game-top {
+    display: flex;
+    justify-content: space-between;
+}
+
+.other-game-middle-card, .other-game-bottom-card {
+    width: calc((100vw * 1400) / 1440);
+    background-color: #f4f4f4;
+    max-width: 1400px;
+}
+
+.header-label {
+    display: block;
+    border-radius: 15px;
+    background-color: rgba(157, 127, 181);
+    padding: 3px 6px;
+    color: white;
+    width: max-content;
+}
+
+.abc-comment-card-btn, 
+.dst-comment-card-btn,
+.col2-bot-btn,
+.col3-bot-btn,
+.match-card-save-btn  {
+  border-radius: 10px;
+  font-size: 0.9em;
+  width: 100px;
+  min-width: 70px;
+  height: 30px;
+  align-self: center;
+  box-shadow: 0 1px 1px 0 rgba(0,0,0,0.2), 0 4px 5px 0 rgba(0,0,0,0.19);;
+}
