@@ -56,35 +56,25 @@ const FirstColumn = () => {
                     size={textFieldSize}
                 />
             </div>
+            <LabeledText
+                label="背番号"
+                textAlign="left"
+                size={textFieldSize}
+            />
             <div className={style['small-input']}>
-                <LabeledText
-                    label="背番号"
-                    textAlign="left"
-                    size={textFieldSize}
-                />
+
                 <LabeledText
                     label="選手名"
                     textAlign="left"
                     size={textFieldSize}
                 />
-            </div>
-            <div className={style['small-input']}>
                 <LabeledText
-                    label="選手名 (姓)"
-                    textAlign="left"
-                    size={textFieldSize}
-                />
-                <LabeledText
-                    label="選手名 (名)"
+                    label="選手名 (略)"
                     textAlign="left"
                     size={textFieldSize}
                 />
             </div>
-            <LabeledText
-                label="選手名 (略)"
-                textAlign="left"
-                size={textFieldSize}
-            />
+
             <div className={style['small-input']}>
                 <LabeledText
                     label="投左右"
