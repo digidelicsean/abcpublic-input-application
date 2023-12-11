@@ -22,7 +22,7 @@ import DSSelection from "./OAMatchSection/DSSelection";
 import GameAssortmentSelection from "./OAMatchSection/GameAssortmentSelection";
 import { LabeledText, ImageButton } from "../../components"
 import DateSelection from "./OAMatchSection/DateSelection";
-import useFetch from "../../hooks/useFetch";
+import {useFetch} from "../../hooks/useFetch";
 import { useGameClassMST } from "../../services/api/useGameClassMST";
 
 const theme = {

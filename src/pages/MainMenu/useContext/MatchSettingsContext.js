@@ -1,5 +1,5 @@
 import { useState, useEffect, createContext, useContext } from "react";
-import useFetch from "../../../hooks/useFetch";
+import { useFetch } from "../../../hooks/useFetch";
 import { defaultURI } from "../../../services/fetch/fetch-lib";
 
 export const MatchSettingsContext = createContext(undefined);
