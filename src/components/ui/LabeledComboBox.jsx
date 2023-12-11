@@ -68,7 +68,7 @@ function LabeledComboBox({
         ) : label ? (
           label
         ) : (
-          "Label"
+          " "
         )}
         {value ? (
           <Select

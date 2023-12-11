@@ -1,6 +1,6 @@
 import React from 'react'
 import style from './TeamPlayerSelectHeader.module.css'
-import { LabeledComboBox, ImageButton, Spacer } from '../'
+import { LabeledComboBox, LabeledText, ImageButton, Spacer } from '../'
 
 const TeamPlayerSelectHeader = ({ isPlayerTab = true }) => {
     return (
@@ -15,6 +15,8 @@ const TeamPlayerSelectHeader = ({ isPlayerTab = true }) => {
                 />
                 <ImageButton
                     src={"./assets/04-team-player-selection-page/button-open.png"}
+                    height="75px"
+                    width="185px"
                 />
             </div>
 
@@ -23,15 +25,26 @@ const TeamPlayerSelectHeader = ({ isPlayerTab = true }) => {
                 <>
                     <Spacer />
                     <div className={`${style['menu-bar']}`} style={{ width: isPlayerTab ? "32%" : "" }}>
-                        <LabeledComboBox
+                        <LabeledText
                             className={`${style.input}`}
                             label={
                                 <span className={`${style.title}`}>選手</span>
                             }
-                            size={{ width: "300px" }}
+                            size={{ width: "50px" }}
+                            textAlign="left"
+                        />
+                        <LabeledComboBox
+                            className={`${style.input}`}
+                            // label={
+                            //     <span style={{color:"transparent"}}>  </span>
+                            // }
+                            size={{ width: "235px", height: "32px"}}
+                            // style={{paddingTop: "30px"}}
                         />
                         <ImageButton
                             src={"./assets/04-team-player-selection-page/button-open.png"}
+                            height="75px"
+                            width="185px"
                         />
                     </div>
                 </>
