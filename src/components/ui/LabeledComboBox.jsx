@@ -20,7 +20,6 @@ function LabeledComboBox({
   disabled
 }) {
   const onValueChange = (value, option) => {
-    console.log(value, option)
     if (!onChange) {
       return;
     }

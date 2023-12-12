@@ -2,20 +2,16 @@ import React, { useState } from 'react'
 import style from './TeamPlayerSelectHeader.module.css'
 import { LabeledComboBox, LabeledText, ImageButton, Spacer } from '../'
 
-const TeamPlayerSelectHeader = ({ isPlayerTab = true, teams }) => {
+const TeamPlayerSelectHeader = ({ isPlayerTab = true, teams, onTeamSelect }) => {
     const [selectedTeam, setSelectedTeam] = useState(null)
 
     const createTeamOptions = () => {
         const teamValues = []
         for (let i = 0; i < teams.length; i++) {
             const team = teams[i]
-            teamValues.push({ value: team.teamCD, label: team['ShortName-Team']})
+            teamValues.push({ value: team.TeamCD, label: team['ShortName-Team'] })
         }
         return teamValues
-    }
-console.log(selectedTeam)
-    const test = (value) => {
-        console.log(value);
     }
 
     return (
@@ -26,7 +22,9 @@ console.log(selectedTeam)
                     value={selectedTeam}
                     placeholder="Test"
                     options={createTeamOptions()}
-                    onChange={test}
+                    onChange={(value) => {
+                        setSelectedTeam(value)
+                    }}
                     label={
                         <span className={`${style.title}`}>チーム選択</span>
                     }
@@ -36,6 +34,11 @@ console.log(selectedTeam)
                     src={"./assets/04-team-player-selection-page/button-open.png"}
                     height="75px"
                     width="185px"
+                    onClick={() => {
+                        if (onTeamSelect) {
+                            onTeamSelect(teams[selectedTeam])
+                        }
+                    }}
                 />
             </div>
 
@@ -54,7 +57,7 @@ console.log(selectedTeam)
                         />
                         <LabeledComboBox
                             className={`${style.input}`}
-                            size={{ width: "235px", height: "32px"}}
+                            size={{ width: "235px", height: "32px" }}
                         />
                         <ImageButton
                             src={"./assets/04-team-player-selection-page/button-open.png"}

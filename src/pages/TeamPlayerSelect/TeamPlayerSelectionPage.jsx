@@ -10,34 +10,38 @@ import TeamPlayerSelectHeader from "../../components/TeamPlayerSelect/TeamPlayer
 const PLAYER_TAB_NAME = "選手情報"
 
 const TeamPlayerSelectionPage = () => {
-  const [currentTeamInfoTab, setCurrentTeamInfoTab] = useState(null)
+  const [selectedTeamInfoTab, setSelectedTeamInfoTab] = useState(null)
+  const [selectedTeam, setSelectedTeam] = useState(null)
   const teamInfoMST = useTeamInfoMST()
 
   const handleOnTeamInfoTabChange = (tab) => {
-    setCurrentTeamInfoTab(tab);
+    setSelectedTeamInfoTab(tab);
   }
 
-  const getTeams = () => {
+  const fetchTeams = () => {
     if (teamInfoMST.data == null)
       return [];
 
     const selectedTeams = [1, 2, 3, 4, 5, 6, 7, 8, 9, 11, 12, 376]
     const teams = []
 
-    for (let i = 0; i < selectedTeams.length; i++) {
-      const teamID = selectedTeams[i]
+    for (const teamID of selectedTeams) {
       teams.push(teamInfoMST.getByID(teamID))
     }
-
-    console.log(teams)
     return teams;
   }
 
   return (
     <div className={style.container}>
-      <TeamPlayerSelectHeader isPlayerTab={currentTeamInfoTab == PLAYER_TAB_NAME} teams={getTeams()}/>
-      <PlayerInfoTabPanel />
-      <TeamInfoTabPanel onTabChange={handleOnTeamInfoTabChange}/>
+      <TeamPlayerSelectHeader
+        teams={fetchTeams()}
+        onTeamSelect={(team) => {
+          setSelectedTeam(team)
+        }}
+        isPlayerTab={selectedTeamInfoTab == PLAYER_TAB_NAME}
+      />
+      {/* <PlayerInfoTabPanel /> */}
+      <TeamInfoTabPanel team={selectedTeam} onTabChange={handleOnTeamInfoTabChange} />
 
     </div>
   )
