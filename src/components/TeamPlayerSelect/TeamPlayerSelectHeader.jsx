@@ -2,7 +2,7 @@ import React from 'react'
 import style from './TeamPlayerSelectHeader.module.css'
 import { LabeledComboBox, LabeledText, ImageButton, Spacer } from '../'
 
-const TeamPlayerSelectHeader = ({ isPlayerTab = true }) => {
+const TeamPlayerSelectHeader = ({ isPlayerTab = true, teams }) => {
     return (
         <div className={`${style.container}`}>
             <div className={`${style['menu-bar']}`} >
