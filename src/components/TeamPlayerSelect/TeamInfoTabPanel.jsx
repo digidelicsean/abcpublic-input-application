@@ -9,15 +9,26 @@ import PlayerInfoTab from "./(tabs)/(team-info-tabs)/PlayerInfoTab"
 import DraftInfoTab from "./(tabs)/(team-info-tabs)/DraftInfoTab"
 
 import ButtonPanel from "./ButtonPanel"
+import { useDirectory } from "../../services/api/useDirectory"
+import { usePlayerProfile } from "../../services/api/usePlayerProfile"
+import { useTeamStats } from "../../services/api/useTeamStats"
 
-const tabProperties = {
-    /*TeamInfoTab*/["チーム情報"]: <TeamInfoTab />,
-    /*PlayerInfoTab*/["選手情報"]: <PlayerInfoTab />,
-    /*DraftInfoTab*/["ドラフト情報"]: <DraftInfoTab />
-}
 
-const TeamInfoTabPanel = ({ onTabChange }) => {
-    let [isPlayerTab, setIsPlayerTab] = useState(false);
+
+const TeamInfoTabPanel = ({ team, onTabChange }) => {
+    const [isPlayerTab, setIsPlayerTab] = useState(false);
+    const playerProfile = usePlayerProfile(team?.TeamCD ?? null)
+    const teamStats = useTeamStats(team?.TeamCD ?? null)
+
+    const coachData = playerProfile.getCoach()
+
+    console.log(teamStats)
+
+    const tabProperties = {
+        /*TeamInfoTab*/["チーム情報"]: <TeamInfoTab team={team} coach={coachData} stats={teamStats.data}/>,
+        /*PlayerInfoTab*/["選手情報"]: <PlayerInfoTab />,
+        /*DraftInfoTab*/["ドラフト情報"]: <DraftInfoTab />
+    }
 
     // Generate tabs dynamically based on tabProperties object
     const tabs = Object.entries(tabProperties).map(([label, children], index) => {

@@ -19,7 +19,7 @@ function LabeledComboBox({
   onChange,
   disabled
 }) {
-  const onValueChange = (value) => {
+  const onValueChange = (value, option) => {
     if (!onChange) {
       return;
     }
@@ -53,8 +53,8 @@ function LabeledComboBox({
           alignItems: horizontal
             ? "center"
             : textAlign == "left"
-            ? "flex-start"
-            : "inherit",
+              ? "flex-start"
+              : "inherit",
         }}
       >
         {horizontal ? (
@@ -96,7 +96,7 @@ function LabeledComboBox({
             }
             placeholder={placeholder}
             options={options ? options : []}
-            onChange={onValueChange}
+            onSelect={onValueChange}
             disabled={disabled}
           />
         )}

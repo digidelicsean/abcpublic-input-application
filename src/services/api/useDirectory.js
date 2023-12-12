@@ -4,13 +4,14 @@ export const useDirectory = (teamCD) => {
   const directoryInfo = useFetch(`abc-public/Directory_${teamCD}`);
   //   const { data, isLoading, error, send } = usePost("abc-public/TeamInfoMST");
 
-  if (directoryInfo.isLoading || directoryInfo.error) {
+  if (directoryInfo.isLoading || directoryInfo.error || !teamCD) {
     return {
       data: null,
       reload: directoryInfo.reload,
     };
   }
 
+  console.log(directoryInfo)
   const parsedData = parseDirectoryInfo(directoryInfo.data);
 
   return {

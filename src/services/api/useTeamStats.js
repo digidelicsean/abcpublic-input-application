@@ -3,7 +3,7 @@ import { useFetch, usePost } from "../../hooks/useFetch";
 export const useTeamStats = (teamCD) => {
   const teamInfo = useFetch(`abc-public/total?Type=team`);
 
-  if (teamInfo.isLoading || teamInfo.error) {
+  if (teamInfo.isLoading || teamInfo.error || !teamCD) {
     return {
       data: null,
       reload: teamInfo.reload,
@@ -26,7 +26,7 @@ const parseTeamStats = (data, teamCD) => {
 
   let gameClass = teamCD < 6 ? 1 : 2;
   let teamStats = data[0][`TeamStats_${gameClass}`] ?? null;
-  console.log(data);
+  
   if (teamStats == null) return [];
 
   return Object.values(teamStats).find((x) => x.TeamCD == teamCD);
