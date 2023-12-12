@@ -20,7 +20,7 @@ const ButtonPanel = ({ hasDelete, onRefresh, onSave, onClear, onDelete }) => {
             <div
                 className={style['delete-button']}
             >
-                <Checkbox value={canSave} onChange={() => setCanSave(!canSave)}>許可</Checkbox>
+                <Checkbox checked={canSave} onChange={() => setCanSave(!canSave)}>許可</Checkbox>
                 <Spacer width="2px" />
                 <ImageButton
                     onClick={onSave}
@@ -49,7 +49,7 @@ const ButtonPanel = ({ hasDelete, onRefresh, onSave, onClear, onDelete }) => {
                         <div
                             className={style['delete-button']}
                         >
-                            <Checkbox value={canDelete} onChange={() => setCanDelete(!canDelete)}>許可</Checkbox>
+                            <Checkbox checked={canDelete} onChange={() => setCanDelete(!canDelete)}>許可</Checkbox>
                             <Spacer width="2px" />
                             <ImageButton
                                 onClick={onDelete}
