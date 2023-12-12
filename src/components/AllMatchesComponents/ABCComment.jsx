@@ -19,6 +19,12 @@ const ABCComment = () => {
                 <div className="bot-left-input2">
                     <span className="header-label">データスタジアム コメント</span>
                     <div className="input-btn">
+                        <span className="dst-comment-num">➀</span>
+                        <Input className="dst-comment" />
+                        <Button className="dst-comment-card-btn">保存</Button>
+                    </div>
+                    <div className="input-btn">
+                        <span className="dst-comment-num">➁</span>
                         <Input className="dst-comment" />
                         <Button className="dst-comment-card-btn">保存</Button>
                     </div>
@@ -31,7 +37,8 @@ const ABCComment = () => {
                 <div className="checkbox-container">
                     <div className="checkbox-body">
                         <Checkbox className="abc-comment-cb">ABC</Checkbox>
-                        <Checkbox className="dst-comment-cb">データスタジアム</Checkbox>
+                        <Checkbox className="dst-comment-cb">データスタジアム➀</Checkbox>
+                        <Checkbox className="dst-comment-cb">データスタジアム➁</Checkbox>
                     </div>
                 </div>
             </div>

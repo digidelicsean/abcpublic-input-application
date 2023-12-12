@@ -30,7 +30,6 @@
     display: flex;
     flex-direction: row;
     gap: 10px;
-    height: 40px;
 }
 
 .bot-left-input1 {
@@ -39,4 +38,8 @@
 
 .checkbox-container, .input-btn {
     margin-top: 5px;
+}
+
+.dst-comment-num {
+    font-size: 18px;
 }
