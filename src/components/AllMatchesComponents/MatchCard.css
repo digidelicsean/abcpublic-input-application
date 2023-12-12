@@ -53,22 +53,17 @@
     padding: 2px;
 }
 
-.btn-0 {
-    background-color: lightgrey;
-    outline: 1px solid white;
+.situation-0 {
+    background-color: lightgreen;
 }
 
-.btn-3 {
+.situation-1 {
     background-color: rgba(255, 130, 128, 1);
     color: white;
 }
 
-.btn-4 {
-    background-color: lightgreen;
-}
-
-.btn-1,
-.btn-2 {
+.situation-2,
+.situation-3 {
     background-color: darkgrey;
 }
 
