@@ -6,6 +6,14 @@
   cursor: pointer;
 }
 
+.image-disabled {
+  border-radius: 15px;
+  filter: drop-shadow(0 0 0.15rem rgb(154, 154, 154));
+  user-select: none;
+  -webkit-user-drag: none;
+  cursor: not-allowed;
+}
+
 .image:hover {
   filter: drop-shadow(0 0 0.15rem black);
 }
