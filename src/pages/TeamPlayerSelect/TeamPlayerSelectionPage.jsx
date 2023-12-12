@@ -28,6 +28,8 @@ const TeamPlayerSelectionPage = () => {
       const teamID = selectedTeams[i]
       teams.push(teamInfoMST.getByID(teamID))
     }
+
+    console.log(teams)
     return teams;
   }
 
@@ -35,7 +37,7 @@ const TeamPlayerSelectionPage = () => {
     <div className={style.container}>
       <TeamPlayerSelectHeader isPlayerTab={currentTeamInfoTab == PLAYER_TAB_NAME} teams={getTeams()}/>
       <PlayerInfoTabPanel />
-      {/* <TeamInfoTabPanel onTabChange={handleOnTeamInfoTabChange}/> */}
+      <TeamInfoTabPanel onTabChange={handleOnTeamInfoTabChange}/>
 
     </div>
   )

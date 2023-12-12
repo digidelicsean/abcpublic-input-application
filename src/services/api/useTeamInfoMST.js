@@ -17,7 +17,7 @@ export const useTeamInfoMST = () => {
     data: parsedData,
     reload: teamInfoMST.reload,
     getByID: (teamCD) => {
-      return getTeamInfoByTeamCD(teamInfoMST, teamCD);
+      return getTeamInfoByTeamCD(parsedData, teamCD);
     },
     update: (teamInfo) => {
       if (teamInfoMST?.data == null) return;
@@ -47,16 +47,6 @@ const getTeamInfoByTeamCD = (teamInfoMST, teamCD) => {
   if (teamInfoMST == null) {
     return null;
   }
-
-  const teamInfo = teamInfoMST.find((x) => x.TeamCD == teamCD);
+  const teamInfo = Object.values(teamInfoMST).find((x) => x.TeamCD == teamCD);
   return teamInfo;
 };
-
-// const setTeamInfoByTeamCD = (teamInfoMST, teamCD, teamInfo) => {
-//   if (teamInfoMST == null) {
-//     return null;
-//   }
-//   const { data, isLoading, error, send } = usePost(
-//     "abc-public/master?Type=TeamInfoMST"
-//   );
-// };

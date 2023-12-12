@@ -1,13 +1,32 @@
-import React from 'react'
+import React, { useState } from 'react'
 import style from './TeamPlayerSelectHeader.module.css'
 import { LabeledComboBox, LabeledText, ImageButton, Spacer } from '../'
 
 const TeamPlayerSelectHeader = ({ isPlayerTab = true, teams }) => {
+    const [selectedTeam, setSelectedTeam] = useState(null)
+
+    const createTeamOptions = () => {
+        const teamValues = []
+        for (let i = 0; i < teams.length; i++) {
+            const team = teams[i]
+            teamValues.push({ value: team.teamCD, label: team['ShortName-Team']})
+        }
+        return teamValues
+    }
+console.log(selectedTeam)
+    const test = (value) => {
+        console.log(value);
+    }
+
     return (
         <div className={`${style.container}`}>
             <div className={`${style['menu-bar']}`} >
                 <LabeledComboBox
                     className={`${style.input}`}
+                    value={selectedTeam}
+                    placeholder="Test"
+                    options={createTeamOptions()}
+                    onChange={test}
                     label={
                         <span className={`${style.title}`}>チーム選択</span>
                     }
@@ -35,11 +54,7 @@ const TeamPlayerSelectHeader = ({ isPlayerTab = true, teams }) => {
                         />
                         <LabeledComboBox
                             className={`${style.input}`}
-                            // label={
-                            //     <span style={{color:"transparent"}}>  </span>
-                            // }
                             size={{ width: "235px", height: "32px"}}
-                            // style={{paddingTop: "30px"}}
                         />
                         <ImageButton
                             src={"./assets/04-team-player-selection-page/button-open.png"}
