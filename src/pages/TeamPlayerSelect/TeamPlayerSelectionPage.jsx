@@ -12,7 +12,11 @@ const PLAYER_TAB_NAME = "選手情報"
 const TeamPlayerSelectionPage = () => {
   const [selectedTeamInfoTab, setSelectedTeamInfoTab] = useState(null)
   const [selectedTeam, setSelectedTeam] = useState(null)
+  const [selectedPlayer, setSelectedPlayer] = useState(null)
+  const [selectedPlayerData, setSelectedPlayerData] = useState(null)
   const teamInfoMST = useTeamInfoMST()
+
+  const [isPlayerSelected, setIsPlayerSelected] = useState(false)
 
   const handleOnTeamInfoTabChange = (tab) => {
     setSelectedTeamInfoTab(tab);
@@ -38,11 +42,31 @@ const TeamPlayerSelectionPage = () => {
         onTeamSelect={(team) => {
           setSelectedTeam(team)
         }}
+        onPlayerUpdate={(player) => {
+          setSelectedPlayer(player)
+          console.log("Test")
+        }}
+        onPlayerSelect={(player) => {
+          setIsPlayerSelected(true)
+          setSelectedPlayerData(player)
+        }}
+        selectedPlayer={selectedPlayer}
         isPlayerTab={selectedTeamInfoTab == PLAYER_TAB_NAME}
       />
-      {/* <PlayerInfoTabPanel /> */}
-      <TeamInfoTabPanel team={selectedTeam} onTabChange={handleOnTeamInfoTabChange} />
-
+      {
+        isPlayerSelected ?
+          <PlayerInfoTabPanel
+            team={selectedTeam}
+            player={selectedPlayerData}
+          /> :
+          <TeamInfoTabPanel
+            team={selectedTeam}
+            onTabChange={handleOnTeamInfoTabChange}
+            onPlayerSelect={(player) => {
+              setSelectedPlayer(player)
+            }}
+          />
+      }
     </div>
   )
 }
