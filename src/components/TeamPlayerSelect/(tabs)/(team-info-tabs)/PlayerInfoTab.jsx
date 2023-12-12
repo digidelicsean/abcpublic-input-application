@@ -8,26 +8,22 @@ import "../InfoTab.css"
 
 import style from "./PlayerInfoTab.module.css"
 import { useModal } from "../../../../hooks/useModal";
+import { usePlayerInfoMST } from '../../../../services/api/usePlayerInfoMST'
 
-function PlayerInfoTab() {
+
+
+function PlayerInfoTab({ players }) {
+  // const playerInfoMST = usePlayerInfoMST(team?.TeamCD ?? null);
 
   const displayModal = useModal(() => { }, () => { });
   const tradeModal = useModal(() => { }, () => { });
 
-  console.log(displayModal, tradeModal)
   return (
     <div className={`tab ${style.container}`}>
       <div className={style['tab-menu']}>
         <div className={style.legend}>
           <Image preview={false} src='./assets/03-player-info-tab/legend-record.png' />
         </div>
-
-        {/* <Button type="primary" onClick={displayModal?.Open}>
-          Open Modal One
-        </Button>
-        <Button type="primary" onClick={tradeModal?.Open}>
-          Open Modal Two
-        </Button> */}
 
         <div className={style['sort-buttons']}>
           <ImageButton src={"./assets/03-player-info-tab/button-sort-pitcher-fielder.png"} />
@@ -42,15 +38,18 @@ function PlayerInfoTab() {
       </div>
 
       <div className={style.table}>
-        <PlayerOption />
-        <PlayerOption tagged />
-        <PlayerOption />
-        <PlayerOption />
-        <PlayerOption tagged />
-        <PlayerOption />
-        <PlayerOption />
-        <PlayerOption tagged />
-        <PlayerOption />
+        {
+          players?.map((player, index) => {
+            // console.log(player)
+            return (
+              <PlayerOption
+                key={index}
+                number={player.UniformNO}
+                name={player.Player}
+              />
+            )
+          })
+        }
       </div>
 
       <Modal

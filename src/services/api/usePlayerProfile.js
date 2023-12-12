@@ -39,7 +39,6 @@ const parsePlayerProfile = (data, teamCD) => {
   const selectedProfile = playerProfiles.find((x) => {
     return x.TeamCD == teamCD;
   });
-  console.log(selectedProfile);
 
   return selectedProfile.PlayerInfo;
 };
