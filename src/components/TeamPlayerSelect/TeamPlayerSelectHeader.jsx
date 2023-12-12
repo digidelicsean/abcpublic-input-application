@@ -1,9 +1,20 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import style from './TeamPlayerSelectHeader.module.css'
 import { LabeledComboBox, LabeledText, ImageButton, Spacer } from '../'
+import { usePlayerInfoMST } from '../../services/api/usePlayerInfoMST'
 
-const TeamPlayerSelectHeader = ({ isPlayerTab = true, teams, onTeamSelect }) => {
+const TeamPlayerSelectHeader = ({ isPlayerTab = true, teams, onTeamSelect, selectedPlayer, onPlayerUpdate, onPlayerSelect }) => {
     const [selectedTeam, setSelectedTeam] = useState(null)
+    // const [selectedPlayer, setSelectedPlayer] = useState(null)
+    const [playerBackNum, setPlayerBackNum] = useState("")
+
+    const playerInfoMST = usePlayerInfoMST(selectedTeam ?? null)
+
+    useEffect(() => {
+        if (selectedPlayer) {
+            setPlayerBackNum(selectedPlayer?.UniformNO)
+        }
+    }, [selectedPlayer])
 
     const createTeamOptions = () => {
         const teamValues = []
@@ -12,6 +23,20 @@ const TeamPlayerSelectHeader = ({ isPlayerTab = true, teams, onTeamSelect }) => 
             teamValues.push({ value: team.TeamCD, label: team['ShortName-Team'] })
         }
         return teamValues
+    }
+
+
+    const createPlayerOptions = () => {
+        if (playerInfoMST.data == null) {
+            return []
+        }
+
+        const playerValues = []
+        for (let i = 0; i < playerInfoMST.data.length; i++) {
+            const player = playerInfoMST.data[i]
+            playerValues.push({ value: player.PlayerCD, label: `${player.UniformNO} ${player.Player}` })
+        }
+        return playerValues
     }
 
     return (
@@ -36,7 +61,7 @@ const TeamPlayerSelectHeader = ({ isPlayerTab = true, teams, onTeamSelect }) => 
                     width="185px"
                     onClick={() => {
                         if (onTeamSelect) {
-                            onTeamSelect(teams[selectedTeam])
+                            onTeamSelect(Object.values(teams).find(team => team.TeamCD === selectedTeam))
                         }
                     }}
                 />
@@ -46,7 +71,7 @@ const TeamPlayerSelectHeader = ({ isPlayerTab = true, teams, onTeamSelect }) => 
                 isPlayerTab &&
                 <>
                     <Spacer />
-                    <div className={`${style['menu-bar']}`} style={{ width: isPlayerTab ? "32%" : "" }}>
+                    <div className={`${style['menu-bar']}`} style={{ width: isPlayerTab ? "34%" : "" }}>
                         <LabeledText
                             className={`${style.input}`}
                             label={
@@ -54,15 +79,57 @@ const TeamPlayerSelectHeader = ({ isPlayerTab = true, teams, onTeamSelect }) => 
                             }
                             size={{ width: "50px" }}
                             textAlign="left"
+                            value={playerBackNum}
+                            onChange={(value) => {
+                                //
+                                if (/[^0-9]/.test(value)) {
+                                    return;
+                                }
+                                setPlayerBackNum(value)
+
+                                const existingPlayer = playerInfoMST.data.find(player => player.UniformNO === value)
+                                if (existingPlayer) {
+                                    if (!onPlayerUpdate) {
+                                        return;
+                                    }
+                                    onPlayerUpdate(existingPlayer)
+                                    // setSelectedPlayer(existingPlayer.PlayerCD)
+                                    console.log("Test")
+                                }
+                            }}
+
                         />
-                        <LabeledComboBox
-                            className={`${style.input}`}
-                            size={{ width: "235px", height: "32px" }}
-                        />
+                        <div>
+                            <Spacer width="29px" />
+                            <LabeledComboBox
+                                className={`${style.input}`}
+                                size={{ width: "235px", height: "32px" }}
+                                options={createPlayerOptions()}
+                                value={selectedPlayer?.PlayerCD}
+                                onChange={(value) => {
+                                    const existingPlayer = playerInfoMST.data.find(player => player.PlayerCD === value)
+                                    if (onPlayerUpdate) {
+                                        onPlayerUpdate(existingPlayer)
+                                    }
+
+                                    if (existingPlayer) {
+                                        setPlayerBackNum(existingPlayer.UniformNO)
+                                    }
+                                }}
+                            />
+                        </div>
                         <ImageButton
                             src={"./assets/04-team-player-selection-page/button-open.png"}
                             height="75px"
                             width="185px"
+                            onClick={() => {
+                                if (onPlayerUpdate) {
+                                    onPlayerUpdate(selectedPlayer)
+                                }
+                                if (onPlayerSelect) {
+                                    onPlayerSelect(selectedPlayer)
+                                }
+                            }}
                         />
                     </div>
                 </>

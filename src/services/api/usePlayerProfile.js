@@ -22,8 +22,8 @@ export const usePlayerProfile = (teamCD) => {
   return {
     data: parsedData,
     reload: playerProfile.reload,
-    getByID: (teamCD) => {
-      return getPlayerByTeamCD(parsedData, teamCD);
+    getByID: (playerCD) => {
+      return getPlayerByPlayerCD(parsedData, playerCD);
     },
     getCoach: () => {
       return getCoachData(parsedData);
@@ -39,18 +39,18 @@ const parsePlayerProfile = (data, teamCD) => {
   const selectedProfile = playerProfiles.find((x) => {
     return x.TeamCD == teamCD;
   });
-  console.log(selectedProfile);
 
   return selectedProfile.PlayerInfo;
 };
 
-const getPlayerByTeamCD = (playerProfile, teamCD) => {
+const getPlayerByPlayerCD = (playerProfile, playerCD) => {
   if (playerProfile == null) {
     return null;
   }
 
-  const playerInfo = playerProfile.find((x) => x.TeamCD == teamCD);
-  return playerInfo;
+  const playerInfo = Object.values(playerProfile)
+  
+  return playerInfo.find((x) => x.PlayerCD == playerCD);
 };
 
 const getCoachData = (playerProfile) => {
