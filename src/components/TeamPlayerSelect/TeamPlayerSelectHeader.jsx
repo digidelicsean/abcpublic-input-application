@@ -1,14 +1,20 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import style from './TeamPlayerSelectHeader.module.css'
 import { LabeledComboBox, LabeledText, ImageButton, Spacer } from '../'
 import { usePlayerInfoMST } from '../../services/api/usePlayerInfoMST'
 
-const TeamPlayerSelectHeader = ({ isPlayerTab = true, teams, onTeamSelect, onPlayerSelect }) => {
+const TeamPlayerSelectHeader = ({ isPlayerTab = true, teams, onTeamSelect, selectedPlayer, onPlayerUpdate, onPlayerSelect }) => {
     const [selectedTeam, setSelectedTeam] = useState(null)
-    const [selectedPlayer, setSelectedPlayer] = useState(null)
+    // const [selectedPlayer, setSelectedPlayer] = useState(null)
     const [playerBackNum, setPlayerBackNum] = useState("")
 
     const playerInfoMST = usePlayerInfoMST(selectedTeam ?? null)
+
+    useEffect(() => {
+        if (selectedPlayer) {
+            setPlayerBackNum(selectedPlayer?.UniformNO)
+        }
+    }, [selectedPlayer])
 
     const createTeamOptions = () => {
         const teamValues = []
@@ -18,6 +24,7 @@ const TeamPlayerSelectHeader = ({ isPlayerTab = true, teams, onTeamSelect, onPla
         }
         return teamValues
     }
+
 
     const createPlayerOptions = () => {
         if (playerInfoMST.data == null) {
@@ -64,7 +71,7 @@ const TeamPlayerSelectHeader = ({ isPlayerTab = true, teams, onTeamSelect, onPla
                 isPlayerTab &&
                 <>
                     <Spacer />
-                    <div className={`${style['menu-bar']}`} style={{ width: isPlayerTab ? "32%" : "" }}>
+                    <div className={`${style['menu-bar']}`} style={{ width: isPlayerTab ? "34%" : "" }}>
                         <LabeledText
                             className={`${style.input}`}
                             label={
@@ -82,7 +89,11 @@ const TeamPlayerSelectHeader = ({ isPlayerTab = true, teams, onTeamSelect, onPla
 
                                 const existingPlayer = playerInfoMST.data.find(player => player.UniformNO === value)
                                 if (existingPlayer) {
-                                    setSelectedPlayer(existingPlayer.PlayerCD)
+                                    if (!onPlayerUpdate) {
+                                        return;
+                                    }
+                                    onPlayerUpdate(existingPlayer)
+                                    // setSelectedPlayer(existingPlayer.PlayerCD)
                                     console.log("Test")
                                 }
                             }}
@@ -94,11 +105,13 @@ const TeamPlayerSelectHeader = ({ isPlayerTab = true, teams, onTeamSelect, onPla
                                 className={`${style.input}`}
                                 size={{ width: "235px", height: "32px" }}
                                 options={createPlayerOptions()}
-                                value={selectedPlayer}
+                                value={selectedPlayer?.PlayerCD}
                                 onChange={(value) => {
-                                    setSelectedPlayer(value)
-
                                     const existingPlayer = playerInfoMST.data.find(player => player.PlayerCD === value)
+                                    if (onPlayerUpdate) {
+                                        onPlayerUpdate(existingPlayer)
+                                    }
+
                                     if (existingPlayer) {
                                         setPlayerBackNum(existingPlayer.UniformNO)
                                     }
@@ -110,8 +123,11 @@ const TeamPlayerSelectHeader = ({ isPlayerTab = true, teams, onTeamSelect, onPla
                             height="75px"
                             width="185px"
                             onClick={() => {
+                                if (onPlayerUpdate) {
+                                    onPlayerUpdate(selectedPlayer)
+                                }
                                 if (onPlayerSelect) {
-                                    onPlayerSelect(Object.values(playerInfoMST.data).find(player => player.PlayerCD === selectedPlayer))
+                                    onPlayerSelect(selectedPlayer)
                                 }
                             }}
                         />

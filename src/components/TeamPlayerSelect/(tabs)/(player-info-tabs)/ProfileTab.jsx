@@ -20,28 +20,52 @@ const textAreaSize = {
 }
 
 
-function ProfileTab() {
+function ProfileTab({ teamInfo, playerInfo }) {
+
+
+    const firstColumnData = {
+        TeamName: `${teamInfo?.TeamCD} ${teamInfo && teamInfo['ShortName-Team']}`,
+        PlayerCD: playerInfo?.PlayerCD,
+        PlayerName: playerInfo?.PlayerName,
+        DelivName: playerInfo?.DelivName,
+        PitchingArm: playerInfo?.PitchingArm == 1 ? '左' : '右',
+        BattingType: playerInfo?.BattingType == 1 ? '左' : playerInfo?.BattingType === 2 ? '右' : '両',
+        Japan: playerInfo?.Japan == 1 ? '有' : '無'
+    }
+
+    const secondColumnData = {
+        Age: playerInfo?.Age,
+        Title: playerInfo?.Title,
+    }
+console.log(playerInfo)
+    const thirdColumnData = {
+        Comment_1: playerInfo?.Comment_1,
+        Comment_2: playerInfo?.Comment_2,
+        Comment_3: playerInfo?.Comment_3,
+        Prize: playerInfo?.Prize,
+    }
+
     return (
         <div className={`tab ${style.container}`}>
             <div className={style.column}>
-                <FirstColumn />
+                <FirstColumn data={firstColumnData} />
             </div>
 
             <div className={style.column}>
-                <SecondColumn />
+                <SecondColumn data={secondColumnData} />
             </div>
 
             <div className={style.column} style={{
                 width: "40%"
             }}>
-                <ThirdColumn />
+                <ThirdColumn data={thirdColumnData}/>
             </div>
         </div>
     )
 }
 
 
-const FirstColumn = () => {
+const FirstColumn = ({ data }) => {
     return (
         <>
             <div className={style['small-input']}>
@@ -49,11 +73,13 @@ const FirstColumn = () => {
                     label="チームID"
                     textAlign="left"
                     size={textFieldSize}
+                    value={data.TeamName}
                 />
                 <LabeledText
                     label="選手ID"
                     textAlign="left"
                     size={textFieldSize}
+                    value={data.PlayerCD}
                 />
             </div>
             <LabeledText
@@ -67,11 +93,13 @@ const FirstColumn = () => {
                     label="選手名"
                     textAlign="left"
                     size={textFieldSize}
+                    value={data.PlayerName}
                 />
                 <LabeledText
                     label="選手名 (略)"
                     textAlign="left"
                     size={textFieldSize}
+                    value={data.DelivName}
                 />
             </div>
 
@@ -80,11 +108,13 @@ const FirstColumn = () => {
                     label="投左右"
                     textAlign="left"
                     size={textFieldSize}
+                    value={data.PitchingArm}
                 />
                 <LabeledText
                     label="打左右"
                     textAlign="left"
                     size={textFieldSize}
+                    value={data.BattingType}
                 />
             </div>
             <div className={style['small-input']}>
@@ -97,13 +127,14 @@ const FirstColumn = () => {
                     label="侍ジャパン"
                     textAlign="left"
                     size={textFieldSize}
+                    value={data.Japan}
                 />
             </div>
         </>
     )
 }
 
-const SecondColumn = () => {
+const SecondColumn = ({ data }) => {
     return (
         <>
             <div className={style['small-input']}>
@@ -140,6 +171,7 @@ const SecondColumn = () => {
                     label="年齢"
                     textAlign="left"
                     size={textFieldSize}
+                    value={data?.Age ?? ""}
                 />
             </div>
             <LabeledText
@@ -168,13 +200,15 @@ const SecondColumn = () => {
                 label="タイトル"
                 textAlign="left"
                 size={fullWidthSize}
+                value={data?.Title ?? ""}
             />
         </>
     )
 }
 
 
-const ThirdColumn = () => {
+const ThirdColumn = ({data}) => {
+    console.log(data)
     return (
         <>
             <LastUpdated
@@ -187,23 +221,27 @@ const ThirdColumn = () => {
                 textAlign="left"
                 size={textAreaSize}
                 textArea
+                value={data?.Comment_1 ?? ""}
             />
             <LabeledText
                 label="プロフィル ➁"
                 textAlign="left"
                 size={textAreaSize}
                 textArea
+                value={data?.Comment_2 ?? ""}
             />
             <LabeledText
                 label="プロフィル ➂"
                 textAlign="left"
                 size={textAreaSize}
                 textArea
+                value={data?.Comment_3 ?? ""}
             />
             <LabeledText
                 label="タイトル (DS配信)"
                 textAlign="left"
                 size={fullWidthSize}
+                value={data?.Prize ?? ""}
             />
             <div style={{ display: "inline-flex", width: "100%" }}>
                 <div style={{ width: "50%" }}>

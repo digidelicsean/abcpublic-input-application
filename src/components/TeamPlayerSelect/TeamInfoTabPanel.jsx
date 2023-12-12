@@ -16,7 +16,7 @@ import { usePlayerInfoMST } from "../../services/api/usePlayerInfoMST"
 
 
 
-const TeamInfoTabPanel = ({ team, onTabChange }) => {
+const TeamInfoTabPanel = ({ team, onTabChange, onPlayerSelect }) => {
     const [isPlayerTab, setIsPlayerTab] = useState(false);
     const playerProfile = usePlayerProfile(team?.TeamCD ?? null)
     const teamStats = useTeamStats(team?.TeamCD ?? null)
@@ -25,9 +25,21 @@ const TeamInfoTabPanel = ({ team, onTabChange }) => {
     const coachData = playerProfile.getCoach()
 
     const tabProperties = {
-        /*TeamInfoTab*/["チーム情報"]: <TeamInfoTab team={team} coach={coachData} stats={teamStats.data} />,
-        /*PlayerInfoTab*/["選手情報"]: <PlayerInfoTab players={playerInfoMST?.data ?? []} />,
-        /*DraftInfoTab*/["ドラフト情報"]: <DraftInfoTab />
+        /*TeamInfoTab*/["チーム情報"]:
+            <TeamInfoTab
+                team={team} coach={coachData}
+                stats={teamStats.data}
+            />,
+        /*PlayerInfoTab*/["選手情報"]:
+            <PlayerInfoTab
+                players={playerInfoMST?.data ?? []}
+                onPlayerSelect={(player) => {
+                    if (onPlayerSelect)
+                        onPlayerSelect(player)
+                }}
+            />,
+        /*DraftInfoTab*/["ドラフト情報"]:
+            <DraftInfoTab />
     }
 
     // Generate tabs dynamically based on tabProperties object

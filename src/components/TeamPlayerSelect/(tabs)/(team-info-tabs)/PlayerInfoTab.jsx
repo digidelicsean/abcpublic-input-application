@@ -12,7 +12,7 @@ import { usePlayerInfoMST } from '../../../../services/api/usePlayerInfoMST'
 
 
 
-function PlayerInfoTab({ players }) {
+function PlayerInfoTab({ players, onPlayerSelect }) {
   // const playerInfoMST = usePlayerInfoMST(team?.TeamCD ?? null);
 
   const displayModal = useModal(() => { }, () => { });
@@ -40,12 +40,17 @@ function PlayerInfoTab({ players }) {
       <div className={style.table}>
         {
           players?.map((player, index) => {
-            // console.log(player)
             return (
               <PlayerOption
                 key={index}
                 number={player.UniformNO}
                 name={player.Player}
+                onClick={(player, number) => {
+                  if (!onPlayerSelect) return;
+                  const playerInfo = players.find((x) => x.UniformNO == number)
+
+                  onPlayerSelect(playerInfo)
+                }}
               />
             )
           })
