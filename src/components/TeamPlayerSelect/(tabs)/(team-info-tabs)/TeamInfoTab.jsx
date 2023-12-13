@@ -74,7 +74,7 @@ function TeamInfoTab({ team, coach, stats }) {
 
         <div>
           <LabeledText
-            label="チーム (英語)"
+            label="チーム (英略)"
             textAlign="left"
             size={textFieldSize}
             value={team?.TeamES ?? ""}

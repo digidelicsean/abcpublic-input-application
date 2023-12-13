@@ -217,21 +217,21 @@ const ThirdColumn = ({data}) => {
                 inputStyle={{ fontSize: "1.4em", height: "32px", width: "120px" }}
             />
             <LabeledText
-                label="プロフィル ➀"
+                label="プロフィール ➀"
                 textAlign="left"
                 size={textAreaSize}
                 textArea
                 value={data?.Comment_1 ?? ""}
             />
             <LabeledText
-                label="プロフィル ➁"
+                label="プロフィール ➁"
                 textAlign="left"
                 size={textAreaSize}
                 textArea
                 value={data?.Comment_2 ?? ""}
             />
             <LabeledText
-                label="プロフィル ➂"
+                label="プロフィール ➂"
                 textAlign="left"
                 size={textAreaSize}
                 textArea
