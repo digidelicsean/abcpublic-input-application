@@ -100,7 +100,7 @@ const styleBack = {
   transform: 'translate(0%, 50%)',
   'borderRadius': '16px',
   height :'100px',
-  width :'300px',
+  width :'475px',
 
 };
 
@@ -110,17 +110,17 @@ const styleBack1 = {
   transform: 'translate(8%, 80%)',
   'borderRadius': '16px',
   height :'100px',
-  width :'300px',
+  width :'475px',
 
 };
 const styleFront = {
    background: '#f7f7f7',
    padding: '5px 15px',
-   transform: 'scale(110%,110%)translate(-5%, -5%)',
+   transform: 'scale(110%,110%)translate(-1%, -5%)',
    'borderRadius': '16px', 
    border: "1px solid #e8e8e8",
     height :'100px',
-    width :'300px',
+    width :'450px',
 
  };
  const styleBottom = {
@@ -130,7 +130,7 @@ const styleFront = {
     'borderRadius': '16px', 
     border: "1px solid #e4e4e4",
      height :'150px',
-     width :'350px',
+     width :'400px',
  
   };
  
@@ -176,10 +176,10 @@ const PitcherResultTab = () => {
      </Row>
     </Col>
 
-    <Col>
+    <Col offset={2}>
     <p></p>
 
-    <label style={{transform: 'translate(100%,0%)',fontSize: "20px"}}>&emsp;第1打席&emsp;</label> 
+    <label style={{transform: 'translate(600%,0%)',fontSize: "20px"}}>&emsp;第1打席&emsp;</label> 
    
     <Row> 
         <div style={styleBack}>
@@ -189,10 +189,10 @@ const PitcherResultTab = () => {
                 <p></p>
 
                 <Row justify="space-evenly">
-                <label style={{color:"black", background: "#ffffff",fontSize: "20px", borderRadius:'5px'}} size={'large'}> &emsp;T&emsp; </label>
-                <label style={{color:"black", background: "#ffffff",fontSize: "20px", borderRadius:'5px'}} size={'large'}> &emsp;16&emsp; </label>
-                <label style={{color:"black", background: "#ffffff",fontSize: "20px", borderRadius:'5px'}} size={'large'}> &emsp;Name&emsp; </label>
-                <label style={{color:"black", background: "#ffffff",fontSize: "20px", borderRadius:'5px'}} size={'large'}> &emsp;R&emsp; </label>
+                <label style={{color:"black", background: "#ffffff",fontSize: "22px", borderRadius:'5px'}} size={'large'}> &emsp;T&emsp; </label>
+                <label style={{color:"black", background: "#ffffff",fontSize: "22px", borderRadius:'5px'}} size={'large'}> &emsp;16&emsp; </label>
+                <label style={{color:"black", background: "#ffffff",fontSize: "22px", borderRadius:'5px'}} size={'large'}> &emsp;Name&emsp; </label>
+                <label style={{color:"black", background: "#ffffff",fontSize: "22px", borderRadius:'5px'}} size={'large'}> &emsp;R&emsp; </label>
 
                 </Row>
             </div>
@@ -203,15 +203,15 @@ const PitcherResultTab = () => {
         <Row>
         <div style={styleBack1}>
             <div style={styleFront}>
-                <p></p>
+                <p><br></br></p>
                 <label style={{transform: 'translate(10%,0%)',fontSize: "20px"}}>&emsp;対戦打者&emsp;</label> 
                 <p></p>
                 
                 <Row justify="space-evenly">
-                <label style={{color:"black", background: "#ffffff",fontSize: "20px", borderRadius:'5px'}} size={'large'}> &emsp;G&emsp; </label>
-                <label style={{color:"black", background: "#ffffff",fontSize: "20px", borderRadius:'5px'}} size={'large'}> &emsp;2&emsp; </label>
-                <label style={{color:"black", background: "#ffffff",fontSize: "20px", borderRadius:'5px'}} size={'large'}> &emsp;Name&emsp; </label>
-                <label style={{color:"black", background: "#ffffff",fontSize: "20px", borderRadius:'5px'}} size={'large'}> &emsp;L&emsp; </label>
+                <label style={{color:"black", background: "#ffffff",fontSize: "22px", borderRadius:'5px'}} size={'large'}> &emsp;G&emsp; </label>
+                <label style={{color:"black", background: "#ffffff",fontSize: "22px", borderRadius:'5px'}} size={'large'}> &emsp;2&emsp; </label>
+                <label style={{color:"black", background: "#ffffff",fontSize: "22px", borderRadius:'5px'}} size={'large'}> &emsp;Name&emsp; </label>
+                <label style={{color:"black", background: "#ffffff",fontSize: "22px", borderRadius:'5px'}} size={'large'}> &emsp;L&emsp; </label>
 
                 </Row>
             </div>
@@ -224,11 +224,12 @@ const PitcherResultTab = () => {
         <Row>
             <div style={styleBottom}>
                 <p></p>
-                <label style={{color:"black", background: "#ffffff",fontSize: "20px", borderRadius:'5px'}} size={'large'}>&emsp; &emsp;左フライ&emsp;&emsp; </label>
-
+                <Row justify="center">
+                  <label style={{color:"black", background: "#ffffff",fontSize: "20px", borderRadius:'5px', backgroundSize: "1000px 100px"}} size={'100px 1300px'}>&emsp; &emsp;左フライ&emsp;&emsp; </label>
+                </Row>
                 <p><br></br></p>
                 
-                <Row justify="space-evenly">
+                <Row justify="center">
                     <label style={{color:"black",fontSize: "20px", borderRadius:'5px'}} size={'large'}> &emsp;打点&emsp; </label>
 
                     <label style={{color:"black", background: "#ffffff",fontSize: "20px", borderRadius:'5px'}} size={'large'}> &emsp;1&emsp; </label>

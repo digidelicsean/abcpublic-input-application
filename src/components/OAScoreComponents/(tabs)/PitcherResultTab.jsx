@@ -108,6 +108,7 @@ const styleBack1 = {
   'borderRadius': '16px',
   height :'650px',
 };
+
 const styleFront = {
    background: '#f8f8f8',
    padding: '5px 10px',
@@ -133,7 +134,7 @@ const PitcherResultTab = () => {
         <div style={styleBack}>
           <div style={styleFront}>
               <label style={{transform: 'translate(10%,0%)'}}>&emsp;後攻&emsp;</label>  <label style={{color:"black", background: "#ffffff",fontSize: "26px"}} size={'large'}> &emsp;Tiger&emsp; </label>  
-              <Button style={{transform: 'translate(600%,0%)'}} >保存 </Button>
+              <Button style={{transform: 'translate(565%,0%)'}} >保存 </Button>
               <Table >
                 <Table.Header headerProps={headers} />
                 <Table.Row rowName="" numColumns={11} width={50} labelStyle={rowLabelStyle} useText inputStyle={inputStyleRow} gapIndices={rowGaps} gapSize={gapSize} />
@@ -142,7 +143,7 @@ const PitcherResultTab = () => {
                 <Table.Row rowName="" numColumns={11} width={50} labelStyle={rowLabelStyle} useText inputStyle={inputStyleRow} gapIndices={rowGaps} gapSize={gapSize} />
                 <Table.Row rowName="" numColumns={11} width={50} labelStyle={rowLabelStyle} useText inputStyle={inputStyleRow} gapIndices={rowGaps} gapSize={gapSize} />
                 <Table.Row rowName="" numColumns={11} width={50} labelStyle={rowLabelStyle} useText inputStyle={inputStyleRow} gapIndices={rowGaps} gapSize={gapSize} />
-                <Table.Row rowName="" numColumns={11} width={50} labelStyle={rowLabelStyle} useText inputStyle={inputStyleRow}  gapIndices={rowGaps} gapSize={gapSize} />
+                <Table.Row rowName="" numColumns={11} width={50} labelStyle={rowLabelStyle} useText inputStyle={inputStyleRow} gapIndices={rowGaps} gapSize={gapSize} />
                 <Table.Row rowName="" numColumns={11} width={50} labelStyle={rowLabelStyle} useText inputStyle={inputStyleRow} gapIndices={rowGaps} gapSize={gapSize} />
                 <Table.Row rowName="" numColumns={11} width={50} labelStyle={rowLabelStyle} useText inputStyle={inputStyleRow} gapIndices={rowGaps} gapSize={gapSize} />
                 <Table.Row rowName="" numColumns={11} width={50} labelStyle={rowLabelStyle} useText inputStyle={inputStyleRow} gapIndices={rowGaps} gapSize={gapSize} />
@@ -184,7 +185,7 @@ const PitcherResultTab = () => {
         <div style={styleBack1} >
          <div style={styleFront}>
          <label style={{transform: 'translate(10%,0%)'}}>&emsp;後攻&emsp;</label>  <label style={{color:"black", background: "#ffffff",fontSize: "26px"}} size={'large'}> &emsp;Giants&emsp; </label>  
-              <Button style={{transform: 'translate(575%,0%)'}} >保存 </Button>
+              <Button style={{transform: 'translate(545%,0%)'}} >保存 </Button>
             <Table>
               <Table.Header headerProps={headers} />
                 <Table.Row rowName="" numColumns={11} width={50} labelStyle={rowLabelStyle} useText inputStyle={inputStyleRow} gapIndices={rowGaps} gapSize={gapSize} />
@@ -193,7 +194,7 @@ const PitcherResultTab = () => {
                 <Table.Row rowName="" numColumns={11} width={50} labelStyle={rowLabelStyle} useText inputStyle={inputStyleRow} gapIndices={rowGaps} gapSize={gapSize} />
                 <Table.Row rowName="" numColumns={11} width={50} labelStyle={rowLabelStyle} useText inputStyle={inputStyleRow} gapIndices={rowGaps} gapSize={gapSize} />
                 <Table.Row rowName="" numColumns={11} width={50} labelStyle={rowLabelStyle} useText inputStyle={inputStyleRow} gapIndices={rowGaps} gapSize={gapSize} />
-                <Table.Row rowName="" numColumns={11} width={50} labelStyle={rowLabelStyle} useText inputStyle={inputStyleRow}  gapIndices={rowGaps} gapSize={gapSize} />
+                <Table.Row rowName="" numColumns={11} width={50} labelStyle={rowLabelStyle} useText inputStyle={inputStyleRow} gapIndices={rowGaps} gapSize={gapSize} />
                 <Table.Row rowName="" numColumns={11} width={50} labelStyle={rowLabelStyle} useText inputStyle={inputStyleRow} gapIndices={rowGaps} gapSize={gapSize} />
                 <Table.Row rowName="" numColumns={11} width={50} labelStyle={rowLabelStyle} useText inputStyle={inputStyleRow} gapIndices={rowGaps} gapSize={gapSize} />
                 <Table.Row rowName="" numColumns={11} width={50} labelStyle={rowLabelStyle} useText inputStyle={inputStyleRow} gapIndices={rowGaps} gapSize={gapSize} />
