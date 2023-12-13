@@ -24,7 +24,7 @@ export const useTeamStats = (teamCD) => {
 const parseTeamStats = (data, teamCD) => {
   if (data.length == 0) return [];
 
-  let gameClass = teamCD < 6 ? 1 : 2;
+  let gameClass = teamCD <= 6 ? 1 : 2;
   let teamStats = data[0][`TeamStats_${gameClass}`] ?? null;
   
   if (teamStats == null) return [];
