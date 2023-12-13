@@ -1,10 +1,10 @@
 import style from "./OAScoreSelectionPage.module.css"
-import TeamInfoTabPanel from "../../components/OAScoreComponents/OAScoreInfoTabPanel"
+import OAScoreInfoTabPanel from "../../components/OAScoreComponents/OAScoreInfoTabPanel"
 
 const OAScorePage = () => {
   return (
     <div className={style.container}>
-      <TeamInfoTabPanel />
+      <OAScoreInfoTabPanel />
       {/* <TeamInfoTabPanel/> */}
     </div>
   )
