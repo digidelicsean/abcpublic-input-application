@@ -1,4 +1,4 @@
-import style from "../TeamPlayerSelect/InfoTabPanel.module.css"
+import style from "./OAScoreInfoTabPanel.module.css"
 
 
 import { ConfigProvider, Tabs } from 'antd'
@@ -9,13 +9,14 @@ import {
     MemberLineUpTab,
     ScoreBookTab,
     PitcherResultTab
-} from "./tabs";
-
+} from "./(tabs)";
+    
 const tabProperties = {
-    BaseRunTab: <BaseRunTab />,
-    MemberLineUpTab: <MemberLineUpTab />,
-    ScoreBookTab: <ScoreBookTab />,
-    PitcherResultTab: <PitcherResultTab />
+    /*PitcherResultTab*/ ["投手成績"]: <PitcherResultTab />,
+    /*BaseRunTab*/       ["盗塁/阻止"]: <BaseRunTab />,
+    /*ScoreBookTab*/     ["スコアブック"]: <ScoreBookTab />,
+    /*MemberLineUpTab*/ ["スタメン/ベンチ"]: <MemberLineUpTab />
+
 };
 
 const OAScoreInfoTabPanel = () => {
