@@ -6,8 +6,7 @@ import RunningScore from "../../components/AllMatchesComponents/RunningScore"
 import AllMatchCards from "../../components/AllMatchesComponents/AllMatchCards"
 
 const OtherGameInfoPage = () => {
-    const [selectedIndex, setSelectedIndex] = useState();
-    
+    const [selectedIndex, setSelectedIndex] = useState(0);
     return (
         <div className="other-game-info-page">
             <div className="other-game-top">

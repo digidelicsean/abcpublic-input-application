@@ -4,13 +4,13 @@ import "./ABCComment.css";
 import { fetchOtherGameInfoCollection } from './Data/otherGameInfoData';
 
 const ABCComment = (index) => {
-
     const [abcComment, setABCComment] = useState("");
     const [dstComment1, setDSTComment1] = useState("");
     const [dstComment2, setDSTComment2] = useState("");
+    var otherGameInfoNum = parseInt(index.index) + 1;
 
     fetchOtherGameInfoCollection().then(data => {
-        const otherGameInfo = data[0].OtherGameInfo[`OtherGameInfo_${index.index}`];
+        const otherGameInfo = data[0].OtherGameInfo[`OtherGameInfo_${otherGameInfoNum}`];
         const abc = otherGameInfo.ABC_Comment;
         const dst1 = otherGameInfo.DS_Comment_1;
         const dst2 = otherGameInfo.DS_Comment_2;

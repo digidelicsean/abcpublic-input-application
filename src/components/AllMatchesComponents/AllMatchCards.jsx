@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import MatchCard from "./MatchCard"
 
 
-const AllMatchCards = ({index}) => {
+const AllMatchCards = ({ index }) => {
 
     const [matches, setMatch] = useState([
         { index: "0", selected: true },
@@ -14,7 +14,6 @@ const AllMatchCards = ({index}) => {
 
     const handleClicked = (i) => {
         const selectedIndex = matches.filter((match) => match.index === i);
-        index(selectedIndex[0]?.index)
         if (!selectedIndex[0].selected) {
             const selectedCount = matches.filter((match) => match.selected).length;
             if (selectedCount === 1) {
@@ -29,6 +28,7 @@ const AllMatchCards = ({index}) => {
                     : match
             )
         );
+        index(i);
     };
 
     return (
