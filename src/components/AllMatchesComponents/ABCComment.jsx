@@ -1,33 +1,15 @@
 import React, { useState, useEffect } from 'react'
 import { Button, Input, Radio, Space } from "antd";
 import "./ABCComment.css";
-// import { fetchOtherGameInfoCollection } from './Data/otherGameInfoData';
 import { useOtherGameInfo } from '../../services/api/useOtherGameInfo';
 
 
 const ABCComment = (index) => {
-
     const [abcComment, setABCComment] = useState("");
     const [dstComment1, setDSTComment1] = useState("");
     const [dstComment2, setDSTComment2] = useState("");
-    const [value, setValue] = useState(1);
-    const [selectComment, setSelectComment] = useState(value);
+    const [selectComment, setSelectComment] = useState(1);
     var otherGameInfoNum = parseInt(index.index) + 1;
-
-    // fetchOtherGameInfoCollection().then(data => {
-    //     const otherGameInfo = data[0].OtherGameInfo[`OtherGameInfo_${otherGameInfoNum}`];
-    //     const abc = otherGameInfo.ABC_Comment;
-    //     const dst1 = otherGameInfo.DS_Comment_1;
-    //     const dst2 = otherGameInfo.DS_Comment_2;
-    //     const select = otherGameInfo.SelectComment;
-
-    //     setABCComment(abc);
-    //     setDSTComment1(dst1);
-    //     setDSTComment2(dst2);
-    //     setSelectComment(parseInt(select));
-
-    // });
-
     const otherGameInfo = useOtherGameInfo();
 
     useEffect(() => {
@@ -54,12 +36,7 @@ const ABCComment = (index) => {
         };
 
         getComments();
-    }, [otherGameInfo])
-
-    const onChange = (e) => {
-        // console.log('radio checked', e.target.value);
-        setValue(e.target.value);
-    };
+    }, [index])
 
 
     return (
@@ -68,7 +45,10 @@ const ABCComment = (index) => {
                 <div className="bot-left-input1">
                     <span className="header-label">ABCコメント</span>
                     <div className="input-btn">
-                        <Input className="abc-comment" value={abcComment} />
+                        <Input className="abc-comment"
+                            value={abcComment}
+                            onChange={(event) => setABCComment(event.target.value)}
+                        />
                         <Button className="abc-comment-card-btn">保存</Button>
                     </div>
 
@@ -77,22 +57,31 @@ const ABCComment = (index) => {
                     <span className="header-label">データスタジアム コメント</span>
                     <div className="input-btn">
                         <span className="dst-comment-num">➀</span>
-                        <Input className="dst-comment" value={dstComment1} />
+                        <Input className="dst-comment"
+                            value={dstComment1}
+                            onChange={(event) => setDSTComment1(event.target.value)}
+                        />
                         <Button className="dst-comment-card-btn">保存</Button>
                     </div>
                     <div className="input-btn">
                         <span className="dst-comment-num">➁</span>
-                        <Input className="dst-comment" value={dstComment2} />
+                        <Input className="dst-comment"
+                            value={dstComment2}
+                            onChange={(event) => setDSTComment2(event.target.value)}
+                        />
                         <Button className="dst-comment-card-btn">保存</Button>
                     </div>
                 </div>
-
             </div>
 
             <div className="other-game-bottom-right">
                 <span className="label">使用コメント</span>
                 <div className="select-comment-container">
-                    <Radio.Group onChange={onChange} value={selectComment}>
+                    <Radio.Group
+                        onChange={(e) => {
+                            setSelectComment(e.target.value)}
+                        } 
+                        value={selectComment}>
                         <Space direction="vertical">
                             <Radio value={1}>ABC</Radio>
                             <Radio value={2}>データスタジアム➀</Radio>

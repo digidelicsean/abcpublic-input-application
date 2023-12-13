@@ -17,25 +17,26 @@ export const useOtherGameInfo = () => {
     return {
         data: parsedData,
         reload: otherGameInfo.reload,
-        update: ( infoNum, updatedGameInfo ) => {
+        update: ( infoNum, updatedData ) => {
             if (otherGameInfo?.data == null) return;
-            const prevData = otherGameInfo.data;
+            const prevData = otherGameInfo.data[0];
 
-            // const updatedData = prevData.OtherGameInfo[`OtherGameInfo_${infoNum}.${updatedGameInfo}`];
+            const gameInfoNum = prevData.OtherGameInfo[`OtherGameInfo_${infoNum}`];
             
-            // console.log("hi: ", updatedData);
+            console.log("hi: ", prevData);
 
-            // send(prevData)
+            // send(prevData, gameInfoNum);
         }
         
-        // update: (otherGameInfoData) => {
-        //     if (otherGameInfo?.data == null) return;
+    //     update: (infoNum, otherGameInfoData) => {
+    //         if (otherGameInfo?.data == null) return;
 
-        //     const prevData = otherGameInfo.data;
+    //         const prevData = otherGameInfo.data[0];
 
-        //     prevData.OtherGameInfo.OtherGameInfo_1 = otherGameInfoData;
-        //     send(prevData)
-        // }
+    //         const updated = prevData.OtherGameInfo[`OtherGameInfo_${infoNum}`] = otherGameInfoData;
+    //         console.log("hi: ", updated);
+    //         send(prevData)
+    //     }
     }
 }
 

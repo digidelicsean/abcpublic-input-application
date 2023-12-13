@@ -1,9 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { Button, Input, Card } from "antd";
 import "./MatchCard.css";
-import { LabeledText } from "../"
-
-// import { fetchOtherGameInfoCollection } from './Data/otherGameInfoData';
 import { useOtherGameInfo } from '../../services/api/useOtherGameInfo';
 
 const MatchCard = ({ index, key, clicked, selected }) => {
@@ -18,10 +15,11 @@ const MatchCard = ({ index, key, clicked, selected }) => {
     var otherGameInfoNum = parseInt(index) + 1;
 
     const otherGameInfo = useOtherGameInfo();
+    let info;
 
     useEffect(() => {
         const getOtherGameInfo = () => {
-            let info;
+            // let info;
             if (otherGameInfo.data == null) {
                 return []
             }
@@ -51,38 +49,21 @@ const MatchCard = ({ index, key, clicked, selected }) => {
         };
 
         getOtherGameInfo();
-    }, [otherGameInfo])
-
-    // useEffect(() => {
-    //     const getOtherGameInfo = async () => {
-    //         await fetchOtherGameInfoCollection().then(data => {
-    //             const otherGameInfo = data[0].OtherGameInfo[`OtherGameInfo_${otherGameInfoNum}`];
-    //             const stadium = otherGameInfo.Stadium;
-    //             const teamV = otherGameInfo.TeamName_V;
-    //             const teamH = otherGameInfo.TeamName_H;
-    //             const totalV = otherGameInfo.Score_V.TotalSCore;
-    //             const totalH = otherGameInfo.Score_H.TotalSCore;
-    //             const inning = otherGameInfo.Inning;
-    //             const tb = otherGameInfo.TB;
-    //             const situation = otherGameInfo.Situation;
-
-    //             setStadiumName(stadium);
-    //             setTeamNameV(teamV);
-    //             setTeamNameH(teamH);
-    //             setTotalScoreV(totalV);
-    //             setTotalScoreH(totalH);
-    //             setTB(tb);
-    //             setInning(inning);
-    //             setSituation(situation);
-    //         });
-    //     };
-    //     getOtherGameInfo();
-    // }, [])
+    }, [otherGameInfo.data])
 
     const tbValue = (tb) => {
         if (tb === 1) return "表";
         else if (tb === 2) return "裏";
         else return "";
+    }
+
+    const inningValue = (inning) => {
+        if (inning > 0) return inning + "回";
+        else return "";
+    }
+
+    const special1 = (inning, tb) => {
+        return inningValue(inning) + tbValue(tb);
     }
 
     const btnLabel = (situation) => {
@@ -94,13 +75,6 @@ const MatchCard = ({ index, key, clicked, selected }) => {
         }
     }
 
-    const saveUpdated = () => {
-        // setStadiumName(stadium);
-        console.log(stadiumName)
-        // console.log(otherGameInfo.update(otherGameInfoNum, {Stadium: stadiumName}));
-
-    }
-
     return (
         <>
             <div className={`other-game-top-card match-card-${index} ${selected ? "selected" : ""}`}
@@ -110,22 +84,14 @@ const MatchCard = ({ index, key, clicked, selected }) => {
                 <Card key={key}>
                     <div className="other-game-top-body">
                         <div className="row1">
-                            {/* <Input value={stadiumName}
-                                onChange={(newVal) => setStadiumName(newVal)}
-                            /> */}
-                            <LabeledText
-                                label={<span></span>}
-                                value={stadiumName}
-                                textAlign={`left`}
-                                onChange={(newVal) => {
-                                    setStadiumName(newVal);
-                                    
-                                }}
+                            <Input value={stadiumName}
+                                onChange={(event) => setStadiumName(event.target.value)}
                             />
                             <Button className={`situation-${situation}`}>{btnLabel(situation)}</Button>
                         </div>
                         <div className="row2">
-                            <Input value={`${inning > 0 ? inning + "回" : ""}${tbValue(tb)}`} />
+                            {/* <Input value={`${inning > 0 ? inning + "回" : ""}${tbValue(tb)}`} /> */}
+                            <Input value={`${inningValue(inning)}${tbValue(tb)}`} />
                             <Button className="sub-btn">-</Button>
                             <Button className="add-btn">+</Button>
                         </div>
@@ -153,16 +119,29 @@ const MatchCard = ({ index, key, clicked, selected }) => {
                             <Input value={parseInt(totalScoreH) >= 0 ? totalScoreH : ""}
                                 onChange={(event) => {
                                     setTotalScoreH(event.target.value)
-                                }} />
+                                }}
+                            />
                             <Button className="sub-btn">-</Button>
                             <Button className="add-btn">+</Button>
                         </div>
                         <div className="row7">
                             <Button className="match-card-save-btn"
                                 onClick={() => {
-                                    
-                                    console.log(stadiumName)
-                                }}>保存</Button>
+
+                                    for (let i = 0; i < otherGameInfo.data.length; i++) {
+                                        info = otherGameInfo.data[i];
+                                    }
+
+                                    const gameInfo = info.OtherGameInfo[`OtherGameInfo_${otherGameInfoNum}`].Score_H;
+                                    const scoreEntryH = Object.keys(gameInfo)[0];
+                                    otherGameInfo.update(otherGameInfoNum, [scoreEntryH, totalScoreH]);
+
+                                    // console.log(totalScoreV);
+                                    // console.log(totalScoreH);
+
+                                }}>
+                                保存
+                            </Button>
                         </div>
                     </div>
                 </Card>
