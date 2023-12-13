@@ -12,18 +12,11 @@
     width: 20%;
 }
 
-.checkbox-container {
+.select-comment-container {
     border-radius: 5px;
     padding: 20px 15px;
     outline-style: double;
     outline-color: white;
-}
-
-.checkbox-body {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    gap: 8px;
 }
 
 .input-btn {
@@ -36,7 +29,7 @@
     margin-bottom: 10px;
 }
 
-.checkbox-container, .input-btn {
+.select-comment-container, .input-btn {
     margin-top: 5px;
 }
 

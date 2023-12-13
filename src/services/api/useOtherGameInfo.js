@@ -17,6 +17,17 @@ export const useOtherGameInfo = () => {
     return {
         data: parsedData,
         reload: otherGameInfo.reload,
+        update: ( infoNum, updatedGameInfo ) => {
+            if (otherGameInfo?.data == null) return;
+            const prevData = otherGameInfo.data;
+
+            // const updatedData = prevData.OtherGameInfo[`OtherGameInfo_${infoNum}.${updatedGameInfo}`];
+            
+            // console.log("hi: ", updatedData);
+
+            // send(prevData)
+        }
+        
         // update: (otherGameInfoData) => {
         //     if (otherGameInfo?.data == null) return;
 
