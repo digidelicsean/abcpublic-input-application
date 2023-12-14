@@ -31,7 +31,6 @@ const MatchCard = ({ index, key, clicked, selected }) => {
                 info = otherGameInfo.data[i];
             }
             setCurrentData(info);
-
             const gameInfo = info.OtherGameInfo[`OtherGameInfo_${otherGameInfoNum}`];
             const stadium = gameInfo.Stadium;
             const teamV = gameInfo.TeamName_V;
@@ -42,7 +41,6 @@ const MatchCard = ({ index, key, clicked, selected }) => {
             const tb = gameInfo.TB;
             const situation = gameInfo.Situation;
 
-
             setStadiumName(stadium);
             setTeamNameV(teamV);
             setTeamNameH(teamH);
@@ -51,6 +49,7 @@ const MatchCard = ({ index, key, clicked, selected }) => {
             setTB(tb);
             setInning(inning);
             setSituation(situation);
+            setSentence(special1(inning, tb));
         };
 
         getOtherGameInfo();
@@ -95,9 +94,10 @@ const MatchCard = ({ index, key, clicked, selected }) => {
                             <Button className={`situation-${situation}`}>{btnLabel(situation)}</Button>
                         </div>
                         <div className="row2">
-                            {/* <Input value={`${inning > 0 ? inning + "回" : ""}${tbValue(tb)}`} /> */}
-                            <Input value={`${inningValue(inning)}${tbValue(tb)}`}
-                                onChange={(event) => setSentence(event.target.value)}
+                            <Input value={sentence}
+                                onChange={(event) => {
+                                    setSentence(event.target.value)
+                                }}
                             />
                             <Button className="sub-btn">-</Button>
                             <Button className="add-btn">+</Button>
@@ -137,7 +137,12 @@ const MatchCard = ({ index, key, clicked, selected }) => {
                                     const currentInfo = currentData.OtherGameInfo[`OtherGameInfo_${otherGameInfoNum}`];
                                     currentInfo.Score_H.TotalSCore = totalScoreH;
                                     currentInfo.Score_V.TotalSCore = totalScoreV;
-                                    // otherGameInfo.update(currentInfo);
+                                    currentInfo.Inning = parseInt(sentence) > 0 ? parseInt(sentence) : 0;
+                                    if (sentence.charAt(sentence.length - 1) === "表")
+                                        currentInfo.TB = 1;
+                                    else if (sentence.charAt(sentence.length - 1) === "裏")
+                                        currentInfo.TB = 2;
+                                    
                                     otherGameInfo.update();
                                 }}>
                                 保存

@@ -9,6 +9,8 @@ const ABCComment = (index) => {
     const [dstComment1, setDSTComment1] = useState("");
     const [dstComment2, setDSTComment2] = useState("");
     const [selectComment, setSelectComment] = useState(1);
+    const [gameData, setGameData] = useState("");
+
     var otherGameInfoNum = parseInt(index.index) + 1;
     const otherGameInfo = useOtherGameInfo();
 
@@ -22,7 +24,7 @@ const ABCComment = (index) => {
             for (let i = 0; i < otherGameInfo.data.length; i++) {
                 info = otherGameInfo.data[i];
             }
-
+            setGameData(info);
             const gameInfo = info.OtherGameInfo[`OtherGameInfo_${otherGameInfoNum}`];
             const abc = gameInfo.ABC_Comment;
             const dst1 = gameInfo.DS_Comment_1;
@@ -49,7 +51,13 @@ const ABCComment = (index) => {
                             value={abcComment}
                             onChange={(event) => setABCComment(event.target.value)}
                         />
-                        <Button className="abc-comment-card-btn">保存</Button>
+                        <Button className="abc-comment-card-btn"
+                            onClick={() => {
+                                const currentInfo = gameData.OtherGameInfo[`OtherGameInfo_${otherGameInfoNum}`];
+                                currentInfo.ABC_Comment = abcComment;
+                                otherGameInfo.update();
+                            }}
+                        >保存</Button>
                     </div>
 
                 </div>
@@ -61,7 +69,13 @@ const ABCComment = (index) => {
                             value={dstComment1}
                             onChange={(event) => setDSTComment1(event.target.value)}
                         />
-                        <Button className="dst-comment-card-btn">保存</Button>
+                        <Button className="dst-comment-card-btn"
+                            onClick={() => {
+                                const currentInfo = gameData.OtherGameInfo[`OtherGameInfo_${otherGameInfoNum}`];
+                                currentInfo.DS_Comment_1 = dstComment1;
+                                otherGameInfo.update();
+                            }}
+                        >保存</Button>
                     </div>
                     <div className="input-btn">
                         <span className="dst-comment-num">➁</span>
@@ -69,7 +83,13 @@ const ABCComment = (index) => {
                             value={dstComment2}
                             onChange={(event) => setDSTComment2(event.target.value)}
                         />
-                        <Button className="dst-comment-card-btn">保存</Button>
+                        <Button className="dst-comment-card-btn"
+                            onClick={() => {
+                                const currentInfo = gameData.OtherGameInfo[`OtherGameInfo_${otherGameInfoNum}`];
+                                currentInfo.DS_Comment_2 = dstComment2;
+                                otherGameInfo.update();
+                            }}
+                        >保存</Button>
                     </div>
                 </div>
             </div>
@@ -79,8 +99,9 @@ const ABCComment = (index) => {
                 <div className="select-comment-container">
                     <Radio.Group
                         onChange={(e) => {
-                            setSelectComment(e.target.value)}
-                        } 
+                            console.log(e.target.value)
+                            setSelectComment(e.target.value);
+                        }}
                         value={selectComment}>
                         <Space direction="vertical">
                             <Radio value={1}>ABC</Radio>
