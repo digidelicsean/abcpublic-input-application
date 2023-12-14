@@ -3,7 +3,7 @@ import style from './NavBar.module.css'
 
 import { LinkImageButton, ImageButton } from "./"
 
-const NavBar = ({ onHomePressed, onBackPressed, homePath, backPath }) => {
+const NavBar = ({ onHomePressed, onBackPressed, homePath, backPath, ...props }) => {
 
     const handleOnBackPressed = () => {
         if(onBackPressed) {
@@ -18,7 +18,7 @@ const NavBar = ({ onHomePressed, onBackPressed, homePath, backPath }) => {
     }
 
     return (
-        <div className={style.container}>
+        <div className={`${style.container} ${props.className}`} style={{...props.style}}>
             {
                 backPath ?
                 <LinkImageButton to={backPath} src="./assets/00-mainmenu/button-back.png" onClick={handleOnBackPressed} height="30px" width="30px" /> :
