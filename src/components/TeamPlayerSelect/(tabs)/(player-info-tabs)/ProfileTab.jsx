@@ -36,6 +36,7 @@ function ProfileTab({ teamInfo, playerInfo, directoryInfo }) {
                 return '外野手';
             case 6:
                 return '指名打者';
+        }
     }
 
     const firstColumnData = {
@@ -63,7 +64,7 @@ function ProfileTab({ teamInfo, playerInfo, directoryInfo }) {
         DraftYear: directoryInfo?.DraftYear,
         DraftNo: directoryInfo?.DraftNo,
     }
-    
+
     const thirdColumnData = {
         Comment_1: playerInfo?.Comment_1,
         Comment_2: playerInfo?.Comment_2,
@@ -84,7 +85,7 @@ function ProfileTab({ teamInfo, playerInfo, directoryInfo }) {
             <div className={style.column} style={{
                 width: "40%"
             }}>
-                <ThirdColumn data={thirdColumnData}/>
+                <ThirdColumn data={thirdColumnData} />
             </div>
         </div>
     )
@@ -244,7 +245,7 @@ const SecondColumn = ({ data }) => {
 }
 
 
-const ThirdColumn = ({data}) => {
+const ThirdColumn = ({ data }) => {
     console.log(data)
     return (
         <>

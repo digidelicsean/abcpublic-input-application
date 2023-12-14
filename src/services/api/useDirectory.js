@@ -8,10 +8,10 @@ export const useDirectory = (teamCD) => {
     return {
       data: null,
       reload: directoryInfo.reload,
+      getByID: () => {},
     };
   }
 
-  console.log(directoryInfo)
   const parsedData = parseDirectoryInfo(directoryInfo.data);
 
   return {
@@ -26,7 +26,7 @@ export const useDirectory = (teamCD) => {
 const parseDirectoryInfo = (data) => {
   if (data.length == 0) return [];
 
-  return Object.values(data)
+  return Object.values(data);
 };
 
 const getPlayerByID = (directoryInfo, playerCD) => {
