@@ -15,7 +15,6 @@ function MainMenuPage() {
   const location = useLocation()
 
   useEffect(() => {
-    console.log(location)
     if(!location.state) return;
 
     setSelectedPage(location.state.page)
