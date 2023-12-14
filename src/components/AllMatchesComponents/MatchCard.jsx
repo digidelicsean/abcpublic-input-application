@@ -4,6 +4,7 @@ import "./MatchCard.css";
 import { useOtherGameInfo } from '../../services/api/useOtherGameInfo';
 
 const MatchCard = ({ index, key, clicked, selected }) => {
+    const [currentData, setCurrentData] = useState([])
     const [stadiumName, setStadiumName] = useState("");
     const [teamNameV, setTeamNameV] = useState("");
     const [teamNameH, setTeamNameH] = useState("");
@@ -12,6 +13,9 @@ const MatchCard = ({ index, key, clicked, selected }) => {
     const [tb, setTB] = useState(0);
     const [inning, setInning] = useState(0);
     const [situation, setSituation] = useState();
+
+    const [sentence, setSentence] = useState("");
+
     var otherGameInfoNum = parseInt(index) + 1;
 
     const otherGameInfo = useOtherGameInfo();
@@ -19,7 +23,6 @@ const MatchCard = ({ index, key, clicked, selected }) => {
 
     useEffect(() => {
         const getOtherGameInfo = () => {
-            // let info;
             if (otherGameInfo.data == null) {
                 return []
             }
@@ -27,6 +30,7 @@ const MatchCard = ({ index, key, clicked, selected }) => {
             for (let i = 0; i < otherGameInfo.data.length; i++) {
                 info = otherGameInfo.data[i];
             }
+            setCurrentData(info);
 
             const gameInfo = info.OtherGameInfo[`OtherGameInfo_${otherGameInfoNum}`];
             const stadium = gameInfo.Stadium;
@@ -37,6 +41,7 @@ const MatchCard = ({ index, key, clicked, selected }) => {
             const inning = gameInfo.Inning;
             const tb = gameInfo.TB;
             const situation = gameInfo.Situation;
+
 
             setStadiumName(stadium);
             setTeamNameV(teamV);
@@ -91,7 +96,9 @@ const MatchCard = ({ index, key, clicked, selected }) => {
                         </div>
                         <div className="row2">
                             {/* <Input value={`${inning > 0 ? inning + "回" : ""}${tbValue(tb)}`} /> */}
-                            <Input value={`${inningValue(inning)}${tbValue(tb)}`} />
+                            <Input value={`${inningValue(inning)}${tbValue(tb)}`}
+                                onChange={(event) => setSentence(event.target.value)}
+                            />
                             <Button className="sub-btn">-</Button>
                             <Button className="add-btn">+</Button>
                         </div>
@@ -128,17 +135,19 @@ const MatchCard = ({ index, key, clicked, selected }) => {
                             <Button className="match-card-save-btn"
                                 onClick={() => {
 
-                                    for (let i = 0; i < otherGameInfo.data.length; i++) {
-                                        info = otherGameInfo.data[i];
-                                    }
+                                    const currentInfo = currentData.OtherGameInfo[`OtherGameInfo_${otherGameInfoNum}`];
+                                    currentInfo.Score_H.TotalSCore = totalScoreH;
+                                    currentInfo.Score_V.TotalSCore = totalScoreV;
+                                    console.log("currentInfo: ", currentInfo)
+                                    otherGameInfo.update(otherGameInfoNum, currentInfo);
 
-                                    const gameInfo = info.OtherGameInfo[`OtherGameInfo_${otherGameInfoNum}`].Score_H;
-                                    const scoreEntryH = Object.keys(gameInfo)[0];
-                                    otherGameInfo.update(otherGameInfoNum, [scoreEntryH, totalScoreH]);
 
-                                    // console.log(totalScoreV);
-                                    // console.log(totalScoreH);
 
+                                    // const { _id, ...updatedObject } = currentData;
+                                    // const currentInfo = updatedObject.OtherGameInfo[`OtherGameInfo_${otherGameInfoNum}`];
+                                    // currentInfo.Score_H.TotalSCore = totalScoreH;
+                                    // currentInfo.Score_V.TotalSCore = totalScoreV;
+                                    // otherGameInfo.update(otherGameInfoNum, currentInfo);
                                 }}>
                                 保存
                             </Button>

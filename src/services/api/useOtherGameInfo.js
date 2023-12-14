@@ -17,26 +17,55 @@ export const useOtherGameInfo = () => {
     return {
         data: parsedData,
         reload: otherGameInfo.reload,
-        update: ( infoNum, updatedData ) => {
+        update: (infoNum, updatedData) => {
+
+
             if (otherGameInfo?.data == null) return;
-            const prevData = otherGameInfo.data[0];
 
-            const gameInfoNum = prevData.OtherGameInfo[`OtherGameInfo_${infoNum}`];
+            // const prevData = otherGameInfo.data[0].OtherGameInfo;
+            // prevData[`OtherGameInfo_${infoNum}`] = updatedData;
+            // console.log(prevData);
+            // send(prevData);
+
+
+            // const { _id, ...updatedObject } = otherGameInfo.data[0];
+
+            // const updated = updatedObject.OtherGameInfo;
+            // updated[`OtherGameInfo_${infoNum}`] = updatedData;
+            // console.log("updated: ", updated);
+            // send(updated).then(() => {
+            //         otherGameInfo.reload();
+            //     });
+
             
-            console.log("hi: ", prevData);
 
-            // send(prevData, gameInfoNum);
+            // prevData.OtherGameInfo[`OtherGameInfo_${infoNum}`] = updatedData;
+            // send(prevData).then(() => {
+            //     otherGameInfo.reload();
+            // });
+
+
+            const propsToBeDeleted = "_id";
+            const gameInfoData = otherGameInfo.data[0];
+            delete gameInfoData[propsToBeDeleted]
+            const updated = gameInfoData.OtherGameInfo;
+            updated[`OtherGameInfo_${infoNum}`] = updatedData;
+            console.log("updated: ", updated);
+            send(updated).then(() => {
+                    otherGameInfo.reload();
+                });
+
         }
-        
-    //     update: (infoNum, otherGameInfoData) => {
-    //         if (otherGameInfo?.data == null) return;
 
-    //         const prevData = otherGameInfo.data[0];
+        //     update: (infoNum, otherGameInfoData) => {
+        //         if (otherGameInfo?.data == null) return;
 
-    //         const updated = prevData.OtherGameInfo[`OtherGameInfo_${infoNum}`] = otherGameInfoData;
-    //         console.log("hi: ", updated);
-    //         send(prevData)
-    //     }
+        //         const prevData = otherGameInfo.data[0];
+
+        //         const updated = prevData.OtherGameInfo[`OtherGameInfo_${infoNum}`] = otherGameInfoData;
+        //         console.log("hi: ", updated);
+        //         send(prevData)
+        //     }
     }
 }
 
