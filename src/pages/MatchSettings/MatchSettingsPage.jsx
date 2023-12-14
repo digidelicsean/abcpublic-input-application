@@ -15,6 +15,9 @@ import { Link } from "react-router-dom";
 import "./MatchSettings.css";
 import "./StadiumSettings.css";
 
+import NavBar from "../../components/NavBar";
+import { useNavigate } from "react-router-dom";
+
 import { MatchSettingsContext } from "../MainMenu/useContext/MatchSettingsContext";
 
 import { fetchSeasonScheduleData, postMatchInfoData } from "./Data/matchSettingsData";
@@ -22,7 +25,7 @@ import DSSelection from "./OAMatchSection/DSSelection";
 import GameAssortmentSelection from "./OAMatchSection/GameAssortmentSelection";
 import { LabeledText, ImageButton } from "../../components"
 import DateSelection from "./OAMatchSection/DateSelection";
-import {useFetch} from "../../hooks/useFetch";
+import { useFetch } from "../../hooks/useFetch";
 import { useGameClassMST } from "../../services/api/useGameClassMST";
 
 const theme = {
@@ -37,6 +40,7 @@ const theme = {
 };
 
 function MatchSettingsPage() {
+  const navigate = useNavigate();
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
 
   // const [gameClassMST, setGameClassMST] = useState([])
@@ -324,10 +328,16 @@ function MatchSettingsPage() {
     <MatchSettingsContext.Provider value={{ seasonSchedule, setSelectedMatchByID }}>
       <div className="match-settings-page">
         <ConfigProvider locale={"ja-JP"} theme={theme}>
-          <Link to="/">
+          {/* <Link to="/">
             <Button>← 戻る</Button>
-          </Link>
-
+          </Link> */}
+          <NavBar
+            homePath="/"
+            onBackPressed={() => {
+              navigate("/pro", { state: { page: 1 } })
+            }}
+            style={{ width: "85%", alignSelf: "center" }}
+          />
           {/* ================================================================== */}
           {/*                              Upper Layout                          */}
 
