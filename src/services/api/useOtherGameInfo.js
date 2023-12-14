@@ -17,55 +17,19 @@ export const useOtherGameInfo = () => {
     return {
         data: parsedData,
         reload: otherGameInfo.reload,
-        update: (infoNum, updatedData) => {
-
-
+        // update: (updatedData) => {
+        update: () => {
             if (otherGameInfo?.data == null) return;
 
-            // const prevData = otherGameInfo.data[0].OtherGameInfo;
-            // prevData[`OtherGameInfo_${infoNum}`] = updatedData;
-            // console.log(prevData);
-            // send(prevData);
-
-
-            // const { _id, ...updatedObject } = otherGameInfo.data[0];
-
-            // const updated = updatedObject.OtherGameInfo;
-            // updated[`OtherGameInfo_${infoNum}`] = updatedData;
-            // console.log("updated: ", updated);
-            // send(updated).then(() => {
-            //         otherGameInfo.reload();
-            //     });
-
-            
-
-            // prevData.OtherGameInfo[`OtherGameInfo_${infoNum}`] = updatedData;
-            // send(prevData).then(() => {
-            //     otherGameInfo.reload();
-            // });
-
-
-            const propsToBeDeleted = "_id";
+            const objId = "_id";
             const gameInfoData = otherGameInfo.data[0];
-            delete gameInfoData[propsToBeDeleted]
-            const updated = gameInfoData.OtherGameInfo;
-            updated[`OtherGameInfo_${infoNum}`] = updatedData;
-            console.log("updated: ", updated);
-            send(updated).then(() => {
-                    otherGameInfo.reload();
-                });
+            delete gameInfoData[objId];
+
+            send(gameInfoData).then(() => {
+                otherGameInfo.reload();
+            });
 
         }
-
-        //     update: (infoNum, otherGameInfoData) => {
-        //         if (otherGameInfo?.data == null) return;
-
-        //         const prevData = otherGameInfo.data[0];
-
-        //         const updated = prevData.OtherGameInfo[`OtherGameInfo_${infoNum}`] = otherGameInfoData;
-        //         console.log("hi: ", updated);
-        //         send(prevData)
-        //     }
     }
 }
 

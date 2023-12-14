@@ -134,20 +134,11 @@ const MatchCard = ({ index, key, clicked, selected }) => {
                         <div className="row7">
                             <Button className="match-card-save-btn"
                                 onClick={() => {
-
                                     const currentInfo = currentData.OtherGameInfo[`OtherGameInfo_${otherGameInfoNum}`];
                                     currentInfo.Score_H.TotalSCore = totalScoreH;
                                     currentInfo.Score_V.TotalSCore = totalScoreV;
-                                    console.log("currentInfo: ", currentInfo)
-                                    otherGameInfo.update(otherGameInfoNum, currentInfo);
-
-
-
-                                    // const { _id, ...updatedObject } = currentData;
-                                    // const currentInfo = updatedObject.OtherGameInfo[`OtherGameInfo_${otherGameInfoNum}`];
-                                    // currentInfo.Score_H.TotalSCore = totalScoreH;
-                                    // currentInfo.Score_V.TotalSCore = totalScoreV;
-                                    // otherGameInfo.update(otherGameInfoNum, currentInfo);
+                                    // otherGameInfo.update(currentInfo);
+                                    otherGameInfo.update();
                                 }}>
                                 保存
                             </Button>
