@@ -1,12 +1,12 @@
 import { Link } from 'react-router-dom'
 import ImageButton from './ImageButton';
 
-function LinkImageButton({ to, preview, src, width, height, onClick, style, children, className}) {
+function LinkImageButton({ to, src, width, height, onClick, style, children, className}) {
 
 
     return (
         <Link to={to} className={className} style={{width: width ?? "", height: height ?? ""}} draggable={false}>
-            <ImageButton preview={preview} src={src} width={width} height={height} onClick={onClick} style={style} />
+            <ImageButton preview={false} src={src} width={width} height={height} onClick={onClick} style={style} />
             {children}
         </Link>
     )

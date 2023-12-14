@@ -2,14 +2,16 @@ import { Image } from 'antd'
 import { Spacer } from "../../components"
 
 import MenuBarPageButton from './MenuBarPageButton'
-import {  usePageState } from "./useContext/MainMenuContext"
+import { usePageState } from "./useContext/MainMenuContext"
 
 import style from "./Styles/MenuBar.module.css"
-import {ImageButton} from "../../components"
+import { ImageButton } from "../../components"
+import { useNavigate } from 'react-router-dom'
 
 function MenuBar() {
   const { selectedPage, setSelectedPage } = usePageState()
-console.log(selectedPage)
+  const navigate = useNavigate()
+
   return (
     <div className={style.container}>
       <Image
@@ -54,7 +56,10 @@ console.log(selectedPage)
         /> :
         <ImageButton
           src="./assets/00-mainmenu/button-home.png"
-          onClick={() => setSelectedPage(0)}
+          onClick={() => {
+            setSelectedPage(0)
+            navigate("/", { state: { page: 0 } })
+          }}
         />}
 
     </div>
