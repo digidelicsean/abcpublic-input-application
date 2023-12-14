@@ -20,28 +20,79 @@ const textAreaSize = {
 }
 
 
-function ProfileTab() {
+function ProfileTab({ teamInfo, playerInfo, directoryInfo }) {
+
+    const getPositionType = (positionType) => {
+        switch (positionType) {
+            case 0:
+                return 'そのほか/不明';
+            case 1:
+                return '投手';
+            case 2:
+                return '捕手';
+            case 3:
+                return '内野手';
+            case 4:
+                return '外野手';
+            case 6:
+                return '指名打者';
+        }
+    }
+
+    const firstColumnData = {
+        TeamName: `${teamInfo?.TeamCD} ${teamInfo && teamInfo['ShortName-Team']}`,
+        PlayerCD: playerInfo?.PlayerCD,
+        PlayerName: playerInfo?.PlayerName,
+        DelivName: playerInfo?.DelivName,
+        PitchingArm: playerInfo?.PitchingArm == 1 ? '左' : '右',
+        BattingType: playerInfo?.BattingType == 1 ? '左' : playerInfo?.BattingType === 2 ? '右' : '両',
+        Japan: playerInfo?.Japan == 1 ? '有' : '無',
+        BackNumber: directoryInfo?.BackNumber,
+        PositionType: directoryInfo?.PositionType && getPositionType(directoryInfo.PositionType),
+    }
+
+    const secondColumnData = {
+        Age: playerInfo?.Age,
+        Title: playerInfo?.Title,
+        Height: directoryInfo?.Height,
+        Weight: directoryInfo?.Weight,
+        Blood: directoryInfo?.Blood,
+        Hometown: directoryInfo?.Hometown,
+        Birthday: directoryInfo?.Birthday,
+        Career: directoryInfo?.Career,
+        ProTotal: directoryInfo?.ProTotal,
+        DraftYear: directoryInfo?.DraftYear,
+        DraftNo: directoryInfo?.DraftNo,
+    }
+
+    const thirdColumnData = {
+        Comment_1: playerInfo?.Comment_1,
+        Comment_2: playerInfo?.Comment_2,
+        Comment_3: playerInfo?.Comment_3,
+        Prize: playerInfo?.Prize,
+    }
+
     return (
         <div className={`tab ${style.container}`}>
             <div className={style.column}>
-                <FirstColumn />
+                <FirstColumn data={firstColumnData} />
             </div>
 
             <div className={style.column}>
-                <SecondColumn />
+                <SecondColumn data={secondColumnData} />
             </div>
 
             <div className={style.column} style={{
                 width: "40%"
             }}>
-                <ThirdColumn />
+                <ThirdColumn data={thirdColumnData} />
             </div>
         </div>
     )
 }
 
 
-const FirstColumn = () => {
+const FirstColumn = ({ data }) => {
     return (
         <>
             <div className={style['small-input']}>
@@ -49,52 +100,49 @@ const FirstColumn = () => {
                     label="チームID"
                     textAlign="left"
                     size={textFieldSize}
+                    value={data.TeamName ?? ""}
                 />
                 <LabeledText
                     label="選手ID"
                     textAlign="left"
                     size={textFieldSize}
+                    value={data.PlayerCD ?? ""}
                 />
             </div>
+            <LabeledText
+                label="背番号"
+                textAlign="left"
+                size={textFieldSize}
+                value={data.BackNumber ?? ""}
+            />
             <div className={style['small-input']}>
-                <LabeledText
-                    label="背番号"
-                    textAlign="left"
-                    size={textFieldSize}
-                />
+
                 <LabeledText
                     label="選手名"
                     textAlign="left"
                     size={textFieldSize}
-                />
-            </div>
-            <div className={style['small-input']}>
-                <LabeledText
-                    label="選手名 (姓)"
-                    textAlign="left"
-                    size={textFieldSize}
+                    value={data.PlayerName ?? ""}
                 />
                 <LabeledText
-                    label="選手名 (名)"
+                    label="選手名 (略)"
                     textAlign="left"
                     size={textFieldSize}
+                    value={data.DelivName ?? ""}
                 />
             </div>
-            <LabeledText
-                label="選手名 (略)"
-                textAlign="left"
-                size={textFieldSize}
-            />
+
             <div className={style['small-input']}>
                 <LabeledText
                     label="投左右"
                     textAlign="left"
                     size={textFieldSize}
+                    value={data.PitchingArm ?? ""}
                 />
                 <LabeledText
                     label="打左右"
                     textAlign="left"
                     size={textFieldSize}
+                    value={data.BattingType ?? ""}
                 />
             </div>
             <div className={style['small-input']}>
@@ -102,18 +150,20 @@ const FirstColumn = () => {
                     label="ポジション"
                     textAlign="left"
                     size={textFieldSize}
+                    value={data.PositionType ?? ""}
                 />
                 <LabeledText
                     label="侍ジャパン"
                     textAlign="left"
                     size={textFieldSize}
+                    value={data.Japan ?? ""}
                 />
             </div>
         </>
     )
 }
 
-const SecondColumn = () => {
+const SecondColumn = ({ data }) => {
     return (
         <>
             <div className={style['small-input']}>
@@ -121,11 +171,13 @@ const SecondColumn = () => {
                     label="身長"
                     textAlign="left"
                     size={textFieldSize}
+                    value={data?.Height ?? ""}
                 />
                 <LabeledText
                     label="体重"
                     textAlign="left"
                     size={textFieldSize}
+                    value={data?.Weight ?? ""}
                 />
             </div>
             <div className={style['small-input']}>
@@ -133,11 +185,13 @@ const SecondColumn = () => {
                     label="血液型"
                     textAlign="left"
                     size={textFieldSize}
+                    value={data?.Blood ?? ""}
                 />
                 <LabeledText
                     label="出身"
                     textAlign="left"
                     size={textFieldSize}
+                    value={data?.Hometown ?? ""}
                 />
             </div>
             <div className={style['small-input']}>
@@ -145,46 +199,54 @@ const SecondColumn = () => {
                     label="生年月日"
                     textAlign="left"
                     size={textFieldSize}
+                    value={data?.Birthday ?? ""}
                 />
                 <LabeledText
                     label="年齢"
                     textAlign="left"
                     size={textFieldSize}
+                    value={data?.Age ?? ""}
                 />
             </div>
             <LabeledText
                 label="経歴"
                 textAlign="left"
                 size={fullWidthSize}
+                value={data?.Career ?? ""}
             />
             <LabeledText
                 label="プロ通算年"
                 textAlign="left"
                 size={textFieldSize}
+                value={data?.ProTotal ?? ""}
             />
             <div className={style['small-input']}>
                 <LabeledText
                     label="ドラフト年"
                     textAlign="left"
                     size={textFieldSize}
+                    value={data?.DraftYear ?? ""}
                 />
                 <LabeledText
                     label="順位"
                     textAlign="left"
                     size={textFieldSize}
+                    value={data?.DraftNo ?? ""}
                 />
             </div>
             <LabeledText
                 label="タイトル"
                 textAlign="left"
                 size={fullWidthSize}
+                value={data?.Title ?? ""}
             />
         </>
     )
 }
 
 
-const ThirdColumn = () => {
+const ThirdColumn = ({ data }) => {
+    console.log(data)
     return (
         <>
             <LastUpdated
@@ -193,27 +255,31 @@ const ThirdColumn = () => {
                 inputStyle={{ fontSize: "1.4em", height: "32px", width: "120px" }}
             />
             <LabeledText
-                label="プロフィル ➀"
+                label="プロフィール ➀"
                 textAlign="left"
                 size={textAreaSize}
                 textArea
+                value={data?.Comment_1 ?? ""}
             />
             <LabeledText
-                label="プロフィル ➁"
+                label="プロフィール ➁"
                 textAlign="left"
                 size={textAreaSize}
                 textArea
+                value={data?.Comment_2 ?? ""}
             />
             <LabeledText
-                label="プロフィル ➂"
+                label="プロフィール ➂"
                 textAlign="left"
                 size={textAreaSize}
                 textArea
+                value={data?.Comment_3 ?? ""}
             />
             <LabeledText
                 label="タイトル (DS配信)"
                 textAlign="left"
                 size={fullWidthSize}
+                value={data?.Prize ?? ""}
             />
             <div style={{ display: "inline-flex", width: "100%" }}>
                 <div style={{ width: "50%" }}>

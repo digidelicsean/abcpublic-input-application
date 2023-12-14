@@ -2,8 +2,10 @@ import style from "./InfoTabPanel.module.css"
 
 import { ConfigProvider, Tabs } from 'antd'
 import { createTab } from "../../utils/tabUtils"
-
 import ButtonPanel from "./ButtonPanel";
+
+import { usePlayerProfile } from "../../services/api/usePlayerProfile"
+import { useDirectory } from '../../services/api/useDirectory'
 
 import {
     BattingResultTab,
@@ -14,16 +16,30 @@ import {
     RunnerCatcherTab
 } from "./(tabs)/(player-info-tabs)";
 
-const tabProperties = {
-    ProfileTab: <ProfileTab />,
-    BattingResultTab: <BattingResultTab />,
-    PitchingResultTab: <PitchingResultTab />,
-    PitcherBallTab: <PitcherBallTab />,
-    RunnerCatcherTab: <RunnerCatcherTab />,
-    PitcherHotZoneTab: <PitcherHotZoneTab />
-};
 
-const PlayerInfoTabPanel = () => {
+
+const PlayerInfoTabPanel = ({ team, player }) => {
+
+    const directory = useDirectory(team?.TeamCD ?? null)
+    const playerProfile = usePlayerProfile(team?.TeamCD ?? null)
+
+    const playerInfo = playerProfile.getByID(player?.PlayerCD)
+    const directoryInfo = directory.getByID(player?.PlayerCD)
+
+    const tabProperties = {
+        ProfileTab:
+            <ProfileTab
+                teamInfo={team}
+                playerInfo={playerInfo}
+                directoryInfo={directoryInfo}
+            />,
+        BattingResultTab: <BattingResultTab />,
+        PitchingResultTab: <PitchingResultTab />,
+        PitcherBallTab: <PitcherBallTab />,
+        RunnerCatcherTab: <RunnerCatcherTab />,
+        PitcherHotZoneTab: <PitcherHotZoneTab />
+    };
+
     const tabs = Object.entries(tabProperties).map(([label, children], index) => createTab(label, index, children));
     const onTabChange = (key) => { };
 
@@ -40,7 +56,7 @@ const PlayerInfoTabPanel = () => {
                     />
                 </div>
             </ConfigProvider>
-            <ButtonPanel hasDelete/>
+            <ButtonPanel hasDelete />
         </>
     );
 }

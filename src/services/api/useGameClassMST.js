@@ -1,4 +1,4 @@
-import useFetch from "../../hooks/useFetch";
+import { useFetch } from "../../hooks/useFetch";
 
 export const useGameClassMST = () => {
   const { data, isLoading, error, reload } = useFetch(
@@ -6,7 +6,7 @@ export const useGameClassMST = () => {
   );
 
   if (error) {
-    console.warn(error)
+    console.warn(error);
     return {
       data: null,
       reload,
@@ -19,7 +19,6 @@ export const useGameClassMST = () => {
       reload,
     };
   }
-
 
   const gameClassMST = Object.values(data[0].GameClassMST);
   

@@ -1,0 +1,94 @@
+.other-game-top-card {
+    width: calc((100vw * 265) / 1440);
+    background-color: #f4f4f4;
+    max-width: 265px;
+    border-radius: 10px;
+}
+
+.selected {
+    border-style: solid;
+    border-width: thin;
+    border-radius: 4px;
+    background-color: #fff;
+    position: relative;
+    border: 1px solid red;
+}
+
+.selected:before,
+.selected:after {
+    content: "";
+    border-style: solid;
+    border-width: 10px;
+    position: absolute;
+    top: 100%;
+    left: 45%;
+    border-top: 15px solid white;
+    border-right: 15px solid transparent;
+    border-left: 15px solid transparent;
+    border-bottom: none;
+}
+
+.selected:before {
+    border-color: red transparent transparent;
+}
+
+.selected:after {
+    margin-top: -2px;
+    border-color: #fff transparent transparent;
+}
+
+.other-game-top-body {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.other-game-top-body>div {
+    display: flex;
+    gap: 5px;
+}
+
+.row1>Button {
+    min-width: 65px;
+    padding: 2px;
+}
+
+.situation-0 {
+    background-color: lightgreen;
+}
+
+.situation-1 {
+    background-color: rgba(255, 130, 128, 1);
+    color: white;
+}
+
+.situation-2,
+.situation-3 {
+    background-color: darkgrey;
+}
+
+.row4,
+.row6 {
+    justify-content: flex-end;
+}
+
+.row4>Input,
+.row6>Input {
+    width: 50px;
+}
+
+.sub-btn,
+.add-btn {
+    background: linear-gradient(90deg,
+            rgb(157, 127, 181) 35%,
+            rgba(146, 118, 168, 1) 100%);
+    color: white;
+    border-radius: 50px;
+    font-size: 0.9em;
+    min-width: 32px;
+    padding: 0;
+}
+
+.match-card-save-btn {
+    width: 100%;
+}

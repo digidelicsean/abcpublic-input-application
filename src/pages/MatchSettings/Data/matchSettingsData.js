@@ -50,7 +50,7 @@ export const postMatchInfoData = async (matchInfo, collection) => {
   
   const uri = await defaultURI()
   const response = await fetch(
-    `${uri}/abc-public/${collection}`,
+    `${uri}/abc-public/OtherGameInfo`,
     fetchOptions
   );
   const data = await response.json();

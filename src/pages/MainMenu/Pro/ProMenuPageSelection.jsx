@@ -40,12 +40,12 @@ const buttonData = [
     src: "./assets/01-mainmenu/button-pro-ranking.png",
   },
   {
-    link: "",
+    link: "other-game-info",
     name: "全試合情報",
-    src: "./assets/01-mainmenu/button-pro-allmatches.png",
+    src: "./assets/01-mainmenu/button-pro-othergameinfo.png",
   },
   {
-    link: "all-matches",
+    link: "",
     name: "設定変更",
     src: "./assets/01-mainmenu/button-pro-changesettings.png",
   },

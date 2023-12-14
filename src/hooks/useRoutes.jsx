@@ -1,6 +1,6 @@
     import { HashRouter as Router, Route, Routes } from "react-router-dom";
 
-import { MainMenuPage, MatchSettingsPage, TeamPlayerSelectionPage, TeamSelectPage, InfoScreenPage, DataStadiumPage } from "../pages";
+import { MainMenuPage, MatchSettingsPage, TeamPlayerSelectionPage, TeamSelectPage, InfoScreenPage, DataStadiumPage, OtherGameInfoPage } from "../pages";
 
 export const useRouter = () => {
     const RoutesComponent = () => {
@@ -8,10 +8,12 @@ export const useRouter = () => {
             <Router>
                 <Routes>
                     <Route exact path="/" element={<MainMenuPage />} />
-                    <Route path="/match-settings" element={<MatchSettingsPage />} />
-                    <Route path="/player-profile" element={<TeamPlayerSelectionPage />} />
-                    <Route path="/data-stadium" element={<DataStadiumPage />} />
-                    <Route path="/info-screen" element={<InfoScreenPage />} />
+                    <Route path="/:page" element={<MainMenuPage />} />
+                    <Route path="/pro/match-settings" element={<MatchSettingsPage />} />
+                    <Route path="/pro/player-profile" element={<TeamPlayerSelectionPage />} />
+                    <Route path="/pro/data-stadium" element={<DataStadiumPage />} />
+                    <Route path="/pro/info-screen" element={<InfoScreenPage />} />
+                    <Route path="/pro/other-game-info" element={<OtherGameInfoPage />} />
                 </Routes>
             </Router>
         )
