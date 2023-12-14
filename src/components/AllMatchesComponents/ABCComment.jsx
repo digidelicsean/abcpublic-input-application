@@ -8,7 +8,7 @@ const ABCComment = (index) => {
     const [abcComment, setABCComment] = useState("");
     const [dstComment1, setDSTComment1] = useState("");
     const [dstComment2, setDSTComment2] = useState("");
-    const [selectComment, setSelectComment] = useState(1);
+    const [selectComment, setSelectComment] = useState();
     const [gameData, setGameData] = useState("");
 
     var otherGameInfoNum = parseInt(index.index) + 1;
@@ -99,10 +99,13 @@ const ABCComment = (index) => {
                 <div className="select-comment-container">
                     <Radio.Group
                         onChange={(e) => {
-                            console.log(e.target.value)
                             setSelectComment(e.target.value);
+                            const currentInfo = otherGameInfo.data[0].OtherGameInfo[`OtherGameInfo_${otherGameInfoNum}`];
+                            currentInfo.SelectComment = e.target.value;
+                            otherGameInfo.update();
                         }}
-                        value={selectComment}>
+                        value={selectComment}
+                    >
                         <Space direction="vertical">
                             <Radio value={1}>ABC</Radio>
                             <Radio value={2}>データスタジアム➀</Radio>

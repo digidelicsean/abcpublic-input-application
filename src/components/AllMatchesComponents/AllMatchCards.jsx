@@ -5,7 +5,7 @@ import MatchCard from "./MatchCard"
 const AllMatchCards = ({ index }) => {
 
     const [matches, setMatch] = useState([
-        { index: "0", selected: true },
+        { index: "0", selected: false },
         { index: "1", selected: false },
         { index: "2", selected: false },
         { index: "3", selected: false },
