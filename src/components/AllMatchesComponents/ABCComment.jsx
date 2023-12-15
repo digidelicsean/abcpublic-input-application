@@ -28,12 +28,12 @@ const ABCComment = (index) => {
             const gameInfo = info.OtherGameInfo[`OtherGameInfo_${otherGameInfoNum}`];
             const abc = gameInfo.ABC_Comment;
             const dst1 = gameInfo.DS_Comment_1;
-            const dst2 = gameInfo.DS_Comment_2;
+            // const dst2 = gameInfo.DS_Comment_2;
             const select = gameInfo.SelectComment;
 
             setABCComment(abc);
             setDSTComment1(dst1);
-            setDSTComment2(dst2);
+            // setDSTComment2(dst2);
             setSelectComment(parseInt(select));
         };
 
