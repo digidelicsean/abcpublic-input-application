@@ -85,7 +85,7 @@ const MatchCard = ({ index, key, clicked, selected }) => {
                 index={index}
                 onClick={() => clicked(index)}>
 
-                <Card key={key}>
+                <Card key={key} style={{ backgroundColor: "#f4f4f4" }}>
                     <div className="other-game-top-body">
                         <div className="row1">
                             <Input value={stadiumName}

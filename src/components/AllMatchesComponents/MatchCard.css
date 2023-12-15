@@ -1,6 +1,5 @@
 .other-game-top-card {
     width: calc((100vw * 265) / 1440);
-    background-color: #f4f4f4;
     max-width: 265px;
     border-radius: 10px;
 }

@@ -7,7 +7,7 @@ import { useOtherGameInfo } from '../../services/api/useOtherGameInfo';
 const ABCComment = (index) => {
     const [abcComment, setABCComment] = useState("");
     const [dstComment1, setDSTComment1] = useState("");
-    const [dstComment2, setDSTComment2] = useState("");
+    // const [dstComment2, setDSTComment2] = useState("");
     const [selectComment, setSelectComment] = useState();
     const [gameData, setGameData] = useState("");
 
@@ -78,17 +78,38 @@ const ABCComment = (index) => {
                         >保存</Button>
                     </div>
                     <div className="input-btn">
-                        <span className="dst-comment-num">➁</span>
-                        <Input className="dst-comment"
+                    <span className="dst-comment-num">➁</span>
+
+                        <div className="input-only">
+
+                            <span className="dst-header-label">勝</span>
+                            <Input />
+                            <Input className="dst-input-short" />
+                            <span>勝</span>
+                            <Input className="dst-input-short" />
+                            <span>敗</span>
+                            <span className="dst-header-label">負</span>
+                            <Input />
+                            <Input className="dst-input-short" />
+                            <span>勝</span>
+                            <Input className="dst-input-short" />
+                            <span>敗</span>
+                            <span className="dst-header-label">セーブ</span>
+                            <Input />
+                            <Input className="dst-input-short" />
+                            <span>S</span>
+                        </div>
+
+                        {/* <Input className="dst-comment"
                             value={dstComment2}
                             onChange={(event) => setDSTComment2(event.target.value)}
-                        />
+                        /> */}
                         <Button className="dst-comment-card-btn"
-                            onClick={() => {
-                                const currentInfo = gameData.OtherGameInfo[`OtherGameInfo_${otherGameInfoNum}`];
-                                currentInfo.DS_Comment_2 = dstComment2;
-                                otherGameInfo.update();
-                            }}
+                            // onClick={() => {
+                            //     const currentInfo = gameData.OtherGameInfo[`OtherGameInfo_${otherGameInfoNum}`];
+                            //     currentInfo.DS_Comment_2 = dstComment2;
+                            //     otherGameInfo.update();
+                            // }}
                         >保存</Button>
                     </div>
                 </div>
