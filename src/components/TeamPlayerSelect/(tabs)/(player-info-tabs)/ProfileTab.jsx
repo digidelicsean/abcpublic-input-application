@@ -20,23 +20,24 @@ const textAreaSize = {
 }
 
 
-function ProfileTab({ teamInfo, playerInfo }) {
+function ProfileTab({ teamInfo, playerInfo, recordInfo }) {
 
-    console.log(playerInfo)
+    // console.log(playerInfo)
+
 
     const getPositionType = (positionType) => {
         switch (positionType) {
-            case 0:
+            case "0":
                 return 'そのほか/不明';
-            case 1:
+            case "1":
                 return '投手';
-            case 2:
+            case "2":
                 return '捕手';
-            case 3:
+            case "3":
                 return '内野手';
-            case 4:
+            case "4":
                 return '外野手';
-            case 6:
+            case "6":
                 return '指名打者';
         }
     }
@@ -52,7 +53,6 @@ function ProfileTab({ teamInfo, playerInfo }) {
         BackNumber: playerInfo?.BackNumber,
         PositionType: playerInfo?.PositionType && getPositionType(playerInfo?.PositionType),
     }
-
     const secondColumnData = {
         Age: playerInfo?.Age,
         Title: playerInfo?.Title,
@@ -75,6 +75,18 @@ function ProfileTab({ teamInfo, playerInfo }) {
         Comment_3: playerInfo?.Comment_3,
         Comment_3_2: playerInfo?.Comment_3_2,
         Prize: playerInfo?.Prize,
+        Record: ""
+    }
+
+    if (recordInfo && recordInfo.AchievementF == 0) {
+        const recordValParts = [
+            recordInfo.RecordName,
+            recordInfo.RecordCurrentC,
+            recordInfo.RecordCurrent3C ? `(${recordInfo.RecordCurrent3C})` : '',
+            recordInfo.Unit
+        ];
+
+        thirdColumnData.Record = recordValParts.filter(part => part).join(' ');
     }
 
     return (
@@ -261,36 +273,36 @@ const ThirdColumn = ({ data }) => {
             <LabeledText
                 label="プロフィール ➀"
                 textAlign="left"
-                size={{...textAreaSize, height: "60px"}}
+                size={{ ...textAreaSize, height: "60px" }}
                 value={data?.Comment_1 ?? ""}
             />
             <LabeledText
                 textAlign="left"
-                size={{...textAreaSize, height: "30px"}}
+                size={{ ...textAreaSize, height: "30px" }}
                 value={data?.Comment_1_2 ?? ""}
                 margin="0px 0px"
             />
             <LabeledText
                 label="プロフィール ➁"
                 textAlign="left"
-                size={{...textAreaSize, height: "60px"}}
+                size={{ ...textAreaSize, height: "60px" }}
                 value={data?.Comment_2 ?? ""}
             />
             <LabeledText
                 textAlign="left"
-                size={{...textAreaSize, height: "30px"}}
+                size={{ ...textAreaSize, height: "30px" }}
                 value={data?.Comment_2_2 ?? ""}
                 margin="0px 0px"
             />
             <LabeledText
                 label="プロフィール ➂"
                 textAlign="left"
-                size={{...textAreaSize, height: "60px"}}
+                size={{ ...textAreaSize, height: "60px" }}
                 value={data?.Comment_3 ?? ""}
             />
             <LabeledText
                 textAlign="left"
-                size={{...textAreaSize, height: "30px"}}
+                size={{ ...textAreaSize, height: "30px" }}
                 value={data?.Comment_3_2 ?? ""}
                 margin="0px 0px"
             />
@@ -306,6 +318,7 @@ const ThirdColumn = ({ data }) => {
                         label="記録達成間近"
                         textAlign="left"
                         size={fullWidthSize}
+                        value={data?.Record ?? ""}
                     />
                     <div className={style['small-input']}>
                         <LabeledText
