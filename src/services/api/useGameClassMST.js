@@ -21,9 +21,11 @@ export const useGameClassMST = () => {
   }
 
   const gameClassMST = Object.values(data[0].GameClassMST);
-  // console.log(gameClassMST)
+  
   return {
     data: gameClassMST,
     reload,
   };
 };
+
+
