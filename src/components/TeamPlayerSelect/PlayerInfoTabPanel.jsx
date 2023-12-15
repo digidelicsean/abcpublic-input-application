@@ -6,6 +6,7 @@ import ButtonPanel from "./ButtonPanel";
 
 import { usePlayerProfile } from "../../services/api/usePlayerProfile"
 import { useDirectory } from '../../services/api/useDirectory'
+import { useRecordInfo } from "../../services/api/useRecordInfo";
 
 import {
     BattingResultTab,
@@ -20,18 +21,19 @@ import {
 
 const PlayerInfoTabPanel = ({ team, player }) => {
 
-    const directory = useDirectory(team?.TeamCD ?? null)
     const playerProfile = usePlayerProfile(team?.TeamCD ?? null)
+    const recordInfo = useRecordInfo(player?.PlayerCD)
+
 
     const playerInfo = playerProfile.getByID(player?.PlayerCD)
-    const directoryInfo = directory.getByID(player?.PlayerCD)
+    const playerRecordInfo = recordInfo.getByID(player?.PlayerCD)
 
     const tabProperties = {
         ProfileTab:
             <ProfileTab
                 teamInfo={team}
                 playerInfo={playerInfo}
-                directoryInfo={directoryInfo}
+                recordInfo={playerRecordInfo}
             />,
         BattingResultTab: <BattingResultTab />,
         PitchingResultTab: <PitchingResultTab />,
