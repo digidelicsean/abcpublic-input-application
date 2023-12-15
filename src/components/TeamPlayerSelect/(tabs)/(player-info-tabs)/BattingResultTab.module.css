@@ -13,6 +13,18 @@
   width: 100%;
 }
 
+.col {
+  
+  display: inline-flex;
+  flex-direction: column;
+
+  width: 100%;
+}
+
+.radio-group > label {
+  font-size: 1.1rem;
+}
+
 .season-button-panel {
   display: inline-flex;
   flex-direction: row;

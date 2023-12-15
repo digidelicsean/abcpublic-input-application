@@ -19,7 +19,8 @@ function LabeledText({
   onChange,
   margin,
   marginBottom,
-  disabled
+  disabled,
+  labelStyle
 }) {
   const theme = {
     components: {
@@ -47,12 +48,12 @@ function LabeledText({
     margin: margin ?? "",
   };
 
-  const labelStyle = {
+  const labelStyleDefault = {
     marginRight: horizontal ? "10px" : "0px",
     width: "100%",
   };
 
-  const labelText = label ? label : "Label";
+  const labelText = label ? label : " ";
 
   const inputStyle = {
     textAlign: textAlign ?? horizontal ? "left" : "center",
@@ -64,7 +65,7 @@ function LabeledText({
         {label && horizontal ? (
           label
         ) : (
-          <div className="text-label" style={labelStyle}>
+          <div className="text-label" style={{...labelStyleDefault, ...labelStyle}}>
             {labelText}
           </div>
         )}
