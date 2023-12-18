@@ -99,8 +99,35 @@ const MatchCard = ({ index, key, clicked, selected }) => {
                                     setSentence(event.target.value)
                                 }}
                             />
-                            <Button className="sub-btn">-</Button>
-                            <Button className="add-btn">+</Button>
+                            <Button className="sub-btn"
+                                onClick={() => {
+                                    if (inning > 1 && tb === 1) {
+                                        setInning(inning - 1);
+                                        setTB(2);
+                                        setSentence(special1((inning - 1), 2));
+                                    }
+                                    else if (inning > 0 && tb === 2) {
+                                        setTB(1)
+                                        setSentence(special1(inning, 1));
+                                    }
+                                    else return;
+
+                                }}
+                            >-</Button>
+                            <Button className="add-btn"
+                                onClick={() => {
+                                    if (tb === 1) {
+                                        setTB(2);
+                                        setSentence(special1(inning, 2));
+                                    }
+                                    else if (tb === 2) {
+                                        setInning(inning + 1);
+                                        setTB(1);
+                                        setSentence(special1((inning + 1), 1));
+                                    }
+                                    else return;
+                                }}
+                            >+</Button>
                         </div>
                         <div className="row3">
                             <Input value={teamNameV} onChange={(event) => {
