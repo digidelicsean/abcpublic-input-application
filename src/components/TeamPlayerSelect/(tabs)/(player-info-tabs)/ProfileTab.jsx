@@ -20,10 +20,7 @@ const textAreaSize = {
 }
 
 
-function ProfileTab({ teamInfo, playerInfo, recordInfo }) {
-
-    // console.log(playerInfo)
-
+function ProfileTab({ teamInfo, playerInfo, recordInfo, lastUpdatedTime }) {
 
     const getPositionType = (positionType) => {
         switch (positionType) {
@@ -75,7 +72,8 @@ function ProfileTab({ teamInfo, playerInfo, recordInfo }) {
         Comment_3: playerInfo?.Comment_3,
         Comment_3_2: playerInfo?.Comment_3_2,
         Prize: playerInfo?.Prize,
-        Record: ""
+        Record: "",
+        LastUpdateTime: lastUpdatedTime,
     }
 
     if (recordInfo && recordInfo.AchievementF == 0) {
@@ -263,12 +261,18 @@ const SecondColumn = ({ data }) => {
 
 
 const ThirdColumn = ({ data }) => {
+    const updateTime = data?.LastUpdateTime?.split(" ")[1]?.split(":") ?? [0, 0, 0]
+    console.log(updateTime)
+
     return (
         <>
             <LastUpdated
                 style={{ margin: "0px 5px", alignSelf: "flex-end" }}
                 labelStyle={{ fontSize: "1em" }}
                 inputStyle={{ fontSize: "1.4em", height: "32px", width: "120px" }}
+                hour={updateTime[0]}
+                min={updateTime[1]}
+                sec={updateTime[2]}
             />
             <LabeledText
                 label="プロフィール ➀"
