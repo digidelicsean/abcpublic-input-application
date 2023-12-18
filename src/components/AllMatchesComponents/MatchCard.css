@@ -33,7 +33,7 @@
 
 .selected:after {
     margin-top: -2px;
-    border-color: #fff transparent transparent;
+    border-color: rgb(244, 244, 244) transparent transparent;
 }
 
 .other-game-top-body {

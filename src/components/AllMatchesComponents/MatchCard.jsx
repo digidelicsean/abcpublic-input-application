@@ -16,7 +16,7 @@ const MatchCard = ({ index, key, clicked, selected }) => {
 
     const [sentence, setSentence] = useState("");
 
-    var otherGameInfoNum = parseInt(index) + 1;
+    var otherGameInfoNum = Number(index) + 1;
 
     const otherGameInfo = useOtherGameInfo();
     let info;
@@ -109,12 +109,20 @@ const MatchCard = ({ index, key, clicked, selected }) => {
 
                         </div>
                         <div className="row4">
-                            <Input value={parseInt(totalScoreV) >= 0 ? totalScoreV : ""}
+                            <Input value={Number(totalScoreV) >= 0 ? totalScoreV : ""}
                                 onChange={(event) => {
                                     setTotalScoreV(event.target.value)
                                 }} />
-                            <Button className="sub-btn">-</Button>
-                            <Button className="add-btn">+</Button>
+                            <Button className="sub-btn"
+                                onClick={() => {
+                                    if (totalScoreV > 1)
+                                        setTotalScoreV(totalScoreV - 1);
+                                    else return;
+                                }}
+                            >-</Button>
+                            <Button className="add-btn"
+                                onClick={() => setTotalScoreV(Number(totalScoreV) + 1)}
+                            >+</Button>
                         </div>
                         <div className="row5">
                             <Input value={teamNameH} onChange={(event) => {
@@ -123,13 +131,21 @@ const MatchCard = ({ index, key, clicked, selected }) => {
 
                         </div>
                         <div className="row6">
-                            <Input value={parseInt(totalScoreH) >= 0 ? totalScoreH : ""}
+                            <Input value={Number(totalScoreH) >= 0 ? totalScoreH : ""}
                                 onChange={(event) => {
                                     setTotalScoreH(event.target.value)
                                 }}
                             />
-                            <Button className="sub-btn">-</Button>
-                            <Button className="add-btn">+</Button>
+                            <Button className="sub-btn"
+                                onClick={() => {
+                                    if (totalScoreH > 1)
+                                        setTotalScoreH(totalScoreH - 1);
+                                    else return;
+                                }}
+                            >-</Button>
+                            <Button className="add-btn"
+                                onClick={() => setTotalScoreH(Number(totalScoreH) + 1)}
+                            >+</Button>
                         </div>
                         <div className="row7">
                             <Button className="match-card-save-btn"
@@ -142,7 +158,7 @@ const MatchCard = ({ index, key, clicked, selected }) => {
                                         currentInfo.TB = 1;
                                     else if (sentence.charAt(sentence.length - 1) === "裏")
                                         currentInfo.TB = 2;
-                                    
+
                                     otherGameInfo.update();
                                 }}>
                                 保存
