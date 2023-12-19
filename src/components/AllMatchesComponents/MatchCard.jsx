@@ -35,8 +35,8 @@ const MatchCard = ({ index, key, clicked, selected }) => {
             const stadium = gameInfo.Stadium;
             const teamV = gameInfo.TeamName_V;
             const teamH = gameInfo.TeamName_H;
-            const totalV = gameInfo.Score_V.TotalSCore;
-            const totalH = gameInfo.Score_H.TotalSCore;
+            const totalV = gameInfo.Score.TotalScore_V;
+            const totalH = gameInfo.Score.TotalScore_H;
             const inning = gameInfo.Inning;
             const tb = gameInfo.TB;
             const situation = gameInfo.Situation;
@@ -111,7 +111,6 @@ const MatchCard = ({ index, key, clicked, selected }) => {
                                         setSentence(special1(inning, 1));
                                     }
                                     else return;
-
                                 }}
                             >-</Button>
                             <Button className="add-btn"
@@ -178,14 +177,15 @@ const MatchCard = ({ index, key, clicked, selected }) => {
                             <Button className="match-card-save-btn"
                                 onClick={() => {
                                     const currentInfo = currentData.OtherGameInfo[`OtherGameInfo_${otherGameInfoNum}`];
-                                    currentInfo.Score_H.TotalSCore = totalScoreH;
-                                    currentInfo.Score_V.TotalSCore = totalScoreV;
+                                    currentInfo.Score.TotalScore_H = totalScoreH;
+                                    currentInfo.Score.TotalScore_V = totalScoreV;
                                     currentInfo.Inning = parseInt(sentence) > 0 ? parseInt(sentence) : 0;
                                     if (sentence.charAt(sentence.length - 1) === "表")
                                         currentInfo.TB = 1;
                                     else if (sentence.charAt(sentence.length - 1) === "裏")
                                         currentInfo.TB = 2;
-
+                                    else
+                                        currentInfo.TB = 0;
                                     otherGameInfo.update();
                                 }}>
                                 保存
