@@ -1,0 +1,28 @@
+/* .season-button-panel {
+  display: inline-flex;
+  flex-direction: row;
+
+  width: 100%;
+} */
+
+.season-button {
+  display: inline-flex;
+  border-radius: 20px;
+  background-color: transparent;
+  border: 2px solid #7ca8b7;
+  font-weight: bold;
+
+  min-width: 150px;
+  width: auto;
+  font-size: 1.1em;
+
+  justify-content: center;
+  align-items: center;
+
+  margin: 0px 5px;
+}
+
+.season-button-active {
+  background-color: #7ca8b7;
+  color: white;
+}

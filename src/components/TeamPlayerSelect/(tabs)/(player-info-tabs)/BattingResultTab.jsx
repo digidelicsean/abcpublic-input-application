@@ -1,8 +1,9 @@
-import React from 'react'
+import React, { useState } from 'react'
 import "../InfoTab.css"
 import style from "./BattingResultTab.module.css"
 import { Button, Radio } from 'antd'
 import { Spacer, LabeledComboBox, LabeledText, ImageButton } from "../../../../components"
+import RadioButtonPanel from '../../../ui/(radio-button-panel)/RadioButtonPanel'
 
 import LastUpdated from "../../../GeneralComponent/LastUpdated"
 
@@ -12,17 +13,26 @@ const labelStyle = {
 }
 
 function BattingResultTab() {
+    const [selectedOption, setSelectedOption] = useState(1)
+
     return (
         <div className={`tab ${style.container}`}>
+
 
             <div className={style.row} style={{
                 justifyContent: "space-between",
             }}>
-                <div className={style['season-button-panel']}>
-                    <Button className={`${style['season-button-active']} ${style['season-button']}`}>今シーズン</Button>
-                    <Button className={style['season-button']}>作シーズン</Button>
-                    <Button className={style['season-button']}>生涯通算</Button>
-                </div>
+                <RadioButtonPanel
+                    options={
+                        [<span>
+                            今シーズン&ensp; <small>(リアルタイム)</small>
+                        </span>,
+                        <span>
+                            今シーズン&ensp; <small>(前日まで)</small>
+                        </span>,
+                            "作シーズン", "生涯通算"]
+                    }
+                />
 
                 <LastUpdated
                     style={{ margin: "0px 5px", alignSelf: "flex-end" }}
@@ -38,23 +48,23 @@ function BattingResultTab() {
                 <div className={style.col}>
 
                     <Radio.Group
+                        value={selectedOption}
                         className={[style.row, style['radio-group']]}
-                        style={{
-
-                        }}>
-                        <Radio>通算</Radio>
+                        onChange={(e) => setSelectedOption(e.target.value)}
+                    >
+                        <Radio value={1}>通算</Radio>
                         <Spacer width="25px" height="0px" />
-                        <Radio>対左</Radio>
-                        <Radio>対右</Radio>
-                        <Radio>対球団別</Radio>
-                        <Radio>対投手別</Radio>
+                        <Radio value={2}>対左</Radio>
+                        <Radio value={3}>対右</Radio>
+                        <Radio value={4}>対球団別</Radio>
+                        <Radio value={5}>対投手別</Radio>
                         <Spacer width="35px" height="0px" />
-                        <Radio>得点圏</Radio>
-                        <Radio>代打</Radio>
-                        <Radio>最近５試合</Radio>
-                        <Radio>月別</Radio>
+                        <Radio value={6}>得点圏</Radio>
+                        <Radio value={7}>代打</Radio>
+                        <Radio value={8}>最近５試合</Radio>
+                        <Radio value={9}>月別</Radio>
                         <Spacer width="40px" height="0px" />
-                        <Radio>年度別</Radio>
+                        <Radio value={10}>年度別</Radio>
                     </Radio.Group>
                     <div className={style.row}>
                         <LabeledComboBox size={{ width: "100px", height: "32px" }} />
