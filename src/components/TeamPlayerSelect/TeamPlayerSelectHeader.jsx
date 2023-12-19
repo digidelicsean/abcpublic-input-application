@@ -45,7 +45,7 @@ const TeamPlayerSelectHeader = ({ isPlayerTab = true, teams, onTeamSelect, selec
                 <LabeledComboBox
                     className={`${style.input}`}
                     value={selectedTeam}
-                    placeholder="Test"
+                    placeholder="チーム名"
                     options={createTeamOptions()}
                     onChange={(value) => {
                         setSelectedTeam(value)
@@ -80,6 +80,7 @@ const TeamPlayerSelectHeader = ({ isPlayerTab = true, teams, onTeamSelect, selec
                             size={{ width: "50px" }}
                             textAlign="left"
                             value={playerBackNum}
+                            placeholder="背番号"
                             onChange={(value) => {
                                 //
                                 if (/[^0-9]/.test(value)) {
@@ -106,6 +107,7 @@ const TeamPlayerSelectHeader = ({ isPlayerTab = true, teams, onTeamSelect, selec
                                 size={{ width: "235px", height: "32px" }}
                                 options={createPlayerOptions()}
                                 value={selectedPlayer?.PlayerCD}
+                                placeholder="選手名"
                                 onChange={(value) => {
                                     const existingPlayer = playerInfoMST.data.find(player => player.PlayerCD === value)
                                     if (onPlayerUpdate) {
