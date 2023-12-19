@@ -7,11 +7,18 @@ import { useOtherGameInfo } from '../../services/api/useOtherGameInfo';
 const ABCComment = (index) => {
     const [abcComment, setABCComment] = useState("");
     const [dstComment1, setDSTComment1] = useState("");
-    // const [dstComment2, setDSTComment2] = useState("");
+    const [winningPlayer, setWinningPlayer] = useState("");
+    const [winningWon, setWinningWon] = useState();
+    const [winningLose, setWinningLose] = useState();
+    const [losingPlayer, setLosingPlayer] = useState("");
+    const [losingWon, setLosingWon] = useState();
+    const [losingLose, setLosingLose] = useState();
+    const [savingPlayer, setSavingPlayer] = useState("");
+    const [savingSave, setSavingSave] = useState("");
     const [selectComment, setSelectComment] = useState();
     const [gameData, setGameData] = useState("");
 
-    var otherGameInfoNum = parseInt(index.index) + 1;
+    var otherGameInfoNum = Number(index.index) + 1;
     const otherGameInfo = useOtherGameInfo();
 
     useEffect(() => {
@@ -28,13 +35,35 @@ const ABCComment = (index) => {
             const gameInfo = info.OtherGameInfo[`OtherGameInfo_${otherGameInfoNum}`];
             const abc = gameInfo.ABC_Comment;
             const dst1 = gameInfo.DS_Comment_1;
-            // const dst2 = gameInfo.DS_Comment_2;
+            const winningPN = gameInfo.DS_Comment_2[`Winning-Pitcher`].PlayerName;
+            const winningTW = gameInfo.DS_Comment_2[`Winning-Pitcher`][`Total-Won`];
+            const winningTL = gameInfo.DS_Comment_2[`Winning-Pitcher`][`Total-Lose`];
+            const losingPN = gameInfo.DS_Comment_2[`Losing-Pitcher`].PlayerName;
+            const losingTW = gameInfo.DS_Comment_2[`Losing-Pitcher`][`Total-Won`];
+            const losingTL = gameInfo.DS_Comment_2[`Losing-Pitcher`][`Total-Lose`];
             const select = gameInfo.SelectComment;
+
+            if ([`Saving-Pitcher`] in gameInfo.DS_Comment_2) {
+                const savingPN = gameInfo.DS_Comment_2[`Saving-Pitcher`].PlayerName;
+                const savingTS = gameInfo.DS_Comment_2[`Saving-Pitcher`][`Total-Save`];
+
+                setSavingPlayer(savingPN);
+                setSavingSave(savingTS);
+            }
+            else {
+                setSavingPlayer("");
+                setSavingSave();
+            }
 
             setABCComment(abc);
             setDSTComment1(dst1);
-            // setDSTComment2(dst2);
-            setSelectComment(parseInt(select));
+            setSelectComment(select);
+            setWinningPlayer(winningPN);
+            setWinningWon(winningTW);
+            setWinningLose(winningTL);
+            setLosingPlayer(losingPN);
+            setLosingWon(losingTW);
+            setLosingLose(losingTL);
         };
 
         getComments();
@@ -59,7 +88,6 @@ const ABCComment = (index) => {
                             }}
                         >保存</Button>
                     </div>
-
                 </div>
                 <div className="bot-left-input2">
                     <span className="header-label">データスタジアム コメント</span>
@@ -78,38 +106,61 @@ const ABCComment = (index) => {
                         >保存</Button>
                     </div>
                     <div className="input-btn">
-                    <span className="dst-comment-num">➁</span>
-
+                        <span className="dst-comment-num">➁</span>
                         <div className="input-only">
-
                             <span className="dst-header-label">勝</span>
-                            <Input />
-                            <Input className="dst-input-short" />
+                            <Input value={winningPlayer}
+                                onChange={(event) => setWinningPlayer(event.target.value)}
+                            />
+                            <Input className="dst-input-short"
+                                value={winningWon}
+                                onChange={(event) => setWinningWon(event.target.value)}
+                            />
                             <span>勝</span>
-                            <Input className="dst-input-short" />
+                            <Input className="dst-input-short"
+                                value={winningLose}
+                                onChange={(event) => setWinningLose(event.target.value)}
+                            />
                             <span>敗</span>
                             <span className="dst-header-label">負</span>
-                            <Input />
-                            <Input className="dst-input-short" />
+                            <Input value={losingPlayer}
+                                onChange={(event) => setLosingPlayer(event.target.value)}
+                            />
+                            <Input className="dst-input-short"
+                                value={losingWon}
+                                onChange={(event) => setLosingWon(event.target.value)}
+                            />
                             <span>勝</span>
-                            <Input className="dst-input-short" />
+                            <Input className="dst-input-short"
+                                value={losingLose}
+                                onChange={(event) => setLosingLose(event.target.value)}
+                            />
                             <span>敗</span>
                             <span className="dst-header-label">セーブ</span>
-                            <Input />
-                            <Input className="dst-input-short" />
+                            <Input value={savingPlayer}
+                                onChange={(event) => setSavingPlayer(event.target.value)}
+                            />
+                            <Input className="dst-input-short" value={savingSave}
+                                onChange={(event) => setSavingSave(event.target.value)}
+                            />
                             <span>S</span>
                         </div>
 
-                        {/* <Input className="dst-comment"
-                            value={dstComment2}
-                            onChange={(event) => setDSTComment2(event.target.value)}
-                        /> */}
                         <Button className="dst-comment-card-btn"
-                            // onClick={() => {
-                            //     const currentInfo = gameData.OtherGameInfo[`OtherGameInfo_${otherGameInfoNum}`];
-                            //     currentInfo.DS_Comment_2 = dstComment2;
-                            //     otherGameInfo.update();
-                            // }}
+                            onClick={() => {
+                                const currentInfo = gameData.OtherGameInfo[`OtherGameInfo_${otherGameInfoNum}`];
+                                currentInfo.DS_Comment_2[`Winning-Pitcher`].PlayerName = winningPlayer;
+                                currentInfo.DS_Comment_2[`Winning-Pitcher`][`Total-Won`] = Number(winningWon);
+                                currentInfo.DS_Comment_2[`Winning-Pitcher`][`Total-Lose`] = Number(winningLose);
+                                currentInfo.DS_Comment_2[`Losing-Pitcher`].PlayerName = losingPlayer;
+                                currentInfo.DS_Comment_2[`Losing-Pitcher`][`Total-Won`] = Number(losingWon);
+                                currentInfo.DS_Comment_2[`Losing-Pitcher`][`Total-Lose`] = Number(losingLose);
+                                if ([`Saving-Pitcher`] in currentInfo.DS_Comment_2) {
+                                    currentInfo.DS_Comment_2[`Saving-Pitcher`].PlayerName = savingPlayer;
+                                    currentInfo.DS_Comment_2[`Saving-Pitcher`][`Total-Save`] = Number(savingSave);
+                                }
+                                otherGameInfo.update();
+                            }}
                         >保存</Button>
                     </div>
                 </div>
