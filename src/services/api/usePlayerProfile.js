@@ -9,14 +9,17 @@ export const usePlayerProfile = (teamCD) => {
       data: null,
       reload: playerProfile.reload,
       getByID: (teamCD) => {
-        return null
+        return null;
       },
       getCoach: () => {
-        return null
+        return null;
+      },
+      getLastUpdatedTime: () => {
+        return null;
       },
     };
   }
-
+  
   const parsedData = parsePlayerProfile(playerProfile.data, teamCD);
 
   return {
@@ -48,8 +51,8 @@ const getPlayerByPlayerCD = (playerProfile, playerCD) => {
     return null;
   }
 
-  const playerInfo = Object.values(playerProfile)
-  
+  const playerInfo = Object.values(playerProfile);
+
   return playerInfo.find((x) => x.PlayerCD == playerCD);
 };
 

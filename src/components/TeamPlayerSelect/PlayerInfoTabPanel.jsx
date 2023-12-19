@@ -24,16 +24,17 @@ const PlayerInfoTabPanel = ({ team, player }) => {
     const playerProfile = usePlayerProfile(team?.TeamCD ?? null)
     const recordInfo = useRecordInfo(player?.PlayerCD)
 
-
+    
     const playerInfo = playerProfile.getByID(player?.PlayerCD)
     const playerRecordInfo = recordInfo.getByID(player?.PlayerCD)
-
+    
     const tabProperties = {
         ProfileTab:
             <ProfileTab
                 teamInfo={team}
                 playerInfo={playerInfo}
                 recordInfo={playerRecordInfo}
+                lastUpdatedTime={playerInfo?.LastUpdateTime}
             />,
         BattingResultTab: <BattingResultTab />,
         PitchingResultTab: <PitchingResultTab />,
