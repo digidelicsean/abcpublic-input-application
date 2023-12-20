@@ -137,7 +137,7 @@ const MatchCard = ({ index, key, clicked, selected }) => {
                         <div className="row4">
                             <Input value={Number(totalScoreV) >= 0 ? totalScoreV : ""}
                                 onChange={(event) => {
-                                    setTotalScoreV(event.target.value)
+                                    setTotalScoreV(Number(event.target.value))
                                 }} />
                             <Button className="sub-btn"
                                 onClick={() => {
@@ -159,7 +159,7 @@ const MatchCard = ({ index, key, clicked, selected }) => {
                         <div className="row6">
                             <Input value={Number(totalScoreH) >= 0 ? totalScoreH : ""}
                                 onChange={(event) => {
-                                    setTotalScoreH(event.target.value)
+                                    setTotalScoreH(Number(event.target.value))
                                 }}
                             />
                             <Button className="sub-btn"

@@ -15,7 +15,7 @@ const OtherGameInfoPage = () => {
 
             <div className="other-game-middle">
                 <Card className="other-game-middle-card">
-                    <RunningScore />
+                    <RunningScore index={selectedIndex}/>
                 </Card>
             </div >
 

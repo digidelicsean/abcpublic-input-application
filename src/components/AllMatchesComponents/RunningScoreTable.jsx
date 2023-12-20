@@ -4,7 +4,6 @@ import { Button } from "antd";
 import { CaretRightOutlined } from "@ant-design/icons";
 
 const { Type } = Table.Header;
-const intervalGapSize = 50;
 
 // Labels
 
@@ -78,15 +77,15 @@ const rowWidth = [90, ...defaultRowWidth];
 const rowGaps = [0, 3, 6, 9];
 const rowGaps2 = [2];
 
-const RunningScoreTable = () => {
+const RunningScoreTable = (data) => {
   const [isExpandClicked, setExpandButtonClicked] = useState(false);
 
   return (
     <>
       <Table>
         <Table.Header headerProps={headers} />
-        <Table.Row numColumns={13} width={rowWidth} gapIndices={rowGaps} gapSize={5} />
-        <Table.Row numColumns={13} width={rowWidth} gapIndices={rowGaps} gapSize={5} />
+        <Table.Row numColumns={13} width={rowWidth} gapIndices={rowGaps} gapSize={5} cellValues={[data.teamV]} />
+        <Table.Row numColumns={13} width={rowWidth} gapIndices={rowGaps} gapSize={5} cellValues={[data.teamH]} />
       </Table>
 
       <Button className="arrow-btn"
@@ -103,8 +102,8 @@ const RunningScoreTable = () => {
 
       <Table>
         <Table.Header headerProps={headers2} />
-        <Table.Row numColumns={1} width={40} />
-        <Table.Row numColumns={1} width={40} />
+        <Table.Row numColumns={1} width={40} cellValues={[data.totalV]}/>
+        <Table.Row numColumns={1} width={40} cellValues={[data.totalH]}/>
       </Table>
     </>
 

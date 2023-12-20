@@ -4,7 +4,7 @@ import "./ABCComment.css";
 import { useOtherGameInfo } from '../../services/api/useOtherGameInfo';
 
 
-const ABCComment = (index) => {
+const ABCComment = (data) => {
     const [abcComment, setABCComment] = useState("");
     const [dstComment1, setDSTComment1] = useState("");
     const [winningPlayer, setWinningPlayer] = useState("");
@@ -18,7 +18,7 @@ const ABCComment = (index) => {
     const [selectComment, setSelectComment] = useState();
     const [gameData, setGameData] = useState("");
 
-    var otherGameInfoNum = Number(index.index) + 1;
+    var otherGameInfoNum = Number(data.index) + 1;
     const otherGameInfo = useOtherGameInfo();
 
     useEffect(() => {
@@ -67,7 +67,7 @@ const ABCComment = (index) => {
         };
 
         getComments();
-    }, [index])
+    }, [data])
 
 
     return (
