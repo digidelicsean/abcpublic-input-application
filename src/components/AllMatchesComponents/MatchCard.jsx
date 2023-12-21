@@ -4,7 +4,7 @@ import "./MatchCard.css";
 import { useOtherGameInfo } from '../../services/api/useOtherGameInfo';
 
 const MatchCard = ({ index, key, clicked, selected }) => {
-    const [currentData, setCurrentData] = useState([])
+    const [currentData, setCurrentData] = useState([]);
     const [stadiumName, setStadiumName] = useState("");
     const [teamNameV, setTeamNameV] = useState("");
     const [teamNameH, setTeamNameH] = useState("");
@@ -30,7 +30,6 @@ const MatchCard = ({ index, key, clicked, selected }) => {
             for (let i = 0; i < otherGameInfo.data.length; i++) {
                 info = otherGameInfo.data[i];
             }
-            setCurrentData(info);
             const gameInfo = info.OtherGameInfo[`OtherGameInfo_${otherGameInfoNum}`];
             const stadium = gameInfo.Stadium;
             const teamV = gameInfo.TeamName_V;
@@ -41,6 +40,7 @@ const MatchCard = ({ index, key, clicked, selected }) => {
             const tb = gameInfo.TB;
             const situation = gameInfo.Situation;
 
+            setCurrentData(gameInfo);
             setStadiumName(stadium);
             setTeamNameV(teamV);
             setTeamNameH(teamH);
@@ -176,16 +176,15 @@ const MatchCard = ({ index, key, clicked, selected }) => {
                         <div className="row7">
                             <Button className="match-card-save-btn"
                                 onClick={() => {
-                                    const currentInfo = currentData.OtherGameInfo[`OtherGameInfo_${otherGameInfoNum}`];
-                                    currentInfo.Score.TotalScore_H = totalScoreH;
-                                    currentInfo.Score.TotalScore_V = totalScoreV;
-                                    currentInfo.Inning = parseInt(sentence) > 0 ? parseInt(sentence) : 0;
+                                    currentData.Score.TotalScore_H = totalScoreH;
+                                    currentData.Score.TotalScore_V = totalScoreV;
+                                    currentData.Inning = parseInt(sentence) > 0 ? parseInt(sentence) : 0;
                                     if (sentence.charAt(sentence.length - 1) === "表")
-                                        currentInfo.TB = 1;
+                                        currentData.TB = 1;
                                     else if (sentence.charAt(sentence.length - 1) === "裏")
-                                        currentInfo.TB = 2;
+                                        currentData.TB = 2;
                                     else
-                                        currentInfo.TB = 0;
+                                        currentData.TB = 0;
                                     otherGameInfo.update();
                                 }}>
                                 保存

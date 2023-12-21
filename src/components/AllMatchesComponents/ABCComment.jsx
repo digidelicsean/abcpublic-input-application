@@ -16,7 +16,7 @@ const ABCComment = (data) => {
     const [savingPlayer, setSavingPlayer] = useState("");
     const [savingSave, setSavingSave] = useState("");
     const [selectComment, setSelectComment] = useState();
-    const [gameData, setGameData] = useState("");
+    const [currentData, setCurrentData] = useState([]);
 
     var otherGameInfoNum = Number(data.index) + 1;
     const otherGameInfo = useOtherGameInfo();
@@ -31,7 +31,6 @@ const ABCComment = (data) => {
             for (let i = 0; i < otherGameInfo.data.length; i++) {
                 info = otherGameInfo.data[i];
             }
-            setGameData(info);
             const gameInfo = info.OtherGameInfo[`OtherGameInfo_${otherGameInfoNum}`];
             const abc = gameInfo.ABC_Comment;
             const dst1 = gameInfo.DS_Comment_1;
@@ -55,6 +54,7 @@ const ABCComment = (data) => {
                 setSavingSave();
             }
 
+            setCurrentData(gameInfo);
             setABCComment(abc);
             setDSTComment1(dst1);
             setSelectComment(select);
@@ -82,8 +82,7 @@ const ABCComment = (data) => {
                         />
                         <Button className="abc-comment-card-btn"
                             onClick={() => {
-                                const currentInfo = gameData.OtherGameInfo[`OtherGameInfo_${otherGameInfoNum}`];
-                                currentInfo.ABC_Comment = abcComment;
+                                currentData.ABC_Comment = abcComment;
                                 otherGameInfo.update();
                             }}
                         >保存</Button>
@@ -99,8 +98,7 @@ const ABCComment = (data) => {
                         />
                         <Button className="dst-comment-card-btn"
                             onClick={() => {
-                                const currentInfo = gameData.OtherGameInfo[`OtherGameInfo_${otherGameInfoNum}`];
-                                currentInfo.DS_Comment_1 = dstComment1;
+                                currentData.DS_Comment_1 = dstComment1;
                                 otherGameInfo.update();
                             }}
                         >保存</Button>
@@ -148,16 +146,15 @@ const ABCComment = (data) => {
 
                         <Button className="dst-comment-card-btn"
                             onClick={() => {
-                                const currentInfo = gameData.OtherGameInfo[`OtherGameInfo_${otherGameInfoNum}`];
-                                currentInfo.DS_Comment_2[`Winning-Pitcher`].PlayerName = winningPlayer;
-                                currentInfo.DS_Comment_2[`Winning-Pitcher`][`Total-Won`] = Number(winningWon);
-                                currentInfo.DS_Comment_2[`Winning-Pitcher`][`Total-Lose`] = Number(winningLose);
-                                currentInfo.DS_Comment_2[`Losing-Pitcher`].PlayerName = losingPlayer;
-                                currentInfo.DS_Comment_2[`Losing-Pitcher`][`Total-Won`] = Number(losingWon);
-                                currentInfo.DS_Comment_2[`Losing-Pitcher`][`Total-Lose`] = Number(losingLose);
-                                if ([`Saving-Pitcher`] in currentInfo.DS_Comment_2) {
-                                    currentInfo.DS_Comment_2[`Saving-Pitcher`].PlayerName = savingPlayer;
-                                    currentInfo.DS_Comment_2[`Saving-Pitcher`][`Total-Save`] = Number(savingSave);
+                                currentData.DS_Comment_2[`Winning-Pitcher`].PlayerName = winningPlayer;
+                                currentData.DS_Comment_2[`Winning-Pitcher`][`Total-Won`] = Number(winningWon);
+                                currentData.DS_Comment_2[`Winning-Pitcher`][`Total-Lose`] = Number(winningLose);
+                                currentData.DS_Comment_2[`Losing-Pitcher`].PlayerName = losingPlayer;
+                                currentData.DS_Comment_2[`Losing-Pitcher`][`Total-Won`] = Number(losingWon);
+                                currentData.DS_Comment_2[`Losing-Pitcher`][`Total-Lose`] = Number(losingLose);
+                                if ([`Saving-Pitcher`] in currentData.DS_Comment_2) {
+                                    currentData.DS_Comment_2[`Saving-Pitcher`].PlayerName = savingPlayer;
+                                    currentData.DS_Comment_2[`Saving-Pitcher`][`Total-Save`] = Number(savingSave);
                                 }
                                 otherGameInfo.update();
                             }}
