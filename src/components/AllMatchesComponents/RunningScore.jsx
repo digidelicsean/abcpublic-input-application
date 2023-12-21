@@ -12,8 +12,11 @@ const RunningScore = (data) => {
     const [startTime, setStartTime] = useState("");
     const [snPlayerH, setSnPlayerH] = useState([]);
     const [snPlayerV, setSnPlayerV] = useState([]);
-    const [pitcherData, setPitcherData] = useState([]);
+    const [pitcherDataH, setPitcherDataH] = useState([]);
+    const [pitcherDataV, setPitcherDataV] = useState([]);
     const [score, setScore] = useState([]);
+    const [pitcherNamesH, setPitcherNamesH] = useState("");
+    const [pitcherNamesV, setPitcherNamesV] = useState("");
 
     var otherGameInfoNum = Number(data.index) + 1;
     const otherGameInfo = useOtherGameInfo();
@@ -46,21 +49,28 @@ const RunningScore = (data) => {
                 filter((key) => key.includes('Pitcher-Info_V')).
                 reduce((cur, key) => { return Object.assign(cur, { [key]: pitcherInfo[key] }) }, {});
 
+            let ctrH = 0;
             for (const data of Object.entries(pitcherInfoH)) {
-                const player = Object.keys(data[1]).
-                    filter((key) => key.includes('ShortName-Player')).
-                    reduce((cur, key) => { return Object.assign(cur, { [key]: data[1][key] }) }, {});
-                playersH.push(player[`ShortName-Player`])
+                for (let i = 0; i < data.length; i++) {
+                    if (data[i] !== 'Pitcher-Info_H_' + (ctrH + 1)) {
+                        playersH.push(data[i][`ShortName-Player`]);
+                    }
+                }
+                ctrH++;
             }
 
+            let ctrV = 0;
             for (const data of Object.entries(pitcherInfoV)) {
-                const player = Object.keys(data[1]).
-                    filter((key) => key.includes('ShortName-Player')).
-                    reduce((cur, key) => { return Object.assign(cur, { [key]: data[1][key] }) }, {});
-                playersV.push(player[`ShortName-Player`])
+                for (let i = 0; i < data.length; i++) {
+                    if (data[i] !== 'Pitcher-Info_V_' + (ctrV + 1)) {
+                        playersV.push(data[i][`ShortName-Player`]);
+                    }
+                }
+                ctrV++;
             }
 
-            setPitcherData(pitcherInfoH);
+            setPitcherDataH(pitcherInfoH);
+            setPitcherDataV(pitcherInfoV);
             setTeamV(teamNameV);
             setTeamH(teamNameH);
             setScore(gameScore);
@@ -68,6 +78,9 @@ const RunningScore = (data) => {
             setStartTime(sTime);
             setSnPlayerH(playersH);
             setSnPlayerV(playersV);
+
+            setPitcherNamesH(getPitcherNames(playersH, '-'));
+            setPitcherNamesV(getPitcherNames(playersV, '-'))
         };
 
         getMatchData();
@@ -78,8 +91,8 @@ const RunningScore = (data) => {
         for (let i = 0; i < arr.length; i++) {
             if (arr[i] !== null && arr[i] !== undefined)
                 str += arr[i];
-            if (i < arr.length - 1)
-                str += separator;
+            if (i < arr.length - 1 && arr[i + 1] !== "")
+                str += " " + separator + " ";
         }
         return str;
     }
@@ -105,15 +118,28 @@ const RunningScore = (data) => {
                     <div className="col2-bot-upper">
                         <span>後攻投手</span><br />
                         <div className="col2-input-btn">
-                            <Input className="col2-bot-input" value={getPitcherNames(snPlayerH, ' - ')} />
+                            <Input className="col2-bot-input"
+                                value={pitcherNamesH}
+                                onChange={(event) => setPitcherNamesH(event.target.value)}
+                            />
                             <Button className="col2-bot-btn"
                                 onClick={() => {
-                                    // const str = getPitcherNames(snPlayerH, ' - ').split(' - ');
-                                    // for (let i = 0; i < Object.entries(pitcherData).length; i++) {
-                                    //     console.log(Object.entries(pitcherData));
-                                    // }
-                                    // console.log(Object.entries(pitcherData));
+                                    const pitcherNames = pitcherNamesH.split('-');
 
+                                    let ctrH = 0;
+                                    for (const data of Object.entries(pitcherDataH)) {
+                                        for (let i = 0; i < data.length; i++) {
+                                            if (data[i] !== 'Pitcher-Info_H_' + (ctrH + 1)) {
+                                                if (pitcherNames[ctrH] !== undefined)
+                                                    data[i][`ShortName-Player`] = pitcherNames[ctrH].trim();
+                                                else
+                                                    data[i][`ShortName-Player`] = "";
+                                            }
+                                        }
+                                        ctrH++;
+                                    }
+
+                                    otherGameInfo.update();
                                 }}
                             >保存</Button>
                         </div>
@@ -122,8 +148,29 @@ const RunningScore = (data) => {
                     <div className="col3-bot-lower">
                         <span>先攻投手</span><br />
                         <div className="col2-input-btn">
-                            <Input className="col2-bot-input" value={getPitcherNames(snPlayerV, ' - ')} />
-                            <Button className="col2-bot-btn">保存</Button>
+                            <Input className="col2-bot-input"
+                                value={pitcherNamesV}
+                                onChange={(event) => setPitcherNamesV(event.target.value)}
+                            />
+                            <Button className="col2-bot-btn"
+                                onClick={() => {
+                                    const pitcherNames = pitcherNamesV.split('-');
+
+                                    let ctrV = 0;
+                                    for (const data of Object.entries(pitcherDataV)) {
+                                        for (let i = 0; i < data.length; i++) {
+                                            if (data[i] !== 'Pitcher-Info_V_' + (ctrV + 1)) {
+                                                if (pitcherNames[ctrV] !== undefined)
+                                                    data[i][`ShortName-Player`] = pitcherNames[ctrV].trim();
+                                                else
+                                                    data[i][`ShortName-Player`] = "";
+                                            }
+                                        }
+                                        ctrV++;
+                                    }
+                                    otherGameInfo.update();
+                                }}
+                            >保存</Button>
                         </div>
                     </div>
                 </div>
