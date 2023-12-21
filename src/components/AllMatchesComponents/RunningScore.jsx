@@ -79,8 +79,8 @@ const RunningScore = (data) => {
             setSnPlayerH(playersH);
             setSnPlayerV(playersV);
 
-            setPitcherNamesH(getPitcherNames(playersH, '-'));
-            setPitcherNamesV(getPitcherNames(playersV, '-'))
+            setPitcherNamesH(getPitcherNames(playersH, 'ー'));
+            setPitcherNamesV(getPitcherNames(playersV, 'ー'))
         };
 
         getMatchData();
@@ -124,7 +124,7 @@ const RunningScore = (data) => {
                             />
                             <Button className="col2-bot-btn"
                                 onClick={() => {
-                                    const pitcherNames = pitcherNamesH.split('-');
+                                    const pitcherNames = pitcherNamesH.split('ー');
 
                                     let ctrH = 0;
                                     for (const data of Object.entries(pitcherDataH)) {
@@ -154,7 +154,7 @@ const RunningScore = (data) => {
                             />
                             <Button className="col2-bot-btn"
                                 onClick={() => {
-                                    const pitcherNames = pitcherNamesV.split('-');
+                                    const pitcherNames = pitcherNamesV.split('ー');
 
                                     let ctrV = 0;
                                     for (const data of Object.entries(pitcherDataV)) {
