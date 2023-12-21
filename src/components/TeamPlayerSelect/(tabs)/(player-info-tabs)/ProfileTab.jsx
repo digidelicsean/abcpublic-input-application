@@ -3,6 +3,9 @@ import "../InfoTab.css"
 import style from "./ProfileTab.module.css"
 import { LabeledText } from "../../../"
 import LastUpdated from "../../../GeneralComponent/LastUpdated"
+import { usePlayerEntryInfo } from '../../../../services/api/usePlayerEntryInfo'
+import { usePlayerTradeInfo } from '../../../../services/api/usePlayerTradeInfo'
+import { formatDateStr } from '../../../../utils/dateUtils'
 
 const textFieldSize = {
     width: 180,
@@ -21,6 +24,13 @@ const textAreaSize = {
 
 
 function ProfileTab({ teamInfo, playerInfo, recordInfo, lastUpdatedTime }) {
+
+    const playerInfoEntry = usePlayerEntryInfo()
+    const playerInfoTrade = usePlayerTradeInfo()
+    const tradeInfoData = playerInfoTrade.getPlayerTradeInfo(playerInfo?.PlayerCD)
+    const entryInfoData = playerInfoEntry.getPlayerEntryInfo(playerInfo?.PlayerCD)
+
+    console.log(tradeInfoData)
 
     const getPositionType = (positionType) => {
         switch (positionType) {
@@ -45,7 +55,7 @@ function ProfileTab({ teamInfo, playerInfo, recordInfo, lastUpdatedTime }) {
         PlayerName: playerInfo?.PlayerName,
         DelivName: playerInfo?.DelivName,
         PitchingArm: playerInfo?.PitchingArm == 1 ? '左' : '右',
-        BattingType: playerInfo?.BattingType == 1 ? '左' : playerInfo?.BattingType === 2 ? '右' : '両',
+        BattingType: playerInfo?.BattingType == 1 ? '左' : playerInfo?.BattingType == 2 ? '右' : '両',
         Japan: playerInfo?.Japan == 1 ? '有' : '無',
         BackNumber: playerInfo?.BackNumber,
         PositionType: playerInfo?.PositionType && getPositionType(playerInfo?.PositionType),
@@ -74,6 +84,8 @@ function ProfileTab({ teamInfo, playerInfo, recordInfo, lastUpdatedTime }) {
         Prize: playerInfo?.Prize,
         Record: "",
         LastUpdateTime: lastUpdatedTime,
+        EntryInfo: entryInfoData.length != 0 ? `${entryInfoData?.MovementName} ${formatDateStr(entryInfoData?.AnnounceDate)}` : "",
+        TradeInfo: tradeInfoData.length != 0 ? `${tradeInfoData?.MovementName} ${formatDateStr(tradeInfoData?.AnnounceDate)}/${tradeInfoData?.PlayerInfo?.TeamName3S} > ${tradeInfoData?.PlayerInfo?.TransferTeamName3S}` : "",
     }
 
     if (recordInfo && recordInfo.AchievementF == 0) {
@@ -262,7 +274,6 @@ const SecondColumn = ({ data }) => {
 
 const ThirdColumn = ({ data }) => {
     const updateTime = data?.LastUpdateTime?.split(" ")[1]?.split(":") ?? [0, 0, 0]
-    console.log(updateTime)
 
     return (
         <>
@@ -329,11 +340,13 @@ const ThirdColumn = ({ data }) => {
                             label="公示"
                             textAlign="left"
                             size={textFieldSize}
+                            value={data?.EntryInfo}
                         />
                         <LabeledText
                             label="トレード"
                             textAlign="left"
                             size={textFieldSize}
+                            value={data?.TradeInfo}
                         />
                     </div>
                 </div>
