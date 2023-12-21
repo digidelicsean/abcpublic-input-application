@@ -8,12 +8,12 @@ import { useOtherGameInfo } from '../../services/api/useOtherGameInfo';
 const RunningScore = (data) => {
     const [teamV, setTeamV] = useState("");
     const [teamH, setTeamH] = useState("");
-    const [totalV, setTotalV] = useState();
-    const [totalH, setTotalH] = useState();
     const [stadium, setStadium] = useState("");
     const [startTime, setStartTime] = useState("");
     const [snPlayerH, setSnPlayerH] = useState([]);
     const [snPlayerV, setSnPlayerV] = useState([]);
+    const [pitcherData, setPitcherData] = useState([]);
+    const [score, setScore] = useState([]);
 
     var otherGameInfoNum = Number(data.index) + 1;
     const otherGameInfo = useOtherGameInfo();
@@ -33,8 +33,7 @@ const RunningScore = (data) => {
             const gameInfo = info.OtherGameInfo[`OtherGameInfo_${otherGameInfoNum}`];
             const teamNameV = gameInfo.TeamName_V;
             const teamNameH = gameInfo.TeamName_H;
-            const totalScoreV = gameInfo.Score.TotalScore_V;
-            const totalScoreH = gameInfo.Score.TotalScore_H;
+            const gameScore = gameInfo.Score;
             const stadiumName = gameInfo.Stadium;
             const sTime = gameInfo.StartTime;
             const pitcherInfo = gameInfo[`Pitcher-Info`];
@@ -61,10 +60,10 @@ const RunningScore = (data) => {
                 playersV.push(player[`ShortName-Player`])
             }
 
+            setPitcherData(pitcherInfoH);
             setTeamV(teamNameV);
             setTeamH(teamNameH);
-            setTotalV(totalScoreV);
-            setTotalH(totalScoreH);
+            setScore(gameScore);
             setStadium(stadiumName);
             setStartTime(sTime);
             setSnPlayerH(playersH);
@@ -99,8 +98,7 @@ const RunningScore = (data) => {
                 <div className="col2-top">
                     <RunningScoreTable teamV={teamV}
                         teamH={teamH}
-                        totalV={totalV}
-                        totalH={totalH}
+                        score={score}
                     />
                 </div>
                 <div className="col2-bot">
@@ -108,7 +106,16 @@ const RunningScore = (data) => {
                         <span>後攻投手</span><br />
                         <div className="col2-input-btn">
                             <Input className="col2-bot-input" value={getPitcherNames(snPlayerH, ' - ')} />
-                            <Button className="col2-bot-btn">保存</Button>
+                            <Button className="col2-bot-btn"
+                                onClick={() => {
+                                    // const str = getPitcherNames(snPlayerH, ' - ').split(' - ');
+                                    // for (let i = 0; i < Object.entries(pitcherData).length; i++) {
+                                    //     console.log(Object.entries(pitcherData));
+                                    // }
+                                    // console.log(Object.entries(pitcherData));
+
+                                }}
+                            >保存</Button>
                         </div>
                     </div>
 

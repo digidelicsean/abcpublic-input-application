@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import Table from '../ui/(grid-table)/Table'
 import { Button } from "antd";
 import { CaretRightOutlined } from "@ant-design/icons";
@@ -79,13 +79,48 @@ const rowGaps2 = [2];
 
 const RunningScoreTable = (data) => {
   const [isExpandClicked, setExpandButtonClicked] = useState(false);
+  const [teamScoresV, setTeamScoresV] = useState([]);
+  const [teamScoresH, setTeamScoresH] = useState([]);
+  var scoresV = [];
+  var scoresH = [];
+  
+  useEffect(() => {
+    const getMatchScore = () => {
+      const scores = data.score;
+      if (scores == null) {
+        return []
+      }
+      const inningScores = Object.keys(scores).
+        filter((key) => key.includes('InningScore')).
+        reduce((cur, key) => { return Object.assign(cur, { [key]: scores[key] }) }, {});
+
+      let ctr = 0;
+      for (const data of Object.entries(inningScores)) {
+        for (let i = 0; i < data.length; i++) {
+          if (data[i] !== 'InningScore_' + (ctr + 1)) {
+            scoresV.push(data[i].Score_V);
+            scoresH.push(data[i].Score_H);
+          }
+        }
+        ctr++;
+      }
+
+      setTeamScoresV(scoresV);
+      setTeamScoresH(scoresH);
+    };
+
+    getMatchScore();
+  }, [data])
+
+  const teamDataV = [data.teamV, ...teamScoresV];
+  const teamDataH = [data.teamH, ...teamScoresH];
 
   return (
     <>
       <Table>
         <Table.Header headerProps={headers} />
-        <Table.Row numColumns={13} width={rowWidth} gapIndices={rowGaps} gapSize={5} cellValues={[data.teamV]} />
-        <Table.Row numColumns={13} width={rowWidth} gapIndices={rowGaps} gapSize={5} cellValues={[data.teamH]} />
+        <Table.Row numColumns={13} width={rowWidth} gapIndices={rowGaps} gapSize={5} cellValues={teamDataV} />
+        <Table.Row numColumns={13} width={rowWidth} gapIndices={rowGaps} gapSize={5} cellValues={teamDataH} />
       </Table>
 
       <Button className="arrow-btn"
@@ -102,8 +137,8 @@ const RunningScoreTable = (data) => {
 
       <Table>
         <Table.Header headerProps={headers2} />
-        <Table.Row numColumns={1} width={40} cellValues={[data.totalV]}/>
-        <Table.Row numColumns={1} width={40} cellValues={[data.totalH]}/>
+        <Table.Row numColumns={1} width={40} cellValues={[data.score.TotalScore_V]} />
+        <Table.Row numColumns={1} width={40} cellValues={[data.score.TotalScore_H]} />
       </Table>
     </>
 
