@@ -40,79 +40,87 @@ const theme = {
 };
 
 function MatchSettingsPage() {
-  const navigate = useNavigate();
-  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  const navigate = useNavigate(); // A hook for navigating to different routes
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false); // A state variable for controlling the visibility of an edit modal
 
-  // const [gameClassMST, setGameClassMST] = useState([])
-  const { data: gameClassMST, reload: reloadGameClassMst } = useGameClassMST()//useFetch("abc-public/master?Type=GameClassMST")
-  const [gameClassCD, setGameClassCD] = useState(1)
-  const [gameClass, setGameClass] = useState([])
+  // Fetching data using a custom hook and storing the response in 'gameClassMST'
+  const { data: gameClassMST, reload: reloadGameClassMst } = useGameClassMST();
 
-  const [seasonSchedule, setSeasonSchedule] = useState({})
-  const [otherGameInfo, setOtherGameInfo] = useState([])
+  const [gameClassCD, setGameClassCD] = useState(1); // A state variable for storing the game class code
+  const [gameClass, setGameClass] = useState([]); // A state variable for storing the game class data
 
-  const [date, setDate] = useState(null)
+  const [seasonSchedule, setSeasonSchedule] = useState({}); // A state variable for storing the season schedule data
+  const [otherGameInfo, setOtherGameInfo] = useState([]); // A state variable for storing other game information
 
-  const [deliveryType, setDeliveryType] = useState(1);
+  const [date, setDate] = useState(null); // A state variable for storing the date
 
-  const [selectedGameID, setSelectedGameID] = useState("");
+  const [deliveryType, setDeliveryType] = useState(1); // A state variable for storing the delivery type
 
-  // const selectedMatch = useRef(null)
-  const [selectedMatch, setSelectedMatch] = useState(null)
+  const [selectedGameID, setSelectedGameID] = useState(""); // A state variable for storing the selected game ID
+
+  const [selectedMatch, setSelectedMatch] = useState(null); // A state variable for storing the selected match
   const selectedMatchInfo = useMemo(() => {
+    // A memoized value that calculates the selected match information based on the selected game ID and the season schedule
     if (selectedGameID == "") return [];
-    return seasonSchedule.gameInfo.find(x => x.ID == selectedGameID)
-  }, [selectedGameID, seasonSchedule])
+    return seasonSchedule.gameInfo.find(x => x.ID == selectedGameID);
+  }, [selectedGameID, seasonSchedule]);
 
   const gameIdOptions = useMemo(() => {
-    if (Object.values(seasonSchedule).length == 0) return
-    if (seasonSchedule.gameInfo.length == 0) return
+    // A memoized value that calculates the game ID options based on the season schedule
+    if (Object.values(seasonSchedule).length == 0) return;
+    if (seasonSchedule.gameInfo.length == 0) return;
 
-    const options = seasonSchedule.gameInfo.map(info => ({ value: info.ID, label: info.ID }))
+    const options = seasonSchedule.gameInfo.map(info => ({ value: info.ID, label: info.ID }));
     return options;
-  }, [seasonSchedule])
+  }, [seasonSchedule]);
 
   const setSelectedMatchByID = (gameId) => {
+    // Set the selected match based on the provided gameId
     setSelectedMatch(seasonSchedule?.gameInfo?.find(x => x.ID == gameId) ?? null)
+    // Set the selected game ID
     setSelectedGameID(gameId)
   }
 
-  // useEffect(() => {
-  //   setSelectedGameID(selectedMatch.current.ID)
-  // }, [])
-
   const handleGameClassSelect = (gameClassCD) => {
+    // Set the game class code based on the selected game class code
     setGameClassCD(gameClassCD)
 
+    // If the game class MST is empty, set the game class to null and return
     if (gameClassMST?.length == 0) {
-      // gameClass.current = null;
       setGameClass(null)
       return
     }
 
-    // gameClass.current = gameClassMST?.find(gameClassData => gameClassData.GameClassCD == gameClassCD)
+    // Set the game class based on the selected game class code
     setGameClass(gameClassMST?.find(gameClassData => gameClassData.GameClassCD == gameClassCD))
   }
 
+  // Run this effect when the seasonSchedule or selectedGameID changes
   useEffect(() => {
-
+    // If there is no selected game ID, set the other game info to an empty array and return
     if (!selectedGameID || selectedGameID == "") {
       setOtherGameInfo([])
       return;
     }
 
+    // Filter the seasonSchedule.gameInfo to get other stadium info
     const otherStadiumInfo = seasonSchedule?.gameInfo?.filter(x => x.ID != selectedGameID)
+    // Set the other game info
     setOtherGameInfo(otherStadiumInfo)
   }, [seasonSchedule, selectedGameID])
 
   const createGameInfoData = async () => {
+    // If there is no selected match info, return
     if (selectedMatchInfo.length == 0) return;
 
+    // Log the game class
     console.log(gameClass)
 
+    // Create the data structure for the game info
     const dataStructure = {
       Type: "GameInfo",
       GameInfo: {
+        // Set the delivery type, game number, game class code, game class, date, game ID, stadium code, stadium, team codes, and team names
         Delivery: deliveryType,
         GameNum: 1,
         GameClassCD: gameClassCD,
@@ -127,21 +135,21 @@ function MatchSettingsPage() {
         TeamName_V: selectedMatchInfo.VisitorTeamNameS,
       }
     }
-
-    // console.log(dataStructure)
-
+    // Post the game info data using the data structure and selected game ID
     postMatchInfoData(dataStructure, selectedGameID)
   }
-
+  // Function to create match info data
   const createMatchInfoData = async () => {
+    // If there are no selected match info, return
     if (selectedMatchInfo.length == 0) return;
 
+    // Initialize the data structure with the type "MatchInfo"
     const dataStructure = {
       Type: "MatchInfo"
     };
 
-    dataStructure[`MatchInfo_1`] =
-    {
+    // Add the match info data to the data structure
+    dataStructure[`MatchInfo_1`] = {
       Delivery: deliveryType,
       GameNum: 1,
       GameClassCD: gameClassCD,
@@ -156,19 +164,24 @@ function MatchSettingsPage() {
       TeamName_V: selectedMatchInfo.VisitorTeamNameS,
     }
 
+    // Call the postMatchInfoData function with the data structure and "MatchSetting" parameter
     postMatchInfoData(dataStructure, "MatchSetting")
   }
 
+  // Function to create team info data
   const createTeamInfoData = async () => {
+    // If there are no selected match info, return
     if (selectedMatchInfo.length == 0) return;
 
-
+    // Function to create player info data
     const createPlayerInfoData = () => {
       const playerInfoData = {}
 
+      // Loop to create player info for 10 players
       for (let i = 1; i <= 10; i++) {
         const playerInfoKey = i == 10 ? "PlayerInfo_Pitcher" : `PlayerInfo_${i}`
 
+        // Add player info to the playerInfoData object
         playerInfoData[playerInfoKey] = {
           BatNo: i == 10 ? "9" : i.toString(),
           Position: "0",
@@ -184,6 +197,7 @@ function MatchSettingsPage() {
       return playerInfoData;
     }
 
+    // Create home team info data
     const homeTeamInfoData = {
       Type: "TeamInfo_H",
       TeamInfo_H: {
@@ -207,6 +221,7 @@ function MatchSettingsPage() {
       }
     }
 
+    // Create visitor team info data
     const visitorTeamInfoData = {
       Type: "TeamInfo_V",
       TeamInfo_V: {
@@ -230,42 +245,47 @@ function MatchSettingsPage() {
       }
     }
 
-
+    // Call the postMatchInfoData function with the homeTeamInfoData and selectedGameID
     postMatchInfoData(homeTeamInfoData, selectedGameID)
+
+    // Call the postMatchInfoData function with the visitorTeamInfoData and selectedGameID
     postMatchInfoData(visitorTeamInfoData, selectedGameID)
-
-  }
-
+  };
   const createEmptyRuntimeScore = async () => {
+    // Create a data structure object for RuntimeScore
     const dataStructure = {
       Type: "RuntimeScore",
       RuntimeScore: {
-        Inning: 1,
-        TB: 1
-      }
-    }
+        Inning: 1, // Set Inning to 1
+        TB: 1, // Set TB to 1
+      },
+    };
 
-    postMatchInfoData(dataStructure, selectedGameID)
-  }
+    // Post the match info data using the dataStructure and selectedGameID
+    postMatchInfoData(dataStructure, selectedGameID);
+  };
 
   const createOtherStadiumInfoData = async () => {
-
+    // Create a data structure object for OtherGameInfo
     const dataStructure = {
       Type: "OtherGameInfo",
       OtherGameInfo: {
-        CommentType: "1",
-        Comment_ABC: "コメント文章",
+        CommentType: "1", // Set CommentType to "1"
+        Comment_ABC: "コメント文章", // Set Comment_ABC to "コメント文章"
       },
       Comment: {
-        SelectComment: "0",
-        ABC_Comment: ""
-      }
-    }
+        SelectComment: "0", // Set SelectComment to "0"
+        ABC_Comment: "", // Set ABC_Comment to an empty string
+      },
+    };
 
+    // Loop through 5 times
     for (let i = 0; i < 5; i++) {
-      const key = `OtherGameInfo_${i + 1}`
+      const key = `OtherGameInfo_${i + 1}`;
 
+      // Check if i is greater than or equal to the length of otherGameInfo array
       if (i >= otherGameInfo.length) {
+        // If true, set the key in OtherGameInfo to empty values
         dataStructure["OtherGameInfo"][key] = {
           No: "",
           GameID: "",
@@ -275,10 +295,14 @@ function MatchSettingsPage() {
           TeamName_H: "",
           StadiumCD: "",
           Stadium: "",
-        }
+        };
         continue;
       }
-      const gameInfo = otherGameInfo[i]
+
+      // Get the game info from otherGameInfo array
+      const gameInfo = otherGameInfo[i];
+
+      // Set the key in OtherGameInfo to the corresponding game info values
       dataStructure["OtherGameInfo"][key] = {
         No: gameInfo.Order,
         GameID: gameInfo.ID,
@@ -288,76 +312,84 @@ function MatchSettingsPage() {
         TeamName_H: gameInfo.HomeTeamName,
         StadiumCD: gameInfo.StadiumName,
         Stadium: gameInfo.StadiumID,
-      }
+      };
     }
-    // console.log(dataStructure);
-    postMatchInfoData(dataStructure, selectedGameID)
-  }
 
+    // Post the match info data using the dataStructure and selectedGameID
+    postMatchInfoData(dataStructure, selectedGameID);
+  };
   const onMatchSettingOpen = (dateObj) => {
-    // setSelectedGameID("")
+    // Fetch season schedule data using the gameClassCD parameter
     fetchSeasonScheduleData(gameClassCD).then((seasonSched) => {
 
+      // Check if dateObj is undefined, if so, return without doing anything
       if (dateObj === undefined) {
-        // console.log("DateObj is null")
         return;
       }
 
+      // Filter seasonSched array to get only the elements that match the month and year of dateObj
       const scheduleArray = Object.values(seasonSched).filter((elem) => {
         if (elem.No != dateObj?.month) return false;
         if (elem.Year != dateObj?.year) return false;
         return true;
       })
 
+      // Get the keys that start with "GameInfo_" from the first element of scheduleArray
       const gameInfoKeys = scheduleArray?.length != 0 ? Object.keys(scheduleArray[0]).filter(x => x.includes("GameInfo_")) : []
 
+      // Filter gameInfoKeys to get only the elements that have GameDate equal to dateObj.date
       let gameInfoArray = gameInfoKeys.map((key) => scheduleArray[0][key]).filter(info => info.GameDate == dateObj.date);
 
-
+      // Set the state with the date and gameInfoArray
       setSeasonSchedule({ date: dateObj?.date, gameInfo: gameInfoArray })
-      // console.log({ date: dateObj.date, gameInfo: gameInfoArray })
     })
   }
 
   const onOtherStadiumDataConfirmed = (updatedStadiumInfo) => {
+    // Close the edit modal
     setIsEditModalOpen(false)
+
+    // Update the other game info with the updatedStadiumInfo array
     setOtherGameInfo([...updatedStadiumInfo])
   }
 
   return (
+    // Provide the context and values to child components
     <MatchSettingsContext.Provider value={{ seasonSchedule, setSelectedMatchByID }}>
+      {/* Container for the entire match settings page */}
       <div className="match-settings-page">
+
+        {/* Configure the locale and theme for the page */}
         <ConfigProvider locale={"ja-JP"} theme={theme}>
-          {/* <Link to="/">
-            <Button>← 戻る</Button>
-          </Link> */}
+
+          {/* Navigation bar */}
           <NavBar
             homePath="/"
+            // Handle navigation when the back button is pressed
             onBackPressed={() => {
               navigate("/pro", { state: { page: 1 } })
             }}
             style={{ width: "85%", alignSelf: "center" }}
           />
-          {/* ================================================================== */}
-          {/*                              Upper Layout                          */}
 
+          {/* Upper Layout */}
           <div className="match-settings-upper">
+            {/* Card container for the match settings panel */}
             <Card
               className="match-settings-panel-card"
               bodyStyle={{ padding: "2px", width: "100%", height: "100%" }}
             >
+              {/* Match settings panel */}
               <div className="match-settings-panel">
                 <div className="match-settings-panel-header">OA試合設定</div>
                 <div className="match-settings-panel-content">
-                  {/* ================================================================== */}
-                  {/*                     First Column of Radio Buttons                  */}
+                  {/* First Column of Radio Buttons */}
                   <DSSelection
                     className="ds-radio-btn-panel"
                     onDeliveryTypeChange={setDeliveryType}
                   />
 
-                  {/* ================================================================== */}
-                  {/*                      Game Assortment Radio Buttons                 */}
+                  {/* Game Assortment Radio Buttons */}
                   <div className="game-assortment-radio-panel">
                     <span>試合種別</span>
                     <GameAssortmentSelection
@@ -366,21 +398,17 @@ function MatchSettingsPage() {
                     />
                   </div>
 
-                  {/* ================================================================== */}
-                  {/*                         Date Selection Column                      */}
-
+                  {/* Date Selection Column */}
                   <DateSelection className="date-select-panel" onDateSelected={(date) => {
                     setDate(date)
                     console.log(date)
                     onMatchSettingOpen(date)
                   }} />
 
-
-
-
-                  {/* ================================================================== */}
-                  {/*                           Match Data Column                        */}
+                  {/* Match Data Column */}
                   <div className="match-data-panel">
+
+                    {/* GameID */}
                     {
                       <LabeledText
                         label={<span style={{ marginRight: "10px" }}>GameID</span>}
@@ -391,58 +419,47 @@ function MatchSettingsPage() {
                         onChange={(value) => setSelectedGameID(value)}
                         disabled={deliveryType == 1}
                       />
-                      // deliveryType == 1 ?
-                      //   <LabeledComboBox
-                      //     label="GameID"
-                      //     horizontal
-                      //     margin={{ top: "-5px" }}
-                      //     size={{ width: "100%", height: "25px" }}
-                      //     options={gameIdOptions}
-                      //     value={selectedGameID}
-                      //     onChange={(value) => setSelectedGameID(value)}
-                      //   /> :
-                      //   <LabeledText
-                      //     label={<span style={{ marginRight: "10px" }}>GameID</span>}
-                      //     horizontal
-                      //     margin="-5px 8px 8px 8px"
-                      //     size={{ width: "100%", height: "25px" }}
-                      //     value={selectedGameID}
-                      //     onChange={(value) => setSelectedGameID(value)}
-                      //   />
                     }
 
+                    {/* Match data information */}
                     <Image
                       className="match-data-info"
                       preview={false}
                       src=".\assets\02-pro\ui-stadium-card.png"
                       width="315px"
-                    // height="329px"
                     />
-                    <Spacer width="5px" />
+
+                    {/* Home team name */}
+                    <Spacer width="20px" />
                     <LabeledText style={{}} label="" value={selectedMatchInfo?.HomeTeamName ?? ""} size={{ width: "80%" }} textAlign="left" disabled={deliveryType == 1} />
-                    <Spacer width="25px" />
+
+                    {/* Visitor team name */}
+                    <Spacer width="35px" />
                     <LabeledText style={{}} label="" value={selectedMatchInfo?.VisitorTeamName ?? ""} size={{ width: "80%" }} textAlign="left" disabled={deliveryType == 1} />
-                    <Spacer width="25px" />
+
+                    {/* Stadium name */}
+                    <Spacer width="40px" />
                     <LabeledText style={{}} label="" value={selectedMatchInfo?.StadiumName ?? ""} size={{ width: "80%" }} textAlign="left" disabled={deliveryType == 1} />
                   </div>
                 </div>
               </div>
             </Card>
 
-            {/* ================================================================== */}
-            {/*                      Match Settings Button Panel                   */}
+            {/* Match Settings Button Panel */}
             <div className="match-settings-btn-panel">
-              {/* <Button className="match-settings-btn" style={{ fontSize: "1.1em" }}>
-              バックアップ／リストア
-            </Button> */}
+              {/* Backup button */}
               <ImageButton
                 src=".\assets\02-pro\button-backup.png"
               />
               <Spacer width="5px" />
+
+              {/* Restore button */}
               <ImageButton
                 src=".\assets\02-pro\button-restore.png"
               />
               <Spacer width="36.5px" />
+
+              {/* Clear button */}
               <ImageButton
                 src=".\assets\02-pro\button-clear.png"
                 onClick={() => {
@@ -450,6 +467,8 @@ function MatchSettingsPage() {
                 }}
               />
               <Spacer width="5px" />
+
+              {/* Match setting button */}
               <ImageButton
                 src=".\assets\02-pro\button-match-setting.png"
                 onClick={() => {
@@ -460,36 +479,40 @@ function MatchSettingsPage() {
                 }}
               />
               <Spacer width="5px" />
+
+              {/* Retrieve data stadium button */}
               <ImageButton
                 src=".\assets\02-pro\button-retrieve-datastadium.png"
               />
             </div>
           </div>
 
-          {/* ================================================================== */}
-          {/*                            Bottom Layout                           */}
-
+          {/* Bottom Layout */}
           <div className="match-settings-lower">
+            {/* Card container for the stadium data panel */}
             <Card
               className="stadium-data-panel-card"
               bodyStyle={{ padding: "2px 5px", boxSizing: "content-box" }}
             >
+              {/* Stadium data panel */}
               <div className="stadium-data-panel">
                 <div className="stadium-data-panel-header">他球場設定</div>
                 <div className="stadium-data-content">
+                  {/* Other stadium data */}
                   <OtherStadiumData
                     otherData={otherGameInfo}
                     deliveryType={deliveryType}
                     onDataUpdate={(updatedData) => {
-                      // console.log(updatedData)
-
                       setOtherGameInfo([...updatedData])
-                    }} />
+                    }}
+                  />
                 </div>
               </div>
             </Card>
 
+            {/* Stadium settings button panel */}
             <div className="stadium-settings-btn-panel">
+              {/* Clear all button */}
               <ImageButton
                 src=".\assets\02-pro\button-clear-all.png"
                 onClick={() => {
@@ -497,6 +520,8 @@ function MatchSettingsPage() {
                 }}
               />
               <Spacer />
+
+              {/* Other stadium setting button */}
               <ImageButton
                 src=".\assets\02-pro\button-other-stadium-setting.png"
                 onClick={() => {
@@ -504,12 +529,16 @@ function MatchSettingsPage() {
                 }}
               />
               <Spacer />
+
+              {/* Other stadium info button */}
               <ImageButton
                 src=".\assets\02-pro\button-other-stadium-info.png"
                 onClick={() => {
                   setIsEditModalOpen(true)
                 }}
               />
+
+              {/* Stadium edit modal */}
               <StadiumEditModal
                 title={date ? `${date.year}.${date.month}.${date.day}` : ""}
                 otherStadiumInfo={otherGameInfo}
@@ -521,7 +550,7 @@ function MatchSettingsPage() {
         </ConfigProvider>
       </div>
     </MatchSettingsContext.Provider>
-  );
+  )
 }
 
 export default MatchSettingsPage;
