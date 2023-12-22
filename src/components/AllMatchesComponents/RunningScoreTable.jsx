@@ -1,10 +1,9 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import Table from '../ui/(grid-table)/Table'
 import { Button } from "antd";
 import { CaretRightOutlined } from "@ant-design/icons";
 
 const { Type } = Table.Header;
-const intervalGapSize = 50;
 
 // Labels
 
@@ -78,15 +77,53 @@ const rowWidth = [90, ...defaultRowWidth];
 const rowGaps = [0, 3, 6, 9];
 const rowGaps2 = [2];
 
-const RunningScoreTable = () => {
+const RunningScoreTable = (data) => {
   const [isExpandClicked, setExpandButtonClicked] = useState(false);
+  const [teamScoresV, setTeamScoresV] = useState([]);
+  const [teamScoresH, setTeamScoresH] = useState([]);
+  var scoresV = [];
+  var scoresH = [];
+
+  useEffect(() => {
+    const getMatchScore = () => {
+      const scores = data.score;
+      if (scores == null) {
+        return []
+      }
+      const inningScores = Object.keys(scores).
+        filter((key) => key.includes('InningScore')).
+        reduce((cur, key) => { return Object.assign(cur, { [key]: scores[key] }) }, {});
+
+      let ctr = 0;
+      for (const data of Object.entries(inningScores)) {
+        for (let i = 0; i < data.length; i++) {
+          if (data[i] !== 'InningScore_' + (ctr + 1)) {
+            if ('Score_V' in data[i])
+              scoresV.push(data[i].Score_V);
+            if ('Score_H' in data[i])
+              scoresH.push(data[i].Score_H);
+          }
+        }
+        ctr++;
+      }
+
+      setTeamScoresV(scoresV);
+      setTeamScoresH(scoresH);
+    };
+
+    getMatchScore();
+  }, [data])
+
+  const teamDataV = [data.teamV, ...teamScoresV];
+  const teamDataH = [data.teamH, ...teamScoresH];
+  const tableInputStyle = {textAlign: "center"};
 
   return (
     <>
       <Table>
         <Table.Header headerProps={headers} />
-        <Table.Row numColumns={13} width={rowWidth} gapIndices={rowGaps} gapSize={5} />
-        <Table.Row numColumns={13} width={rowWidth} gapIndices={rowGaps} gapSize={5} />
+        <Table.Row numColumns={13} width={rowWidth} gapIndices={rowGaps} gapSize={5} inputStyle={tableInputStyle} cellValues={teamDataV} />
+        <Table.Row numColumns={13} width={rowWidth} gapIndices={rowGaps} gapSize={5} inputStyle={tableInputStyle} cellValues={teamDataH} />
       </Table>
 
       <Button className="arrow-btn"
@@ -96,15 +133,15 @@ const RunningScoreTable = () => {
       {isExpandClicked === true &&
         <Table>
           <Table.Header headerProps={expandedHeaders} />
-          <Table.Row numColumns={6} width={40} gapIndices={rowGaps2} gapSize={5} />
-          <Table.Row numColumns={6} width={40} gapIndices={rowGaps2} gapSize={5} />
+          <Table.Row numColumns={6} width={40} inputStyle={tableInputStyle} gapIndices={rowGaps2} gapSize={5} />
+          <Table.Row numColumns={6} width={40} inputStyle={tableInputStyle} gapIndices={rowGaps2} gapSize={5} />
         </Table>
       }
 
       <Table>
         <Table.Header headerProps={headers2} />
-        <Table.Row numColumns={1} width={40} />
-        <Table.Row numColumns={1} width={40} />
+        <Table.Row numColumns={1} width={40} inputStyle={tableInputStyle} cellValues={[data.score.TotalScore_V]} />
+        <Table.Row numColumns={1} width={40} inputStyle={tableInputStyle} cellValues={[data.score.TotalScore_H]} />
       </Table>
     </>
 

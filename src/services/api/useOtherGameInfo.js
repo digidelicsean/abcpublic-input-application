@@ -17,14 +17,19 @@ export const useOtherGameInfo = () => {
     return {
         data: parsedData,
         reload: otherGameInfo.reload,
-        // update: (otherGameInfoData) => {
-        //     if (otherGameInfo?.data == null) return;
+        // update: (updatedData) => {
+        update: () => {
+            if (otherGameInfo?.data == null) return;
 
-        //     const prevData = otherGameInfo.data;
+            const objId = "_id";
+            const gameInfoData = otherGameInfo.data[0];
+            delete gameInfoData[objId];
 
-        //     prevData.OtherGameInfo.OtherGameInfo_1 = otherGameInfoData;
-        //     send(prevData)
-        // }
+            send(gameInfoData).then(() => {
+                otherGameInfo.reload();
+            });
+
+        }
     }
 }
 
