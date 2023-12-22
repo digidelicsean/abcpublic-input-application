@@ -47,9 +47,17 @@
     gap: 5px;
 }
 
-.row1>Button {
-    min-width: 65px;
-    padding: 2px;
+.row1>span {
+    width: 25%;
+    padding: 3px 5px;
+    text-align: center;
+    min-width: max-content;
+    white-space: nowrap;
+    outline-style: double;
+    outline-color: white;
+    border-radius: 5px;
+    font-size: 12px;
+    align-self: center;
 }
 
 .situation-0 {

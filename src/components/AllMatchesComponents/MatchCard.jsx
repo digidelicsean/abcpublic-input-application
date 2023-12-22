@@ -70,7 +70,7 @@ const MatchCard = ({ index, clicked, selected }) => {
         return inningValue(inning) + tbValue(tb);
     }
 
-    const btnLabel = (situation) => {
+    const situationLabel = (situation) => {
         switch (situation) {
             case 0: return "試合前";
             case 1: return "試合中";
@@ -83,15 +83,15 @@ const MatchCard = ({ index, clicked, selected }) => {
         <>
             <div className={`other-game-top-card match-card-${index} ${selected(index)}`}
                 onClick={() => clicked(index)}
-                >
+            >
                 <Card style={{ backgroundColor: "#f4f4f4" }}>
                     <div className="other-game-top-body">
+
                         <div className="row1">
-                            <Input value={stadiumName}
-                                onChange={(event) => setStadiumName(event.target.value)}
-                            />
-                            <Button className={`situation-${situation}`}>{btnLabel(situation)}</Button>
+                            <Input value={stadiumName} />
+                            <span className={`situation-${situation}`}>{situationLabel(situation)}</span>
                         </div>
+
                         <div className="row2">
                             <Input value={sentence}
                                 onChange={(event) => {
@@ -127,12 +127,11 @@ const MatchCard = ({ index, clicked, selected }) => {
                                 }}
                             >+</Button>
                         </div>
-                        <div className="row3">
-                            <Input value={teamNameV} onChange={(event) => {
-                                setTeamNameV(event.target.value)
-                            }} />
 
+                        <div className="row3">
+                            <Input value={teamNameV} />
                         </div>
+
                         <div className="row4">
                             <Input value={Number(totalScoreV) >= 0 ? totalScoreV : ""}
                                 onChange={(event) => {
@@ -149,12 +148,11 @@ const MatchCard = ({ index, clicked, selected }) => {
                                 onClick={() => setTotalScoreV(Number(totalScoreV) + 1)}
                             >+</Button>
                         </div>
-                        <div className="row5">
-                            <Input value={teamNameH} onChange={(event) => {
-                                setTeamNameH(event.target.value)
-                            }} />
 
+                        <div className="row5">
+                            <Input value={teamNameH} />
                         </div>
+
                         <div className="row6">
                             <Input value={Number(totalScoreH) >= 0 ? totalScoreH : ""}
                                 onChange={(event) => {
@@ -172,6 +170,7 @@ const MatchCard = ({ index, clicked, selected }) => {
                                 onClick={() => setTotalScoreH(Number(totalScoreH) + 1)}
                             >+</Button>
                         </div>
+
                         <div className="row7">
                             <Button className="match-card-save-btn"
                                 onClick={() => {
