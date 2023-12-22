@@ -4,8 +4,8 @@ import "./RunningScore.css";
 import RunningScoreTable from "./RunningScoreTable";
 import { useOtherGameInfo } from '../../services/api/useOtherGameInfo';
 
-
 const RunningScore = (data) => {
+    const [currentData, setCurrentData] = useState([]);
     const [teamV, setTeamV] = useState("");
     const [teamH, setTeamH] = useState("");
     const [stadium, setStadium] = useState("");
@@ -69,6 +69,7 @@ const RunningScore = (data) => {
                 ctrV++;
             }
 
+            setCurrentData(gameInfo);
             setPitcherDataH(pitcherInfoH);
             setPitcherDataV(pitcherInfoV);
             setTeamV(teamNameV);
@@ -185,10 +186,19 @@ const RunningScore = (data) => {
                 </div>
                 <div className="col3-mid">
                     <span>開始時刻</span>
-                    <Input value={startTime} />
+                    <Input value={startTime} onChange={(event) => setStartTime(event.target.value)} />
                 </div>
                 <div className="col3-bot">
-                    <Button className="col3-bot-btn">保存</Button>
+                    <Button className="col3-bot-btn"
+                        onClick={() => {
+                            const [hh, mm, ss] = startTime.split(':');
+                            if (!isNaN(hh) && !isNaN(mm) && !isNaN(ss)) {
+                                if (Number(hh) >= 100 || Number(mm) >= 60 || Number(ss) >= 60) return;
+                                currentData.StartTime = startTime;
+                                otherGameInfo.update();
+                            }
+                        }}
+                    >保存</Button>
                 </div>
             </div>
 

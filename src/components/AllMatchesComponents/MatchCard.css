@@ -53,8 +53,7 @@
     text-align: center;
     min-width: max-content;
     white-space: nowrap;
-    outline-style: double;
-    outline-color: white;
+    outline: double white;
     border-radius: 5px;
     font-size: 12px;
     align-self: center;
@@ -82,6 +81,7 @@
 .row4>Input,
 .row6>Input {
     width: 50px;
+    text-align: center;
 }
 
 .sub-btn,

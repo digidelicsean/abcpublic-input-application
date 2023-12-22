@@ -116,13 +116,14 @@ const RunningScoreTable = (data) => {
 
   const teamDataV = [data.teamV, ...teamScoresV];
   const teamDataH = [data.teamH, ...teamScoresH];
+  const tableInputStyle = {textAlign: "center"};
 
   return (
     <>
       <Table>
         <Table.Header headerProps={headers} />
-        <Table.Row numColumns={13} width={rowWidth} gapIndices={rowGaps} gapSize={5} cellValues={teamDataV} />
-        <Table.Row numColumns={13} width={rowWidth} gapIndices={rowGaps} gapSize={5} cellValues={teamDataH} />
+        <Table.Row numColumns={13} width={rowWidth} gapIndices={rowGaps} gapSize={5} inputStyle={tableInputStyle} cellValues={teamDataV} />
+        <Table.Row numColumns={13} width={rowWidth} gapIndices={rowGaps} gapSize={5} inputStyle={tableInputStyle} cellValues={teamDataH} />
       </Table>
 
       <Button className="arrow-btn"
@@ -132,15 +133,15 @@ const RunningScoreTable = (data) => {
       {isExpandClicked === true &&
         <Table>
           <Table.Header headerProps={expandedHeaders} />
-          <Table.Row numColumns={6} width={40} gapIndices={rowGaps2} gapSize={5} />
-          <Table.Row numColumns={6} width={40} gapIndices={rowGaps2} gapSize={5} />
+          <Table.Row numColumns={6} width={40} inputStyle={tableInputStyle} gapIndices={rowGaps2} gapSize={5} />
+          <Table.Row numColumns={6} width={40} inputStyle={tableInputStyle} gapIndices={rowGaps2} gapSize={5} />
         </Table>
       }
 
       <Table>
         <Table.Header headerProps={headers2} />
-        <Table.Row numColumns={1} width={40} cellValues={[data.score.TotalScore_V]} />
-        <Table.Row numColumns={1} width={40} cellValues={[data.score.TotalScore_H]} />
+        <Table.Row numColumns={1} width={40} inputStyle={tableInputStyle} cellValues={[data.score.TotalScore_V]} />
+        <Table.Row numColumns={1} width={40} inputStyle={tableInputStyle} cellValues={[data.score.TotalScore_H]} />
       </Table>
     </>
 
