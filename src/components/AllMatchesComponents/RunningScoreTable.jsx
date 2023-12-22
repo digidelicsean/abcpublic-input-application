@@ -83,7 +83,7 @@ const RunningScoreTable = (data) => {
   const [teamScoresH, setTeamScoresH] = useState([]);
   var scoresV = [];
   var scoresH = [];
-  
+
   useEffect(() => {
     const getMatchScore = () => {
       const scores = data.score;
@@ -98,8 +98,10 @@ const RunningScoreTable = (data) => {
       for (const data of Object.entries(inningScores)) {
         for (let i = 0; i < data.length; i++) {
           if (data[i] !== 'InningScore_' + (ctr + 1)) {
-            scoresV.push(data[i].Score_V);
-            scoresH.push(data[i].Score_H);
+            if ('Score_V' in data[i])
+              scoresV.push(data[i].Score_V);
+            if ('Score_H' in data[i])
+              scoresH.push(data[i].Score_H);
           }
         }
         ctr++;

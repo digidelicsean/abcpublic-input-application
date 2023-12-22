@@ -4,41 +4,30 @@ import MatchCard from "./MatchCard"
 
 const AllMatchCards = ({ index }) => {
 
-    const [matches, setMatch] = useState([
-        { index: "0", selected: false },
-        { index: "1", selected: false },
-        { index: "2", selected: false },
-        { index: "3", selected: false },
-        { index: "4", selected: false }
-    ]);
+    const [matches, setMatch] = useState({
+        activeObject: null,
+        objects: [{ id: 1 }, { id: 2 }, { id: 3 }, { id: 4 }, { id: 5 }]
+    });
 
-    const handleClicked = (i) => {
-        const selectedIndex = matches.filter((match) => match.index === i);
-        if (!selectedIndex[0].selected) {
-            const selectedCount = matches.filter((match) => match.selected).length;
-            if (selectedCount === 1) {
-                return;
-            }
-        }
-
-        setMatch(
-            matches.map((match) =>
-                match.index === i
-                    ? { ...match, selected: !match.selected }
-                    : match
-            )
-        );
+    const toggleActive = (i) => {
+        setMatch({ ...matches, activeObject: matches.objects[i] });
         index(i);
-    };
+    }
+
+    const toggleActiveStyles = (index) => {
+        if (matches.objects[index] === matches.activeObject)
+            return "selected";
+        else return "";
+    }
 
     return (
         <>
-            {matches.map((match) => (
+            {matches.objects.map((elements, index) => (
                 <MatchCard
-                    index={match.index}
-                    key={match.index}
-                    clicked={handleClicked}
-                    selected={match.selected}
+                    index={index}
+                    key={index}
+                    clicked={toggleActive}
+                    selected={toggleActiveStyles}
                 />
             ))}
         </>

@@ -3,7 +3,7 @@ import { Button, Input, Card } from "antd";
 import "./MatchCard.css";
 import { useOtherGameInfo } from '../../services/api/useOtherGameInfo';
 
-const MatchCard = ({ index, key, clicked, selected }) => {
+const MatchCard = ({ index, clicked, selected }) => {
     const [currentData, setCurrentData] = useState([]);
     const [stadiumName, setStadiumName] = useState("");
     const [teamNameV, setTeamNameV] = useState("");
@@ -81,11 +81,10 @@ const MatchCard = ({ index, key, clicked, selected }) => {
 
     return (
         <>
-            <div className={`other-game-top-card match-card-${index} ${selected ? "selected" : ""}`}
-                index={index}
-                onClick={() => clicked(index)}>
-
-                <Card key={key} style={{ backgroundColor: "#f4f4f4" }}>
+            <div className={`other-game-top-card match-card-${index} ${selected(index)}`}
+                onClick={() => clicked(index)}
+                >
+                <Card style={{ backgroundColor: "#f4f4f4" }}>
                     <div className="other-game-top-body">
                         <div className="row1">
                             <Input value={stadiumName}
