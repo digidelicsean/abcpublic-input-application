@@ -1,6 +1,5 @@
 .other-game-top-card {
     width: calc((100vw * 265) / 1440);
-    background-color: #f4f4f4;
     max-width: 265px;
     border-radius: 10px;
 }
@@ -34,7 +33,7 @@
 
 .selected:after {
     margin-top: -2px;
-    border-color: #fff transparent transparent;
+    border-color: rgb(244, 244, 244) transparent transparent;
 }
 
 .other-game-top-body {
@@ -48,9 +47,16 @@
     gap: 5px;
 }
 
-.row1>Button {
-    min-width: 65px;
-    padding: 2px;
+.row1>span {
+    width: 25%;
+    padding: 3px 5px;
+    text-align: center;
+    min-width: max-content;
+    white-space: nowrap;
+    outline: double white;
+    border-radius: 5px;
+    font-size: 12px;
+    align-self: center;
 }
 
 .situation-0 {
@@ -75,6 +81,7 @@
 .row4>Input,
 .row6>Input {
     width: 50px;
+    text-align: center;
 }
 
 .sub-btn,
