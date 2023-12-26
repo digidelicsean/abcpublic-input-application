@@ -15,6 +15,12 @@ const RunningScore = (data) => {
     const [score, setScore] = useState([]);
     const [pitcherNamesH, setPitcherNamesH] = useState("");
     const [pitcherNamesV, setPitcherNamesV] = useState("");
+    const [updatedScoresH, setUpdatedScoresH] = useState([]);
+    const [updatedScoresV, setUpdatedScoresV] = useState([]);
+
+    const [pitcherHistoryH, setPitcherHistoryH] = useState("");
+    const [pitcherHistoryV, setPitcherHistoryV] = useState("");
+
 
     var otherGameInfoNum = Number(data.index) + 1;
     const otherGameInfo = useOtherGameInfo();
@@ -36,6 +42,9 @@ const RunningScore = (data) => {
             const stadiumName = gameInfo.Stadium;
             const sTime = gameInfo.StartTime;
             const pitcherInfo = gameInfo[`Pitcher-Info`];
+
+            // const pitcherHistoryH = gameInfo.PitcherHistory_H;
+            // const pitcherHistoryV = gameInfo.PitcherHistory_V;
 
             const pitcherInfoH = Object.keys(pitcherInfo).
                 filter((key) => key.includes('Pitcher-Info_H')).
@@ -76,6 +85,11 @@ const RunningScore = (data) => {
 
             setPitcherNamesH(getPitcherNames(playersH, 'ー'));
             setPitcherNamesV(getPitcherNames(playersV, 'ー'))
+
+            // setPitcherHistoryH(pitcherHistoryH);
+            // setPitcherHistoryV(pitcherHistoryV);
+            // console.log("updated: ", updatedScoresH)
+
         };
 
         getMatchData();
@@ -107,6 +121,8 @@ const RunningScore = (data) => {
                     <RunningScoreTable teamV={teamV}
                         teamH={teamH}
                         score={score}
+                        updatedH={setUpdatedScoresH}
+                        updatedV={setUpdatedScoresH}
                     />
                 </div>
                 <div className="col2-bot">
@@ -137,6 +153,18 @@ const RunningScore = (data) => {
                                     otherGameInfo.update();
                                 }}
                             >保存</Button>
+
+                            {/* <Input className="col2-bot-input"
+                                value={pitcherHistoryH}
+                                onChange={(event) => setPitcherHistoryH(event.target.value)}
+                            />
+
+                            <Button className="col2-bot-btn"
+                                onClick={() => {
+                                    currentData.PitcherHistory_H = pitcherHistoryH;
+                                    otherGameInfo.update();
+                                }}
+                            >保存</Button> */}
                         </div>
                     </div>
 
@@ -166,6 +194,20 @@ const RunningScore = (data) => {
                                     otherGameInfo.update();
                                 }}
                             >保存</Button>
+
+
+                            {/* <Input className="col2-bot-input"
+                                value={pitcherHistoryV}
+                                onChange={(event) => setPitcherHistoryV(event.target.value)}
+                            />
+
+                            <Button className="col2-bot-btn"
+                                onClick={() => {
+                                    currentData.PitcherHistory_V = pitcherHistoryV;
+                                    otherGameInfo.update();
+                                }}
+                            >保存</Button> */}
+
                         </div>
                     </div>
                 </div>

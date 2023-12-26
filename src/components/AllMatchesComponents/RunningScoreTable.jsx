@@ -121,8 +121,40 @@ const RunningScoreTable = (data) => {
     <>
       <Table>
         <Table.Header headerProps={headers} />
-        <Table.Row numColumns={13} width={rowWidth} gapIndices={rowGaps} gapSize={5} inputStyle={tableInputStyle} cellValues={teamDataV} />
-        <Table.Row numColumns={13} width={rowWidth} gapIndices={rowGaps} gapSize={5} inputStyle={tableInputStyle} cellValues={teamDataH} />
+        <Table.Row numColumns={13}
+          width={rowWidth}
+          gapIndices={rowGaps}
+          gapSize={5}
+          inputStyle={tableInputStyle}
+          cellValues={teamDataV}
+          onChange={(event) => {
+            const rowScores = [...teamDataV];
+            let id = event.currentTarget.id;
+            let value = event.target.value;
+            if (!isNaN(value)) {
+              rowScores[id] = Number(value);
+              const removeTeamName = rowScores.shift();
+              setTeamScoresV(rowScores);
+            }
+          }}
+        />
+        <Table.Row numColumns={13}
+          width={rowWidth}
+          gapIndices={rowGaps}
+          gapSize={5}
+          inputStyle={tableInputStyle}
+          cellValues={teamDataH}
+          onChange={(event) => {
+            const rowScores = [...teamDataH];
+            let id = event.currentTarget.id;
+            let value = event.target.value;
+            if (!isNaN(value)) {
+              rowScores[id] = Number(value);
+              const removeTeamName = rowScores.shift();
+              setTeamScoresH(rowScores);
+            }
+          }}
+        />
       </Table>
 
       <Button className="arrow-btn"
