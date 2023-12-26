@@ -10,8 +10,6 @@ const RunningScore = (data) => {
     const [teamH, setTeamH] = useState("");
     const [stadium, setStadium] = useState("");
     const [startTime, setStartTime] = useState("");
-    const [snPlayerH, setSnPlayerH] = useState([]);
-    const [snPlayerV, setSnPlayerV] = useState([]);
     const [pitcherDataH, setPitcherDataH] = useState([]);
     const [pitcherDataV, setPitcherDataV] = useState([]);
     const [score, setScore] = useState([]);
@@ -26,9 +24,7 @@ const RunningScore = (data) => {
     useEffect(() => {
         const getMatchData = () => {
             let info;
-            if (otherGameInfo.data == null) {
-                return []
-            }
+            if (otherGameInfo.data == null) return [];
 
             for (let i = 0; i < otherGameInfo.data.length; i++) {
                 info = otherGameInfo.data[i];
@@ -77,8 +73,6 @@ const RunningScore = (data) => {
             setScore(gameScore);
             setStadium(stadiumName);
             setStartTime(sTime);
-            setSnPlayerH(playersH);
-            setSnPlayerV(playersV);
 
             setPitcherNamesH(getPitcherNames(playersH, 'ー'));
             setPitcherNamesV(getPitcherNames(playersV, 'ー'))

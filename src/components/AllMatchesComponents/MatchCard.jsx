@@ -19,13 +19,11 @@ const MatchCard = ({ index, clicked, selected }) => {
     var otherGameInfoNum = Number(index) + 1;
 
     const otherGameInfo = useOtherGameInfo();
-    let info;
 
     useEffect(() => {
         const getOtherGameInfo = () => {
-            if (otherGameInfo.data == null) {
-                return []
-            }
+            let info;
+            if (otherGameInfo.data == null) return [];
 
             for (let i = 0; i < otherGameInfo.data.length; i++) {
                 info = otherGameInfo.data[i];

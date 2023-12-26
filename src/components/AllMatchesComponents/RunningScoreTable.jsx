@@ -60,7 +60,7 @@ const expandedHeaders = expandedLableNames.map(({ label, gapSize }) => ({
   }
 }));
 
-const headers2 = collapsedNames2.map(({ label, gapSize }) => ({
+const totalHeader = collapsedNames2.map(({ label, gapSize }) => ({
   type: Type.Label,
   label,
   colSpan: 1,
@@ -87,9 +87,8 @@ const RunningScoreTable = (data) => {
   useEffect(() => {
     const getMatchScore = () => {
       const scores = data.score;
-      if (scores == null) {
-        return []
-      }
+      if (scores == null) return [];
+
       const inningScores = Object.keys(scores).
         filter((key) => key.includes('InningScore')).
         reduce((cur, key) => { return Object.assign(cur, { [key]: scores[key] }) }, {});
@@ -116,7 +115,7 @@ const RunningScoreTable = (data) => {
 
   const teamDataV = [data.teamV, ...teamScoresV];
   const teamDataH = [data.teamH, ...teamScoresH];
-  const tableInputStyle = {textAlign: "center"};
+  const tableInputStyle = { textAlign: "center" };
 
   return (
     <>
@@ -139,7 +138,7 @@ const RunningScoreTable = (data) => {
       }
 
       <Table>
-        <Table.Header headerProps={headers2} />
+        <Table.Header headerProps={totalHeader} />
         <Table.Row numColumns={1} width={40} inputStyle={tableInputStyle} cellValues={[data.score.TotalScore_V]} />
         <Table.Row numColumns={1} width={40} inputStyle={tableInputStyle} cellValues={[data.score.TotalScore_H]} />
       </Table>
