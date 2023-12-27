@@ -1,43 +1,41 @@
 import { useState } from 'react'
 import { Modal, Image, Button } from 'antd'
 
-import { ImageButton, Spacer } from '../../../'
-import LastUpdated from '../../../GeneralComponent/LastUpdated'
-import PlayerOption from './PlayerOption'
-import "../InfoTab.css"
+import { ImageButton, Spacer } from '../../../' // Importing custom components
+import LastUpdated from '../../../GeneralComponent/LastUpdated' // Importing a custom component
+import PlayerOption from './PlayerOption' // Importing a local component
+import "../InfoTab.css" // Importing a CSS file
 
-import style from "./PlayerInfoTab.module.css"
-import { useModal } from "../../../../hooks/useModal";
-import { usePlayerInfoMST } from '../../../../services/api/usePlayerInfoMST'
+import style from "./PlayerInfoTab.module.css" // Importing a CSS module
+import { useModal } from "../../../../hooks/useModal" // Importing a custom hook
+import { usePlayerInfoMST } from '../../../../services/api/usePlayerInfoMST' // Importing a custom hook
 
-
-
+// Declaring the main component
 function PlayerInfoTab({ players, onPlayerSelect }) {
-  // const playerInfoMST = usePlayerInfoMST(team?.TeamCD ?? null);
 
-  const displayModal = useModal(() => { }, () => { });
-  const tradeModal = useModal(() => { }, () => { });
+  const displayModal = useModal(() => { }, () => { }); // Using a custom hook to manage a modal
+  const tradeModal = useModal(() => { }, () => { }); // Using a custom hook to manage another modal
 
   return (
-    <div className={`tab ${style.container}`}>
-      <div className={style['tab-menu']}>
-        <div className={style.legend}>
-          <Image preview={false} src='./assets/03-player-info-tab/legend-record.png' />
+    <div className={`tab ${style.container}`}> {/* Main container */}
+      <div className={style['tab-menu']}>{/* Menu section */}
+        <div className={style.legend}>{/* Legend */}
+          <Image preview={false} src='./assets/03-player-info-tab/legend-record.png' /> {/* Displaying an image */}
         </div>
 
-        <div className={style['sort-buttons']}>
-          <ImageButton src={"./assets/03-player-info-tab/button-sort-pitcher-fielder.png"} />
-          <Spacer width="5px" />
-          <ImageButton src={"./assets/03-player-info-tab/button-sort-letter.png"} />
-          <Spacer width="5px" />
-          <ImageButton src={"./assets/03-player-info-tab/button-sort-backnum.png"} />
-          <Spacer width="20px" />
+        <div className={style['sort-buttons']}>{/* Sort buttons */}
+          <ImageButton src={"./assets/03-player-info-tab/button-sort-pitcher-fielder.png"} /> {/* Displaying an image button */}
+          <Spacer width="5px" /> {/* Adding some space */}
+          <ImageButton src={"./assets/03-player-info-tab/button-sort-letter.png"} /> {/* Displaying another image button */}
+          <Spacer width="5px" /> {/* Adding some space */}
+          <ImageButton src={"./assets/03-player-info-tab/button-sort-backnum.png"} /> {/* Displaying another image button */}
+          <Spacer width="20px" /> {/* Adding some space */}
 
-          <LastUpdated />
+          <LastUpdated /> {/* Displaying the last updated time */}
         </div>
       </div>
 
-      <div className={style.table}>
+      <div className={style.table}>{/* Player options table */}
         {
           players?.map((player, index) => {
             return (
@@ -83,29 +81,4 @@ function PlayerInfoTab({ players, onPlayerSelect }) {
   )
 }
 
-export default PlayerInfoTab
-
-
-
-// return (
-//   <>
-//     <Modal
-//       title="Modal One"
-//       visible={isModalOneVisible}
-//       onOk={handleOkOne}
-//       onCancel={handleCancelOne}
-//       style={{ float: 'left', marginRight: 10 }}
-//     >
-//       <p>Some contents...</p>
-//     </Modal>
-//     <Modal
-//       title="Modal Two"
-//       visible={isModalTwoVisible}
-//       onOk={handleOkTwo}
-//       onCancel={handleCancelTwo}
-//       style={{ float: 'left' }}
-//     >
-//       <p>Some contents...</p>
-//     </Modal>
-//   </>
-// )
+export default PlayerInfoTab // Exporting the component for external use
