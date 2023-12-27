@@ -8,14 +8,16 @@ import {
     BaseRunTab,
     MemberLineUpTab,
     ScoreBookTab,
-    PitcherResultTab
+    PitcherResultTab,
+    SampleTab
 } from "./(tabs)";
     
 const tabProperties = {
+    /*ScoreBookTab - batting result*/     ["打者成績"]: <ScoreBookTab />,
     /*PitcherResultTab*/ ["投手成績"]: <PitcherResultTab />,
-    /*BaseRunTab*/       ["盗塁/阻止"]: <BaseRunTab />,
-    /*ScoreBookTab*/     ["スコアブック"]: <ScoreBookTab />,
-    /*MemberLineUpTab*/ ["スタメン/ベンチ"]: <MemberLineUpTab />
+    /*BaseRunTab*/       ["盗塁/盗塁阻止"]: <BaseRunTab />,
+    /*MemberLineUpTab*/ ["スタメン/ベンチ"]: <MemberLineUpTab />,
+    /*MemberLineUpTab*/ ["Demo"]: <SampleTab />,
 
 };
 

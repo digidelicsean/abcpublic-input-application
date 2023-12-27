@@ -220,7 +220,7 @@ const SampleTab = () => {
 
    }
   ]);
-  var batterText =  "G2 | 吉川| L \n 0000 | \n左フライ\n 打点: 0 | 得点圏： 0 ";
+  const batterText =  " G | 2 | 吉川| L | "+ "\n" + " 0000 | 左フライ |" + "\n"  + " 打点: 0 | 得点圏： 0 ";
   
   dataSource.pop();
   for (let i = 1; i <= 20; i++) {
@@ -291,42 +291,10 @@ const SampleTab = () => {
 
   return (
     <div className='tab'>
-      <Modal title="打球方向&emsp;&emsp;&emsp;&emsp;&emsp;結果" open={isModalOpen} onOk={handleOk} okText="決定"  width={1000} height={500}>
+      <Modal title="結果&emsp;&emsp;&emsp;&emsp;打球方向" open={isModalOpen} onOk={handleOk} okText="決定"  width={1000} height={500}>
         <Row justify="space-evenly">
         <Col>
-        <Row justify="space-evenly">
-            <Button style={{transform: 'translate(0%, 0%)', background: "#fafafa"}} >投手</Button>
-            <Button style={{transform: 'translate(0%, 0%)', background: "#fafafa"}} >左翼</Button>
-            <Button style={{transform: 'translate(0%, 0%)', background: "#fafafa"}} >その他</Button>
-
-          </Row>
           <Row justify="space-evenly">
-            <Button style={{transform: 'translate(0%, 0%)', background: "#fafafa"}} >捕手</Button>
-            <Button style={{transform: 'translate(0%, 0%)', background: "#fafafa"}} >左中間</Button>
-
-          </Row>
-          <Row justify="space-evenly">
-            <Button style={{transform: 'translate(0%, 0%)', background: "#fafafa"}} >一塁</Button>
-            <Button style={{transform: 'translate(0%, 0%)', background: "#fafafa"}} >中堅</Button>
-
-          </Row>
-          <Row justify="space-evenly">
-            <Button style={{transform: 'translate(0%, 0%)', background: "#fafafa"}} >二塁</Button>
-            <Button style={{transform: 'translate(0%, 0%)', background: "#fafafa"}} >右中間</Button>
-      
-          </Row>
-          <Row justify="space-evenly">
-            <Button style={{transform: 'translate(0%, 0%)', background: "#fafafa"}} >三塁</Button>
-            <Button style={{transform: 'translate(0%, 0%)', background: "#fafafa"}} >右翼</Button>
-
-          </Row>
-          <Row justify="space-evenly">
-            <Button style={{transform: 'translate(0%, 0%)', background: "#fafafa"}} >遊撃</Button>
-
-          </Row>
-        </Col>
-        <Col>
-        <Row justify="space-evenly">
             <Button style={{transform: 'translate(0%, 0%)', background: "#fafafa"}} >安打</Button>
             <Button style={{transform: 'translate(0%, 0%)', background: "#fafafa"}} >四球</Button>
             <Button style={{transform: 'translate(0%, 0%)', background: "#fafafa"}} >ゴロアウト</Button>
@@ -367,6 +335,38 @@ const SampleTab = () => {
             <Button style={{transform: 'translate(0%, 0%)', background: "#fafafa"}} >&emsp;</Button>
             <Button style={{transform: 'translate(0%, 0%)', background: "#fafafa"}} >&emsp;</Button>
             <Button style={{transform: 'translate(0%, 0%)', background: "#fafafa"}} >違反</Button>
+          </Row>
+        </Col>
+        <Col>
+          <Row justify="space-evenly">
+            <Button style={{transform: 'translate(0%, 0%)', background: "#fafafa"}} >投手</Button>
+            <Button style={{transform: 'translate(0%, 0%)', background: "#fafafa"}} >左翼</Button>
+            <Button style={{transform: 'translate(0%, 0%)', background: "#fafafa"}} >その他</Button>
+
+          </Row>
+          <Row justify="space-evenly">
+            <Button style={{transform: 'translate(0%, 0%)', background: "#fafafa"}} >捕手</Button>
+            <Button style={{transform: 'translate(0%, 0%)', background: "#fafafa"}} >左中間</Button>
+
+          </Row>
+          <Row justify="space-evenly">
+            <Button style={{transform: 'translate(0%, 0%)', background: "#fafafa"}} >一塁</Button>
+            <Button style={{transform: 'translate(0%, 0%)', background: "#fafafa"}} >中堅</Button>
+
+          </Row>
+          <Row justify="space-evenly">
+            <Button style={{transform: 'translate(0%, 0%)', background: "#fafafa"}} >二塁</Button>
+            <Button style={{transform: 'translate(0%, 0%)', background: "#fafafa"}} >右中間</Button>
+      
+          </Row>
+          <Row justify="space-evenly">
+            <Button style={{transform: 'translate(0%, 0%)', background: "#fafafa"}} >三塁</Button>
+            <Button style={{transform: 'translate(0%, 0%)', background: "#fafafa"}} >右翼</Button>
+
+          </Row>
+          <Row justify="space-evenly">
+            <Button style={{transform: 'translate(0%, 0%)', background: "#fafafa"}} >遊撃</Button>
+
           </Row>
         </Col>
         </Row>
@@ -456,16 +456,20 @@ const SampleTab = () => {
         <Row justify="center"> 
           <label style={{fontSize: "25px"}}>&emsp;第1打席&emsp;</label> 
           <p></p>
+
         </Row> 
 
         <Row>
+
             <div style={styleBottom}>
                 <p></p>
                 <Row justify="space-evenly">
-                  <label style={{color:"black", background: "#ffffff",fontSize: "25px", borderRadius:'5px', backgroundSize: "1000px 100px"}} size={'100px 1300px'}>&emsp; &emsp;0000&emsp;&emsp; </label>
+                <label style={{color:"black", background: "#ffffff",fontSize: "25px", borderRadius:'5px', backgroundSize: "1000px 100px"}} size={'100px 1300px'}>&emsp; &emsp;0000&emsp;&emsp; </label>
+
                   <label style={{color:"black", background: "#ffffff",fontSize: "25px", borderRadius:'5px', backgroundSize: "1000px 100px"}} size={'100px 1300px'}>&emsp; &emsp;左フライ&emsp;&emsp; </label>
                 </Row>
                 <p><br></br></p>
+                
                 <Row justify="center">
                     <label style={{color:"black",fontSize: "25px", borderRadius:'5px'}} size={'large'}> &emsp;打点&emsp; </label>
 
@@ -474,15 +478,19 @@ const SampleTab = () => {
                     <label style={{color:"black",fontSize: "25px", borderRadius:'5px'}} size={'large'}> &emsp;得点 &emsp; </label>
 
                     <label style={{color:"black", background: "#ffffff",fontSize: "25px", borderRadius:'5px'}} size={'large'}> &emsp;0&emsp; </label>
+
                 </Row>
             </div>
-        </Row>
 
-        <p><br></br></p>
-        <Row justify="center">
-          <Checkbox style={{transform: 'scale(150%,150%) translate(0%, -50%)'}} onChange={onChangeCheckBox}>許可</Checkbox>;
         </Row>
+        <p><br></br></p>
+
+        <Row justify="center">
+         <Checkbox style={{transform: 'scale(150%,150%) translate(0%, -50%)'}} onChange={onChangeCheckBox}>許可</Checkbox>;
+         </Row>
+
           <Row justify="center" >
+              
             <Button style={{transform: 'scale(150%,150%) translate(-20%, 0%)', background: "#a0a0a0"}} >表示クリア </Button>
             <Button style={{transform: 'scale(150%,150%) translate(40%, 0%)',background: "#e8435e"}} >削除 </Button>
             <Button style={{transform: 'scale(150%,150%) translate(100%, 0%)'}} >保存 </Button>
