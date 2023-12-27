@@ -104,8 +104,9 @@ const TeamPlayerSelectHeader = ({
 							value={playerBackNum}
 							placeholder="背番号"
 							onChange={(value) => {
-								//
+								// Check if the value contains any character that is not a digit (0-9)
 								if (/[^0-9]/.test(value)) {
+									// If it does, return without doing anything
 									return;
 								}
 								setPlayerBackNum(value);
