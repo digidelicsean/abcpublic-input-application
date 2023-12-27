@@ -149,8 +149,7 @@ const RunningScoreTable = (data) => {
                 ctr++;
               }
               
-              const removeTeamName = rowScores.shift();
-
+              rowScores.shift();
               if (scoreExist) {
                 let rowTotal = 0;
                 rowScores.forEach(num => {
@@ -191,8 +190,8 @@ const RunningScoreTable = (data) => {
                 }
                 ctr++;
               }
-              const removeTeamName = rowScores.shift();
 
+              rowScores.shift();
               if (scoreExist) {
                 let rowTotal = 0;
                 rowScores.forEach(num => {
