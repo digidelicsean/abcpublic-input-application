@@ -1,8 +1,5 @@
 import { useFetch, usePost } from "../../hooks/useFetch";
 
-// Import the necessary hooks
-import { useFetch, usePost } from "../../hooks/useFetch";
-
 // Define the custom hook 'usePlayerProfile' with 'teamCD' as a parameter
 export const usePlayerProfile = (teamCD) => {
   // Fetch player profile data using the 'useFetch' hook
