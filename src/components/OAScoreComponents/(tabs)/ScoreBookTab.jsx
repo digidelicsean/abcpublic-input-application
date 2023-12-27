@@ -31,66 +31,68 @@ const EditableRow = ({ index, ...props }) => {
 };
 
 const EditableCell = ({
-  title,
-  editable,
-  children,
-  dataIndex,
-  handleSave, 
-  record,
-  ...restProps
+	title,
+	editable,
+	children,
+	dataIndex,
+	handleSave,
+	record,
+	...restProps
 }) => {
-  const [editing, setEditing] = useState(false);
-  const inputRef = useRef(null);
-  const form = useContext(EditableContext);
-  useEffect(() => {
-    if (editing) {
-      inputRef.current.focus();
-    }
-  }, [editing]);
-  const toggleEdit = () => {
-    setEditing(!editing);
-    form.setFieldsValue({
-      [dataIndex]: record[dataIndex],
-    });
-  };
+	const [editing, setEditing] = useState(false);
+	const inputRef = useRef(null);
+	const form = useContext(EditableContext);
+	useEffect(() => {
+		if (editing) {
+			inputRef.current.focus();
+		}
+	}, [editing]);
+	const toggleEdit = () => {
+    console.log(record[dataIndex])
+		setEditing(!editing);
+		form.setFieldsValue({
+			[dataIndex]: record[dataIndex],
+		});
+	};
 
-  const save = async () => {
-    try {
-      const values = await form.validateFields();
-      toggleEdit();
-      handleSave({
-        ...record,
-        ...values,
-      });
-    } catch (errInfo) {
-      console.log('Save failed:', errInfo);
-    }
-  };
-  let childNode = children;
-  if (editable) {
-    childNode = editing ? (
-      <Form.Item
-        style={{
-          margin: 0,
-        }}
-        name={dataIndex}
-        
-      >
-        <Input ref={inputRef} onPressEnter={save} onBlur={save} />
-      </Form.Item>
-    ) : (
-      <div
-        className="editable-cell-value-wrap"
-        style={{
-          paddingRight: 24,
-        }}
-        onClick={toggleEdit}
-      >
-        {children}
-      </div>
-    );
-  }
-  return <td {...restProps}>{childNode}</td>;
+	const save = async () => {
+		try {
+			const values = await form.validateFields();
+			toggleEdit();
+			handleSave({
+				...record,
+				...values,
+			});
+		} catch (errInfo) {
+			console.log("Save failed:", errInfo);
+		}
+	};
+	let childNode = children;
+	if (editable) {
+		childNode = editing ? (
+			<Form.Item
+				style={{
+					margin: 0,
+          whiteSpace: "pre-wrap",
+				}}
+				name={dataIndex}
+			>
+				<Input.TextArea ref={inputRef} onPressEnter={save} onBlur={save} />
+			</Form.Item>
+		) : (
+			<div
+				className="editable-cell-value-wrap"
+				style={{
+					paddingRight: 24,
+          whiteSpace: "pre-wrap",
+				}}
+				onClick={toggleEdit}
+			>
+				{children}
+			</div>
+		);
+	}
+	return <td {...restProps}>{childNode}</td>;
 };
 
 
