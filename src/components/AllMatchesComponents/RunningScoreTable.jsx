@@ -117,6 +117,44 @@ const RunningScoreTable = (data) => {
   const teamDataH = [data.teamH, ...teamScoresH];
   const tableInputStyle = { textAlign: "center" };
 
+  const updateScoreData = (e, rScores, team) => {
+    let targetId = e.currentTarget.id;
+    let id = Number(targetId);
+    let value = e.target.value;
+    let scoreExist = false;
+
+    if (isNaN(value)) return;
+
+    rScores[id] = Number(value);
+    let ctr = 0;
+    for (const data of Object.entries(inningScores)) {
+      for (let i = 0; i < data.length; i++) {
+        if (data[i] !== 'InningScore_' + (ctr + 1)) {
+          if (data[i].Inning === id && `Score_${team}` in data[i]) {
+            data[i][`Score_${team}`] = rScores[id];
+            scoreExist = true;
+          }
+        }
+      }
+      ctr++;
+    }
+
+    rScores.shift();
+    if (scoreExist) {
+      let rowTotal = 0;
+      rScores.forEach(num => {
+        rowTotal += num;
+      })
+      scores[`TotalScore_${team}`] = rowTotal;
+    }
+
+    data.updatedScore(scores);
+    if (team === 'V')
+      setTeamScoresV(rScores);
+    else
+      setTeamScoresH(rScores);
+  }
+
   return (
     <>
       <Table>
@@ -128,39 +166,9 @@ const RunningScoreTable = (data) => {
           inputStyle={tableInputStyle}
           cellValues={teamDataV}
           onChange={(event) => {
+            let teamV = 'V';
             const rowScores = [...teamDataV];
-            let targetId = event.currentTarget.id;
-            let id = Number(targetId);
-            let value = event.target.value;
-            let scoreExist = false;
-            if (!isNaN(value)) {
-              rowScores[id] = Number(value);
-
-              let ctr = 0;
-              for (const data of Object.entries(inningScores)) {
-                for (let i = 0; i < data.length; i++) {
-                  if (data[i] !== 'InningScore_' + (ctr + 1)) {
-                    if (data[i].Inning === id && 'Score_V' in data[i]) {
-                      data[i].Score_V = rowScores[id];
-                      scoreExist = true;
-                    }
-                  }
-                }
-                ctr++;
-              }
-              
-              rowScores.shift();
-              if (scoreExist) {
-                let rowTotal = 0;
-                rowScores.forEach(num => {
-                  rowTotal += num;
-                })
-                scores.TotalScore_V = rowTotal;
-              }
-
-              data.updatedScore(scores);
-              setTeamScoresV(rowScores);
-            }
+            updateScoreData(event, rowScores, teamV);
           }}
         />
         <Table.Row numColumns={13}
@@ -170,39 +178,9 @@ const RunningScoreTable = (data) => {
           inputStyle={tableInputStyle}
           cellValues={teamDataH}
           onChange={(event) => {
+            let teamH = 'H';
             const rowScores = [...teamDataH];
-            let targetId = event.currentTarget.id;
-            let id = Number(targetId);
-            let value = event.target.value;
-            let scoreExist = false;
-            if (!isNaN(value)) {
-              rowScores[id] = Number(value);
-
-              let ctr = 0;
-              for (const data of Object.entries(inningScores)) {
-                for (let i = 0; i < data.length; i++) {
-                  if (data[i] !== 'InningScore_' + (ctr + 1)) {
-                    if (data[i].Inning === id && 'Score_H' in data[i]) {
-                      data[i].Score_H = rowScores[id];
-                      scoreExist = true;
-                    }
-                  }
-                }
-                ctr++;
-              }
-
-              rowScores.shift();
-              if (scoreExist) {
-                let rowTotal = 0;
-                rowScores.forEach(num => {
-                  rowTotal += num;
-                })
-                scores.TotalScore_H = rowTotal;
-              }
-
-              data.updatedScore(scores);
-              setTeamScoresH(rowScores);
-            }
+            updateScoreData(event, rowScores, teamH);
           }}
         />
       </Table>
@@ -221,8 +199,8 @@ const RunningScoreTable = (data) => {
 
       <Table>
         <Table.Header headerProps={totalHeader} />
-        <Table.Row numColumns={1} width={40} inputStyle={tableInputStyle} cellValues={[data.score.TotalScore_V]} />
-        <Table.Row numColumns={1} width={40} inputStyle={tableInputStyle} cellValues={[data.score.TotalScore_H]} />
+        <Table.Row numColumns={1} width={40} inputStyle={tableInputStyle} cellValues={[scores.TotalScore_V]} />
+        <Table.Row numColumns={1} width={40} inputStyle={tableInputStyle} cellValues={[scores.TotalScore_H]} />
       </Table>
     </>
 
