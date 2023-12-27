@@ -10,22 +10,13 @@ const RunningScore = (data) => {
     const [teamH, setTeamH] = useState("");
     const [stadium, setStadium] = useState("");
     const [startTime, setStartTime] = useState("");
-    const [pitcherDataH, setPitcherDataH] = useState([]);
-    const [pitcherDataV, setPitcherDataV] = useState([]);
     const [score, setScore] = useState([]);
-    const [pitcherNamesH, setPitcherNamesH] = useState("");
-    const [pitcherNamesV, setPitcherNamesV] = useState("");
-    const [updatedScoresH, setUpdatedScoresH] = useState([]);
-    const [updatedScoresV, setUpdatedScoresV] = useState([]);
-
+    const [updatedScore, setUpdatedScore] = useState([]);
     const [pitcherHistoryH, setPitcherHistoryH] = useState("");
     const [pitcherHistoryV, setPitcherHistoryV] = useState("");
 
-
     var otherGameInfoNum = Number(data.index) + 1;
     const otherGameInfo = useOtherGameInfo();
-    var playersH = [];
-    var playersV = [];
 
     useEffect(() => {
         const getMatchData = () => {
@@ -41,88 +32,36 @@ const RunningScore = (data) => {
             const gameScore = gameInfo.Score;
             const stadiumName = gameInfo.Stadium;
             const sTime = gameInfo.StartTime;
-            const pitcherInfo = gameInfo[`Pitcher-Info`];
-
-            // const pitcherHistoryH = gameInfo.PitcherHistory_H;
-            // const pitcherHistoryV = gameInfo.PitcherHistory_V;
-
-            const pitcherInfoH = Object.keys(pitcherInfo).
-                filter((key) => key.includes('Pitcher-Info_H')).
-                reduce((cur, key) => { return Object.assign(cur, { [key]: pitcherInfo[key] }) }, {});
-
-            const pitcherInfoV = Object.keys(pitcherInfo).
-                filter((key) => key.includes('Pitcher-Info_V')).
-                reduce((cur, key) => { return Object.assign(cur, { [key]: pitcherInfo[key] }) }, {});
-
-            let ctrH = 0;
-            for (const data of Object.entries(pitcherInfoH)) {
-                for (let i = 0; i < data.length; i++) {
-                    if (data[i] !== 'Pitcher-Info_H_' + (ctrH + 1)) {
-                        playersH.push(data[i][`ShortName-Player`]);
-                    }
-                }
-                ctrH++;
-            }
-
-            let ctrV = 0;
-            for (const data of Object.entries(pitcherInfoV)) {
-                for (let i = 0; i < data.length; i++) {
-                    if (data[i] !== 'Pitcher-Info_V_' + (ctrV + 1)) {
-                        playersV.push(data[i][`ShortName-Player`]);
-                    }
-                }
-                ctrV++;
-            }
+            const pitcherHistoryH = gameInfo.PitcherHistory_H;
+            const pitcherHistoryV = gameInfo.PitcherHistory_V;
 
             setCurrentData(gameInfo);
-            setPitcherDataH(pitcherInfoH);
-            setPitcherDataV(pitcherInfoV);
             setTeamV(teamNameV);
             setTeamH(teamNameH);
             setScore(gameScore);
             setStadium(stadiumName);
             setStartTime(sTime);
-
-            setPitcherNamesH(getPitcherNames(playersH, 'ー'));
-            setPitcherNamesV(getPitcherNames(playersV, 'ー'))
-
-            // setPitcherHistoryH(pitcherHistoryH);
-            // setPitcherHistoryV(pitcherHistoryV);
-            // console.log("updated: ", updatedScoresH)
+            setPitcherHistoryH(pitcherHistoryH);
+            setPitcherHistoryV(pitcherHistoryV);
 
         };
 
         getMatchData();
     }, [data])
 
-    const getPitcherNames = (arr, separator = ',') => {
-        let str = '';
-        for (let i = 0; i < arr.length; i++) {
-            if (arr[i] !== null && arr[i] !== undefined)
-                str += arr[i];
-            if (i < arr.length - 1 && arr[i + 1] !== "")
-                str += " " + separator + " ";
-        }
-        return str;
-    }
-
     return (
         <div className="other-game-middle-body">
 
-            {/* ------------ COl 1 ------------ */}
             <div className="col1">
                 <span className="header-label">試合情報</span>
             </div>
-
-            {/* ------------ COl 2 ------------ */}
 
             <div className="col2">
                 <div className="col2-top">
                     <RunningScoreTable teamV={teamV}
                         teamH={teamH}
                         score={score}
-                        updatedH={setUpdatedScoresH}
-                        updatedV={setUpdatedScoresH}
+                        updatedScore={setUpdatedScore}
                     />
                 </div>
                 <div className="col2-bot">
@@ -130,41 +69,15 @@ const RunningScore = (data) => {
                         <span>後攻投手</span><br />
                         <div className="col2-input-btn">
                             <Input className="col2-bot-input"
-                                value={pitcherNamesH}
-                                onChange={(event) => setPitcherNamesH(event.target.value)}
-                            />
-                            <Button className="col2-bot-btn"
-                                onClick={() => {
-                                    const pitcherNames = pitcherNamesH.split('ー');
-
-                                    let ctrH = 0;
-                                    for (const data of Object.entries(pitcherDataH)) {
-                                        for (let i = 0; i < data.length; i++) {
-                                            if (data[i] !== 'Pitcher-Info_H_' + (ctrH + 1)) {
-                                                if (pitcherNames[ctrH] !== undefined)
-                                                    data[i][`ShortName-Player`] = pitcherNames[ctrH].trim();
-                                                else
-                                                    data[i][`ShortName-Player`] = "";
-                                            }
-                                        }
-                                        ctrH++;
-                                    }
-
-                                    otherGameInfo.update();
-                                }}
-                            >保存</Button>
-
-                            {/* <Input className="col2-bot-input"
                                 value={pitcherHistoryH}
                                 onChange={(event) => setPitcherHistoryH(event.target.value)}
                             />
-
                             <Button className="col2-bot-btn"
                                 onClick={() => {
                                     currentData.PitcherHistory_H = pitcherHistoryH;
                                     otherGameInfo.update();
                                 }}
-                            >保存</Button> */}
+                            >保存</Button>
                         </div>
                     </div>
 
@@ -172,48 +85,19 @@ const RunningScore = (data) => {
                         <span>先攻投手</span><br />
                         <div className="col2-input-btn">
                             <Input className="col2-bot-input"
-                                value={pitcherNamesV}
-                                onChange={(event) => setPitcherNamesV(event.target.value)}
-                            />
-                            <Button className="col2-bot-btn"
-                                onClick={() => {
-                                    const pitcherNames = pitcherNamesV.split('ー');
-
-                                    let ctrV = 0;
-                                    for (const data of Object.entries(pitcherDataV)) {
-                                        for (let i = 0; i < data.length; i++) {
-                                            if (data[i] !== 'Pitcher-Info_V_' + (ctrV + 1)) {
-                                                if (pitcherNames[ctrV] !== undefined)
-                                                    data[i][`ShortName-Player`] = pitcherNames[ctrV].trim();
-                                                else
-                                                    data[i][`ShortName-Player`] = "";
-                                            }
-                                        }
-                                        ctrV++;
-                                    }
-                                    otherGameInfo.update();
-                                }}
-                            >保存</Button>
-
-
-                            {/* <Input className="col2-bot-input"
                                 value={pitcherHistoryV}
                                 onChange={(event) => setPitcherHistoryV(event.target.value)}
                             />
-
                             <Button className="col2-bot-btn"
                                 onClick={() => {
                                     currentData.PitcherHistory_V = pitcherHistoryV;
                                     otherGameInfo.update();
                                 }}
-                            >保存</Button> */}
-
+                            >保存</Button>
                         </div>
                     </div>
                 </div>
             </div>
-
-            {/* ------------ COl 3 ------------ */}
 
             <div className="col3">
                 <div className="col3-top">
@@ -229,10 +113,16 @@ const RunningScore = (data) => {
                         onClick={() => {
                             const [hh, mm, ss] = startTime.split(':');
                             if (!isNaN(hh) && !isNaN(mm) && !isNaN(ss)) {
-                                if (Number(hh) >= 100 || Number(mm) >= 60 || Number(ss) >= 60) return;
-                                currentData.StartTime = startTime;
-                                otherGameInfo.update();
+                                if (Number(hh) < 100 && Number(mm) < 60 && Number(ss) < 60)
+                                    currentData.StartTime = startTime;
                             }
+
+                            if (updatedScore.length !== 0)
+                                currentData.Score = updatedScore;
+                            else
+                                currentData.Score = score;
+
+                            otherGameInfo.update();
                         }}
                     >保存</Button>
                 </div>

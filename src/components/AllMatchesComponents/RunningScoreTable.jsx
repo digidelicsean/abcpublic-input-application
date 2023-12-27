@@ -83,15 +83,15 @@ const RunningScoreTable = (data) => {
   const [teamScoresH, setTeamScoresH] = useState([]);
   var scoresV = [];
   var scoresH = [];
+  const scores = data.score;
+
+  const inningScores = Object.keys(scores).
+    filter((key) => key.includes('InningScore')).
+    reduce((cur, key) => { return Object.assign(cur, { [key]: scores[key] }) }, {});
 
   useEffect(() => {
     const getMatchScore = () => {
-      const scores = data.score;
       if (scores == null) return [];
-
-      const inningScores = Object.keys(scores).
-        filter((key) => key.includes('InningScore')).
-        reduce((cur, key) => { return Object.assign(cur, { [key]: scores[key] }) }, {});
 
       let ctr = 0;
       for (const data of Object.entries(inningScores)) {
@@ -129,11 +129,37 @@ const RunningScoreTable = (data) => {
           cellValues={teamDataV}
           onChange={(event) => {
             const rowScores = [...teamDataV];
-            let id = event.currentTarget.id;
+            let targetId = event.currentTarget.id;
+            let id = Number(targetId);
             let value = event.target.value;
+            let scoreExist = false;
             if (!isNaN(value)) {
               rowScores[id] = Number(value);
+
+              let ctr = 0;
+              for (const data of Object.entries(inningScores)) {
+                for (let i = 0; i < data.length; i++) {
+                  if (data[i] !== 'InningScore_' + (ctr + 1)) {
+                    if (data[i].Inning === id && 'Score_V' in data[i]) {
+                      data[i].Score_V = rowScores[id];
+                      scoreExist = true;
+                    }
+                  }
+                }
+                ctr++;
+              }
+              
               const removeTeamName = rowScores.shift();
+
+              if (scoreExist) {
+                let rowTotal = 0;
+                rowScores.forEach(num => {
+                  rowTotal += num;
+                })
+                scores.TotalScore_V = rowTotal;
+              }
+
+              data.updatedScore(scores);
               setTeamScoresV(rowScores);
             }
           }}
@@ -146,11 +172,36 @@ const RunningScoreTable = (data) => {
           cellValues={teamDataH}
           onChange={(event) => {
             const rowScores = [...teamDataH];
-            let id = event.currentTarget.id;
+            let targetId = event.currentTarget.id;
+            let id = Number(targetId);
             let value = event.target.value;
+            let scoreExist = false;
             if (!isNaN(value)) {
               rowScores[id] = Number(value);
+
+              let ctr = 0;
+              for (const data of Object.entries(inningScores)) {
+                for (let i = 0; i < data.length; i++) {
+                  if (data[i] !== 'InningScore_' + (ctr + 1)) {
+                    if (data[i].Inning === id && 'Score_H' in data[i]) {
+                      data[i].Score_H = rowScores[id];
+                      scoreExist = true;
+                    }
+                  }
+                }
+                ctr++;
+              }
               const removeTeamName = rowScores.shift();
+
+              if (scoreExist) {
+                let rowTotal = 0;
+                rowScores.forEach(num => {
+                  rowTotal += num;
+                })
+                scores.TotalScore_H = rowTotal;
+              }
+
+              data.updatedScore(scores);
               setTeamScoresH(rowScores);
             }
           }}
