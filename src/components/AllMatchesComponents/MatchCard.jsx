@@ -10,22 +10,20 @@ const MatchCard = ({ index, clicked, selected }) => {
     const [teamNameH, setTeamNameH] = useState("");
     const [totalScoreV, setTotalScoreV] = useState("");
     const [totalScoreH, setTotalScoreH] = useState("");
-    const [tb, setTB] = useState(0);
-    const [inning, setInning] = useState(0);
-    const [situation, setSituation] = useState();
+    const [tb, setTB] = useState(1);
+    const [inning, setInning] = useState(1);
+    const [situation, setSituation] = useState(1);
 
     const [sentence, setSentence] = useState("");
 
     var otherGameInfoNum = Number(index) + 1;
 
     const otherGameInfo = useOtherGameInfo();
-    let info;
 
     useEffect(() => {
         const getOtherGameInfo = () => {
-            if (otherGameInfo.data == null) {
-                return []
-            }
+            let info;
+            if (otherGameInfo.data == null) return [];
 
             for (let i = 0; i < otherGameInfo.data.length; i++) {
                 info = otherGameInfo.data[i];

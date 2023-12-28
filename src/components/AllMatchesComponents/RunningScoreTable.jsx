@@ -60,7 +60,7 @@ const expandedHeaders = expandedLableNames.map(({ label, gapSize }) => ({
   }
 }));
 
-const headers2 = collapsedNames2.map(({ label, gapSize }) => ({
+const totalHeader = collapsedNames2.map(({ label, gapSize }) => ({
   type: Type.Label,
   label,
   colSpan: 1,
@@ -77,25 +77,24 @@ const rowWidth = [90, ...defaultRowWidth];
 const rowGaps = [0, 3, 6, 9];
 const rowGaps2 = [2];
 
-const RunningScoreTable = (data) => {
+const RunningScoreTable = ({ teamV, teamH, score, updatedScore }) => {
   const [isExpandClicked, setExpandButtonClicked] = useState(false);
   const [teamScoresV, setTeamScoresV] = useState([]);
   const [teamScoresH, setTeamScoresH] = useState([]);
-  var scoresV = [];
-  var scoresH = [];
+  const [inningScores, setInningScores] = useState([]);
 
   useEffect(() => {
     const getMatchScore = () => {
-      const scores = data.score;
-      if (scores == null) {
-        return []
-      }
-      const inningScores = Object.keys(scores).
+      if (score == null) return [];
+      var scoresV = [];
+      var scoresH = [];
+
+      const innings = Object.keys(score).
         filter((key) => key.includes('InningScore')).
-        reduce((cur, key) => { return Object.assign(cur, { [key]: scores[key] }) }, {});
+        reduce((cur, key) => { return Object.assign(cur, { [key]: score[key] }) }, {});
 
       let ctr = 0;
-      for (const data of Object.entries(inningScores)) {
+      for (const data of Object.entries(innings)) {
         for (let i = 0; i < data.length; i++) {
           if (data[i] !== 'InningScore_' + (ctr + 1)) {
             if ('Score_V' in data[i])
@@ -109,21 +108,91 @@ const RunningScoreTable = (data) => {
 
       setTeamScoresV(scoresV);
       setTeamScoresH(scoresH);
+      setInningScores(innings);
     };
 
     getMatchScore();
-  }, [data])
+  }, [score])
 
-  const teamDataV = [data.teamV, ...teamScoresV];
-  const teamDataH = [data.teamH, ...teamScoresH];
-  const tableInputStyle = {textAlign: "center"};
+  const teamDataV = [teamV, ...teamScoresV];
+  const teamDataH = [teamH, ...teamScoresH];
+  const tableInputStyle = { textAlign: "center" };
+
+  const updateScoreData = (e, rScores, team) => {
+    let targetId = e.currentTarget.id;
+    let id = Number(targetId);
+    let value = e.target.value;
+
+    if (isNaN(value)) return;
+
+    rScores[id] = Number(value);
+    let inningScoreName = "InningScore_" + id;
+
+    let ctr = 0;
+    for (const data of Object.entries(inningScores)) {
+      for (let i = 0; i < data.length; i++) {
+        if (data[i] !== inningScoreName) {
+          if (data[i].Inning === id && 'Score_V' in data[i])
+            data[i][`Score_${team}`] = rScores[id];
+
+          if (Object.entries(inningScores).length < id) {
+            if (team === 'V') {
+              let newInnings = {
+                Inning: id,
+                [`Score_${team}`]: rScores[id],
+              }
+              score[`InningScore_${id}`] = newInnings
+              inningScores[`InningScore_${id}`] = newInnings;
+              setInningScores(inningScores);
+            }
+          }
+        }
+      }
+      ctr++;
+    }
+
+    rScores.shift();
+    let rowTotal = 0;
+    rScores.forEach(num => {
+      rowTotal += num;
+    })
+    score[`TotalScore_${team}`] = rowTotal;
+
+    updatedScore(score);
+    if (team === 'V')
+      setTeamScoresV(rScores);
+    else
+      setTeamScoresH(rScores);
+  }
 
   return (
     <>
       <Table>
         <Table.Header headerProps={headers} />
-        <Table.Row numColumns={13} width={rowWidth} gapIndices={rowGaps} gapSize={5} inputStyle={tableInputStyle} cellValues={teamDataV} />
-        <Table.Row numColumns={13} width={rowWidth} gapIndices={rowGaps} gapSize={5} inputStyle={tableInputStyle} cellValues={teamDataH} />
+        <Table.Row numColumns={13}
+          width={rowWidth}
+          gapIndices={rowGaps}
+          gapSize={5}
+          inputStyle={tableInputStyle}
+          cellValues={teamDataV}
+          onChange={(event) => {
+            let visitor = 'V';
+            const rowScores = [...teamDataV];
+            updateScoreData(event, rowScores, visitor);
+          }}
+        />
+        <Table.Row numColumns={13}
+          width={rowWidth}
+          gapIndices={rowGaps}
+          gapSize={5}
+          inputStyle={tableInputStyle}
+          cellValues={teamDataH}
+          onChange={(event) => {
+            let home = 'H';
+            const rowScores = [...teamDataH];
+            updateScoreData(event, rowScores, home);
+          }}
+        />
       </Table>
 
       <Button className="arrow-btn"
@@ -139,9 +208,9 @@ const RunningScoreTable = (data) => {
       }
 
       <Table>
-        <Table.Header headerProps={headers2} />
-        <Table.Row numColumns={1} width={40} inputStyle={tableInputStyle} cellValues={[data.score.TotalScore_V]} />
-        <Table.Row numColumns={1} width={40} inputStyle={tableInputStyle} cellValues={[data.score.TotalScore_H]} />
+        <Table.Header headerProps={totalHeader} />
+        <Table.Row numColumns={1} width={40} inputStyle={tableInputStyle} cellValues={[score.TotalScore_V]} />
+        <Table.Row numColumns={1} width={40} inputStyle={tableInputStyle} cellValues={[score.TotalScore_H]} />
       </Table>
     </>
 

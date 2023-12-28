@@ -1,0 +1,29 @@
+.stats-rc-record-tab {
+  display: flex;
+  flex-direction: row;
+
+  align-items: center;
+  justify-content: center;
+}
+
+.rc-stats-panel {
+  display: inline-flex;
+  flex-direction: column;
+  background-color: #f7f3f7;
+
+  margin: 10px;
+  /* padding: 10px; */
+
+  border-radius: 5px;
+  border: 1px solid black;
+}
+
+.rc-stats-panel-title {
+  text-align: center;
+  width: 100%;
+  background-color: #bbd6ee;
+}
+
+.rc-stats-data {
+  padding: 5px;
+}

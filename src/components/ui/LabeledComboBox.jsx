@@ -1,14 +1,10 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable no-unused-vars */
-
-// Import necessary dependencies
 import React from "react";
 import { Select, ConfigProvider } from "antd";
 
-// Import CSS styles
 import "./LabeledComboBox.css";
 
-// Define the LabeledComboBox component
 function LabeledComboBox({
   label,
   style,
@@ -23,18 +19,13 @@ function LabeledComboBox({
   onChange,
   disabled
 }) {
-  
-  // Define the onValueChange function
   const onValueChange = (value, option) => {
-    // Check if onChange prop is provided
     if (!onChange) {
       return;
     }
-    // Call the onChange function with the new value
     onChange(value);
   };
 
-  // Return the JSX for the LabeledComboBox component
   return (
     <ConfigProvider
       theme={{
@@ -48,22 +39,17 @@ function LabeledComboBox({
       <div
         className="labeled-cb"
         style={{
-          // Set height and width based on size prop
           height: size?.height ? size.height : "",
           width: size?.width ? size.width : "",
-          // Set padding based on padding prop
           paddingLeft: padding?.left ?? "",
           paddingRight: padding?.right ?? "",
           paddingTop: padding?.top ?? "",
           paddingBottom: padding?.bottom ?? "",
-          // Set margin based on margin prop
           marginLeft: margin?.left ?? "",
           marginRight: margin?.right ?? "",
           marginTop: margin?.top ?? "",
           marginBottom: margin?.bottom ?? "",
-          // Set flex direction based on horizontal prop
           flexDirection: horizontal ? "row" : "column",
-          // Set align items based on horizontal and textAlign props
           alignItems: horizontal
             ? "center"
             : textAlign == "left"
@@ -71,7 +57,6 @@ function LabeledComboBox({
               : "inherit",
         }}
       >
-        {/* Render the label if horizontal prop is true */}
         {horizontal ? (
           <div
             style={{
@@ -80,18 +65,20 @@ function LabeledComboBox({
           >
             {label ? label : "Label"}
           </div>
+        ) : label ? (
+          label
         ) : (
-          // Render the label if horizontal prop is false
-          label ? label : " "
+          " "
         )}
-        {/* Render the Select component based on the value prop */}
         {value ? (
-          // Render the Select component if value prop is provided
           <Select
             className="combo-box"
-            style={{
-              height: size?.height ?? "",
-            }}
+            style={
+              {
+                height: size?.height ?? "",
+                // width: size?.width ? size.width : "",
+              }
+            }
             value={value}
             placeholder={placeholder}
             options={options ? options : []}
@@ -99,12 +86,14 @@ function LabeledComboBox({
             disabled={disabled}
           />
         ) : (
-          // Render the Select component if value prop is not provided
           <Select
             className={`combo-box ${style}`}
-            style={{
-              height: size?.height ?? "",
-            }}
+            style={
+              {
+                height: size?.height ?? "",
+                // width: size?.width ? size.width : "",
+              }
+            }
             placeholder={placeholder}
             options={options ? options : []}
             onSelect={onValueChange}
