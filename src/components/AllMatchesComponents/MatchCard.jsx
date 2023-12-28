@@ -10,9 +10,9 @@ const MatchCard = ({ index, clicked, selected }) => {
     const [teamNameH, setTeamNameH] = useState("");
     const [totalScoreV, setTotalScoreV] = useState("");
     const [totalScoreH, setTotalScoreH] = useState("");
-    const [tb, setTB] = useState(0);
-    const [inning, setInning] = useState(0);
-    const [situation, setSituation] = useState();
+    const [tb, setTB] = useState(1);
+    const [inning, setInning] = useState(1);
+    const [situation, setSituation] = useState(1);
 
     const [sentence, setSentence] = useState("");
 

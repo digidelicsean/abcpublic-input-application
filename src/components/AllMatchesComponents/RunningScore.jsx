@@ -4,7 +4,7 @@ import "./RunningScore.css";
 import RunningScoreTable from "./RunningScoreTable";
 import { useOtherGameInfo } from '../../services/api/useOtherGameInfo';
 
-const RunningScore = (data) => {
+const RunningScore = ({ index }) => {
     const [currentData, setCurrentData] = useState([]);
     const [teamV, setTeamV] = useState("");
     const [teamH, setTeamH] = useState("");
@@ -15,7 +15,7 @@ const RunningScore = (data) => {
     const [pitcherHistoryH, setPitcherHistoryH] = useState("");
     const [pitcherHistoryV, setPitcherHistoryV] = useState("");
 
-    var otherGameInfoNum = Number(data.index) + 1;
+    var otherGameInfoNum = Number(index) + 1;
     const otherGameInfo = useOtherGameInfo();
 
     useEffect(() => {
@@ -47,7 +47,7 @@ const RunningScore = (data) => {
         };
 
         getMatchData();
-    }, [data])
+    }, [index])
 
     return (
         <div className="other-game-middle-body">

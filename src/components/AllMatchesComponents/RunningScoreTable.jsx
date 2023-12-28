@@ -77,22 +77,20 @@ const rowWidth = [90, ...defaultRowWidth];
 const rowGaps = [0, 3, 6, 9];
 const rowGaps2 = [2];
 
-const RunningScoreTable = (data) => {
+const RunningScoreTable = ({ teamV, teamH, score, updatedScore }) => {
   const [isExpandClicked, setExpandButtonClicked] = useState(false);
   const [teamScoresV, setTeamScoresV] = useState([]);
   const [teamScoresH, setTeamScoresH] = useState([]);
-  var scoresV = [];
-  var scoresH = [];
-  const scores = data.score;
 
-  const inningScores = Object.keys(scores).
+  const inningScores = Object.keys(score).
     filter((key) => key.includes('InningScore')).
-    reduce((cur, key) => { return Object.assign(cur, { [key]: scores[key] }) }, {});
+    reduce((cur, key) => { return Object.assign(cur, { [key]: score[key] }) }, {});
 
   useEffect(() => {
     const getMatchScore = () => {
-      if (scores == null) return [];
-
+      if (score == null) return [];
+      var scoresV = [];
+      var scoresH = [];
       let ctr = 0;
       for (const data of Object.entries(inningScores)) {
         for (let i = 0; i < data.length; i++) {
@@ -111,10 +109,10 @@ const RunningScoreTable = (data) => {
     };
 
     getMatchScore();
-  }, [data])
+  }, [score])
 
-  const teamDataV = [data.teamV, ...teamScoresV];
-  const teamDataH = [data.teamH, ...teamScoresH];
+  const teamDataV = [teamV, ...teamScoresV];
+  const teamDataH = [teamH, ...teamScoresH];
   const tableInputStyle = { textAlign: "center" };
 
   const updateScoreData = (e, rScores, team) => {
@@ -145,10 +143,10 @@ const RunningScoreTable = (data) => {
       rScores.forEach(num => {
         rowTotal += num;
       })
-      scores[`TotalScore_${team}`] = rowTotal;
+      score[`TotalScore_${team}`] = rowTotal;
     }
 
-    data.updatedScore(scores);
+    updatedScore(score);
     if (team === 'V')
       setTeamScoresV(rScores);
     else
@@ -166,9 +164,9 @@ const RunningScoreTable = (data) => {
           inputStyle={tableInputStyle}
           cellValues={teamDataV}
           onChange={(event) => {
-            let teamV = 'V';
+            let visitor = 'V';
             const rowScores = [...teamDataV];
-            updateScoreData(event, rowScores, teamV);
+            updateScoreData(event, rowScores, visitor);
           }}
         />
         <Table.Row numColumns={13}
@@ -178,9 +176,9 @@ const RunningScoreTable = (data) => {
           inputStyle={tableInputStyle}
           cellValues={teamDataH}
           onChange={(event) => {
-            let teamH = 'H';
+            let home = 'H';
             const rowScores = [...teamDataH];
-            updateScoreData(event, rowScores, teamH);
+            updateScoreData(event, rowScores, home);
           }}
         />
       </Table>
@@ -199,8 +197,8 @@ const RunningScoreTable = (data) => {
 
       <Table>
         <Table.Header headerProps={totalHeader} />
-        <Table.Row numColumns={1} width={40} inputStyle={tableInputStyle} cellValues={[scores.TotalScore_V]} />
-        <Table.Row numColumns={1} width={40} inputStyle={tableInputStyle} cellValues={[scores.TotalScore_H]} />
+        <Table.Row numColumns={1} width={40} inputStyle={tableInputStyle} cellValues={[score.TotalScore_V]} />
+        <Table.Row numColumns={1} width={40} inputStyle={tableInputStyle} cellValues={[score.TotalScore_H]} />
       </Table>
     </>
 
