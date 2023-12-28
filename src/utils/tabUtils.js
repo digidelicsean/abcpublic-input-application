@@ -1,6 +1,3 @@
-
-
-
 export const createTab = (label, key, children) => {
     return (
         {

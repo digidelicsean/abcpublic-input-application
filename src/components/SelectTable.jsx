@@ -5,29 +5,22 @@ import { Table, ConfigProvider } from "antd";
 
 import "./selectTable.css";
 
+// Function component SelectTable
 function SelectTable({
-  columns,
-  data,
-  onChange,
-  onSelect,
-  onSelectInvert,
-  height,
+  columns, // Columns for the table
+  data, // Data for the table
+  onChange, // Callback function for when the selection or data changes
+  onSelect, // Callback function for when a row is selected
+  onSelectInvert, // Callback function for when the selected row is inverted
+  height, // Height of the table
 
-  style,
-  theme,
+  style, // Additional styling for the table
+  theme, // Theme configuration for the table
 }) {
-  const [selectedRow, setSelectedRow] = useState();
-  const [tableHeight, setTableHeight] = useState(200);
-  // ref is the Table ref.
-  const myRef = useRef(null);
-
-  // useLayoutEffect(() => {
-  //   const node = myRef.current;
-  //   const { top } = node.getBoundingClientRect();
-
-  //   // normally TABLE_HEADER_HEIGHT would be 55.
-  //   setTableHeight(window.innerHeight - top - 150);
-  // }, [myRef]);
+  const [selectedRow, setSelectedRow] = useState(); // State for the currently selected row
+  const [tableHeight, setTableHeight] = useState(200); // State for the height of the table
+  
+  const myRef = useRef(null); // Ref for the table component
 
   const tableTheme = {
     components: {
@@ -40,46 +33,41 @@ function SelectTable({
   };
 
   const tableStyle = {
-    height: tableHeight ?? "",
-    ...style
+    height: tableHeight ?? "", // Set the height of the table dynamically
+    ...style // Apply additional style properties
   };
 
-  // console.log(tableStyle)
-
   const rowSelectionParam = {
-    selectedRowKeys: [selectedRow ? selectedRow : null],
+    selectedRowKeys: [selectedRow ? selectedRow : null], // Set the selected row keys
     columnWidth: "0px",
     renderCell: () => {
-      return <></>;
+      return <></>; // Render an empty cell
     },
-    type: "radio",
+    type: "radio", // Set the selection type to radio
   };
 
   const onRowSelect = (record, rowIndex) => {
     return {
       onClick: (event) => {
-        // console.log(record);
         if (!selectedRow) {
           if (onSelect) {
-            onSelect(record, null);
+            onSelect(record, null); // Call the onSelect callback with the selected row
           }
-          setSelectedRow(record.key);
+          setSelectedRow(record.key); // Set the selected row
         }
         if (selectedRow == record.key) {
           if (onSelectInvert) {
-            onSelectInvert(null);
+            onSelectInvert(null); // Call the onSelectInvert callback with null
           }
-          setSelectedRow(null);
+          setSelectedRow(null); // Clear the selected row
         } else {
           if (onSelect) {
-            // selectedRow is previous record
-            onSelect(record, selectedRow);
+            onSelect(record, selectedRow); // Call the onSelect callback with the selected row
           }
-          setSelectedRow(record.key);
+          setSelectedRow(record.key); // Set the selected row
         }
         if (onChange) {
-          // selectedRow is previous record
-          onChange(record, selectedRow);
+          onChange(record, selectedRow); // Call the onChange callback with the selected row
         }
       },
     };
@@ -95,78 +83,13 @@ function SelectTable({
           columns={columns}
           dataSource={data}
           onRow={onRowSelect}
-          scroll={{ y: tableHeight }}
-          pagination={false}
-          style={tableStyle}
+          scroll={{ y: tableHeight }} // Enable vertical scrolling for the table
+          pagination={false} // Disable pagination
+          style={tableStyle} // Apply the table style
         />
       </ConfigProvider>
     </>
   );
 }
-
-// function SelectTable({
-//   columns,
-//   data,
-//   onChange,
-//   onSelect,
-//   onSelectInvert,
-//   height,
-// }) {
-//   const [selectedRow, setSelectedRow] = useState([]);
-
-//   const style = {
-//     heigth: height ? height : "500px",
-//   };
-
-//   const rowSelectionParam = {
-//     type: "radio",
-//     selectedRowKeys: [selectedRow?.key],
-
-//     columnWidth: 80,
-//     // renderCell: () => "",
-
-//     onChange: onChange
-//       ? (selectedRowKeys, selectedRows, info) =>
-//           onChange(selectedRowKeys, selectedRows, info)
-//       : undefined,
-//   };
-
-//   const onRowSelect = (record) => {
-//     // console.log(record)
-//     if (selectedRow == record) {
-//       setSelectedRow(null);
-//       if (onSelectInvert) onSelectInvert(record);
-//       return;
-//     }
-//     const previousRecord = selectedRow;
-
-//     setSelectedRow(record);
-//     if (onSelect) onSelect(record, previousRecord);
-//   };
-
-//   return (
-//     <div>
-//       <Table rowSelection={rowSelectionParam} columns={columns} dataSource={data}></Table>
-//       {/* <Table
-//         className="select-table"
-//         style={style}
-//         size="small"
-//         tableLayout="auto"
-//         rowSelection={rowSelectionParam}
-//         pagination={false}
-//         columns={columns}
-//         dataSource={data}
-//         scroll={{ y: height ? height-20 : "480px" }}
-//         // width={100}
-
-//         onRow={(record) => ({
-//           onClick: () => {
-//             onRowSelect(record);
-//           },
-//         })}
-//       /> */}
-//     </div>
-//   );
-// }
 
 export default SelectTable;
