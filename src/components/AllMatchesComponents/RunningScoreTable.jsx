@@ -81,18 +81,20 @@ const RunningScoreTable = ({ teamV, teamH, score, updatedScore }) => {
   const [isExpandClicked, setExpandButtonClicked] = useState(false);
   const [teamScoresV, setTeamScoresV] = useState([]);
   const [teamScoresH, setTeamScoresH] = useState([]);
-
-  const inningScores = Object.keys(score).
-    filter((key) => key.includes('InningScore')).
-    reduce((cur, key) => { return Object.assign(cur, { [key]: score[key] }) }, {});
+  const [inningScores, setInningScores] = useState([]);
 
   useEffect(() => {
     const getMatchScore = () => {
       if (score == null) return [];
       var scoresV = [];
       var scoresH = [];
+
+      const innings = Object.keys(score).
+        filter((key) => key.includes('InningScore')).
+        reduce((cur, key) => { return Object.assign(cur, { [key]: score[key] }) }, {});
+
       let ctr = 0;
-      for (const data of Object.entries(inningScores)) {
+      for (const data of Object.entries(innings)) {
         for (let i = 0; i < data.length; i++) {
           if (data[i] !== 'InningScore_' + (ctr + 1)) {
             if ('Score_V' in data[i])
@@ -106,6 +108,7 @@ const RunningScoreTable = ({ teamV, teamH, score, updatedScore }) => {
 
       setTeamScoresV(scoresV);
       setTeamScoresH(scoresH);
+      setInningScores(innings);
     };
 
     getMatchScore();
@@ -119,18 +122,29 @@ const RunningScoreTable = ({ teamV, teamH, score, updatedScore }) => {
     let targetId = e.currentTarget.id;
     let id = Number(targetId);
     let value = e.target.value;
-    let scoreExist = false;
 
     if (isNaN(value)) return;
 
     rScores[id] = Number(value);
+    let inningScoreName = "InningScore_" + id;
+
     let ctr = 0;
     for (const data of Object.entries(inningScores)) {
       for (let i = 0; i < data.length; i++) {
-        if (data[i] !== 'InningScore_' + (ctr + 1)) {
-          if (data[i].Inning === id && `Score_${team}` in data[i]) {
+        if (data[i] !== inningScoreName) {
+          if (data[i].Inning === id && 'Score_V' in data[i])
             data[i][`Score_${team}`] = rScores[id];
-            scoreExist = true;
+
+          if (Object.entries(inningScores).length < id) {
+            if (team === 'V') {
+              let newInnings = {
+                Inning: id,
+                [`Score_${team}`]: rScores[id],
+              }
+              score[`InningScore_${id}`] = newInnings
+              inningScores[`InningScore_${id}`] = newInnings;
+              setInningScores(inningScores);
+            }
           }
         }
       }
@@ -138,13 +152,11 @@ const RunningScoreTable = ({ teamV, teamH, score, updatedScore }) => {
     }
 
     rScores.shift();
-    if (scoreExist) {
-      let rowTotal = 0;
-      rScores.forEach(num => {
-        rowTotal += num;
-      })
-      score[`TotalScore_${team}`] = rowTotal;
-    }
+    let rowTotal = 0;
+    rScores.forEach(num => {
+      rowTotal += num;
+    })
+    score[`TotalScore_${team}`] = rowTotal;
 
     updatedScore(score);
     if (team === 'V')
