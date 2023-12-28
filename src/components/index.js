@@ -1,6 +1,7 @@
 import DataStadiumComponents from "./DataStadiumComponents";
 import InfoScreenComponents from "./InfoScreenComponents";
 import MatchSettingsComponents from "./MatchSettingsComponents";
+import TeamSelectComponents from "./TeamSelectComponents";
 
 export { default as LabeledComboBox } from "./ui/LabeledComboBox";
 export { default as LabeledSegmented } from "./ui/LabeledSegmented";
@@ -14,4 +15,5 @@ export {
   DataStadiumComponents,
   InfoScreenComponents,
   MatchSettingsComponents,
+  TeamSelectComponents,
 };

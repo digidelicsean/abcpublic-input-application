@@ -1,5 +1,3 @@
-// Currently unused
-
 import { useFetch } from "../../hooks/useFetch";
 
 export const useAnnounce = () => {

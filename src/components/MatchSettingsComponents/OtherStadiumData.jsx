@@ -3,23 +3,17 @@
 import React, { useState } from 'react'
 import StadiumDataCard from './StadiumDataCard'
 
-// Function component called OtherStadiumData that takes three props: otherData, deliveryType, and onDataUpdate
 function OtherStadiumData({ otherData, deliveryType, onDataUpdate }) {
 
-    // Function to handle clearing data
     const onDataClear = (index, gameInfo) => {
-        // Remove the gameInfo from otherData using filter
         const newData = [...otherData].filter(x => x != gameInfo)
 
-        // If onDataUpdate is provided as a prop, call it with the updated data
         if (onDataUpdate)
             onDataUpdate(newData);
     }
 
-    // Function to generate stadium cards based on stadium data
     const generateStadiumCards = (stadiumData) => {
 
-        // If stadiumData is empty or undefined, render 5 disabled StadiumDataCard components
         if (!stadiumData || stadiumData.length == 0) {
             return (
                 <>
@@ -32,7 +26,6 @@ function OtherStadiumData({ otherData, deliveryType, onDataUpdate }) {
             )
         }
 
-        // Map over each stadiumData and render a StadiumDataCard component for each item
         const stadiumCards = stadiumData?.map((data, index) =>
             <StadiumDataCard
                 key={index}
@@ -43,7 +36,6 @@ function OtherStadiumData({ otherData, deliveryType, onDataUpdate }) {
             />
         )
 
-        // If the number of stadiumCards is less than 5, add additional empty StadiumDataCard components
         if (stadiumCards.length < 5) {
             const missingCards = 5 - stadiumCards.length;
             const idx = stadiumCards.length;
@@ -58,15 +50,14 @@ function OtherStadiumData({ otherData, deliveryType, onDataUpdate }) {
                 )
             }
         }
-        // Return the stadiumCards
         return stadiumCards
     }
 
-    // Return the generated stadium cards
     return (
         <>
             {generateStadiumCards(otherData)}
         </>
     )
 }
+
 export default OtherStadiumData

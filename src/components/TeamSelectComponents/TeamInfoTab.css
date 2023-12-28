@@ -1,0 +1,25 @@
+.team-info-tab {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}
+
+.team-info-column-1 {
+    display: inline-flex;
+    flex-direction: column;
+}
+
+.team-info-column-2 {
+    display: inline-flex;
+    flex-direction: column;
+}
+
+.team-info-column-3 {
+    display: inline-flex;
+    flex-direction: column;
+}
+
+.text-label {
+    /* background-color: #bed7ed; */
+    /* text-align: center; */
+}

@@ -24,9 +24,7 @@ const ABCComment = (data) => {
     useEffect(() => {
         const getComments = () => {
             let info;
-            if (otherGameInfo.data == null) {
-                return []
-            }
+            if (otherGameInfo.data == null) return [];
 
             for (let i = 0; i < otherGameInfo.data.length; i++) {
                 info = otherGameInfo.data[i];
@@ -169,8 +167,7 @@ const ABCComment = (data) => {
                     <Radio.Group
                         onChange={(e) => {
                             setSelectComment(e.target.value);
-                            const currentInfo = otherGameInfo.data[0].OtherGameInfo[`OtherGameInfo_${otherGameInfoNum}`];
-                            currentInfo.SelectComment = e.target.value;
+                            currentData.SelectComment = e.target.value;
                             otherGameInfo.update();
                         }}
                         value={selectComment}
