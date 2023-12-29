@@ -156,7 +156,10 @@ const RunningScoreTable = ({ teamV, teamH, score, updatedScore }) => {
     rScores.forEach(num => {
       rowTotal += num;
     })
-    score[`TotalScore_${team}`] = rowTotal;
+    if (team === 'H' && Object.entries(inningScores).length > id)
+      score[`TotalScore_${team}`] = rowTotal;
+    else if ((team === 'H' && Object.entries(inningScores).length === id) || team === 'V')
+      score[`TotalScore_${team}`] = rowTotal;
 
     updatedScore(score);
     if (team === 'V')
