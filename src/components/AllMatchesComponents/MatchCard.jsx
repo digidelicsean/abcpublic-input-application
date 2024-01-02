@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { Button, Input, Card } from "antd";
 import "./MatchCard.css";
 import { useOtherGameInfo } from '../../services/api/useOtherGameInfo';
+import { LabeledComboBox } from '../'
 
 const MatchCard = ({ index, clicked, selected }) => {
     const [currentData, setCurrentData] = useState([]);
@@ -12,7 +13,7 @@ const MatchCard = ({ index, clicked, selected }) => {
     const [totalScoreH, setTotalScoreH] = useState("");
     const [tb, setTB] = useState(1);
     const [inning, setInning] = useState(1);
-    const [situation, setSituation] = useState(1);
+    const [situation, setSituation] = useState();
 
     const [sentence, setSentence] = useState("");
 
@@ -68,7 +69,7 @@ const MatchCard = ({ index, clicked, selected }) => {
         return inningValue(inning) + tbValue(tb);
     }
 
-    const situationLabel = (situation) => {
+    const situationActive = (situation) => {
         switch (situation) {
             case 0: return "試合前";
             case 1: return "試合中";
@@ -76,6 +77,13 @@ const MatchCard = ({ index, clicked, selected }) => {
             case 3: return "終了";
         }
     }
+
+    const situationOptions = [
+        { key: 0, value: "試合前" },
+        { key: 1, value: "試合中" },
+        { key: 2, value: "中止" },
+        { key: 3, value: "終了" },
+    ];
 
     return (
         <>
@@ -87,7 +95,18 @@ const MatchCard = ({ index, clicked, selected }) => {
 
                         <div className="row1">
                             <Input value={stadiumName} />
-                            <span className={`situation-${situation}`}>{situationLabel(situation)}</span>
+                            <LabeledComboBox
+                                value={situationActive(situation)}
+                                options={situationOptions}
+                                onChange={
+                                    (value) => {
+                                        const selectedOption = situationOptions.find(item => item.value === value)
+                                        setSituation(selectedOption.key)
+                                    }
+                                }
+                                size={{ width: "180px", height: "max-content" }}
+                            />
+
                         </div>
 
                         <div className="row2">
@@ -181,6 +200,8 @@ const MatchCard = ({ index, clicked, selected }) => {
                                         currentData.TB = 2;
                                     else
                                         currentData.TB = 0;
+
+                                    currentData.Situation = situation;
                                     otherGameInfo.update();
                                 }}>
                                 保存

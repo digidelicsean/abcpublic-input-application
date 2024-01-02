@@ -47,16 +47,13 @@
     gap: 5px;
 }
 
-.row1>span {
-    width: 25%;
-    padding: 3px 5px;
-    text-align: center;
-    min-width: max-content;
-    white-space: nowrap;
-    outline: double white;
-    border-radius: 5px;
-    font-size: 12px;
+.row1>Input {
+    height: max-content;
     align-self: center;
+}
+
+.row1 .ant-select-selection-item {
+    font-size: 14px;
 }
 
 .situation-0 {
