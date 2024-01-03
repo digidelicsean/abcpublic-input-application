@@ -69,14 +69,14 @@ const MatchCard = ({ index, clicked, selected }) => {
         return inningValue(inning) + tbValue(tb);
     }
 
-    const situationActive = (situation) => {
-        switch (situation) {
-            case 0: return "試合前";
-            case 1: return "試合中";
-            case 2: return "中止";
-            case 3: return "終了";
-        }
-    }
+    // const getSituation = (situation) => {
+    //     switch (situation) {
+    //         case 0: return "試合前";
+    //         case 1: return "試合中";
+    //         case 2: return "中止";
+    //         case 3: return "終了";
+    //     }
+    // }
 
     const situationOptions = [
         { key: 0, value: "試合前" },
@@ -84,6 +84,11 @@ const MatchCard = ({ index, clicked, selected }) => {
         { key: 2, value: "中止" },
         { key: 3, value: "終了" },
     ];
+
+    const getSituation = (situation) => {
+        const activeSituation = situationOptions.find(item => item.key === situation);
+        return activeSituation?.value;
+    }
 
     return (
         <>
@@ -96,7 +101,8 @@ const MatchCard = ({ index, clicked, selected }) => {
                         <div className="row1">
                             <Input value={stadiumName} />
                             <LabeledComboBox
-                                value={situationActive(situation)}
+                                newClass={`situation-${situation}`}
+                                value={getSituation(situation)}
                                 options={situationOptions}
                                 onChange={
                                     (value) => {
