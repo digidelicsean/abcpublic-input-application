@@ -77,7 +77,7 @@ const rowWidth = [90, ...defaultRowWidth];
 const rowGaps = [0, 3, 6, 9];
 const rowGaps2 = [2];
 
-const RunningScoreTable = ({ teamV, teamH, score, updatedScore }) => {
+const RunningScoreTable = ({ teamV, teamH, score, updatedScore, updatedInning, updatedTb }) => {
   const [isExpandClicked, setExpandButtonClicked] = useState(false);
   const [teamScoresV, setTeamScoresV] = useState([]);
   const [teamScoresH, setTeamScoresH] = useState([]);
@@ -144,12 +144,20 @@ const RunningScoreTable = ({ teamV, teamH, score, updatedScore }) => {
               score[`InningScore_${id}`] = newInnings
               inningScores[`InningScore_${id}`] = newInnings;
               setInningScores(inningScores);
+              updatedInning(Object.entries(inningScores).length);
+              updatedTb(1);
             }
           }
         }
       }
       ctr++;
     }
+
+    const lastInningEntry = Object.entries(inningScores)[Object.entries(inningScores).length - 1]
+    const lastInningScore = lastInningEntry.find(item => typeof item !== "string")
+
+    if ('Score_H' in lastInningScore)
+      updatedTb(2);
 
     rScores.shift();
     let rowTotal = 0;
