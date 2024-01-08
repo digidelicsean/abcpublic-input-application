@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { Button, Input, Card } from "antd";
 import "./MatchCard.css";
 import { useOtherGameInfo } from '../../services/api/useOtherGameInfo';
-import { LabeledComboBox } from '../'
+import { LabeledComboBox } from '..'
 
 const MatchCard = ({ index, clicked, selected }) => {
     const [currentData, setCurrentData] = useState([]);
@@ -68,15 +68,6 @@ const MatchCard = ({ index, clicked, selected }) => {
     const special1 = (inning, tb) => {
         return inningValue(inning) + tbValue(tb);
     }
-
-    // const getSituation = (situation) => {
-    //     switch (situation) {
-    //         case 0: return "試合前";
-    //         case 1: return "試合中";
-    //         case 2: return "中止";
-    //         case 3: return "終了";
-    //     }
-    // }
 
     const situationOptions = [
         { key: 0, value: "試合前" },
