@@ -6,6 +6,7 @@ import { Select, ConfigProvider } from "antd";
 import "./LabeledComboBox.css";
 
 function LabeledComboBox({
+  newClass,
   label,
   style,
   size,
@@ -72,7 +73,7 @@ function LabeledComboBox({
         )}
         {value ? (
           <Select
-            className="combo-box"
+            className={`combo-box ${newClass ? newClass : ""}`}
             style={
               {
                 height: size?.height ?? "",

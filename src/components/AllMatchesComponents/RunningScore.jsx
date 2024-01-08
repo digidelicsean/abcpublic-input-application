@@ -10,6 +10,8 @@ const RunningScore = ({ index }) => {
     const [teamH, setTeamH] = useState("");
     const [stadium, setStadium] = useState("");
     const [startTime, setStartTime] = useState("");
+    const [updatedInning, setUpdatedInning] = useState();
+    const [updatedTb, setUpdatedTb] = useState();
     const [score, setScore] = useState([]);
     const [updatedScore, setUpdatedScore] = useState([]);
     const [pitcherHistoryH, setPitcherHistoryH] = useState("");
@@ -62,6 +64,8 @@ const RunningScore = ({ index }) => {
                         teamH={teamH}
                         score={score}
                         updatedScore={setUpdatedScore}
+                        updatedInning={setUpdatedInning}
+                        updatedTb={setUpdatedTb}
                     />
                 </div>
                 <div className="col2-bot">
@@ -121,6 +125,12 @@ const RunningScore = ({ index }) => {
                                 currentData.Score = updatedScore;
                             else
                                 currentData.Score = score;
+
+                            if (updatedInning)
+                                currentData.Inning = updatedInning;
+
+                            if (updatedTb)
+                                currentData.TB = updatedTb;
 
                             otherGameInfo.update();
                         }}
