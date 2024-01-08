@@ -15,10 +15,8 @@ import {
 const tabProperties = {
     /*ScoreBookTab - batting result*/     ["打者成績"]: <ScoreBookTab />,
     /*PitcherResultTab*/ ["投手成績"]: <PitcherResultTab />,
-    /*BaseRunTab*/       ["盗塁/盗塁阻止"]: <BaseRunTab />,
-    /*MemberLineUpTab*/ ["スタメン/ベンチ"]: <MemberLineUpTab />,
-    /*MemberLineUpTab*/ ["Demo"]: <SampleTab />,
-
+    /*BaseRunTab - StolenBase / StolenBasePrevention*/       ["盗塁/盗塁阻止"]: <BaseRunTab />,
+    /*MemberLineUpTab*/ ["スタメン/ベンチ"]: <MemberLineUpTab />
 };
 
 const OAScoreInfoTabPanel = () => {

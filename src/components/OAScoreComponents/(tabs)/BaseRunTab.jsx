@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useRef, useState } from 'react';
 import { DownOutlined } from '@ant-design/icons';
 import { Col, Form, Row, Table, Button,Input, Popconfirm } from 'antd';
 import "../InfoTab.css"
+import { retrieveMatchInfo,retrieveGameIDCollection, retrieveExtraSetting} from "../Data/fetchOAData";
 
 const EditableContext = React.createContext(null);
 
@@ -82,35 +83,231 @@ const EditableCell = ({
   return <td {...restProps}>{childNode}</td>;
 };
 
-const styleBack = {
-  // background: '#f8f8f8',
-   background: '#f0f232',
-   padding: '0px 40px',
-   transform: 'translate(0%, 5%)',
-   'borderRadius': '16px',
-   width :'775px',
-   height :'750px',
- 
- };
- const styleBack1 = {
-   background: '#f18f2a',
-   padding: '0px 40px',
-   transform: 'translate(0%, 5%)',
-   'borderRadius': '16px',
-   width :'775px',
-   height :'750px',
- 
- };
- const styleFront = {
-    background: '#f8f8f8',
-    padding: '5px 10px',
-    transform: 'scale(105%,105%)',
-    'borderRadius': '16px', 
-    border: "1px solid #e8e8e8",
-    height :'750px',
- };
-
 const BaseRunTab = () => {
+
+  const [matchInfo, setMatchInfo] = useState([]);
+  const [gameCollection, setGameCollection] = useState([]);
+  const [extraSetting, setExtraSetting] = useState([]);
+
+  const [teamInfoH_CD, setTeamInfoHCD] = useState();
+  const [teamInfoV_CD, setTeamInfoVCD] = useState();
+
+  const [teamHName, setTeamHName] = useState();
+  const [teamVName, setTeamVName] = useState();
+
+  useEffect(() => {
+    retrieveGameCollectionData();
+}, []);
+
+  const refreshData = async () => {
+    const gameCollection = await retrieveGameCollectionData()
+    console.log("refresh")
+}
+
+  const retrieveGameCollectionData = async () => {
+    const matchInfo = (await retrieveMatchInfo("MatchInfo_1")).MatchInfo_1
+    setMatchInfo(matchInfo);
+    
+    const gameIdCollection = await retrieveGameIDCollection(matchInfo?.GameID);
+    setGameCollection(gameIdCollection)
+    LoadPlayers(gameIdCollection);
+
+    const ExtraSetting = await retrieveExtraSetting();
+
+    const teamOtherSetting = ExtraSetting?.find(
+      (data) => data.Type == "TeamOtherSetting")?.TeamOtherSetting;
+      ChangeBackColors(teamOtherSetting);
+  }
+  function ChangeBackColors(OtherSetting){
+
+    const homeBackColor = OtherSetting?.Team_11.TeamColor;
+    const vistorBackColor = OtherSetting?.Team_5.TeamColor;
+    updateBackColor(homeBackColor, vistorBackColor);
+
+  }
+
+  function LoadPlayers(gameCollection){
+    const teamInfoHData = gameCollection?.find(
+      (data) => data.Type == "TeamInfo_H")?.TeamInfo_H;
+    const teamInfoVData = gameCollection?.find(
+        (data) => data.Type == "TeamInfo_V")?.TeamInfo_V;
+    
+    let teamCDH = teamInfoHData?.TeamCD;
+    let teamNameH = teamInfoHData?.TeamName;
+    let teamCDV = teamInfoVData?.TeamCD;
+    let teamNameV = teamInfoVData?.TeamName;
+    setTeamInfoHCD(teamCDH);
+    
+    setTeamHName(teamNameH);
+
+    let labelChange = document.getElementById("LeftTeamName_Label");
+    labelChange.innerHTML = " &emsp;"+ teamNameH +"&emsp;";
+
+    setTeamInfoVCD(teamCDV);
+    setTeamVName(teamNameV);
+   
+    let labelChangeV = document.getElementById("RightTeamName_Label");
+    labelChangeV.innerHTML = " &emsp;"+ teamNameV +"&emsp;";
+
+    const startingLineUp = [];
+    let idx = 0;
+    const startingMembersH = teamInfoHData?.NowMember ?? [];
+    for(const playerInfo of Object.values(startingMembersH)){
+      const posCharacter = getDefensivePositionCharacter(playerInfo.Position);
+      startingLineUp.push({
+        key: idx + "-LeftUpper" ,
+        number: [idx +1],
+        backNumber: playerInfo.BackNumber,
+        name: playerInfo.PlayerNameL,
+        pos: posCharacter,
+      });
+      idx++;
+    }
+    setDataSourceStartingLeft(startingLineUp);
+
+
+    const startingLineUpRight = []
+    idx = 0;
+    const startingMembersV = teamInfoVData?.NowMember ?? [];
+    for(const playerInfo of Object.values(startingMembersV)){
+      const posCharacter = getDefensivePositionCharacter(playerInfo.Position);
+      startingLineUpRight.push({
+        key: idx + "-RightUpper" ,
+        number: [idx +1],
+        backNumber: playerInfo.BackNumber,
+        name: playerInfo.PlayerNameL,
+        pos: posCharacter,
+      });
+      idx++;
+    }
+    setDataSourceStartingRight(startingLineUpRight);
+
+
+    const benchLineUp = [];
+    idx = 0;
+    const benchMembersH = teamInfoHData?.BenchMember ?? [];
+    for(const playerInfo of Object.values(benchMembersH)){
+      const gameFCharacter = getGameFCharacter(playerInfo.GameF);
+      console.log(playerInfo);
+      benchLineUp.push({
+        key: idx + "-LeftLower",
+        gameF: [gameFCharacter],
+        number: playerInfo.BackNumber,
+        name: playerInfo.PlayerNameS,
+      });
+      idx++;
+    }
+    setDataSourceBenchLeft(benchLineUp);
+    
+   const benchLineUpRight = [];
+    idx = 0;
+    const benchMembersV = teamInfoVData?.BenchMember ?? [];
+    for(const playerInfo of Object.values(benchMembersV)){
+      const gameFCharacter = getGameFCharacter(playerInfo.GameF);
+
+      benchLineUpRight.push({
+        key: idx + "-RightLower",
+        gameF: [gameFCharacter],
+        number: playerInfo.BackNumber,
+        name: playerInfo.PlayerNameL,
+      });
+      idx++;
+    }
+    setDataSourceBenchRight(benchLineUpRight);
+
+  }
+
+    //#region TAB STYLE AND UPATES
+    const [leftBackTabStyle, setLeftBackTabStyle] = useState(
+      {
+        background: '#f0f233',
+        padding: '0px 40px',
+        transform: 'translate(0%, 5%)',
+        'borderRadius': '16px',
+        width :'775px',
+        height :'750px',
+      }
+    );
+  
+    const [rightBackTabStyle, setRightBackTabStyle] = useState(
+      {
+        background: '#f18f2a',
+        padding: '0px 40px',
+        transform: 'translate(0%, 5%)',
+        'borderRadius': '16px',
+        width :'775px',
+        height :'750px',
+      }
+    );
+  
+    const [leftFrontTabStyle, setLeftFrontTabStyle] = useState(
+      {
+        background: '#FFFFFF',
+        padding: '5px 10px',
+        transform: 'scale(105%,105%)',
+        'borderRadius': '16px', 
+        border: "1px solid #e8e8e8",
+        height :'750px',
+      }
+    );
+  
+    const [rightFrontTabStyle, setRightFrontTabStyle] = useState(
+      {
+        background: '#FFFFFF',
+        padding: '5px 10px',
+        transform: 'scale(105%,105%)',
+        'borderRadius': '16px', 
+        border: "1px solid #e8e8e8",
+        height :'750px',
+      }
+    );
+  
+    const updateBackColor = (backColorLeft, backColorRight ) => {
+      setLeftBackTabStyle(
+        {
+        background: '#' + backColorLeft,
+        padding: '0px 40px',
+        transform: 'translate(0%, 5%)',
+        'borderRadius': '16px',
+        width :'775px',
+        height :'750px',
+        }
+      );
+      setRightBackTabStyle(
+        {
+        background: '#' + backColorRight,
+        padding: '0px 40px',
+        transform: 'translate(0%, 5%)',
+        'borderRadius': '16px',
+        width :'775px',
+        height :'750px',
+        }
+      );
+    };
+    const updateFrontColor = () => {
+      setLeftFrontTabStyle(
+        {
+        background: '#9fe57f',
+        padding: '0px 40px',
+        transform: 'translate(0%, 5%)',
+        'borderRadius': '16px',
+        width :'775px',
+        height :'750px',
+        }
+      );
+      setRightFrontTabStyle(
+        {
+        background: '#e2c08d',
+        padding: '0px 40px',
+        transform: 'translate(0%, 5%)',
+        'borderRadius': '16px',
+        width :'775px',
+        height :'750px',
+        }
+      );
+    };
+    //#endregion
+  
 
   const columnsName = [
     {
@@ -177,81 +374,14 @@ const BaseRunTab = () => {
 
   ];
 
-  const [dataSourceLeft, setDataSourceLeft] = useState([
-   {
-
-   }
-  ]);
+  const [dataSourceLeft, setDataSourceLeft] = useState([]);
   
-  for (let i = 0; i <= 25; i++) {
-    dataSourceLeft.push({
-      key: i + "-LeftUpper",
-      number: i,
-      name: 'Left NAME ' + i.toString(),
-      stolenBase: '0',
-      caughtSteal: '0',
-      SBCS: '0',
-      matchTypeID: '0',
-    });
-  }
-  
-  const [dataSourceRight, setDataSourceRight] = useState([
-    {
- 
-    }
-   ]);
+  const [dataSourceRight, setDataSourceRight] = useState([]);
    
-   dataSourceRight.pop();
-   for (let i = 0; i <= 10; i++) {
-    dataSourceRight.push({
-       key: i + "-RightUpper",
-       number: i,
-       name: 'Right NAME ' + i.toString(),
-       stolenBase: '0',
-       caughtSteal: '0',
-       SBCS: '0',
-       matchTypeID: '0',
-     });
-   }
+  const [dataSourceBelowLeft, setDataSourceBelowLeft] = useState([]);
 
-  const [count, setCount] = useState(2);
+  const [dataSourceBelowRight, setDataSourceBelowRight] = useState([]);
 
-  const [dataSourceBelowLeft, setDataSourceBelowLeft] = useState([
-    {
- 
-    }
-   ]);
-
-   dataSourceBelowLeft.pop();
-
-   for (let i = 1; i <= 15; i++) {
-    dataSourceBelowLeft.push({
-      key: i + "-LeftLower",
-      number: '1',
-      name: 'SAMPLE NAME',
-      totalSuccess: '0',
-      totalAttempts: '0',
-      successRate: '0',
-    });
-  }
-
-  const [dataSourceBelowRight, setDataSourceBelowRight] = useState([
-    {
- 
-    }
-   ]);
-
-   dataSourceBelowRight.pop();
-   for (let i = 1; i <= 10; i++) {
-    dataSourceBelowRight.push({
-      key: i + "-RightLower",
-      number: '1',
-      name: 'SAMPLE NAME',
-      totalSuccess: '0',
-      totalAttempts: '0',
-      successRate: '0',
-    });
-  }
 
   const handleSave = (row) => {
     var newData;
@@ -370,8 +500,8 @@ const BaseRunTab = () => {
       <Row justify="space-evenly">
       <Col span={10.5}>
       {/* LEFT SIDE TAB*/}
-      <div style={styleBack}>
-          <div style={styleFront}>
+      <div style={leftBackTabStyle}>
+          <div style={leftFrontTabStyle}>
           <p></p>
           <label style={{transform: 'translate(10%,0%)'}}>&emsp;後攻&emsp;</label>  <label style={{color:"black", background: "#ffffff",fontSize: "26px"}} size={'large'}> &emsp;Tigers&emsp; </label>  
           <p></p>
@@ -425,8 +555,8 @@ const BaseRunTab = () => {
       </Col>  
           {/* RIGHT SIDE TAB*/}
       <Col span={10.5}>
-      <div style={styleBack1}>
-          <div style={styleFront}>
+      <div style={rightBackTabStyle}>
+          <div style={rightFrontTabStyle}>
           <p></p>
           <label style={{transform: 'translate(10%,0%)'}}>&emsp;後攻&emsp;</label>  <label style={{color:"black", background: "#ffffff",fontSize: "26px"}} size={'large'}> &emsp;Giants&emsp; </label>  
           <p></p>

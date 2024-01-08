@@ -1,11 +1,10 @@
 import React, { useContext, useEffect, useRef, useState } from 'react';
 import { DownOutlined } from '@ant-design/icons';
-import { Col, Form, Row, Table, Button,Input, Popconfirm } from 'antd';
+import { Col, Form, Row, Table, Button,Input, ConfigProvider, Tag } from 'antd';
 import "../InfoTab.css"
+import { retrieveMatchInfo,retrieveGameIDCollection, retrieveExtraSetting} from "../Data/fetchOAData";
 
 const EditableContext = React.createContext(null);
-
-
 
 const EditableRow = ({ index, ...props }) => {
   const [form] = Form.useForm();
@@ -55,6 +54,7 @@ const EditableCell = ({
     }
   };
   let childNode = children;
+
   if (editable) {
     childNode = editing ? (
       <Form.Item
@@ -80,40 +80,287 @@ const EditableCell = ({
   return <td {...restProps}>{childNode}</td>;
 };
 
+  const tableTheme = {
+    components: {
+      columns: {
+        colorBgContainer: '#C0C0C0C0',
+      }
+    }
+  }
 
-const styleBack = {
-  // background: '#f8f8f8',
-   background: '#f0f232',
-   padding: '0px 40px',
-   transform: 'translate(0%, 5%)',
-   'borderRadius': '16px',
-   width :'775px',
-   height :'750px',
- 
- };
- 
- const styleBack1 = {
-   background: '#f18f2a',
-   padding: '0px 40px',
-   transform: 'translate(0%, 5%)',
-   'borderRadius': '16px',
-   width :'775px',
-   height :'750px',
- 
- };
- const styleFront = {
-    background: '#f8f8f8',
-    padding: '5px 10px',
-    transform: 'scale(105%,105%)',
-    'borderRadius': '16px', 
-    border: "1px solid #e8e8e8",
-    height :'750px',
- 
+  const getDefensivePositionCharacter = (id) => {
+    const map = {
+        1: "投",
+        2: "捕",
+        3: "一",
+        4: "二",
+        5: "三",
+        6: "遊",
+        7: "左",
+        8: "中",
+        9: "右",
+        10: "DH",
+    };
+    return map[id] ?? map[1];
+};
+
+const getGameFCharacter = (id) => {
+  const map = {
+      0: " ",
+      1: "済",
   };
+  return map[id] ?? map[1];
+};
+
 
 const SampleTab = () => {
 
+  const [matchInfo, setMatchInfo] = useState([]);
+  const [gameCollection, setGameCollection] = useState([]);
+  const [extraSetting, setExtraSetting] = useState([]);
+
+  const [teamInfoH_CD, setTeamInfoHCD] = useState();
+  const [teamInfoV_CD, setTeamInfoVCD] = useState();
+
+  const [teamHName, setTeamHName] = useState();
+  const [teamVName, setTeamVName] = useState();
+
+  useEffect(() => {
+    retrieveGameCollectionData();
+}, []);
+
+  const refreshData = async () => {
+    const gameCollection = await retrieveGameCollectionData()
+    console.log("refresh")
+}
+
+  const retrieveGameCollectionData = async () => {
+    const matchInfo = (await retrieveMatchInfo("MatchInfo_1")).MatchInfo_1
+    setMatchInfo(matchInfo);
+    
+    const gameIdCollection = await retrieveGameIDCollection(matchInfo?.GameID);
+    setGameCollection(gameIdCollection)
+    LoadPlayers(gameIdCollection);
+
+    const ExtraSetting = await retrieveExtraSetting();
+
+    const teamOtherSetting = ExtraSetting?.find(
+      (data) => data.Type == "TeamOtherSetting")?.TeamOtherSetting;
+      ChangeBackColors(teamOtherSetting);
+  }
+  function ChangeBackColors(OtherSetting){
+
+    const homeBackColor = OtherSetting?.Team_11.TeamColor;
+    const vistorBackColor = OtherSetting?.Team_5.TeamColor;
+    updateBackColor(homeBackColor, vistorBackColor);
+
+  }
+
+  function LoadPlayers(gameCollection){
+    const teamInfoHData = gameCollection?.find(
+      (data) => data.Type == "TeamInfo_H")?.TeamInfo_H;
+    const teamInfoVData = gameCollection?.find(
+        (data) => data.Type == "TeamInfo_V")?.TeamInfo_V;
+    
+    let teamCDH = teamInfoHData?.TeamCD;
+    let teamNameH = teamInfoHData?.TeamName;
+    let teamCDV = teamInfoVData?.TeamCD;
+    let teamNameV = teamInfoVData?.TeamName;
+    setTeamInfoHCD(teamCDH);
+    
+    setTeamHName(teamNameH);
+
+    let labelChange = document.getElementById("LeftTeamName_Label");
+    labelChange.innerHTML = " &emsp;"+ teamNameH +"&emsp;";
+
+    setTeamInfoVCD(teamCDV);
+    setTeamVName(teamNameV);
+   
+    let labelChangeV = document.getElementById("RightTeamName_Label");
+    labelChangeV.innerHTML = " &emsp;"+ teamNameV +"&emsp;";
+
+    const startingLineUp = [];
+    let idx = 0;
+    const startingMembersH = teamInfoHData?.NowMember ?? [];
+    for(const playerInfo of Object.values(startingMembersH)){
+      const posCharacter = getDefensivePositionCharacter(playerInfo.Position);
+      startingLineUp.push({
+        key: idx + "-LeftStarters" ,
+        number: [idx +1],
+        backNumber: playerInfo.BackNumber,
+        name: playerInfo.PlayerNameL,
+        pos: posCharacter,
+      });
+      idx++;
+    }
+    setDataSourceStartingLeft(startingLineUp);
+
+
+    const startingLineUpRight = []
+    idx = 0;
+    const startingMembersV = teamInfoVData?.NowMember ?? [];
+    for(const playerInfo of Object.values(startingMembersV)){
+      const posCharacter = getDefensivePositionCharacter(playerInfo.Position);
+      startingLineUpRight.push({
+        key: idx + "-RightStarters" ,
+        number: [idx +1],
+        backNumber: playerInfo.BackNumber,
+        name: playerInfo.PlayerNameL,
+        pos: posCharacter,
+      });
+      idx++;
+    }
+    setDataSourceStartingRight(startingLineUpRight);
+
+
+    const benchLineUp = [];
+    idx = 0;
+    const benchMembersH = teamInfoHData?.BenchMember ?? [];
+    for(const playerInfo of Object.values(benchMembersH)){
+      const gameFCharacter = getGameFCharacter(playerInfo.GameF);
+      console.log(playerInfo);
+      benchLineUp.push({
+        key: idx + "-LeftBench",
+        gameF: [gameFCharacter],
+        number: playerInfo.BackNumber,
+        name: playerInfo.PlayerNameS,
+      });
+      idx++;
+    }
+    setDataSourceBenchLeft(benchLineUp);
+    
+   const benchLineUpRight = [];
+    idx = 0;
+    const benchMembersV = teamInfoVData?.BenchMember ?? [];
+    for(const playerInfo of Object.values(benchMembersV)){
+      const gameFCharacter = getGameFCharacter(playerInfo.GameF);
+
+      benchLineUpRight.push({
+        key: idx + "-RightBench",
+        gameF: [gameFCharacter],
+        number: playerInfo.BackNumber,
+        name: playerInfo.PlayerNameL,
+      });
+      idx++;
+    }
+    setDataSourceBenchRight(benchLineUpRight);
+
+  }
+  
+  //#region TAB STYLE AND UPATES
+  const [leftBackTabStyle, setLeftBackTabStyle] = useState(
+    {
+      background: '#f0f233',
+      padding: '0px 40px',
+      transform: 'translate(0%, 5%)',
+      'borderRadius': '16px',
+      width :'775px',
+      height :'750px',
+    }
+  );
+
+  const [rightBackTabStyle, setRightBackTabStyle] = useState(
+    {
+      background: '#f18f2a',
+      padding: '0px 40px',
+      transform: 'translate(0%, 5%)',
+      'borderRadius': '16px',
+      width :'775px',
+      height :'750px',
+    }
+  );
+
+  const [leftFrontTabStyle, setLeftFrontTabStyle] = useState(
+    {
+      background: '#FFFFFF',
+      padding: '5px 10px',
+      transform: 'scale(105%,105%)',
+      'borderRadius': '16px', 
+      border: "1px solid #e8e8e8",
+      height :'750px',
+    }
+  );
+
+  const [rightFrontTabStyle, setRightFrontTabStyle] = useState(
+    {
+      background: '#FFFFFF',
+      padding: '5px 10px',
+      transform: 'scale(105%,105%)',
+      'borderRadius': '16px', 
+      border: "1px solid #e8e8e8",
+      height :'750px',
+    }
+  );
+
+  const updateBackColor = (backColorLeft, backColorRight ) => {
+    setLeftBackTabStyle(
+      {
+      background: '#' + backColorLeft,
+      padding: '0px 40px',
+      transform: 'translate(0%, 5%)',
+      'borderRadius': '16px',
+      width :'775px',
+      height :'750px',
+      }
+    );
+    setRightBackTabStyle(
+      {
+      background: '#' + backColorRight,
+      padding: '0px 40px',
+      transform: 'translate(0%, 5%)',
+      'borderRadius': '16px',
+      width :'775px',
+      height :'750px',
+      }
+    );
+  };
+  const updateFrontColor = () => {
+    setLeftFrontTabStyle(
+      {
+      background: '#9fe57f',
+      padding: '0px 40px',
+      transform: 'translate(0%, 5%)',
+      'borderRadius': '16px',
+      width :'775px',
+      height :'750px',
+      }
+    );
+    setRightFrontTabStyle(
+      {
+      background: '#e2c08d',
+      padding: '0px 40px',
+      transform: 'translate(0%, 5%)',
+      'borderRadius': '16px',
+      width :'775px',
+      height :'750px',
+      }
+    );
+  };
+  //#endregion
+
+  //#region Column Name and Table data Updates
   const columnsName = [
+    {
+      title: ' ',
+      dataIndex: 'gameF',
+      width: "20%",
+      key: 'tags',
+      render: (tags) => (
+      <>
+        {tags.map((tag) => {
+          let color = 'white';
+          if (tag === '済') {
+            color = 'silver';
+          }
+          return (
+            <Tag color={color} key={tag}>
+              {tag.toUpperCase()}
+            </Tag>
+          );
+        })}
+      </>
+      ),
+    },
     {
       title: '背番号',
       dataIndex: 'number',
@@ -122,7 +369,7 @@ const SampleTab = () => {
     {
       title: '選手名',
       dataIndex: 'name',
-      width: "60%",
+      width: "50%",
       editable: true,
     },
   ];
@@ -131,7 +378,8 @@ const SampleTab = () => {
     {
       title: 'Num',
       dataIndex: 'number',
-      editable: true,
+      key: 'tags',
+      render: (text) => <a style={{color:"white", background: "#74b89f" , padding: "12px"}}>{text}</a>,
     },
     {
       title: '背番号',
@@ -153,114 +401,47 @@ const SampleTab = () => {
   ];
 
   
-  const [dataSourceBenchLeft, setDataSourceBenchLeft] = useState([
-   {
-
-   }
-  ]);
+  const [dataSourceBenchLeft, setDataSourceBenchLeft] = useState([]);
   
-  dataSourceBenchLeft.pop();
-  for (let i = 1; i <= 30; i++) {
-    dataSourceBenchLeft.push({
-      key: i,
-      number: i,
-      name: 'NAME ' + i.toString(),
-    });
-  }
-  
-  const [dataSourceBenchRight, setDataSourceBenchRight] = useState([
-    {
- 
-    }
-   ]);
+  const [dataSourceBenchRight, setDataSourceBenchRight] = useState([]);
+
+  const [dataSourceStartingLeft, setDataSourceStartingLeft] = useState([]);
    
-   dataSourceBenchRight.pop();
-   for (let i = 1; i <= 30; i++) {
-    dataSourceBenchRight.push({
-       key: i,
-       number: i,
-       name: 'NAME ' + i.toString(),
-     });
-   }
 
-  const [count, setCount] = useState(dataSource.length);
-  const [dataSourceStartingLeft, setDataSourceStartingLeft] = useState([
-    {
- 
-    }
-   ]);
+  const [dataSourceStartingRight, setDataSourceStartingRight] = useState([]);
    
-   dataSourceStartingLeft.pop();
+  const handleSave = (row) => {
+    var newData;
+    var useSet = setDataSourceBenchRight;
+    if(row.key.includes('-RightBench')){
+      console.log("Right Bench is edited");
+      newData = [...dataSourceBenchRight];
+      useSet = setDataSourceBenchRight;
 
-   for (let i = 1; i <= 10; i++) {
-    dataSourceStartingLeft.push({
-      key: i,
-      number: '1',
-      backNumber: i,
-      name: 'SAMPLE NAME',
-      pos: 'bat',
-    });
-  }
+    }else if(row.key.includes('-LeftBench')){
+      console.log("Left Bench is edited");
+      newData = [...dataSourceBenchLeft];
+      useSet = setDataSourceBenchLeft;
 
-  const [dataSourceStartingRight, setDataSourceStartingRight] = useState([
-    {
- 
+    }else if(row.key.includes('-LeftStarters')){
+      console.log("Left Starters is edited");
+      newData = [...dataSourceStartingLeft];
+      useSet = setDataSourceStartingLeft;
+
+    }else if(row.key.includes('-RightStarters')){
+      console.log("Right Starters is edited");
+      newData = [...dataSourceStartingRight];
+      useSet = setDataSourceStartingRight;
+
     }
-   ]);
-   
-   dataSourceStartingRight.pop();
-
-   for (let i = 1; i <= 10; i++) {
-    dataSourceStartingRight.push({
-      key: i,
-      number: '1',
-      backNumber: i,
-      name: 'SAMPLE NAME',
-      pos: 'bat',
-    });
-  }
-  const handleSaveBenchLeft = (row) => {
-    const newData = [...dataSource];
     const index = newData.findIndex((item) => row.key === item.key);
+    console.log(index);
     const item = newData[index];
     newData.splice(index, 1, {
       ...item,
       ...row,
     });
-    setDataSourceBenchLeft(newData);
-  };
-
-  const handleSaveBenchRight = (row) => {
-    const newData = [...dataSource];
-    const index = newData.findIndex((item) => row.key === item.key);
-    const item = newData[index];
-    newData.splice(index, 1, {
-      ...item,
-      ...row,
-    });
-    setDataSourceBenchRight(newData);
-  };
-
-  const handleSaveStartingLeft = (row) => {
-    const newData = [...dataSource];
-    const index = newData.findIndex((item) => row.key === item.key);
-    const item = newData[index];
-    newData.splice(index, 1, {
-      ...item,
-      ...row,
-    });
-    setDataSourceStartingLeft(newData);
-  };
-
-  const handleSaveStartingRight = (row) => {
-    const newData = [...dataSource];
-    const index = newData.findIndex((item) => row.key === item.key);
-    const item = newData[index];
-    newData.splice(index, 1, {
-      ...item,
-      ...row,
-    });
-    setDataSourceStartingRight(newData);
+    useSet(newData);
   };
 
   const components = {
@@ -280,7 +461,7 @@ const SampleTab = () => {
         editable: col.editable,
         dataIndex: col.dataIndex,
         title: col.title,
-        handleSaveBenchLeft,
+        handleSave,
       }),
     };
   });
@@ -295,7 +476,7 @@ const SampleTab = () => {
         editable: col.editable,
         dataIndex: col.dataIndex,
         title: col.title,
-        handleSaveBenchRight,
+        handleSave,
       }),
     };
   });
@@ -311,7 +492,7 @@ const SampleTab = () => {
         editable: col.editable,
         dataIndex: col.dataIndex,
         title: col.title,
-        handleSaveStartingLeft,
+        handleSave,
       }),
     };
   });
@@ -327,21 +508,21 @@ const SampleTab = () => {
         editable: col.editable,
         dataIndex: col.dataIndex,
         title: col.title,
-        handleSaveStartingRight,
+        handleSave,
       }),
     };
   });
-
-
-
+  //#endregion
+ 
   return (
     <div className='tab'>
+
       <Row justify="space-evenly">
       <Col span={10.5}>
-      <div style={styleBack}>
-          <div style={styleFront}>
+      <div style={leftBackTabStyle}>
+          <div style={leftFrontTabStyle}>
           <p></p>
-          <label style={{transform: 'translate(10%,0%)'}}>&emsp;後攻&emsp;</label>  <label style={{color:"black", background: "#ffffff",fontSize: "26px"}} size={'large'}> &emsp;Tiger&emsp; </label>  
+          <label style={{transform: 'translate(10%,0%)'}}>&emsp;後攻&emsp;</label>  <label id='LeftTeamName_Label' style={{color:"black", background: "#ffffff",fontSize: "26px"}} size={'large'}> &emsp;teamHName&emsp; </label>  
           <p></p>
             <Row justify="space-evenly">
               <Col span={8}> 
@@ -358,8 +539,7 @@ const SampleTab = () => {
                 }}
                 pagination={false}
 
-                />
-                
+                />                
               </Col>
               <Col span={14}>
             <label>&emsp;スタメン</label>  
@@ -381,10 +561,10 @@ const SampleTab = () => {
       </Col>  
 
       <Col span={10.5}>
-      <div style={styleBack1}>
-          <div style={styleFront}>
+      <div style={rightBackTabStyle}>
+          <div style={rightFrontTabStyle}>
           <p></p>
-          <label style={{transform: 'translate(10%,0%)'}}>&emsp;後攻&emsp;</label>  <label style={{color:"black", background: "#ffffff",fontSize: "26px"}} size={'large'}> &emsp;Giants&emsp; </label>  
+          <label style={{transform: 'translate(10%,0%)'}}>&emsp;後攻&emsp;</label>  <label id='RightTeamName_Label' style={{color:"black", background: "#ffffff",fontSize: "26px"}} size={'large'}> &emsp;teamVName&emsp; </label>  
           <p></p>
             <Row justify="space-evenly">
               <Col span={8}> 
@@ -413,9 +593,7 @@ const SampleTab = () => {
                 dataSource={dataSourceStartingRight}
                 columns={columnsStartingRight}
                 pagination={false}
-
                 />
-              
               </Col>
             </Row>
           </div>

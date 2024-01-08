@@ -68,30 +68,31 @@ const EditableCell = ({
 		}
 	};
 	let childNode = children;
-	if (editable) {
-		childNode = editing ? (
-			<Form.Item
-				style={{
-					margin: 0,
-          whiteSpace: "pre-wrap",
-				}}
-				name={dataIndex}
-			>
-				<Input.TextArea ref={inputRef} onPressEnter={save} onBlur={save} />
-			</Form.Item>
-		) : (
-			<div
-				className="editable-cell-value-wrap"
-				style={{
-					paddingRight: 24,
-          whiteSpace: "pre-wrap",
-				}}
-				onClick={toggleEdit}
-			>
-				{children}
-			</div>
-		);
-	}
+   
+  if (editable) {
+    childNode = editing ? (
+      <Form.Item
+        style={{
+          margin: 0,
+        whiteSpace: "pre-wrap",
+        }}
+        name={dataIndex}
+      >
+        <Input.TextArea style={{ width: "300px" }} ref={inputRef} onPressEnter={save} onBlur={save} />
+      </Form.Item>
+    ) : (
+      <div
+        className="editable-cell-value-wrap"
+        style={{
+          paddingRight: 24,
+        whiteSpace: "pre-wrap",
+        }}
+        onClick={toggleEdit}
+      >
+        {children}
+      </div>
+    );
+  }
 	return <td {...restProps}>{childNode}</td>;
 };
 
@@ -222,7 +223,21 @@ const SampleTab = () => {
 
    }
   ]);
-  var batterText =  "G2 | 吉川| L \n 0000 | \n左フライ\n 打点: 0 | 得点圏： 0 ";
+  
+  //sample template of the data value of table
+  var batterText = (
+    <span style={{whiteSpace: "pre-wrap"}}>
+       G 2 | 吉川| L 
+       <br/>
+       0000 | 
+       <br/>
+       左フライ
+       <br/>
+       打点: 0 
+       <br/>
+       得点圏： 0 
+     </span>
+  );
   
   dataSource.pop();
   for (let i = 1; i <= 20; i++) {
