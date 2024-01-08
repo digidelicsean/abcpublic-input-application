@@ -47,30 +47,26 @@
     gap: 5px;
 }
 
-.row1>span {
-    width: 25%;
-    padding: 3px 5px;
-    text-align: center;
-    min-width: max-content;
-    white-space: nowrap;
-    outline: double white;
-    border-radius: 5px;
-    font-size: 12px;
+.row1>Input {
+    height: max-content;
     align-self: center;
 }
 
-.situation-0 {
-    background-color: lightgreen;
+.row1 .ant-select-selection-item {
+    font-size: 14px;
+}
+.situation-0 .ant-select-selector {
+    background-color: lightgreen !important;
 }
 
-.situation-1 {
-    background-color: rgba(255, 130, 128, 1);
-    color: white;
+.situation-1 .ant-select-selector {
+    background-color: rgba(255, 130, 128, 1) !important;
+    color: white !important;
 }
 
-.situation-2,
-.situation-3 {
-    background-color: darkgrey;
+.situation-2 .ant-select-selector,
+.situation-3 .ant-select-selector {
+    background-color: darkgrey !important;
 }
 
 .row4,
