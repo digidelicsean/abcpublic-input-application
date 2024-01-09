@@ -29,13 +29,13 @@ const RunningScore = ({ index }) => {
                 info = otherGameInfo.data[i];
             }
             const gameInfo = info.OtherGameInfo[`OtherGameInfo_${otherGameInfoNum}`];
-            const teamNameV = gameInfo.TeamName_V;
-            const teamNameH = gameInfo.TeamName_H;
-            const gameScore = gameInfo.Score;
-            const stadiumName = gameInfo.Stadium;
-            const sTime = gameInfo.StartTime;
-            const pitcherHistoryH = gameInfo.PitcherHistory_H;
-            const pitcherHistoryV = gameInfo.PitcherHistory_V;
+            const teamNameV = gameInfo?.TeamName_V;
+            const teamNameH = gameInfo?.TeamName_H;
+            const gameScore = gameInfo?.Score;
+            const stadiumName = gameInfo?.Stadium;
+            const sTime = gameInfo?.StartTime;
+            const pitcherHistoryH = gameInfo?.PitcherHistory_H;
+            const pitcherHistoryV = gameInfo?.PitcherHistory_V;
 
             setCurrentData(gameInfo);
             setTeamV(teamNameV);

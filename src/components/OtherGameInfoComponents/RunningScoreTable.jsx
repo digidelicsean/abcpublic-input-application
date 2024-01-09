@@ -220,8 +220,8 @@ const RunningScoreTable = ({ teamV, teamH, score, updatedScore, updatedInning, u
 
       <Table>
         <Table.Header headerProps={totalHeader} />
-        <Table.Row numColumns={1} width={40} inputStyle={tableInputStyle} cellValues={[score.TotalScore_V]} />
-        <Table.Row numColumns={1} width={40} inputStyle={tableInputStyle} cellValues={[score.TotalScore_H]} />
+        <Table.Row numColumns={1} width={40} inputStyle={tableInputStyle} cellValues={[score?.TotalScore_V]} />
+        <Table.Row numColumns={1} width={40} inputStyle={tableInputStyle} cellValues={[score?.TotalScore_H]} />
       </Table>
     </>
 
