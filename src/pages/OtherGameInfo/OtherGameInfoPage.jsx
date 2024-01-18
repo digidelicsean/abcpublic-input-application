@@ -1,9 +1,9 @@
 import React, { useState } from 'react'
 import { Card } from "antd";
 import "./OtherGameInfo.css";
-import ABCComment from "../../components/AllMatchesComponents/ABCComment"
-import RunningScore from "../../components/AllMatchesComponents/RunningScore"
-import AllMatchCards from "../../components/AllMatchesComponents/AllMatchCards"
+import ABCComment from "../../components/OtherGameInfoComponents/ABCComment"
+import RunningScore from "../../components/OtherGameInfoComponents/RunningScore"
+import AllMatchCards from "../../components/OtherGameInfoComponents/AllMatchCards"
 
 const OtherGameInfoPage = () => {
     const [selectedIndex, setSelectedIndex] = useState();
