@@ -17,7 +17,6 @@ export const useOtherGameInfo = () => {
     return {
         data: parsedData,
         reload: otherGameInfo.reload,
-        // update: (updatedData) => {
         update: () => {
             if (otherGameInfo?.data == null) return;
 
@@ -27,8 +26,12 @@ export const useOtherGameInfo = () => {
 
             send(gameInfoData).then(() => {
                 otherGameInfo.reload();
+                window.location.reload();
             });
 
+            if (error) {
+                console.error(error)
+            }
         }
     }
 }
